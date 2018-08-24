@@ -4,7 +4,7 @@
 	 "css/app.css": ["app/css/**"],
 	    "js/app.js": ["app/js/index.js"],
 	  "js/xml-doc-ops.js": ["app/js/xml-doc-ops.js"],
-	  "xml/individual_rankings.xml": ["app/xml/individual_rankings.xml"],
+	  "xml/individual_rankings_long.xml": ["app/xml/individual_rankings_long.xml"],
     "images/": ["app/images/**"],
     "index.html": "app/index.html"
   },
