@@ -8,6 +8,8 @@
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 -->
+	  
+	   <script src="js/xml-doc-ops.js"></script>
 	
 <style>
 table, th, td {
@@ -66,6 +68,7 @@ function myFunction(xml) {
 
 <script>
 var x,xmlhttp,xmlDoc
+var txt = "0";
 xmlhttp = new XMLHttpRequest();
 xmlhttp.open("GET", "xml/cd_catalog.xml", false);
 xmlhttp.send();
@@ -73,14 +76,36 @@ xmlDoc = xmlhttp.responseXML;
 x = xmlDoc.getElementsByTagName("CD");
 table="<tr><th>PLAYER</th><th>Rank</th></tr>";
 for (i = 0; i <x.length; i++) { 
+	x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
   table += "<tr onclick='displayCD(" + i + ")'><td>";
   table += x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue;
   table += "</td><td>";
   table +=  x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue;
+	table += "</td><td>" +
+   "<p><button type='button' onclick='checkMyChallengeOpponent(" + x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue + ")'>Challenge</button>" ;
   table += "</td></tr>";
 }
 document.getElementById("demo").innerHTML = table;
+	
+	//for (i = 0; i <x.length; i++) { 
+		//var txt = "0";
+		/*
+		var txtasInt = 0;
+		txt = x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue;
+		//alert(txt);
+		txtasInt = parseInt(txt);
+		txtasInt = txtasInt + 1;
+		txt = txtasInt.toString();
+		*/
+		//alert(txt);
+		//xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue = "new content"
+		//x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
+		//alert(txt);
+	//}
+	
+	//document.getElementById("demo").innerHTML = table;
 
+/*	
 function displayCD(i) {
   document.getElementById("showCD").innerHTML =
   "You would like to challenge: <p> Player: " +
@@ -88,8 +113,14 @@ function displayCD(i) {
   "<br>Rank: " +
   x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue +
   "<br>Country: " + 
-  x[i].getElementsByTagName("COUNTRY")[0].childNodes[0].nodeValue +
-	 "<p><button type='button' onclick='alert(" + '"here"' +")'>Please Click To Confirm</button>" ;
+  x[i].getElementsByTagName("COUNTRY")[0].childNodes[0].nodeValue;
+	// "<p><button type='button' onclick='alert(" + '"here"' +")'>Please Click To Confirm</button>" ;
+}
+*/
+	
+function checkMyChallengeOpponent(opponentID){
+	
+	alert(opponentID);
 }
 </script>
 
