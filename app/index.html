@@ -26,46 +26,7 @@ th, td {
 </style>
 </head>
 <body>
-	<!--
-<button type="button" onclick="loadXMLDoc()">Get The Rankings</button>
--->
 <br><br>
-
-	<!--
-	 <div id="app">
-		 <table id="demo"></table>
-      </div>
-      <script src="js/dapp.js"></script>
-
-<script>
-function loadXMLDoc() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      myFunction(this);
-    }
-  };
-  xmlhttp.open("GET", "xml/individual_rankings.xml", true);
-  xmlhttp.send();
-}
-function myFunction(xml) {
-  var i;
-  var xmlDoc = xml.responseXML;
-  var table="<tr><th>Player</th><th>Rank</th></tr>";
-  var x = xmlDoc.getElementsByTagName("PROFILE");
-  for (i = 0; i <x.length; i++) {
-    table += "<tr><td>" +
-    x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue +
-    "</td><td>" +
-    x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue +
-		" <button type='button' onclick='alert()'>Challenge</button>" +
-    "</td></tr>";
-  }
-  document.getElementById("demo").innerHTML = table;
-}
-</script>
--->
-	
 	<p>Click on a player to challenge</p>
 <p id='showCD'></p>
 <table id="demo"></table>
@@ -90,37 +51,6 @@ for (i = 0; i <x.length; i++) {
   table += "</td></tr>";
 }
 document.getElementById("demo").innerHTML = table;
-	
-	//for (i = 0; i <x.length; i++) { 
-		//var txt = "0";
-		/*
-		var txtasInt = 0;
-		txt = x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue;
-		//alert(txt);
-		txtasInt = parseInt(txt);
-		txtasInt = txtasInt + 1;
-		txt = txtasInt.toString();
-		*/
-		//alert(txt);
-		//xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue = "new content"
-		//x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
-		//alert(txt);
-	//}
-	
-	//document.getElementById("demo").innerHTML = table;
-
-/*	
-function displayCD(i) {
-  document.getElementById("showCD").innerHTML =
-  "You would like to challenge: <p> Player: " +
-  x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue +
-  "<br>Rank: " +
-  x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue +
-  "<br>Country: " + 
-  x[i].getElementsByTagName("COUNTRY")[0].childNodes[0].nodeValue;
-	// "<p><button type='button' onclick='alert(" + '"here"' +")'>Please Click To Confirm</button>" ;
-}
-*/
 	
 function checkMyChallengeOpponent(opponentID){
 	
