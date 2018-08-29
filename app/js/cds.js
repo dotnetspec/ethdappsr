@@ -8,7 +8,7 @@ x = xmlDoc.getElementsByTagName("CD");
 table="<tr><th>PLAYER</th><th>Rank</th></tr>";
 for (i = 0; i <x.length; i++) {
 	x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
-  table += "<tr onclick='displayCD(" + i + ")'><td>";
+  table += "<tr onclick='checkMyChallengeOpponent(" + i + ")'><td>";
   table += x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue;
   table += "</td><td>";
   table +=  x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue;
@@ -19,11 +19,6 @@ for (i = 0; i <x.length; i++) {
 document.getElementById("demo").innerHTML = table;
 
 function checkMyChallengeOpponent(opponentID){
-
-	alert(opponentID);
-}
-
-function displayCD(opponentID){
 
 	alert(opponentID);
 }
