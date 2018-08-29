@@ -22,3 +22,8 @@ function checkMyChallengeOpponent(opponentID){
 
 	alert(opponentID);
 }
+
+function displayCD(opponentID){
+
+	alert(opponentID);
+}
