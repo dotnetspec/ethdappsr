@@ -5,7 +5,6 @@
 	    "js/app.js": ["app/js/index.js"],
 	  "js/xml-doc-ops.js": ["app/js/xml-doc-ops.js"],
     "js/cds.js": ["app/js/cds.js"],
-    "js/jquery-3.3.1.js": ["app/js/jquery-3.3.1.js"],
 	  "xml/individual_rankings_long.xml": ["app/xml/individual_rankings_long.xml"],
 	  "xml/individual_rankings.xml": ["app/xml/individual_rankings.xml"],
 	  "xml/cd_catalog.xml": ["app/xml/cd_catalog.xml"],

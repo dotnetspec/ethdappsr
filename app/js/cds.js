@@ -18,7 +18,8 @@ for (i = 0; i <x.length; i++) {
 }
 document.getElementById("demo").innerHTML = table;
 
-function checkMyChallengeOpponent(opponentID){
-
-	alert(opponentID);
-}
+//don't know why this function becomes 'undefined' when here and not in html
+// function checkMyChallengeOpponent(opponentID){
+//
+// 	alert(opponentID);
+// }
