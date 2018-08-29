@@ -2,14 +2,14 @@
 <html>
   <head>
     <title>Rankings</title>
-    
+
 <<<<<<< HEAD
-	  
+
 	   <script src="js/xml-doc-ops.js"></script>
 =======
       <script src="js/xml-doc-ops.js"></script>
 >>>>>>> 43ed043b0076f20f8c172d4fdd42858a5783d4dd
-	
+
 <style>
 table, th, td {
   border: 1px solid black;
@@ -32,10 +32,10 @@ var txt = "0";
 xmlhttp = new XMLHttpRequest();
 xmlhttp.open("GET", "xml/cd_catalog.xml", false);
 xmlhttp.send();
-xmlDoc = xmlhttp.responseXML; 
+xmlDoc = xmlhttp.responseXML;
 x = xmlDoc.getElementsByTagName("CD");
 table="<tr><th>PLAYER</th><th>Rank</th></tr>";
-for (i = 0; i <x.length; i++) { 
+for (i = 0; i <x.length; i++) {
 	x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
   table += "<tr onclick='displayCD(" + i + ")'><td>";
   table += x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue;
@@ -46,13 +46,17 @@ for (i = 0; i <x.length; i++) {
   table += "</td></tr>";
 }
 document.getElementById("demo").innerHTML = table;
-	
+
 function checkMyChallengeOpponent(opponentID){
-	
+
+	alert(opponentID);
+}
+function displayCD(opponentID){
+
 	alert(opponentID);
 }
 </script>
 
 
 </body>
-</html> 
+</html>
