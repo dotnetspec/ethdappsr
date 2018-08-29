@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Rankings</title>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse:collapse;
-}
-th, td {
-  padding: 5px;
-}
-</style>
-</head>
-<body>
-<br><br>
-	<p>Click on a player to challenge</p>
-
-
-<p id='showCD'></p>
-<table id="demo"></table>
-
-
-<script src="js/cds.js"></script>
-
-<!-- <script>
 var x,xmlhttp,xmlDoc
 var txt = "0";
 xmlhttp = new XMLHttpRequest();
@@ -48,8 +22,3 @@ function checkMyChallengeOpponent(opponentID){
 
 	alert(opponentID);
 }
-</script> -->
-
-
-</body>
-</html>
