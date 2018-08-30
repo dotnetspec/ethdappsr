@@ -4,13 +4,14 @@
 	 "css/app.css": ["app/css/**"],
 	    "js/app.js": ["app/js/index.js"],
 	  "js/xml-doc-ops.js": ["app/js/xml-doc-ops.js"],
+    "js/cds.js": ["app/js/cds.js"],
 	  "xml/individual_rankings_long.xml": ["app/xml/individual_rankings_long.xml"],
 	  "xml/individual_rankings.xml": ["app/xml/individual_rankings.xml"],
 	  "xml/cd_catalog.xml": ["app/xml/cd_catalog.xml"],
     "images/": ["app/images/**"],
     "index.html": "app/index.html"
   },
-	
+
   "buildDir": "dist/",
   "config": "config/",
   "versions": {
@@ -19,5 +20,5 @@
     "ipfs-api": "17.2.4",
     "p-iteration": "1.1.7"
   }
- 
+
 }
