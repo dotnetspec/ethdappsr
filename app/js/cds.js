@@ -18,8 +18,9 @@ for (i = 0; i <x.length; i++) {
 }
 document.getElementById("demo").innerHTML = table;
 
-//don't know why this function becomes 'undefined' when here and not in html
-// function checkMyChallengeOpponent(opponentID){
-//
-// 	alert(opponentID);
-// }
+function checkMyChallengeOpponent(opponentID){
+
+	alert(opponentID);
+}
+//JRainville - make checkMyChallengeOpponent available globally
+document.checkMyChallengeOpponent = checkMyChallengeOpponent;

@@ -28,3 +28,5 @@
 function checkMyChallengeOpponent(opponentID){
 	alert(opponentID);
 }
+
+document.checkMyChallengeOpponent = checkMyChallengeOpponent;
