@@ -1,32 +1,27 @@
-// function loadXMLDoc() {
-//
-//   var xmlhttp = new XMLHttpRequest();
-//   xmlhttp.onreadystatechange = function() {
-//     if (this.readyState == 4 && this.status == 200) {
-//       myFunction(this);
-//     }
-//   };
-//   xmlhttp.open("GET", "xml/individual_rankings.xml", true);
-//   xmlhttp.send();
-// }
-// function myFunction(xml) {
-//
-//   var i;
-//   var xmlDoc = xml.responseXML;
-//   var table="<tr><th>Player</th><th>Rank</th></tr>";
-//   var x = xmlDoc.getElementsByTagName("PROFILE");
-//   for (i = 0; i <x.length; i++) {
-//     table += "<tr><td>" +
-//     x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue +
-//     "</td><td>" +
-//     x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue +
-//     "</td></tr>";
-//   }
-//   document.getElementById("demo").innerHTML = table;
-// }
+var x,xmlhttp,xmlDoc
+var txt = "0";
+xmlhttp = new XMLHttpRequest();
+//xmlhttp.open("GET", "xml/cd_catalog.xml", false);
+xmlhttp.open("GET", "xml/individual_rankings_long.xml", false);
+xmlhttp.send();
+xmlDoc = xmlhttp.responseXML;
+x = xmlDoc.getElementsByTagName("CD");
+table="<tr><th>PLAYER</th><th>Rank</th></tr>";
+for (i = 0; i <x.length; i++) {
+	x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue = txt;
+  table += "<tr onclick='checkMyChallengeOpponent(" + i + ")'><td>";
+  table += x[i].getElementsByTagName("PLAYER")[0].childNodes[0].nodeValue;
+  table += "</td><td>";
+  table +=  x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue;
+	table += "</td><td>" +
+   "<p><button type='button' onclick='checkMyChallengeOpponent(" + x[i].getElementsByTagName("RANK")[0].childNodes[0].nodeValue + ")'>Challenge</button>" ;
+  table += "</td></tr>";
+}
+document.getElementById("demo").innerHTML = table;
 
 function checkMyChallengeOpponent(opponentID){
+
 	alert(opponentID);
 }
-
+//JRainville - make checkMyChallengeOpponent available globally
 document.checkMyChallengeOpponent = checkMyChallengeOpponent;
