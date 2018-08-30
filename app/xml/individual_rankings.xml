@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RANKINGS>
-  <PROFILE>
-    <PLAYER>Bob Dylan</PLAYER>
+<LADDER>
+  <PLAYER>
+    <NAME>Bob Dylan</NAME>
     <RANK>1</RANK>
-  </PROFILE>
-  <PROFILE>
-    <PLAYER>Bonnie Tyler</PLAYER>
+  </PLAYER>
+  <PLAYER>
+    <NAME>Bonnie Tyler</NAME>
     <RANK>2</RANK>
-  </PROFILE>
-  <PROFILE>
-    <PLAYER>Dolly Parton</PLAYER>
+  </PLAYER>
+  <PLAYER>
+    <NAME>Dolly Parton</NAME>
     <RANK>3</RANK>
-  </PROFILE>
-</RANKINGS>
+  </PLAYER>
+</LADDER>
