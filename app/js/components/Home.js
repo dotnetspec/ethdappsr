@@ -3,7 +3,7 @@ import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 
 /**
  * Class representing the home page rendering
- * 
+ *
  * @extends React.Component
  */
 class Home extends Component{
@@ -21,7 +21,7 @@ class Home extends Component{
         <Row>
           <Col xs={12}>
             <PageHeader>
-              Decentralised Twitter <small>Built using Embark by Status</small>
+              Decentralised SportRank <small>Built using Embark by Status</small>
             </PageHeader>
           </Col>
         </Row>

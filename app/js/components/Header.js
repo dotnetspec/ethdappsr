@@ -12,7 +12,7 @@ import imgAvatar from '../../img/avatar-default.png';
  * Class representing the header of the page that handles
  * commone functions such as navigation, searching of users,
  * link to create account, and modal to tweet
- * 
+ *
  * @extends React.Component
  */
 class Header extends Component {
@@ -51,7 +51,7 @@ class Header extends Component {
   }
 
   /**
-   * Handles the event when the user selects a different account from 
+   * Handles the event when the user selects a different account from
    * the dropdown
    * @param {Event} e - the DOM event fired when the account was changed
    */
@@ -201,7 +201,7 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">dTwitter <small>embark by Status</small></NavLink>
+            <NavLink exact to="/">SportRank <small>Support Your Sport</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
