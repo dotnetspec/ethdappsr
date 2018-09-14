@@ -36,6 +36,7 @@ class Main extends Component {
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>
           <Route exact path='/' component={Rankings}/>
+          <script src="js/xml-doc-ops.js"></script>
       </main>
     )
   }

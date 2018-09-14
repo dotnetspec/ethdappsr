@@ -17,6 +17,8 @@ class Rankings extends Component{
       return (
         <div>
       <p>Click on a player to challenge</p>
+      <p id='showCD'></p>
+      <table id="demo"></table>
       </div>
 
     )
