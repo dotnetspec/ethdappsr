@@ -1,6 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import Home from './Home';
+import Rankings from './Rankings';
 import UserTweets from './UserTweets';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
@@ -11,7 +12,7 @@ import React, { Component } from 'react';
  * Class representing the area below the header.
  * The component rendering in this area is controlled by
  * a @external "BrowserRouter"
- * 
+ *
  * @extends React.Component
  */
 class Main extends Component {
@@ -28,11 +29,13 @@ class Main extends Component {
       <main>
         <Switch>
           <Route exact path='/' component={Home}/>
+
           <PropsRoute path='/@:username' component={UserTweets} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>
+          <Route exact path='/' component={Rankings}/>
       </main>
     )
   }
