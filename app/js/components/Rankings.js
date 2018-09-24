@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { loadXML, checkMyChallengeOpponent} from './Xmldocops';
 
 /**
  * Class representing the home page rendering
@@ -24,4 +25,4 @@ class Rankings extends Component{
     )
     }
 }
-export default Rankings
+export default Rankings;
