@@ -4,6 +4,7 @@ import App from './components/App';
 import React from 'react';
 import EmbarkJS from 'Embark/EmbarkJS';
 import DTwitter from 'Embark/contracts/DTwitter';
+import Rankings from './components/Rankings';
 
 window.EmbarkJS = EmbarkJS;
 window.DTwitter = DTwitter;

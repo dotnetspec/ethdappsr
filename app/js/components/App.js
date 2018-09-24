@@ -1,16 +1,20 @@
 import Header from './Header'
 import Main from './Main'
+import Rankings, {checkMyChallengeOpponent} from './Rankings'
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
+import { Switch, Route } from 'react-router-dom';
+import PropsRoute from './PropsRoute';
+//import { loadXML, checkMyChallengeOpponent} from './Xmldocops';
 
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
  * class so that the current user details can be re-fetched from
  * the contract and propagated to all children that rely on it
- * 
+ *
  * @extends React.Component
  */
 class App extends Component {
@@ -32,14 +36,14 @@ class App extends Component {
   //#region Helper methods
   /**
    * Loads user details from the contract for all accounts on the node.
-   * 
-   * For each account on the node, first, the owners mapping is queried using the 
-   * owner address key. It returns the hash of the username it maps to. This 
-   * username hash is then used to query the users mapping in the contract to 
-   * get the details of the user. Once the user details are returned, the state 
-   * is updated with the details, which triggers a render in this component and 
+   *
+   * For each account on the node, first, the owners mapping is queried using the
+   * owner address key. It returns the hash of the username it maps to. This
+   * username hash is then used to query the users mapping in the contract to
+   * get the details of the user. Once the user details are returned, the state
+   * is updated with the details, which triggers a render in this component and
    * all child components.
-   * 
+   *
    * @returns {null}
    */
   _loadCurrentUserAccounts = async () => {
@@ -92,7 +96,7 @@ class App extends Component {
 
   /**
    * Sets the App state error and redirects the user to the error page
-   * 
+   *
    * @param {Error} err - error encountered
    */
   _onError(err, source) {
@@ -128,6 +132,7 @@ class App extends Component {
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)} />
       </div>
+
     );
   }
   //#endregion

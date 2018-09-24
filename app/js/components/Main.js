@@ -27,6 +27,7 @@ class Main extends Component {
   render () {
     return (
       <main>
+
         <Switch>
           <Route exact path='/' component={Home}/>
 
@@ -35,8 +36,8 @@ class Main extends Component {
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>
-          <Route exact path='/' component={Rankings}/>
-          
+<Route exact path='/' component={Rankings}/>
+
       </main>
     )
   }
