@@ -1,12 +1,13 @@
 import Header from './Header'
 import Main from './Main'
-import Rankings, {checkMyChallengeOpponent} from './Rankings'
+import Rankings from './Rankings'
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
+//import * as Xmldocops from './Xmldocops.js';
 //import { loadXML, checkMyChallengeOpponent} from './Xmldocops';
 
 /**
