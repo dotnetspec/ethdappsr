@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
+import Rankings from './Rankings';
 
 /**
  * Class representing the home page rendering
@@ -11,12 +12,28 @@ class Home extends Component{
   //#region Constructor
   constructor(props){
     super(props);
+    //this.state = {title: "the title",};
   }
+
+
   //#endregion
+
+  //const title = "Philip Here";
+
+  // changeTitle(title){
+  //   this.setState({title});
+  // }
+  //
+  // handleChange(e){
+  //   const title = e.target.value;
+  //   this.changeTitle(title);
+  // }
 
   //#region React lifecycle events
   render() {
+
     return (
+      <div>
       <Grid>
         <Row>
           <Col xs={12}>
@@ -26,6 +43,8 @@ class Home extends Component{
           </Col>
         </Row>
       </Grid>
+      <Rankings />
+      </div>
     );
   }
   //#endregion

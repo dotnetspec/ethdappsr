@@ -1,8 +1,8 @@
-// our DTwitter contract object to test
-const DTwitter = require('Embark/contracts/DTwitter');
+// our DSportRank contract object to test
+const DSportRank = require('Embark/contracts/DSportRank');
 
 // contract methods we'll be testing
-const { createAccount, users, owners, userExists, editAccount, tweet } = DTwitter.methods;
+const { createAccount, users, owners, userExists, editAccount, tweet } = DSportRank.methods;
 
 // variables that will be updated in the tests
 let accounts;
@@ -10,7 +10,7 @@ let accounts;
 // set up our config test parameters
 config({
   contracts: {
-    DTwitter: {
+    DSportRank: {
       // would pass constructor args here if needed
     }
   }
@@ -26,11 +26,11 @@ const tweetContent = 'test tweet';
 
 // Embark exposes a global contract method as an alias
 // for Mocha.describe
-contract("DTwitter contract", function () {
+contract("DSportRank contract", function () {
   this.timeout(0);
 
 
-  it("transaction to create a dtwitter user 'testhandle' with description 'test description' should be successful", async function () {
+  it("transaction to create a DSportRank user 'testhandle' with description 'test description' should be successful", async function () {
 
     // do the create account tx
     const createAccountTx = await createAccount(username, description).send();
@@ -91,7 +91,7 @@ contract("DTwitter contract", function () {
     await tweet(tweetContent).send();
 
     // subscribe to new tweet events
-    DTwitter.events.NewTweet({
+    DSportRank.events.NewTweet({
       filter: { _from: usernameHash },
       fromBlock: 1 // must be > 0!
     })

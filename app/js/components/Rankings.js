@@ -12,10 +12,26 @@ class Rankings extends Component{
   //#region Constructor
   constructor(props){
     super(props);
+    //this.state = { firstname: "Phil"};
   }
   //#endregion
 
+
+
+ //  state = { show: false };
+ //
+ // showModal = () => {
+ //   this.setState({ show: true });
+ // };
+ //
+ // hideModal = () => {
+ //   this.setState({ show: false });
+ // };
+
     render() {
+
+      console.log(this.props);
+
       var x,xmlhttp,xmlDoc;
       var txt = "0";
       var i = 0;
@@ -24,7 +40,7 @@ class Rankings extends Component{
       xmlhttp.send();
       xmlDoc = xmlhttp.responseXML;
       x = xmlDoc.getElementsByTagName("PLAYER");
-      var table="<table id='demo' align='center' width='800'><tr><th>PLAYER</th><th>RANK</th></tr>";
+      var table="<table id='demo' align='center' width='800'><caption>Click on a player to challenge</caption><tr><th>PLAYER</th><th>RANK</th></tr>";
       for (i = 0; i <x.length; i++) {
         table += "<tr><td>";
         table += x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
@@ -35,11 +51,12 @@ class Rankings extends Component{
         table += "</td></tr>";
       }
       table += "</table>";
+
       return (
-        <div>
-          <p>Click on a player to challenge</p>
-          <div className="content" dangerouslySetInnerHTML={{__html:table}}></div>
-        </div>
+      
+          <div className="content" dangerouslySetInnerHTML={{__html:table}}>
+
+          </div>
     )
     }
 }

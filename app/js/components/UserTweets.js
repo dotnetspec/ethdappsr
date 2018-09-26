@@ -38,7 +38,7 @@ class UserTweets extends Component {
   _getUserDetails = async(username) => {
       // get user details and update state
       //let user = { creationDate: '' } // remove me
-      let user = await DTwitter.methods.users(web3.utils.keccak256(username)).call();
+      let user = await DSportRank.methods.users(web3.utils.keccak256(username)).call();
 
       // update picture url for ipfs
       user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
@@ -72,7 +72,7 @@ class UserTweets extends Component {
     //   .on('error', function(error){
     //     this.props.onError(err, 'UserTweets._subscribeToNewTweetEvent');
     //   });
-    DTwitter.events.NewTweet({
+    DSportRank.events.NewTweet({
    filter: {_from: web3.utils.keccak256(username)},
    fromBlock: 1
         }, (err, event) => {

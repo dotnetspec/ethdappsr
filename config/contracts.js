@@ -14,7 +14,8 @@ module.exports = {
       "http://localhost:8545"
     ],
     contracts: {
-      DTwitter: {
+
+      DSportRank: {
         args: [ ]
       }
     },
@@ -41,7 +42,8 @@ module.exports = {
         }
       ],
       contracts: {
-        DTwitter: {
+      
+        DSportRank: {
           args: [ ]
         }
       },

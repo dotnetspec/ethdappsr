@@ -41,7 +41,7 @@ class CreateUser extends Component {
     try {
 
       // set up our contract method with the input values from the form
-      const createAccount = DTwitter.methods.createAccount(username, description);
+      const createAccount = DSportRank.methods.createAccount(username, description);
 
       // get a gas estimate before sending the transaction
       const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
@@ -98,7 +98,7 @@ class CreateUser extends Component {
         if (!this.state.isLoading) {
 
           // call the userExists method in our contract asynchronously
-          DTwitter.methods.userExists(web3.utils.keccak256(value)).call()
+          DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
           .then((exists) => {
 
 

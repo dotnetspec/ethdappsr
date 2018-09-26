@@ -1,7 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import Home from './Home';
-import Rankings from './Rankings';
 import UserTweets from './UserTweets';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
@@ -25,6 +24,8 @@ class Main extends Component {
 
   //#region React lifecycle events
   render () {
+
+    console.log(this.props);
     return (
       <main>
 
@@ -36,8 +37,6 @@ class Main extends Component {
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>
-<Route exact path='/' component={Rankings}/>
-
       </main>
     )
   }

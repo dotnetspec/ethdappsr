@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-contract DTwitter {
+contract DSportRank{
     /**
      * User
      *
@@ -12,7 +12,7 @@ contract DTwitter {
         string description;     // user profile description
         address owner;          // address of the account who created the user
         string picture;         // IFPS hash of the user's profile picture
-        string[] tweets;        // array that holds the user's tweets
+        string[] challenges;        // array that holds the user's challenges
     }
 
     /**
@@ -39,16 +39,16 @@ contract DTwitter {
     mapping (address => bytes32) public owners;
 
     /**
-     * NewTweet
+     * Newchallenge
      *
-     * Event to be emitted once a tweet is stored in the contract
-     * {bytes32} _from - keccak256-hashed username of user who posted the tweet.
+     * Event to be emitted once a challenge is stored in the contract
+     * {bytes32} _from - keccak256-hashed username of user who posted the challenge.
      *                          This field is indexed so it can be filtered.
-     * {string} tweet - the tweet contents
+     * {string} challenge - the challenge contents
      */
-    event NewTweet(
+    event Newchallenge(
         bytes32 indexed _from,
-        string tweet,
+        string challenge,
         uint time
     );
 
@@ -122,13 +122,13 @@ contract DTwitter {
     }
 
     /**
-     * tweet
+     * challenge
      *
-     * Adds a tweet to the user's tweets and emits an event notifying listeners
-     * that a tweet happened. Assumes the user sending the transaction is the tweeter.
-     * {string} content - the tweet content
+     * Adds a challenge to the user's challenges and emits an event notifying listeners
+     * that a challenge happened. Assumes the user sending the transaction is the challengeer.
+     * {string} content - the challenge content
      */
-    function tweet(string content) public {
+    function challenge(string content) public {
         // ensure the sender has an account
         require(owners[msg.sender].length > 0);
 
@@ -138,14 +138,14 @@ contract DTwitter {
         // get our user
         User storage user = users[usernameHash];
 
-        // get our new tweet index
-        uint tweetIndex = user.tweets.length++;
+        // get our new challenge index
+        uint challengeIndex = user.challenges.length++;
 
-        // update the user's tweets at the tweet index
-        user.tweets[tweetIndex] = content;
+        // update the user's challenges at the challenge index
+        user.challenges[challengeIndex] = content;
 
-        // emit the tweet event and notify the listeners
-        emit NewTweet(usernameHash, content, now);
+        // emit the challenge event and notify the listeners
+        emit Newchallenge(usernameHash, content, now);
     }
 
 }

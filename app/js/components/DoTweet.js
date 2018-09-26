@@ -46,7 +46,7 @@ class DoTweet extends Component{
     this.setState({ isLoading: true });
 
     const { username, account, onAfterTweet } = this.props;
-    const tweet = DTwitter.methods.tweet(this.state.tweet);
+    const tweet = DSportRank.methods.tweet(this.state.tweet);
 
     try{
       // estimate gas before sending tweet transaction
@@ -117,7 +117,7 @@ class DoTweet extends Component{
           value={ tweet }
           placeholder="140 characters or less..."
           onChange={ (e) => this._handleChange(e) }
-          name="tweet"
+          name="Instructions"
           componentClass="textarea"
           hasFeedback={true}
           validationState={validationState}

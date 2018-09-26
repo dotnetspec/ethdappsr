@@ -1,14 +1,12 @@
 import Header from './Header'
 import Main from './Main'
-import Rankings from './Rankings'
+//import Rankings from './Rankings'
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-//import * as Xmldocops from './Xmldocops.js';
-//import { loadXML, checkMyChallengeOpponent} from './Xmldocops';
 
 /**
  * Class representing the highest order component. Any user
@@ -61,10 +59,10 @@ class App extends Component {
           balance = web3.utils.fromWei(balance, 'ether');
 
           // get the owner details for this address from the contract
-          const usernameHash = await DTwitter.methods.owners(address).call();
+          const usernameHash = await DSportRank.methods.owners(address).call();
 
           // get user details from contract
-          const user = await DTwitter.methods.users(usernameHash).call();
+          const user = await DSportRank.methods.users(usernameHash).call();
 
           // update user picture with ipfs url
           user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;

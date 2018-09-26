@@ -180,12 +180,12 @@ class Header extends Component {
     // state for showing the tweet button and associated modal
     states.tweet = <React.Fragment>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
-        Tweet
+        Help
       </Button>
 
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
-          <Modal.Title>New tweet</Modal.Title>
+          <Modal.Title>Instructions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <DoTweet username={username} onAfterTweet={(e) => this._handleClose()}></DoTweet>
@@ -201,7 +201,7 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">SportRank <small>Support Your Sport</small></NavLink>
+            <NavLink exact to="/">Challenge <small>Click to find an opponent</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
