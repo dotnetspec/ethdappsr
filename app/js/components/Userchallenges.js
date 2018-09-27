@@ -7,14 +7,14 @@ import { EventEmitter } from 'events';
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
 // number, then a "player not found" message is displayed.
-class UserTweets extends Component {
+class Userchallenges extends Component {
 
   //#region Constructor
   constructor(props, context){
     super(props, context);
     this.state = {
       user: {},
-      tweets: []
+      challenges: []
     };
     this.event = null;
   }
@@ -22,14 +22,14 @@ class UserTweets extends Component {
 
   //#region Helper methods
   /**
-   * Get the user details and subscribe to their tweet event
+   * Get the user details and subscribe to their challenge event
    */
   _init(){
     const { username } = this.props.match.params;
     this._getUserDetails(username);
 
-    // subscribe to tweet events
-    this._subscribeToNewTweetEvent(username);
+    // subscribe to challenge events
+    this._subscribeToNewchallengeEvent(username);
   }
 
   /**
@@ -50,34 +50,34 @@ class UserTweets extends Component {
   }
 
   /**
-   * Subscribes to a tweet event from the contract.
-   * When a tweet is received, it is appended to the list of
-   * tweets.
+   * Subscribes to a challenge event from the contract.
+   * When a challenge is received, it is appended to the list of
+   * challenges.
    *
    * @param {String} username
    * @returns {null}
    */
-  _subscribeToNewTweetEvent(username){
-    // this.event = new EventEmitter() // replace me with the NewTweet subscription
+  _subscribeToNewchallengeEvent(username){
+    // this.event = new EventEmitter() // replace me with the Newchallenge subscription
     //   .on('data', (event) => {
-    //     let tweets = this.state.tweets;
+    //     let challenges = this.state.challenges;
     //
-    //     tweets.push({
-    //       content: event.returnValues.tweet,
+    //     challenges.push({
+    //       content: event.returnValues.challenge,
     //       time: this._formatDate(event.returnValues.time)
     //     });
     //
-    //     this.setState({tweets: tweets});
+    //     this.setState({challenges: challenges});
     //   })
     //   .on('error', function(error){
-    //     this.props.onError(err, 'UserTweets._subscribeToNewTweetEvent');
+    //     this.props.onError(err, 'Userchallenges._subscribeToNewchallengeEvent');
     //   });
-    DSportRank.events.NewTweet({
+    DSportRank.events.Newchallenge({
    filter: {_from: web3.utils.keccak256(username)},
    fromBlock: 1
         }, (err, event) => {
          if (err){
-           this.props.onError(err, 'UserTweets._subscribeToNewTweetEvent');
+           this.props.onError(err, 'Userchallenges._subscribeToNewchallengeEvent');
          }
       })
   }
@@ -98,7 +98,7 @@ class UserTweets extends Component {
 
   //#region React lifecycle events
   /**
-   * Get the user details and subscribe to their tweet event
+   * Get the user details and subscribe to their challenge event
    */
   componentDidMount(){
     EmbarkJS.onReady((err) => {
@@ -108,7 +108,7 @@ class UserTweets extends Component {
 
   /**
    * If the username was changed (ie redirected from a new route),
-   * we need to get the new user's details and subscribe to their tweet
+   * we need to get the new user's details and subscribe to their challenge
    * event.
    */
   componentDidUpdate(prevProps){
@@ -118,8 +118,8 @@ class UserTweets extends Component {
   }
 
   /**
-   * Unsubscribe from our tweet event so we stop
-   * receiving tweets.
+   * Unsubscribe from our challenge event so we stop
+   * receiving challenges.
    */
   componentWillUnmount(){
     if(!this.event) return;
@@ -145,14 +145,14 @@ class UserTweets extends Component {
     }else {
       // Render real UI ...
       const {username, description, picture, creationDate} = user;
-      const tweetList = this.state.tweets.map(function(tweet, index){
-                          return <ListGroupItem className='tweet' key={ index } header={ tweet.time }>{ tweet.content }</ListGroupItem>
+      const challengeList = this.state.challenges.map(function(challenge, index){
+                          return <ListGroupItem className='challenge' key={ index } header={ challenge.time }>{ challenge.content }</ListGroupItem>
                         });
       return (
         <Grid>
           <Row>
             <Col xs={12}>
-              <PageHeader>{ username }'s <small>tweets</small></PageHeader>
+              <PageHeader>{ username }'s <small>challenges</small></PageHeader>
             </Col>
           </Row>
           <Row>
@@ -165,8 +165,8 @@ class UserTweets extends Component {
 
             </Col>
             <Col xs={8}>
-              <ListGroup className='tweets'>
-                { tweetList }
+              <ListGroup className='challenges'>
+                { challengeList }
               </ListGroup>
             </Col>
           </Row>
@@ -176,4 +176,4 @@ class UserTweets extends Component {
   }
   //#endregion
 }
-export default UserTweets
+export default Userchallenges

@@ -4,9 +4,9 @@ import { FormGroup, InputGroup, FormControl, Button, Glyphicon } from 'react-boo
 
 /**
  * Class that renders a form to faciliate searching of
- * for a username and to redirect to that user's tweets
+ * for a username and to redirect to that user's challenges
  * page.
- * 
+ *
  * @extends React.Component
  */
 class Search extends Component {
@@ -27,8 +27,8 @@ class Search extends Component {
   /**
    * Handles the 'Search' button click event which
    * sends the browser to the route to see the specified
-   * user's tweets.
-   * 
+   * user's challenges.
+   *
    * @returns {null}
    */
   _handleClick(e) {
@@ -37,15 +37,15 @@ class Search extends Component {
       return e.preventDefault();
     }
 
-    // redirec the user to the user's tweets page
+    // redirec the user to the user's challenges page
     this.props.history.push('/@' + this.state.username);
   }
 
   /**
    * When user changes an input value, record that in the state.
-   * 
+   *
    * @param {SyntheticEvent} cross-browser wrapper around the browser’s native event
-   * 
+   *
    * @return {null}
    */
   _handleChange(e) {
@@ -59,8 +59,8 @@ class Search extends Component {
   /**
    * Validates the form. Return null for no state change,
    * 'success' if valid.
-   * 
-   * @return {string} null for no state change, 'success' 
+   *
+   * @return {string} null for no state change, 'success'
    * if valid.
    */
   _getValidationState() {
@@ -78,7 +78,7 @@ class Search extends Component {
     return (
       <FormGroup validationState={validationState}>
         <InputGroup>
-          <FormControl 
+          <FormControl
             type="text"
             value={this.state.username}
             placeholder="username"

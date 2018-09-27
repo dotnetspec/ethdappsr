@@ -646,7 +646,7 @@ th {
 .glyphicon-chevron-down:before {
   content: "\e114";
 }
-.glyphicon-retweet:before {
+.glyphicon-rechallenge:before {
   content: "\e115";
 }
 .glyphicon-shopping-cart:before {
@@ -7441,7 +7441,7 @@ nav .navbar-text a:hover, nav .navbar-text a:focus {
 }
 nav .error {color:red}
 nav.error .navbar-brand {padding-top:10px;}
-.tweets .tweet .list-group-item-text {
+.challenges .challenge .list-group-item-text {
   white-space: pre-line;
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
@@ -7461,5 +7461,5 @@ nav .btn-toolbar {display:inline-block; vertical-align: middle;}
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
   background-image: linear-gradient(to bottom, #2a2b4eb3 0%, #2a2b4e38 100%);
 }
-.tweet h4, .profilePic .created { font-size: 1.25rem; opacity: 0.5;}
+.challenge h4, .profilePic .created { font-size: 1.25rem; opacity: 0.5;}
 .profilePic { padding:20px; }

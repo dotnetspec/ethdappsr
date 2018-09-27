@@ -5,11 +5,11 @@ import FieldGroup from './FieldGroup';
 
 /**
  * Class that renders a form to allow the user to create
- * a tweet that is stored in the contract.
+ * a challenge that is stored in the contract.
  *
  * @extends React.Component
  */
-class DoTweet extends Component{
+class Dochallenge extends Component{
 
   //#region Constructor
   constructor(props, context) {
@@ -17,50 +17,50 @@ class DoTweet extends Component{
 
     // initial state
     this.state = {
-      tweet: '',
-      tweetHasChanged: false,
+      challenge: '',
+      challengeHasChanged: false,
       isLoading: false,
       error: ''
     };
 
-    this.tweetInput = null;
+    this.challengeInput = null;
   }
   //#endregion
 
   //#region Component events
   /**
-   * Handles the 'Tweet' button click event which
+   * Handles the 'challenge' button click event which
    * sends a transaction to the contract to store a
-   * tweet for the current user.
+   * challenge for the current user.
    *
    * @returns {null}
    */
   _handleClick = async (e) => {
 
-    // do not post tweet if there is a form error or user has not typed anything
-    if(this._getValidationState() === 'error' || !this.state.tweetHasChanged){
+    // do not post challenge if there is a form error or user has not typed anything
+    if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
       return e.preventDefault();
     }
 
     // show loading state
     this.setState({ isLoading: true });
 
-    const { username, account, onAfterTweet } = this.props;
-    const tweet = DSportRank.methods.tweet(this.state.tweet);
+    const { username, account, onAfterchallenge } = this.props;
+    const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
-      // estimate gas before sending tweet transaction
-      const gasEstimate = await tweet.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+      // estimate gas before sending challenge transaction
+      const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
 
-      // send the tweet transaction plus a little extra gas in case the contract state
+      // send the challenge transaction plus a little extra gas in case the contract state
       // has changed since we've done our gas estimate
-      await tweet.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+      await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
 
       // remove loading state
       this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      onAfterTweet();
+      onAfterchallenge();
     }
     catch(err){
       // remove loading state and show error message
@@ -76,7 +76,7 @@ class DoTweet extends Component{
    * @return {null}
    */
   _handleChange(e) {
-    let state = {tweetHasChanged: true};
+    let state = {challengeHasChanged: true};
     state[e.target.name] = e.target.value;
     this.setState(state);
   }
@@ -91,43 +91,43 @@ class DoTweet extends Component{
    * if valid, and error' if invalid
    */
   _getValidationState() {
-    return ((this.state.tweet === '' && !this.state.tweetHasChanged) || (this.state.tweet.length > 0 && this.state.tweet.length <= 140)) ? null : 'error';
+    return ((this.state.challenge === '' && !this.state.challengeHasChanged) || (this.state.challenge.length > 0 && this.state.challenge.length <= 140)) ? null : 'error';
   }
   //#endregion
 
   //#region React lifecycle events
   componentDidMount(){
-    // set focus to tweet textarea after render
-    if(this.tweetInput) this.tweetInput.focus();
+    // set focus to challenge textarea after render
+    if(this.challengeInput) this.challengeInput.focus();
   }
 
   render(){
 
     const validationState = this._getValidationState();
     const isValid = validationState !== 'error';
-    const { isLoading, error, tweet, tweetHasChanged } = this.state;
+    const { isLoading, error, challenge, challengeHasChanged } = this.state;
 
-    let feedback = !isValid ? 'Tweet must be 140 characters or less' : '';
+    let feedback = !isValid ? 'challenge must be 140 characters or less' : '';
     if(this.state.error) feedback = error;
 
     return (
       <form>
         <FieldGroup
           type="text"
-          value={ tweet }
+          value={ challenge }
           placeholder="140 characters or less..."
           onChange={ (e) => this._handleChange(e) }
           name="Instructions"
           componentClass="textarea"
           hasFeedback={true}
           validationState={validationState}
-          inputRef={(input) => { this.tweetInput = input; }}
+          inputRef={(input) => { this.challengeInput = input; }}
         />
         <Button
           bsStyle="primary"
-          disabled={ !isValid || Boolean(error) || !tweetHasChanged }
-          onClick={ (!isValid || Boolean(error) || !tweetHasChanged) ? null : (e) => this._handleClick(e) }
-        >{isLoading ? 'Loading...' : 'Post tweet'}</Button>
+          disabled={ !isValid || Boolean(error) || !challengeHasChanged }
+          onClick={ (!isValid || Boolean(error) || !challengeHasChanged) ? null : (e) => this._handleClick(e) }
+        >{isLoading ? 'Loading...' : 'Post challenge'}</Button>
         <FormGroup
           controlId="formBasicText"
           validationState={ validationState }
@@ -139,4 +139,4 @@ class DoTweet extends Component{
   }
   //#endregion
 }
-export default DoTweet
+export default Dochallenge

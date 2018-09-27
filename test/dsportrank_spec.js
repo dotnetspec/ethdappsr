@@ -2,7 +2,7 @@
 const DSportRank = require('Embark/contracts/DSportRank');
 
 // contract methods we'll be testing
-const { createAccount, users, owners, userExists, editAccount, tweet } = DSportRank.methods;
+const { createAccount, users, owners, userExists, editAccount, challenge } = DSportRank.methods;
 
 // variables that will be updated in the tests
 let accounts;
@@ -22,7 +22,7 @@ config({
 // other test parameters
 const username = 'testhandle';
 const description = 'test description';
-const tweetContent = 'test tweet';
+const challengeContent = 'test challenge';
 
 // Embark exposes a global contract method as an alias
 // for Mocha.describe
@@ -84,19 +84,19 @@ contract("DSportRank contract", function () {
     assert.equal(updatedUserDetails.picture, updatedImageHash);
   });
 
-  it("should be able to add a tweet as 'testhandle' and receive it via contract event", async function () {
+  it("should be able to add a challenge as 'testhandle' and receive it via contract event", async function () {
     const usernameHash = web3.utils.keccak256(username);
 
-    // send the tweet
-    await tweet(tweetContent).send();
+    // send the challenge
+    await challenge(challengeContent).send();
 
-    // subscribe to new tweet events
-    DSportRank.events.NewTweet({
+    // subscribe to new challenge events
+    DSportRank.events.Newchallenge({
       filter: { _from: usernameHash },
       fromBlock: 1 // must be > 0!
     })
     .on('data', (event) => {
-      assert.equal(event.returnValues.tweet, tweetContent);
+      assert.equal(event.returnValues.challenge, challengeContent);
     });
   });
 

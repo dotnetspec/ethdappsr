@@ -1,7 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import Home from './Home';
-import UserTweets from './UserTweets';
+import Userchallenges from './Userchallenges';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
 import Error from './Error';
@@ -32,7 +32,7 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' component={Home}/>
 
-          <PropsRoute path='/@:username' component={UserTweets} {...this.props}/>
+          <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
