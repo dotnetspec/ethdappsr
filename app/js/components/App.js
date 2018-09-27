@@ -8,6 +8,7 @@ import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 
+
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this

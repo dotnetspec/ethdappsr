@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 import Rankings from './Rankings';
+import Rankjson from './Rankjson';
 
 /**
  * Class representing the home page rendering
@@ -43,7 +44,8 @@ class Home extends Component{
           </Col>
         </Row>
       </Grid>
-      <Rankings />
+      <Rankjson />
+
       </div>
     );
   }

@@ -5,7 +5,7 @@ import React from 'react';
 import EmbarkJS from 'Embark/EmbarkJS';
 import DTwitter from 'Embark/contracts/DTwitter';
 import DSportRank from 'Embark/contracts/DSportRank';
-import Rankings from './components/Rankings';
+
 
 window.EmbarkJS = EmbarkJS;
 window.DTwitter = DTwitter;
