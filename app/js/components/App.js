@@ -1,6 +1,5 @@
 import Header from './Header'
 import Main from './Main'
-//import Rankings from './Rankings'
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import imgAvatar from '../../img/avatar-default.png';

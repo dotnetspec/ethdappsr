@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
-import Rankings from './Rankings';
-import Rankjson from './Rankjson';
+import ReactTable from 'react-table';
+import "react-table/react-table.css";
+import Rankjsondata from '../../json/Rankings.json'
 
 /**
  * Class representing the home page rendering
@@ -33,6 +34,34 @@ class Home extends Component{
   //#region React lifecycle events
   render() {
 
+    const data = Rankjsondata;
+
+    // [{
+    //   name: 'Tanner Linsley',
+    //   age: 26,
+    //   friend: {
+    //     name: 'Jason Maurer',
+    //     age: 23,
+    //   }
+    // }]
+
+    const columns = [{
+      Header: 'Name',
+      accessor: 'NAME' // String-based value accessors!
+    }, {
+      Header: 'Rank',
+      accessor: 'RANK',
+      Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+    }, {
+      id: 'id', // Required because our accessor is not a string
+      Header: 'Id',
+      accessor: d => d.id // Custom value accessors!
+    }, {
+      Header: props => <span>Rank</span>, // Custom header components!
+      accessor: 'RANK'
+    }]
+
+
     return (
       <div>
       <Grid>
@@ -43,8 +72,16 @@ class Home extends Component{
             </PageHeader>
           </Col>
         </Row>
+        <Row>
+          <Col xs={12}>
+          <ReactTable
+                    data={data}
+                    columns={columns}
+        />
+
+        </Col>
+      </Row>
       </Grid>
-      <Rankjson />
 
       </div>
     );
