@@ -5,9 +5,7 @@
     "fonts": ["app/fonts/**"],
     "images/": ["app/images/**"],
     "index.html": "app/index.html",
-    "js/app.js": ["app/js/dapp.js"],
-   "xml/individual_rankings_long.xml": ["app/xml/individual_rankings_long.xml"],
-   "xml/individual_rankings.xml": ["app/xml/individual_rankings.xml"]
+    "js/app.js": ["app/js/dapp.js"]
   },
   "buildDir": "dist/",
   "config": "config/",
