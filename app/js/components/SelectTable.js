@@ -54,6 +54,8 @@ class SelectTable extends React.Component {
     };
   }
 
+
+
   toggleSelection = (key, shift, row) => {
     /*
       Implementation of how to manage the selection state is up to the developer.
@@ -152,7 +154,8 @@ class SelectTable extends React.Component {
 
     return (
       <div>
-        <button onClick={logSelection}>Log Selection</button>
+
+        <button onClick={logSelection}>Challenge Opponent</button>
         <CheckboxTable
           ref={r => (this.checkboxTable = r)}
           data={data}
