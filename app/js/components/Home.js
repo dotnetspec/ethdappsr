@@ -31,7 +31,7 @@ class Home extends Component{
         </Row>
         <Row>
           <Col xs={12}>
-          <SelectTable
+          <SelectTable 
         />
         </Col>
       </Row>

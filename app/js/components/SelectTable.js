@@ -160,6 +160,18 @@ class SelectTable extends React.Component {
           defaultPageSize={10}
           className="-striped -highlight"
           {...checkboxProps}
+          columns={[
+              {
+                    Header: "Name",
+                    accessor: "NAME"
+              },
+              {
+                    Header: "Rank",
+                    accessor: "RANK"
+              },
+
+          ]}
+
         />
       </div>
     );
