@@ -3,7 +3,6 @@ import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 import SelectTable from './SelectTable'
 import Dochallenge from './Dochallenge';
 import { NavLink, withRouter } from 'react-router-dom'
-//import JsonOps from './JsonOps';
 import testData from "../../json/Rankings.json";
 
 /**
@@ -11,45 +10,54 @@ import testData from "../../json/Rankings.json";
  *
  * @extends React.Component
  */
+
+ //get data from JSON file
+     function getData(){
+       const data = testData.map(item => {
+         // using chancejs to generate guid
+         // shortid is probably better but seems to have performance issues
+         // on codesandbox.io
+         const _id = chance.guid();
+         return {
+           _id,
+           ...item
+         };
+       });
+       return data;
+     }
+
+
+
+
 class Home extends Component{
 
   //#region Constructor
   constructor(props, context){
     super(props, context);
+
+    const data = getData();
+    this.state = {
+      data
+    };
+
   }
 
   //#endregion
 
-    getData() {
-      const data = testData.map(item => {
-        // using chancejs to generate guid
-        // shortid is probably better but seems to have performance issues
-        // on codesandbox.io
-        const _id = chance.guid();
-        return {
-          _id,
-          ...item
-        };
-      });
-      return data;
-    }
-
-    getUserNameFromAccount(accountNo){
-      //get data from JSON file
-      const data = this.getData();
-      var playerName = "No name/account match";
-      //map data and retreive corresponding name
-      data.map((data) =>{
-        if(data.ACCOUNT === accountNo){
-          playerName = data.NAME;
+  getUserNameFromAccount(accountNo){
+    //get data from JSON file
+    var playerName = "No name/account match";
+    //map data and retreive corresponding name
+    this.state.data.map((data) =>{
+      if(data.ACCOUNT === accountNo){
+        playerName = data.NAME;
+      }
+        else{
+        console.log("No name/account match");
         }
-          else{
-          console.log("No name/account match");
-          }
-     })
-      return playerName;
-    }
-
+   })
+    return playerName;
+  }
 
   //#region React lifecycle events
   render() {

@@ -41,6 +41,16 @@ function getColumns(data) {
   return columns;
 }
 
+function ChallengeOpponent(selectionID){
+  var challengedOpponent = "bob" + selectionID;
+  return challengedOpponent;
+}
+
+function getOpponentDetails(){
+  var opponentDetails = "Bob 0xD1B15d00dc4E025C1138ec659d8C019dCD8671B80xD1B15d00dc4E025C1138ec659d8C019dCD8671B8";
+  return opponentDetails;
+}
+
 class SelectTable extends React.Component {
   constructor() {
     super();
@@ -125,6 +135,7 @@ class SelectTable extends React.Component {
 
   logSelection = () => {
     console.log("selection:", this.state.selection);
+    console.log("using ChallengeOpponent:", ChallengeOpponent(this.state.selection));
   };
 
   render() {
@@ -154,7 +165,6 @@ class SelectTable extends React.Component {
 
     return (
       <div>
-
         <button onClick={logSelection}>Challenge Opponent</button>
         <CheckboxTable
           ref={r => (this.checkboxTable = r)}
