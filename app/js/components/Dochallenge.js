@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip, Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import testData from "../../json/Rankings.json";
 import React, { Component } from 'react';
 import FieldGroup from './FieldGroup';
+import Spinner from 'react-spinkit';
 
 /**
  * Class that renders a form to allow the user to create
@@ -9,15 +11,46 @@ import FieldGroup from './FieldGroup';
  *
  * @extends React.Component
  */
+ //get data from JSON file
+     function getData(){
+       const data = testData.map(item => {
+         // using chancejs to generate guid
+         // shortid is probably better but seems to have performance issues
+         // on codesandbox.io
+         const _id = chance.guid();
+         return {
+           _id,
+           ...item
+         };
+       });
+       return data;
+     }
+
+
+     function getOpponentDetails(){
+       var opponentDetails = "Bob 0xD1B15d00dc4E025C1138ec659d8C019dCD8671B80xD1B15d00dc4E025C1138ec659d8C019dCD8671B8";
+       return opponentDetails;
+     }
+
+
+
+
+
 class Dochallenge extends Component{
 
   //#region Constructor
   constructor(props, context) {
     super(props, context);
 
+    const data = getData();
+    const { username, account, onAfterchallenge } = this.props;
     // initial state
     this.state = {
+      selection: [],
+      data,
+      showModal: false,
       challenge: '',
+      selectedOpponentName: "",
       challengeHasChanged: false,
       isLoading: false,
       error: ''
@@ -26,6 +59,51 @@ class Dochallenge extends Component{
     this.challengeInput = null;
   }
   //#endregion
+
+  ChallengeOpponent(selectionID){
+    var challengedOpponent = this.getUserNameFrom_id(selectionID) + selectionID;
+    return challengedOpponent;
+  }
+
+
+  getUserNameFrom_id(_idnumber){
+
+    var playerName = "No name/account match";
+    //get data from JSON file
+    //map data and retreive corresponding name
+    //this.data = this.data.bind(this);
+
+    this.state.data.map((data) =>{
+      //if(data._Id === _idnumber){
+      if("2bbfa3c9-6ab2-5c35-92bc-5b09056eafe5" === _idnumber){
+        console.log(data.NAME);
+        playerName = data.NAME;
+      }
+        else{
+        console.log("No name/account match");
+        }
+   })
+    return playerName;
+  }
+
+  getUserNameFromAccount() {
+    const usernames = [];
+    const sample = this.state.data[0];
+    //JSON.stringify(sample);
+    //console.log(sample);
+    Object.keys(sample).forEach(key => {
+      if (key !== "_id") {
+        usernames.push({
+          accessor: key,
+          Name: key
+        });
+      }
+    });
+    //console.log(usernames);
+    return usernames;
+  }
+
+
 
   //#region Component events
   /**
@@ -45,7 +123,7 @@ class Dochallenge extends Component{
     // show loading state
     this.setState({ isLoading: true });
 
-    const { username, account, onAfterchallenge } = this.props;
+
     const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
@@ -101,7 +179,33 @@ class Dochallenge extends Component{
     if(this.challengeInput) this.challengeInput.focus();
   }
 
+  // getUserNameFromAccount(accountNo){
+  //
+  //   var playerName = "No name/account match";
+  //   //get data from JSON file
+  //   //map data and retreive corresponding name
+  //   this.state.data.map((data) =>{
+  //     if(data.ACCOUNT === accountNo){
+  //       playerName = data.NAME;
+  //     }
+  //       else{
+  //       console.log("No name/account match");
+  //       }
+  //  })
+  //   return playerName;
+  // }
+
   render(){
+
+    const userAccountNo = web3.eth.defaultAccount;
+    let states = {};
+    // state when we are waiting for the App component to finish loading
+    // the current account (address) from web3.eth.getAccounts()
+    states.isLoading = <Spinner name="pacman" color="white" fadeIn='none' />;
+
+    states.isError = <span className='error'>ERROR!</span>;
+//determine userName from account no. stored in JSON
+//with this.getUserNameFromAccount(userName)
 
     const validationState = this._getValidationState();
     const isValid = validationState !== 'error';
@@ -110,14 +214,15 @@ class Dochallenge extends Component{
     let feedback = !isValid ? 'challenge must be 140 characters or less' : '';
     if(this.state.error) feedback = error;
 
+
     return (
       <form>
         <FieldGroup
           type="text"
           value={ challenge }
-          placeholder="140 characters or less..."
+          placeholder={ this.props.selectedOpponentName }
           onChange={ (e) => this._handleChange(e) }
-          name="Instructions"
+          name="Info "
           componentClass="textarea"
           hasFeedback={true}
           validationState={validationState}

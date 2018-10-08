@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip } from 'react-bootstrap';
 import SelectTable from './SelectTable'
-import Dochallenge from './Dochallenge';
 import { NavLink, withRouter } from 'react-router-dom'
 import testData from "../../json/Rankings.json";
+import Spinner from 'react-spinkit';
+import MyBootstrapTable from './MyBootstrapTable'
 
 /**
  * Class representing the home page rendering
@@ -26,7 +27,13 @@ import testData from "../../json/Rankings.json";
        return data;
      }
 
+//   var data2 = [
+//   {id: 1, name: 'Gob', value: '2'},
+//   {id: 2, name: 'Buster', value: '5'},
+//   {id: 3, name: 'George Michael', value: '4'}
+// ];
 
+var data2 = getData();
 
 
 class Home extends Component{
@@ -34,9 +41,10 @@ class Home extends Component{
   //#region Constructor
   constructor(props, context){
     super(props, context);
-
+    //console.log(props);
     const data = getData();
     this.state = {
+      showModal: false,
       data
     };
 
@@ -44,16 +52,18 @@ class Home extends Component{
 
   //#endregion
 
+
   getUserNameFromAccount(accountNo){
-    //get data from JSON file
+
     var playerName = "No name/account match";
+    //get data from JSON file
     //map data and retreive corresponding name
     this.state.data.map((data) =>{
       if(data.ACCOUNT === accountNo){
         playerName = data.NAME;
       }
         else{
-        console.log("No name/account match");
+        //console.log("No name/account match");
         }
    })
     return playerName;
@@ -61,9 +71,8 @@ class Home extends Component{
 
   //#region React lifecycle events
   render() {
-//determine userName from account no. stored in JSON
-//with this.getUserNameFromAccount(userName)
-    const userAccountNo = web3.eth.defaultAccount;
+      //const userAccountNo = web3.eth.defaultAccount;
+      //
     return (
       <div>
         <Grid>
@@ -71,15 +80,15 @@ class Home extends Component{
             <Col xs={12}>
               <PageHeader>
                 Decentralised SportRank <small>Built using Embark by Status</small>
-                <p>Hi {this.getUserNameFromAccount(userAccountNo)} - Click On The Opponent You Want To Challenge</p>
+                <p></p>
               </PageHeader>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-            <SelectTable />
-          </Col>
-        </Row>
+             <MyBootstrapTable data={data2}/>
+            </Col>
+          </Row>
         </Grid>
       </div>
     );

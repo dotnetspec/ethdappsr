@@ -138,7 +138,7 @@ class Userchallenges extends Component {
       <Grid>
         <Row>
           <Col xs={12}>
-            <PageHeader>{ this.props.match.params.username } <small>doesn't exist!</small></PageHeader>
+            <PageHeader>{ this.props.match.params.username } <small>does not exist!</small></PageHeader>
           </Col>
         </Row>
       </Grid>);
@@ -152,7 +152,7 @@ class Userchallenges extends Component {
         <Grid>
           <Row>
             <Col xs={12}>
-              <PageHeader>{ username }'s <small>challenges</small></PageHeader>
+              <PageHeader>{ username } s <small>challenges</small></PageHeader>
             </Col>
           </Row>
           <Row>

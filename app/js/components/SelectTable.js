@@ -9,6 +9,9 @@ import Chance from "chance";
 import checkboxHOC from "react-table/lib/hoc/selectTable";
 import testData from "../../json/Rankings.json";
 
+import { Modal, Button } from 'react-bootstrap';
+import Dochallenge from './Dochallenge';
+
 const CheckboxTable = checkboxHOC(ReactTable);
 
 const chance = new Chance();
@@ -41,28 +44,40 @@ function getColumns(data) {
   return columns;
 }
 
-function ChallengeOpponent(selectionID){
-  var challengedOpponent = "bob" + selectionID;
-  return challengedOpponent;
-}
 
-function getOpponentDetails(){
-  var opponentDetails = "Bob 0xD1B15d00dc4E025C1138ec659d8C019dCD8671B80xD1B15d00dc4E025C1138ec659d8C019dCD8671B8";
-  return opponentDetails;
-}
+
+
 
 class SelectTable extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     const data = getData();
     const columns = getColumns(data);
     this.state = {
+      showModal: false,
       data,
       columns,
       selection: [],
       selectAll: false
     };
   }
+
+  /**
+   * Hides the challenge modal
+   */
+  _handleClose() {
+    this.setState({ showModal: false });
+  }
+
+  /**
+   * Shows the challenge modal
+   */
+  _handleShow() {
+    console.log();
+    this.setState({ showModal: true });
+  }
+
 
 
 
@@ -75,6 +90,7 @@ class SelectTable extends React.Component {
     // start off with the existing state
     let selection = [...this.state.selection];
     const keyIndex = selection.indexOf(key);
+
     // check to see if the key exists
     if (keyIndex >= 0) {
       // it does exist so we will remove it using destructing
@@ -117,6 +133,7 @@ class SelectTable extends React.Component {
       // the 'sortedData' property contains the currently accessible records based on the filter and sort
       const currentRecords = wrappedInstance.getResolvedState().sortedData;
       // we just push all the IDs onto the selection array
+
       currentRecords.forEach(item => {
         selection.push(item._original._id);
       });
@@ -130,17 +147,22 @@ class SelectTable extends React.Component {
       callback and detect the selection state ourselves. This allows any implementation
       for selection (either an array, object keys, or even a Javascript Set object).
     */
+    //console.log("key", key);
     return this.state.selection.includes(key);
   };
 
   logSelection = () => {
     console.log("selection:", this.state.selection);
-    console.log("using ChallengeOpponent:", ChallengeOpponent(this.state.selection));
+    console.log("using ChallengeOpponent:", this.state.selection);
   };
 
   render() {
     const { toggleSelection, toggleAll, isSelected, logSelection } = this;
     const { data, columns, selectAll } = this.state;
+    //just need to iterate through this data
+    //console.log(data);
+    //console.log(this.account)
+      {this.logSelection};
 
     const checkboxProps = {
       selectAll,
@@ -154,7 +176,12 @@ class SelectTable extends React.Component {
         //const selected = this.isSelected(r.original._id);
         //line above changed based on https://github.com/react-tools/react-table/issues/1023
         const selected = r ? this.isSelected(r.original._id) : false
+  //alert(r.original.NAME);
+  if(r.row.NAME != null){
+  console.log(r.row.NAME);
+}
         return {
+
           style: {
             backgroundColor: selected ? "lightgreen" : "inherit"
             // color: selected ? 'white' : 'inherit',
@@ -162,14 +189,27 @@ class SelectTable extends React.Component {
         };
       }
     };
-
+//console.log(this.state.selection);
     return (
       <div>
-        <button onClick={logSelection}>Challenge Opponent</button>
+        <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
+          Challenge from modal
+        </Button>
+        <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Instructions</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Dochallenge selectedOpponentName={this.state.selection}
+             onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={(e) => this._handleClose(e)}>Close</Button>
+          </Modal.Footer>
+        </Modal>
         <CheckboxTable
           ref={r => (this.checkboxTable = r)}
           data={data}
-          columns={columns}
           defaultPageSize={10}
           className="-striped -highlight"
           {...checkboxProps}
