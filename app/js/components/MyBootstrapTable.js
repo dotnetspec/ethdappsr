@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Dochallenge from './Dochallenge';
-import {BootstrapTable, TableHeaderColumn}
-        from 'react-bootstrap-table'
-//import '../css/Table.css'
-//import '../dist/react-bootstrap-table-all.min.css'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import testData from "../../json/Rankings.json";
+import Chance from "chance"
 
 const selectRowProp = {
   mode: 'radio',
@@ -19,31 +18,35 @@ const selectRowProp = {
 
 function onSelectRow(row, isSelected, e) {
   if (isSelected) {
-    //alert(`You just selected '${row['NAME']}'`);
-    //console.log(`'${row['NAME']}'`);
-    //var namestr = ${row['NAME']};
     selectRowProp.name = `${row['NAME']}`;
   }
 }
 
+function getData(){
+  const data = testData.map(item => {
+    // using chancejs to generate guid
+    // shortid is probably better but seems to have performance issues
+    // on codesandbox.io
+    const _id = chance.guid();
+    return {
+      _id,
+      ...item
+    };
+  });
+  return data;
+}
 
 class MyBootstrapTable extends Component {
-
 
   constructor(props) {
     super(props);
 
-    //const data = getData();
-    //const columns = getColumns(data);
     this.state = {
-      showModal: false,
-      selectedOpponentName: selectRowProp.name
-      //data,
-      //columns,
-      //selection: [],
-      //selectAll: false
+      data: getData(),
+      showModal: false
     };
   }
+
 
   /**
    * Hides the challenge modal
@@ -80,7 +83,9 @@ class MyBootstrapTable extends Component {
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
         </Modal.Footer>
       </Modal>
-        <BootstrapTable data={this.props.data}
+
+
+    <BootstrapTable data={this.state.data}
                         selectRow={selectRowProp}
         >
           <TableHeaderColumn isKey dataField='id'

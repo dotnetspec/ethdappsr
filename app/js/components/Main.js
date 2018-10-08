@@ -1,7 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import Home from './Home';
-import SelectTable from './SelectTable';
 import Userchallenges from './Userchallenges';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
@@ -29,12 +28,11 @@ class Main extends Component {
   //#region React lifecycle events
   render () {
 //const currentUser = {this.props.user};
-  
+
     return (
       <main>
         <Switch>
           <Route path='/' component={Home} {...this.props}/>
-          <PropsRoute path='/' component={SelectTable} {...this.props}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
