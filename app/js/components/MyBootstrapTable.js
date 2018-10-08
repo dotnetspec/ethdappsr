@@ -47,7 +47,6 @@ class MyBootstrapTable extends Component {
     };
   }
 
-
   /**
    * Hides the challenge modal
    */
@@ -76,7 +75,7 @@ class MyBootstrapTable extends Component {
         </Modal.Header>
         <Modal.Body>
         You challenged {selectRowProp.name}
-          <Dochallenge selectedOpponentName={selectRowProp.name}
+          <Dochallenge selectedOpponentName={selectRowProp.name} data={this.state.data}
            onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
         </Modal.Body>
         <Modal.Footer>
@@ -89,7 +88,7 @@ class MyBootstrapTable extends Component {
                         selectRow={selectRowProp}
         >
           <TableHeaderColumn isKey dataField='id'
-          >
+          hidden>
             ID
           </TableHeaderColumn>
           <TableHeaderColumn dataField='NAME'

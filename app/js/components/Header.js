@@ -180,12 +180,12 @@ class Header extends Component {
     // state for showing the challenge button and associated modal
     states.challenge = <React.Fragment>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
-        Help
+        Challenge
       </Button>
 
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
-          <Modal.Title>Instructions</Modal.Title>
+          <Modal.Title>New challenge</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Dochallenge username={username} onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
@@ -201,7 +201,7 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">Challenge <small>Click to find an opponent</small></NavLink>
+            <NavLink exact to="/">Sportrank <small>Fun and Support</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

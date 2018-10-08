@@ -42,7 +42,9 @@ class Dochallenge extends Component{
   constructor(props, context) {
     super(props, context);
 
-    const data = getData();
+    //const data = getData();
+    //data should have been passed from MyBootstrapTable.js
+    const data = this.props.data;
     const { username, account, onAfterchallenge } = this.props;
     // initial state
     this.state = {
@@ -179,22 +181,6 @@ class Dochallenge extends Component{
     if(this.challengeInput) this.challengeInput.focus();
   }
 
-  // getUserNameFromAccount(accountNo){
-  //
-  //   var playerName = "No name/account match";
-  //   //get data from JSON file
-  //   //map data and retreive corresponding name
-  //   this.state.data.map((data) =>{
-  //     if(data.ACCOUNT === accountNo){
-  //       playerName = data.NAME;
-  //     }
-  //       else{
-  //       console.log("No name/account match");
-  //       }
-  //  })
-  //   return playerName;
-  // }
-
   render(){
 
     const userAccountNo = web3.eth.defaultAccount;
@@ -222,12 +208,13 @@ class Dochallenge extends Component{
           value={ challenge }
           placeholder={ this.props.selectedOpponentName }
           onChange={ (e) => this._handleChange(e) }
-          name="Info "
+          name="Information"
           componentClass="textarea"
           hasFeedback={true}
           validationState={validationState}
           inputRef={(input) => { this.challengeInput = input; }}
         />
+  
         <Button
           bsStyle="primary"
           disabled={ !isValid || Boolean(error) || !challengeHasChanged }
