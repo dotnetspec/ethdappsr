@@ -6,7 +6,7 @@ import { NavLink, withRouter } from 'react-router-dom'
 import Spinner from 'react-spinkit';
 import testData from "../../json/Rankings.json";
 import Chance from "chance"
-import Dochallenge from './Dochallenge'
+import DoChallenge from './DoChallenge'
 
 
 /**
@@ -87,8 +87,8 @@ class Home extends Component{
         </Modal.Header>
         <Modal.Body>
         You challenged {selectRowProp.selectedOpponentName}
-          <Dochallenge selectedOpponentName={selectRowProp.selectedOpponentName}
-           onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
+          <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
+           onAfterchallenge={(e) => this._handleClose()}></DoChallenge>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>

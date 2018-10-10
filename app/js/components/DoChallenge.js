@@ -36,7 +36,7 @@ import Spinner from 'react-spinkit';
 
 
 
-class Dochallenge extends Component{
+class DoChallenge extends Component{
 
   //#region Constructor
   constructor(props, context) {
@@ -214,7 +214,7 @@ class Dochallenge extends Component{
           validationState={validationState}
           inputRef={(input) => { this.challengeInput = input; }}
         />
-  
+
         <Button
           bsStyle="primary"
           disabled={ !isValid || Boolean(error) || !challengeHasChanged }
@@ -231,4 +231,4 @@ class Dochallenge extends Component{
   }
   //#endregion
 }
-export default Dochallenge
+export default DoChallenge

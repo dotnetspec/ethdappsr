@@ -1,7 +1,7 @@
 import { NavLink, withRouter } from 'react-router-dom'
 import { Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip } from 'react-bootstrap';
 import React, { Component } from 'react';
-import Dochallenge from './Dochallenge';
+import DoChallenge from './DoChallenge';
 import Search from './Search';
 import { limitLength, limitAddressLength } from '../utils';
 import Spinner from 'react-spinkit';
@@ -11,7 +11,7 @@ import imgAvatar from '../../img/avatar-default.png';
 /**
  * Class representing the header of the page that handles
  * commone functions such as navigation, searching of users,
- * link to create account, and modal to challenge
+ * link to create account, and modal to tweet
  *
  * @extends React.Component
  */
@@ -22,7 +22,7 @@ class Header extends Component {
     super(props, context);
 
     this.state = {
-      showModal: false,
+      showModal: true,
       showTooltip: false
     };
   }
@@ -30,14 +30,14 @@ class Header extends Component {
 
   //#region Component events
   /**
-   * Hides the challenge modal
+   * Hides the tweet modal
    */
   _handleClose() {
     this.setState({ showModal: false });
   }
 
   /**
-   * Shows the challenge modal
+   * Shows the tweet modal
    */
   _handleShow() {
     this.setState({ showModal: true });
@@ -177,18 +177,18 @@ class Header extends Component {
       <small className='balance'>{this._formatBalance(this.props.balance)}</small>
     </React.Fragment>;
 
-    // state for showing the challenge button and associated modal
-    states.challenge = <React.Fragment>
+    // state for showing the tweet button and associated modal
+    states.tweet = <React.Fragment>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
         Challenge
       </Button>
 
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
-          <Modal.Title>New challenge</Modal.Title>
+          <Modal.Title>New tweet</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Dochallenge username={username} onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
+          <DoChallenge username={username} onAfterChallenge={(e) => this._handleClose()}></DoChallenge>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
@@ -232,7 +232,7 @@ class Header extends Component {
                       </Dropdown.Menu>
                     </Dropdown>
                   </ButtonToolbar>
-                  {isEditable ? states.challenge : ''}
+                  {isEditable ? states.tweet : ''}
                 </React.Fragment>
             }
           </div>
