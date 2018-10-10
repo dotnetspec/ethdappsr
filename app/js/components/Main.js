@@ -31,7 +31,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route path='/' component={Home}/>
+          <Route exact path='/' component={Home}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
