@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, PageHeader, Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip } from 'react-bootstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { NavLink, withRouter } from 'react-router-dom'
 import Spinner from 'react-spinkit';
-import MyBootstrapTable from './MyBootstrapTable'
+import testData from "../../json/Rankings.json";
+import Chance from "chance"
+import Dochallenge from './Dochallenge'
+
 
 /**
  * Class representing the home page rendering
@@ -11,7 +15,35 @@ import MyBootstrapTable from './MyBootstrapTable'
  */
 
  //get data from JSON file
+ function getData(){
+   const data = testData.map(item => {
+     // using chancejs to generate guid
+     // shortid is probably better but seems to have performance issues
+     // on codesandbox.io
+     const _id = chance.guid();
+     return {
+       _id,
+       ...item
+     };
+   });
+   return data;
+ }
 
+ const selectRowProp = {
+   mode: 'radio',
+   selectedOpponentName: '',
+   clickToSelect: true,
+   unselectable: [0],
+   selected: [],
+   onSelect: onSelectRow,
+   bgColor: 'gold'
+ };
+
+ function onSelectRow(row, isSelected, e) {
+      if (isSelected) {
+        selectRowProp.selectedOpponentName = `${row['NAME']}`;
+      }
+    }
 
 
 class Home extends Component{
@@ -19,21 +51,49 @@ class Home extends Component{
   //#region Constructor
   constructor(props, context){
     super(props, context);
-    //console.log(props);
-    //const data = getData();
     this.state = {
-      showModal: false
-    //  data
-    };
-
+      showModal: false,
+      data: getData()
+    }
   }
-
   //#endregion
 
-  //#region React lifecycle events
+  /**
+   * Hides the challenge modal
+   */
+  _handleClose() {
+    this.setState({ showModal: false });
+  }
+
+  /**
+   * Shows the challenge modal
+   */
+  _handleShow() {
+    this.setState({ showModal: true });
+  }
+
   render() {
+
     return (
       <div>
+      <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
+        Challenge Selected Opponent
+      </Button>
+      <p></p>
+      <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Instructions</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        You challenged {selectRowProp.selectedOpponentName}
+          <Dochallenge selectedOpponentName={selectRowProp.selectedOpponentName}
+           onAfterchallenge={(e) => this._handleClose()}></Dochallenge>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={(e) => this._handleClose(e)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
         <Grid>
           <Row>
             <Col xs={12}>
@@ -45,7 +105,24 @@ class Home extends Component{
           </Row>
           <Row>
             <Col xs={12}>
-             <MyBootstrapTable />
+            <div>
+              <BootstrapTable data={this.state.data}
+                    selectRow={ selectRowProp }
+                  >
+                    <TableHeaderColumn isKey dataField='id'
+                    hidden>
+                      ID
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField='NAME'
+                    >
+                      Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField='RANK'
+                    >
+                      Rank
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                </div>
             </Col>
           </Row>
         </Grid>
