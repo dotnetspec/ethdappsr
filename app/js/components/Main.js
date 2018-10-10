@@ -27,12 +27,11 @@ class Main extends Component {
 
   //#region React lifecycle events
   render () {
-//const currentUser = {this.props.user};
 
     return (
       <main>
         <Switch>
-          <Route path='/' component={Home} {...this.props}/>
+          <Route path='/' component={Home}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
