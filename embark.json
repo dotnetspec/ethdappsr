@@ -1,22 +1,18 @@
 {
   "contracts": ["contracts/**"],
   "app": {
-	 "css/app.css": ["app/css/**"],
-	  "js/app.js": ["app/js/index.js"],
-	  "js/xml-doc-ops.js": ["app/js/xml-doc-ops.js"],
-	  "xml/individual_rankings_long.xml": ["app/xml/individual_rankings_long.xml"],
-	  "xml/individual_rankings.xml": ["app/xml/individual_rankings.xml"],
+    "css/app.css": ["app/css/**"],
     "images/": ["app/images/**"],
-    "index.html": "app/index.html"
+    "index.html": "app/index.html",
+    "js/app.js": ["app/js/dapp.js"]
   },
-
   "buildDir": "dist/",
   "config": "config/",
   "versions": {
-    "web3": "1.0.0-beta",
+    "web3": "1.0.0-beta.34",
     "solc": "0.4.24",
-    "ipfs-api": "17.2.4",
-    "p-iteration": "1.1.7"
+    "ipfs-api": "17.2.4"
+  },
+  "plugins": {
   }
-
 }
