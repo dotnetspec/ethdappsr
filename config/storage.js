@@ -5,23 +5,15 @@ module.exports = {
     provider: "ipfs",
     available_providers: ["ipfs"],
     upload: {
+      provider: "ipfs",
       host: "localhost",
-      port: 5001
+      port: 5001,
+      getUrl: "http://localhost:8080/ipfs/"
     },
     dappConnection: [
-      {
-        provider: "ipfs",
-        host: "localhost",
-        port: 5001,
-        getUrl: "http://localhost:8080/ipfs/"
-      }
+      {provider: "ipfs", host: "localhost", port: 5001, getUrl: "http://localhost:8080/ipfs/"},
+      {provider: "swarm", host: "localhost", port: 5001, getUrl: "http://localhost:8080/ipfs/"}
     ]
-    // Configuration to start Swarm in the same terminal as `embark run`
-    /*,account: {
-      address: "YOUR_ACCOUNT_ADDRESS", // Address of account accessing Swarm
-      password: "PATH/TO/PASSWORD/FILE" // File containing the password of the account
-    },
-    swarmPath: "PATH/TO/SWARM/EXECUTABLE" // Path to swarm executable (default: swarm)*/
   },
   development: {
     enabled: true,
@@ -32,4 +24,4 @@ module.exports = {
       getUrl: "http://localhost:8080/ipfs/"
     }
   }
-};
+}
