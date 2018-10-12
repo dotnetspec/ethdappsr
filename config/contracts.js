@@ -16,6 +16,7 @@ module.exports = {
     contracts: {
 
       DSportRank: {
+        address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
         args: [ ]
       }
     },
@@ -23,6 +24,19 @@ module.exports = {
     gasLimit: 9000000,
     gasPrice: 100
   },
+
+  // ...
+  development: {
+      contracts: {
+        DSportRank: {
+          address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900"
+                  }
+                },
+    gas: "auto",
+    gasLimit: 9000000,
+    gasPrice: 100
+  },
+
   testnet: {
     deployment:{
       // accounts: [
@@ -42,8 +56,8 @@ module.exports = {
         }
       ],
       contracts: {
-      
         DSportRank: {
+          address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
           args: [ ]
         }
       },
