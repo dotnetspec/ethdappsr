@@ -101,6 +101,7 @@ class Home extends Component{
               <PageHeader>
                 Decentralised SportRank <small>Built using Embark by Status</small>
                 <p></p>
+                Hi {this.state.user}
               </PageHeader>
             </Col>
           </Row>
