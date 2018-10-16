@@ -36,11 +36,12 @@ class UserPlayerJsonData extends Component {
       // details is all the object -> array data coming from the data prop sent from Home
         const { details } = this.props;
         //console.log(details.RANK);
-      return (
+          if (details.NAME === this.props.username)
+    {return (
         <div>
-         {details.RANK}
-         </div>
-      );
+          {details.RANK}
+       </div>);
+     }else{return (null);}
    }
 }
 
@@ -107,10 +108,10 @@ class Home extends Component{
               <PageHeader>
                 Decentralised SportRank <small>Built using Embark by Status</small>
                 <p></p>
-                Hi {this._findUserInJson(this.props.user)}
-                Your ranking is:
+                Hi {this._findUserInJson(this.props.user)}. 
+                Your current ranking is:
                 {Object.keys(githubData).map(key => (
-               <UserPlayerJsonData key={key} details={githubData[key]} />
+               <UserPlayerJsonData key={key} details={githubData[key]} username={this.props.user}/>
             ))}
               </PageHeader>
             </Col>
