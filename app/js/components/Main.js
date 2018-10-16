@@ -26,12 +26,15 @@ class Main extends Component {
   //#endregion
 
   //#region React lifecycle events
+  
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
+  //but need to pass the username and display it as a greeting and to link account with json data
+  //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
     return (
       <main>
         <Switch>
-          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} githubData={this.props.githubData}/>}/>
+          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>

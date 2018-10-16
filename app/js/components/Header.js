@@ -60,9 +60,14 @@ class Header extends Component {
     web3.eth.defaultAccount = e.target.attributes.value.value;
     this.props.onAfterUserUpdate();
     if (e.target.attributes.username.value) {
-      this.props.history.push('/update/@' + e.target.attributes.username.value);
+      //console.log(e.target.attributes.username.value);
+      //this.props.history.push('/update/@' + e.target.attributes.username.value);
+      //if there's already a username just return to home page
+      //TODO: Add an update user profile button
+      this.props.history.push('/');
     }
     else {
+      //create a new user
       this.props.history.push('/create');
     }
   }
@@ -195,13 +200,12 @@ class Header extends Component {
         </Modal.Footer>
       </Modal>
     </React.Fragment>;
-
-
+    
     return (
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">Sportrank <small>Fun and Support</small></NavLink>
+            <NavLink exact to="/">Sportrank <small>Decentralized Sport</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

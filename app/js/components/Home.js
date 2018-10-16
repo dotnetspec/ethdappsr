@@ -30,10 +30,11 @@ import DoChallenge from './DoChallenge'
       }
     }
 
+//REVIEW: Possibly unnecessary re-rendering
 class UserPlayerJsonData extends Component {
-
    render() {
       // details is all the object -> array data coming from the data prop sent from Home
+      //using the object.keys code
         const { details } = this.props;
         //console.log(details.RANK);
           if (details.NAME === this.props.username)
@@ -80,9 +81,9 @@ class Home extends Component{
   }
 
   render() {
-    const { githubData } = this.props;
+    const { rankingJSONdata } = this.props;
 
-//console.log(githubData);
+//console.log(rankingJSONdata);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
@@ -106,12 +107,10 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
               <PageHeader>
-                Decentralised SportRank <small>Built using Embark by Status</small>
-                <p></p>
-                Hi {this._findUserInJson(this.props.user)}. 
+                {this._findUserInJson(this.props.user)}.
                 Your current ranking is:
-                {Object.keys(githubData).map(key => (
-               <UserPlayerJsonData key={key} details={githubData[key]} username={this.props.user}/>
+                {Object.keys(rankingJSONdata).map(key => (
+               <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user}/>
             ))}
               </PageHeader>
             </Col>
@@ -119,7 +118,7 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
             <div>
-              <BootstrapTable data={this.props.githubData}
+              <BootstrapTable data={this.props.rankingJSONdata}
                     selectRow={ selectRowProp }
                   >
                     <TableHeaderColumn isKey dataField='id'

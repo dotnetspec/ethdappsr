@@ -8,7 +8,7 @@ import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import RankingsData from "../../json/Rankings.json";
 
-//get data from JSON file
+//get ranking data from JSON file
 function getData(){
   const data = RankingsData.map(item => {
     // using chancejs to generate guid
@@ -147,7 +147,7 @@ class App extends Component {
           error={this.state.error}
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
-          githubData={this.state.data}/>
+          rankingJSONdata={this.state.data}/>
       </div>
 
     );
