@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { NavLink, withRouter } from 'react-router-dom'
 import Spinner from 'react-spinkit';
-import testData from "../../json/Rankings.json";
+//import testData from "../../json/Rankings.json";
 import Chance from "chance"
 import DoChallenge from './DoChallenge'
 
@@ -16,19 +16,19 @@ import DoChallenge from './DoChallenge'
  */
 
  //get data from JSON file
- function getData(){
-   const data = testData.map(item => {
-     // using chancejs to generate guid
-     // shortid is probably better but seems to have performance issues
-     // on codesandbox.io
-     const _id = chance.guid();
-     return {
-       _id,
-       ...item
-     };
-   });
-   return data;
- }
+ // function getData(){
+ //   const data = testData.map(item => {
+ //     // using chancejs to generate guid
+ //     // shortid is probably better but seems to have performance issues
+ //     // on codesandbox.io
+ //     const _id = chance.guid();
+ //     return {
+ //       _id,
+ //       ...item
+ //     };
+ //   });
+ //   return data;
+ // }
 
  const selectRowProp = {
    mode: 'radio',
@@ -53,8 +53,8 @@ class Home extends Component{
   constructor(props, context){
     super(props, context);
     this.state = {
-      showModal: false,
-      data: getData()
+      showModal: false
+      //data: getData()
     }
   }
   //#endregion
@@ -71,6 +71,12 @@ class Home extends Component{
    */
   _handleShow() {
     this.setState({ showModal: true });
+  }
+
+  //find the user entry in the json return id, name and Rank
+  _findUserInJson(username){
+
+    return username;
   }
 
   render() {
@@ -99,14 +105,14 @@ class Home extends Component{
               <PageHeader>
                 Decentralised SportRank <small>Built using Embark by Status</small>
                 <p></p>
-                Hi {this.props.user}
+                Hi {this._findUserInJson(this.props.user)}
               </PageHeader>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
             <div>
-              <BootstrapTable data={this.state.data}
+              <BootstrapTable data={this.props.data}
                     selectRow={ selectRowProp }
                   >
                     <TableHeaderColumn isKey dataField='id'

@@ -31,7 +31,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} />}/>
+          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} data={this.props.data}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>

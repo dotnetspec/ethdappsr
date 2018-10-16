@@ -6,6 +6,22 @@ import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
+import testData from "../../json/Rankings.json";
+
+//get data from JSON file
+function getData(){
+  const data = testData.map(item => {
+    // using chancejs to generate guid
+    // shortid is probably better but seems to have performance issues
+    // on codesandbox.io
+    const _id = chance.guid();
+    return {
+      _id,
+      ...item
+    };
+  });
+  return data;
+}
 
 
 /**
@@ -27,7 +43,8 @@ class App extends Component {
       account: '',
       error: {},
       userAccounts: [],
-      balance: 0
+      balance: 0,
+      data: getData()
     }
   }
   //#endregion
@@ -130,7 +147,8 @@ class App extends Component {
           userAccounts={this.state.userAccounts}
           error={this.state.error}
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
-          onError={(err, source) => this._onError(err, source)} />
+          onError={(err, source) => this._onError(err, source)}
+          data={this.state.data}/>
       </div>
 
     );
