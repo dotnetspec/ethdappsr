@@ -6,11 +6,11 @@ import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-import testData from "../../json/Rankings.json";
+import RankingsData from "../../json/Rankings.json";
 
 //get data from JSON file
 function getData(){
-  const data = testData.map(item => {
+  const data = RankingsData.map(item => {
     // using chancejs to generate guid
     // shortid is probably better but seems to have performance issues
     // on codesandbox.io
@@ -130,7 +130,6 @@ class App extends Component {
   }
 
   render() {
-    //console.log(this.state.user);
     return (
       <div>
         <Header
@@ -148,7 +147,7 @@ class App extends Component {
           error={this.state.error}
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
-          data={this.state.data}/>
+          githubData={this.state.data}/>
       </div>
 
     );

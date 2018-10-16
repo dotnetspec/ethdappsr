@@ -4,7 +4,6 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { NavLink, withRouter } from 'react-router-dom'
 import Spinner from 'react-spinkit';
-//import testData from "../../json/Rankings.json";
 import Chance from "chance"
 import DoChallenge from './DoChallenge'
 
@@ -14,21 +13,6 @@ import DoChallenge from './DoChallenge'
  *
  * @extends React.Component
  */
-
- //get data from JSON file
- // function getData(){
- //   const data = testData.map(item => {
- //     // using chancejs to generate guid
- //     // shortid is probably better but seems to have performance issues
- //     // on codesandbox.io
- //     const _id = chance.guid();
- //     return {
- //       _id,
- //       ...item
- //     };
- //   });
- //   return data;
- // }
 
  const selectRowProp = {
    mode: 'radio',
@@ -46,6 +30,20 @@ import DoChallenge from './DoChallenge'
       }
     }
 
+class UserPlayerJsonData extends Component {
+
+   render() {
+      // details is all the object -> array data coming from the data prop sent from Home
+        const { details } = this.props;
+        //console.log(details.RANK);
+      return (
+        <div>
+         {details.RANK}
+         </div>
+      );
+   }
+}
+
 
 class Home extends Component{
 
@@ -54,7 +52,6 @@ class Home extends Component{
     super(props, context);
     this.state = {
       showModal: false
-      //data: getData()
     }
   }
   //#endregion
@@ -75,11 +72,16 @@ class Home extends Component{
 
   //find the user entry in the json return id, name and Rank
   _findUserInJson(username){
-
+    // Object.keys(PlayerData).map(key => (
+    //     <Issue key={key} details={PlayerData[key]} />
+    //   ))
     return username;
   }
 
   render() {
+    const { githubData } = this.props;
+
+//console.log(githubData);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
@@ -106,13 +108,17 @@ class Home extends Component{
                 Decentralised SportRank <small>Built using Embark by Status</small>
                 <p></p>
                 Hi {this._findUserInJson(this.props.user)}
+                Your ranking is:
+                {Object.keys(githubData).map(key => (
+               <UserPlayerJsonData key={key} details={githubData[key]} />
+            ))}
               </PageHeader>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
             <div>
-              <BootstrapTable data={this.props.data}
+              <BootstrapTable data={this.props.githubData}
                     selectRow={ selectRowProp }
                   >
                     <TableHeaderColumn isKey dataField='id'

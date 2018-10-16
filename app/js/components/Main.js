@@ -26,12 +26,12 @@ class Main extends Component {
   //#endregion
 
   //#region React lifecycle events
-  //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing username prop
+  //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   render () {
     return (
       <main>
         <Switch>
-          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} data={this.props.data}/>}/>
+          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} githubData={this.props.githubData}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
