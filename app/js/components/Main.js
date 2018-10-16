@@ -27,11 +27,14 @@ class Main extends Component {
 
   //#region React lifecycle events
   render () {
-
+//var allProfiles = this.props.items.map(function(Main){
+// let userprops = this.props.user[1];
+// console.log(userprops);
+// const user = "Phil";
     return (
       <main>
         <Switch>
-          <Route exact path='/' component={Home}/>
+          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} />}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>

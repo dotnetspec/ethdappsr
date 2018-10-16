@@ -55,6 +55,8 @@ class Home extends Component{
     this.state = {
       showModal: false,
       data: getData()
+      // ,
+      // user: this.props.user
     }
   }
   //#endregion
@@ -74,7 +76,7 @@ class Home extends Component{
   }
 
   render() {
-
+//console.log(this.props.user);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
@@ -101,7 +103,7 @@ class Home extends Component{
               <PageHeader>
                 Decentralised SportRank <small>Built using Embark by Status</small>
                 <p></p>
-                Hi {this.state.user}
+                Hi {this.props.user}
               </PageHeader>
             </Col>
           </Row>

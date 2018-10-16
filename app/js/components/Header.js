@@ -22,7 +22,7 @@ class Header extends Component {
     super(props, context);
 
     this.state = {
-      showModal: true,
+      showModal: false,
       showTooltip: false
     };
   }
