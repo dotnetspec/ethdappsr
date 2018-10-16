@@ -55,8 +55,6 @@ class Home extends Component{
     this.state = {
       showModal: false,
       data: getData()
-      // ,
-      // user: this.props.user
     }
   }
   //#endregion
@@ -76,7 +74,6 @@ class Home extends Component{
   }
 
   render() {
-//console.log(this.props.user);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
@@ -96,7 +93,6 @@ class Home extends Component{
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
         </Modal.Footer>
       </Modal>
-
         <Grid>
           <Row>
             <Col xs={12}>

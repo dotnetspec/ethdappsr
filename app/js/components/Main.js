@@ -26,11 +26,8 @@ class Main extends Component {
   //#endregion
 
   //#region React lifecycle events
+  //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing username prop
   render () {
-//var allProfiles = this.props.items.map(function(Main){
-// let userprops = this.props.user[1];
-// console.log(userprops);
-// const user = "Phil";
     return (
       <main>
         <Switch>
