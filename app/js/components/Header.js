@@ -42,14 +42,8 @@ class Header extends Component {
    pass e to 'handleShow' (which will become handleUpdateProfile)
    onSelect={(key, e) => this._handleAcctChange(e, key)}
    */
-  _handleShow(username) {
-    //if (e.target.attributes.username.value) {
+  _handleUpdateProfile(username) {
     if(username != null){
-      //var username = userAccount.user.username;
-      //console.log(e.target.attributes.username.value);
-      //this.props.history.push('/update/@' + e.target.attributes.username.value);
-      //if there's already a username just return to home page
-      //TODO: Add an update user profile button
       // redirect user to the profile update page
       this.props.history.push('/update/@' + username);
     }
@@ -178,7 +172,7 @@ class Header extends Component {
       <Overlay {...tooltipProps} placement="bottom">
         <Tooltip id="overload-bottom">{this.props.account}</Tooltip>
       </Overlay>
-    </React.Fragment>;associated
+    </React.Fragment>;
 
     // state when our account has loaded, and it was determined that the
     // account (address) has been mapped to an owner/user in the contract
@@ -205,7 +199,7 @@ class Header extends Component {
 
     states.tweet = <React.Fragment>
 
-      <Button bsStyle="primary" onClick={(e) => this._handleShow(this.props.user[1])}>
+      <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
       </Button>
 
