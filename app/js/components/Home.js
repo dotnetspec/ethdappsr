@@ -112,6 +112,7 @@ class Home extends Component{
                 {Object.keys(rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user}/>
             ))}
+            <small>Select an opponent to challenge</small>
               </PageHeader>
             </Col>
           </Row>

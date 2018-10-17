@@ -188,7 +188,7 @@ class CreateUser extends Component {
                 type="text"
                 value={ this.state.username }
                 disabled={ isLoading }
-                placeholder="germany2018champs"
+                placeholder="Relevant info e.g. your current grade"
                 onKeyPress={ (e) => e.key === '@' || e.key === ' ' ? e.preventDefault() : true }
                 onChange={ (e) => this._handleChange(e) }
                 name="username"

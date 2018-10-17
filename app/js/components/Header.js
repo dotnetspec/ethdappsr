@@ -37,10 +37,26 @@ class Header extends Component {
   }
 
   /**
-   * Shows the tweet modal
+   * Switches to userupdate page
+   TODO: Need something like below from menuItem so can
+   pass e to 'handleShow' (which will become handleUpdateProfile)
+   onSelect={(key, e) => this._handleAcctChange(e, key)}
    */
-  _handleShow() {
-    this.setState({ showModal: true });
+  _handleShow(username) {
+    //if (e.target.attributes.username.value) {
+    if(username != null){
+      //var username = userAccount.user.username;
+      //console.log(e.target.attributes.username.value);
+      //this.props.history.push('/update/@' + e.target.attributes.username.value);
+      //if there's already a username just return to home page
+      //TODO: Add an update user profile button
+      // redirect user to the profile update page
+      this.props.history.push('/update/@' + username);
+    }
+    else {
+      //create a new user
+      this.props.history.push('/create');
+    }
   }
 
   /**
@@ -60,10 +76,9 @@ class Header extends Component {
     web3.eth.defaultAccount = e.target.attributes.value.value;
     this.props.onAfterUserUpdate();
     if (e.target.attributes.username.value) {
-      //console.log(e.target.attributes.username.value);
+      //this used to be:
       //this.props.history.push('/update/@' + e.target.attributes.username.value);
       //if there's already a username just return to home page
-      //TODO: Add an update user profile button
       this.props.history.push('/');
     }
     else {
@@ -163,7 +178,7 @@ class Header extends Component {
       <Overlay {...tooltipProps} placement="bottom">
         <Tooltip id="overload-bottom">{this.props.account}</Tooltip>
       </Overlay>
-    </React.Fragment>;
+    </React.Fragment>;associated
 
     // state when our account has loaded, and it was determined that the
     // account (address) has been mapped to an owner/user in the contract
@@ -182,10 +197,16 @@ class Header extends Component {
       <small className='balance'>{this._formatBalance(this.props.balance)}</small>
     </React.Fragment>;
 
-    // state for showing the tweet button and associated modal
+    // state for showing the update profile button and challenge button modal
+    //REVIEW: this used to be the tweet button and assoc Modal
+    //potentially confusing - may need to move the code around so that relevant functionality
+    //in same place
+    //TODO: change to states.challenge
+
     states.tweet = <React.Fragment>
-      <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
-        Challenge
+
+      <Button bsStyle="primary" onClick={(e) => this._handleShow(this.props.user[1])}>
+        Update Profile
       </Button>
 
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
@@ -200,7 +221,7 @@ class Header extends Component {
         </Modal.Footer>
       </Modal>
     </React.Fragment>;
-    
+
     return (
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
