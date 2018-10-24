@@ -1,4 +1,4 @@
- {"Players":[
+ ["Players":[
       {
         "id":1,
         "NAME": "mrphilip",
@@ -35,4 +35,4 @@
         "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166"
       }
 ]
-}
+]
