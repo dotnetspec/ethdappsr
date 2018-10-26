@@ -81,9 +81,6 @@ class Home extends Component{
   }
 
   render() {
-    const { rankingJSONdata } = this.props;
-
-console.log(rankingJSONdata);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
@@ -107,10 +104,10 @@ console.log(rankingJSONdata);
           <Row>
             <Col xs={12}>
               <PageHeader>
-                {this._findUserInJson(this.props.user)}.
+                {this.props.user}<p></p>
                 Your current ranking is:
-                {Object.keys(rankingJSONdata).map(key => (
-               <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user}/>
+                {Object.keys(this.props.rankingJSONdata).map(key => (
+               <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}
             <small>Select an opponent to challenge</small>
               </PageHeader>
