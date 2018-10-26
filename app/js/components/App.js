@@ -6,22 +6,6 @@ import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-import RankingsData from "../../json/Rankings.json";
-
-//get ranking data from JSON file
-function getData(){
-  const data = RankingsData.map(item => {
-    // using chancejs to generate guid
-    // shortid is probably better but seems to have performance issues
-    // on codesandbox.io
-    const _id = chance.guid();
-    return {
-      _id,
-      ...item
-    };
-  });
-  return data;
-}
 
 
 /**
@@ -44,7 +28,7 @@ class App extends Component {
       error: {},
       userAccounts: [],
       balance: 0,
-      data: getData()
+      data: []
     }
   }
   //#endregion
@@ -66,6 +50,23 @@ class App extends Component {
 
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
+
+      await fetch('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          //isLoading: false,
+          data: responseJson,
+        }, function(){
+
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      console.log(this.state.data)
 
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown

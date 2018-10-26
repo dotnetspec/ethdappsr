@@ -83,7 +83,7 @@ class Home extends Component{
   render() {
     const { rankingJSONdata } = this.props;
 
-//console.log(rankingJSONdata);
+console.log(rankingJSONdata);
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
