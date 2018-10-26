@@ -30,6 +30,7 @@ class App extends Component {
       balance: 0,
       data: []
     }
+    this._loadsetJSONData();
   }
   //#endregion
 
@@ -46,27 +47,32 @@ class App extends Component {
    *
    * @returns {null}
    */
+
+_loadsetJSONData(){
+
+  fetch('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
+  .then((response) => response.json())
+  .then((responseJson) => {
+    this.setState({
+      //isLoading: false,
+      data: responseJson,
+    }, function(){
+
+    });
+
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+
   _loadCurrentUserAccounts = async () => {
 
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
 
-      await fetch('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          //isLoading: false,
-          data: responseJson,
-        }, function(){
-
-        });
-
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-      console.log(this.state.data)
+      //await _loadsetJSONData();
 
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown
