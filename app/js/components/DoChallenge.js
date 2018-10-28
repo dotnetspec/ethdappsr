@@ -11,31 +11,7 @@ import Spinner from 'react-spinkit';
  *
  * @extends React.Component
  */
- //get data from JSON file
-     function getData(){
-       const data = testData.map(item => {
-         // using chancejs to generate guid
-         // shortid is probably better but seems to have performance issues
-         // on codesandbox.io
-         const _id = chance.guid();
-         return {
-           _id,
-           ...item
-         };
-       });
-       return data;
-     }
-
-
-     function getOpponentDetails(){
-       var opponentDetails = "Bob 0xD1B15d00dc4E025C1138ec659d8C019dCD8671B80xD1B15d00dc4E025C1138ec659d8C019dCD8671B8";
-       return opponentDetails;
-     }
-
-
-
-
-
+ 
 class DoChallenge extends Component{
 
   //#region Constructor
