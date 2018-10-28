@@ -6,6 +6,8 @@ import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
+import axios from 'axios'
+import jsonData from '../../json/Rankings.json'
 
 
 /**
@@ -28,9 +30,10 @@ class App extends Component {
       error: {},
       userAccounts: [],
       balance: 0,
-      data: []
+      //data: []
+      data: jsonData
     }
-    this._loadsetJSONData();
+    //this._loadsetJSONData();
   }
   //#endregion
 
@@ -51,6 +54,9 @@ class App extends Component {
 _loadsetJSONData(){
 
   fetch('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
+  //axios.get('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
+  //TODO: get it working with ipfs/swarm
+  //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
   .then((response) => response.json())
   .then((responseJson) => {
     this.setState({
@@ -71,8 +77,6 @@ _loadsetJSONData(){
 
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
-
-      //await _loadsetJSONData();
 
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown

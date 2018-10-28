@@ -42,8 +42,6 @@ class DoChallenge extends Component{
   constructor(props, context) {
     super(props, context);
 
-    //const data = getData();
-    //data should have been passed from MyBootstrapTable.js
     const data = this.props.data;
     const { username, account, onAfterchallenge } = this.props;
     // initial state
@@ -61,51 +59,6 @@ class DoChallenge extends Component{
     this.challengeInput = null;
   }
   //#endregion
-
-  ChallengeOpponent(selectionID){
-    var challengedOpponent = this.getUserNameFrom_id(selectionID) + selectionID;
-    return challengedOpponent;
-  }
-
-
-  getUserNameFrom_id(_idnumber){
-
-    var playerName = "No name/account match";
-    //get data from JSON file
-    //map data and retreive corresponding name
-    //this.data = this.data.bind(this);
-
-    this.state.data.map((data) =>{
-      //if(data._Id === _idnumber){
-      if("2bbfa3c9-6ab2-5c35-92bc-5b09056eafe5" === _idnumber){
-        console.log(data.NAME);
-        playerName = data.NAME;
-      }
-        else{
-        console.log("No name/account match");
-        }
-   })
-    return playerName;
-  }
-
-  getUserNameFromAccount() {
-    const usernames = [];
-    const sample = this.state.data[0];
-    //JSON.stringify(sample);
-    //console.log(sample);
-    Object.keys(sample).forEach(key => {
-      if (key !== "_id") {
-        usernames.push({
-          accessor: key,
-          Name: key
-        });
-      }
-    });
-    //console.log(usernames);
-    return usernames;
-  }
-
-
 
   //#region Component events
   /**
@@ -183,7 +136,8 @@ class DoChallenge extends Component{
 
   render(){
 
-    const userAccountNo = web3.eth.defaultAccount;
+    //const userAccountNo = web3.eth.defaultAccount;
+
     let states = {};
     // state when we are waiting for the App component to finish loading
     // the current account (address) from web3.eth.getAccounts()

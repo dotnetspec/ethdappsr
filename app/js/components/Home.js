@@ -131,6 +131,11 @@ class Home extends Component{
                     >
                       Rank
                     </TableHeaderColumn>
+                    <TableHeaderColumn dataField='CURRENTCHALLENGERID'
+                    >
+                      Current Challenger
+                    </TableHeaderColumn>
+
                   </BootstrapTable>
                 </div>
             </Col>
