@@ -6,6 +6,7 @@ import { NavLink, withRouter } from 'react-router-dom'
 import Spinner from 'react-spinkit';
 import Chance from "chance"
 import DoChallenge from './DoChallenge'
+import EnterResult from './EnterResult'
 
 
 /**
@@ -92,9 +93,21 @@ class Home extends Component{
           <Modal.Title>Instructions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        You challenged {selectRowProp.selectedOpponentName}
-          <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
-           onAfterchallenge={(e) => this._handleClose()}></DoChallenge>
+        You selected {selectRowProp.selectedOpponentName}
+        <p></p>
+        Would you like to challenge {selectRowProp.selectedOpponentName}?
+        <ul>
+          <li>
+            <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
+             onAfterchallenge={(e) => this._handleClose()}></DoChallenge>
+           </li>
+           <li>
+              Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
+
+              <EnterResult selectedOpponentName={selectRowProp.selectedOpponentName}
+               onAfterchallenge={(e) => this._handleClose()}></EnterResult>
+           </li>
+        </ul>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
