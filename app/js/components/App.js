@@ -7,7 +7,33 @@ import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import axios from 'axios'
-import jsonData from '../../json/Rankings.json'
+//import jsonData from '../../json/Rankings.json'
+
+//REVIEW: Global variable
+//currently only assigned when click challenge... button
+ let currentUserRank = 0;
+
+ //REVIEW: Possibly unnecessary re-rendering
+ //only used to get the player rank
+// class UserPlayerJsonData extends Component {
+//    render() {
+//       // details is all the object -> array data coming from the data prop sent from Home
+//       //using the object.keys code
+//         const { details } = this.props;
+//         //console.log(details.RANK);
+//           if (details.NAME === this.props.username)
+//     {
+//       console.log(details.RANK);
+//       currentUserRank = details.RANK;
+//
+//       return (
+//         <div>
+//           {details.RANK}
+//        </div>);
+//      }else{return (null)
+//        ;}
+//    }
+// }
 
 
 /**
@@ -30,30 +56,24 @@ class App extends Component {
       error: {},
       userAccounts: [],
       balance: 0,
-      //data: []
-      data: jsonData
+      data: [],
+      //data: jsonData,
+      rank: '0'
     }
-    //this._loadsetJSONData();
+    this._loadsetJSONData();
+    //this._getUserRank();
+    //this._simplefunct();
   }
   //#endregion
 
   //#region Helper methods
-  /**
-   * Loads user details from the contract for all accounts on the node.
-   *
-   * For each account on the node, first, the owners mapping is queried using the
-   * owner address key. It returns the hash of the username it maps to. This
-   * username hash is then used to query the users mapping in the contract to
-   * get the details of the user. Once the user details are returned, the state
-   * is updated with the details, which triggers a render in this component and
-   * all child components.
-   *
-   * @returns {null}
-   */
+
 
 _loadsetJSONData(){
 
-  fetch('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
+  //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+  //JSON data can and should be in ANY order
+  fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/6')
   //axios.get('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
   //TODO: get it working with ipfs/swarm
   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
@@ -62,8 +82,9 @@ _loadsetJSONData(){
     this.setState({
       //isLoading: false,
       data: responseJson,
-    }, function(){
 
+    }, function(){
+//console.log(responseJson);
     });
 
   })
@@ -72,6 +93,46 @@ _loadsetJSONData(){
   });
 }
 
+// {Object.keys(this.props.rankingJSONdata).map(key => (
+// <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
+// ))}
+// _simplefunct(){
+// //const jsondata = this.state.data;
+// const user = this.state.user;
+//   console.log(this.state.user);
+// }
+
+
+//REVIEW: Possible to getUserRank in App.js (and set state) rather than Home.js?
+//currently no - problem is waiting for username to check against rank
+// _getUserRank(){
+//   const jsondata = this.state.data;
+// //  const username = this.state.user;
+//   console.log(jsondata);
+//   console.log(this.state.user);
+//   var arr = [];
+//   Object.keys(jsondata).forEach(function(key) {
+//     //console.log(key);
+//     if (jsondata[key].NAME === this.state.user){
+//      arr.push(jsondata[key]);
+//     }
+//    });
+//    console.log(arr[0].RANK);
+//    return arr[0].RANK;
+// }
+
+/**
+ * Loads user details from the contract for all accounts on the node.
+ *
+ * For each account on the node, first, the owners mapping is queried using the
+ * owner address key. It returns the hash of the username it maps to. This
+ * username hash is then used to query the users mapping in the contract to
+ * get the details of the user. Once the user details are returned, the state
+ * is updated with the details, which triggers a render in this component and
+ * all child components.
+ *
+ * @returns {null}
+ */
 
   _loadCurrentUserAccounts = async () => {
 
@@ -92,6 +153,9 @@ _loadsetJSONData(){
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
+          //get the user's ranking
+          //const userRank = await this._getUserRank(user);
+
           // update user picture with ipfs url
           user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
 
@@ -111,6 +175,8 @@ _loadsetJSONData(){
         const defaultUserAccount = userAccounts.find((userAccount) => {
           return userAccount.address === web3.eth.defaultAccount;
         });
+
+        //const userrank = await this._getUserRank();
 
         this.setState({
           userAccounts: userAccounts,
@@ -141,6 +207,7 @@ _loadsetJSONData(){
   }
 
   render() {
+    //this._getUserRank();
     return (
       <div>
         <Header
@@ -158,7 +225,8 @@ _loadsetJSONData(){
           error={this.state.error}
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
-          rankingJSONdata={this.state.data}/>
+          rankingJSONdata={this.state.data}
+          />
       </div>
 
     );

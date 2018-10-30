@@ -9,11 +9,11 @@ import DoChallenge from './DoChallenge'
 import EnterResult from './EnterResult'
 
 
-/**
- * Class representing the home page rendering
- *
- * @extends React.Component
- */
+
+//REVIEW: Global variable
+//currently only assigned when click challenge... button
+ let currentUserRank = 0;
+ let opponentUserRank = 0;
 
  const selectRowProp = {
    mode: 'radio',
@@ -22,14 +22,20 @@ import EnterResult from './EnterResult'
    unselectable: [0],
    selected: [],
    onSelect: onSelectRow,
-   bgColor: 'gold'
+   bgColor: 'gold',
+   selectedOpponentRank: ''
  };
 
  function onSelectRow(row, isSelected, e) {
       if (isSelected) {
         selectRowProp.selectedOpponentName = `${row['NAME']}`;
+        selectRowProp.selectedOpponentRank = `${row['RANK']}`;
       }
     }
+
+
+
+
 
 //REVIEW: Possibly unnecessary re-rendering
 class UserPlayerJsonData extends Component {
@@ -39,22 +45,32 @@ class UserPlayerJsonData extends Component {
         const { details } = this.props;
         //console.log(details.RANK);
           if (details.NAME === this.props.username)
-    {return (
+    {
+      //console.log(details.RANK);
+      currentUserRank = details.RANK;
+
+      return (
         <div>
           {details.RANK}
        </div>);
-     }else{return (null);}
+     }else{return (null)
+       ;}
    }
 }
 
-
+/**
+ * Class representing the home page rendering
+ *
+ * @extends React.Component
+ */
 class Home extends Component{
 
   //#region Constructor
   constructor(props, context){
     super(props, context);
     this.state = {
-      showModal: false
+      showModal: false,
+      warningText: ''
     }
   }
   //#endregion
@@ -70,22 +86,57 @@ class Home extends Component{
    * Shows the challenge modal
    */
   _handleShow() {
+    //render(){
+    if(selectRowProp.selectedOpponentName != this.props.user){
     this.setState({ showModal: true });
-  }
+  }else{
+    console.log('try');
+      this.setState({ warningText: ' You cannot challenge yourself!' });
+      return (
+      <div>
+       You can't challenge yourself!
+      </div>
+    );
+    }
+  //}
+}
 
   //find the user entry in the json return id, name and Rank
-  _findUserInJson(username){
-    // Object.keys(PlayerData).map(key => (
-    //     <Issue key={key} details={PlayerData[key]} />
-    //   ))
-    return username;
-  }
+  // _findUserInJson(username){
+  //   // Object.keys(PlayerData).map(key => (
+  //   //     <Issue key={key} details={PlayerData[key]} />
+  //   //   ))
+  //   return username;
+  // }
+
+//   Your current ranking is:
+//   {Object.keys(this.props.rankingJSONdata).map(key => (
+//  <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
+// ))}
+
+  // _getUserRank(){
+  //   const jsondata = this.state.data;
+  // //  const username = this.state.user;
+  //   //console.log(username);
+  //   var arr = [];
+  //   //Object.keys(jsondata).forEach(function(key) {
+  //     Object.keys(this.props.rankingJSONdata).map(key => {
+  //     console.log(this.props.rankingJSONdata[key].NAME);
+  //     console.log(this.props.user);
+  //
+  //     if (this.props.rankingJSONdata[key].NAME === this.props.user){
+  //      arr.push(this.props.rankingJSONdata[key]);
+  //     }
+  //   });
+  //    console.log(arr[0].RANK);
+  //    //return arr[0].RANK;
+  // }
 
   render() {
     return (
       <div>
       <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
-        Challenge Selected Opponent
+        Challenge/Enter Result vs Selected Opponent
       </Button>
       <p></p>
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
@@ -95,7 +146,8 @@ class Home extends Component{
         <Modal.Body>
         You selected {selectRowProp.selectedOpponentName}
         <p></p>
-        Would you like to challenge {selectRowProp.selectedOpponentName}?
+        Would you like to challenge {selectRowProp.selectedOpponentName}
+        who is ranked {selectRowProp.selectedOpponentRank}?
         <ul>
           <li>
             <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
@@ -117,6 +169,7 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
               <PageHeader>
+              {this.state.warningText}<p></p>
                 {this.props.user}<p></p>
                 Your current ranking is:
                 {Object.keys(this.props.rankingJSONdata).map(key => (

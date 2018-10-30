@@ -24,6 +24,7 @@ class EnterResult extends Component{
 
     //REVIEW: to see the selectedOption change in console had to use an auxilary variabe
     //https://stackoverflow.com/questions/34974775/react-js-setstate-is-late-on-last-input
+    //much of this code is redundant pertaining to the original app DoTweet functionality only
     this.selectedOption = "";
     // initial state
     this.state = {
@@ -51,6 +52,8 @@ class EnterResult extends Component{
    *
    * @returns {null}
    */
+
+   //REVIEW: _handleClick can probably be removed from this component
   _handleClick = async (e) => {
 
     // do not post challenge if there is a form error or user has not typed anything
@@ -62,15 +65,16 @@ class EnterResult extends Component{
     this.setState({ isLoading: true });
 
 
-    const challenge = DSportRank.methods.challenge(this.state.challenge);
+    //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
+      console.log('clicked');
       // estimate gas before sending challenge transaction
-      const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+      //const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
 
       // send the challenge transaction plus a little extra gas in case the contract state
       // has changed since we've done our gas estimate
-      await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+      //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
 
       // remove loading state
       this.setState({ isLoading: false });
@@ -91,7 +95,7 @@ class EnterResult extends Component{
    *
    * @return {null}
    */
-  
+
   //#endregion
 
   //#region Helper methods
@@ -123,6 +127,8 @@ class EnterResult extends Component{
       console.log(this.selectedOption);
   }
 
+
+
   render(){
     let states = {};
     // state when we are waiting for the App component to finish loading
@@ -153,7 +159,7 @@ class EnterResult extends Component{
           bsStyle="primary"
           disabled={ !isValid || Boolean(error) || !resultHasChanged }
           onClick={ (!isValid || Boolean(error) || !resultHasChanged) ? null : (e) => this._handleClick(e) }
-        >{isLoading ? 'Loading...' : 'Post challenge'}</Button>
+        >{isLoading ? 'Loading...' : 'Post Result'}</Button>
         <FormGroup
           controlId="formBasicText"
           validationState={ validationState }
