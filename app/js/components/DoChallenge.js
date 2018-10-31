@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Grid, Row, Col, PageHeader, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip, Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import testData from "../../json/Rankings.json";
+//import testData from "../../json/Rankings.json";
 import React, { Component } from 'react';
 import FieldGroup from './FieldGroup';
 import Spinner from 'react-spinkit';
@@ -11,7 +11,7 @@ import Spinner from 'react-spinkit';
  *
  * @extends React.Component
  */
- 
+
 class DoChallenge extends Component{
 
   //#region Constructor
@@ -29,7 +29,8 @@ class DoChallenge extends Component{
       selectedOpponentName: "",
       challengeHasChanged: false,
       isLoading: false,
-      error: ''
+      error: '',
+      selectedChallengeOption: 'No'
     };
 
     this.challengeInput = null;
@@ -110,6 +111,16 @@ class DoChallenge extends Component{
     if(this.challengeInput) this.challengeInput.focus();
   }
 
+//TODO: get this working from the challenge button not the radio buttons
+  setResult(e) {
+    this.setState({ selectedChallengeOption: e.target.value });
+    this.selectedChallengeOption = e.target.value;
+    //console.log(`state: ${this.selectedOption}, value: ${e.target.value}`);
+    //REVIEW: to work with this value need to use this.selectedOption
+    //and not this.state.selectedOption
+      console.log(this.selectedChallengeOption);
+  }
+
   render(){
 
     //const userAccountNo = web3.eth.defaultAccount;
@@ -127,11 +138,18 @@ class DoChallenge extends Component{
     const isValid = validationState !== 'error';
     const { isLoading, error, challenge, challengeHasChanged } = this.state;
 
-    let feedback = !isValid ? 'challenge must be 140 characters or less' : '';
+    let feedback = !isValid ? 'challenge details must be 140 characters or less' : '';
     if(this.state.error) feedback = error;
 
 
     return (
+      <>
+      <div onChange={event => this.setResult(event)}>
+              <input type="radio" value="yes" name="Challenge"/> Yes
+              <input type="radio" value="no" name="Challenge"/> No
+      </div>
+      Please write contact details and suggested court location(s)/time(s)/date(s) below:
+      <p></p>
       <form>
         <FieldGroup
           type="text"
@@ -157,6 +175,7 @@ class DoChallenge extends Component{
           <HelpBlock>{ feedback }</HelpBlock>
         </FormGroup>
       </form>
+      </>
     );
   }
   //#endregion

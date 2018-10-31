@@ -146,20 +146,21 @@ class Home extends Component{
         <Modal.Body>
         You selected {selectRowProp.selectedOpponentName}
         <p></p>
-        Would you like to challenge {selectRowProp.selectedOpponentName}
-        who is ranked {selectRowProp.selectedOpponentRank}?
-        <ul>
-          <li>
-            <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
-             onAfterchallenge={(e) => this._handleClose()}></DoChallenge>
-           </li>
-           <li>
+        Would you like to challenge {selectRowProp.selectedOpponentName}<p></p>
+         who is ranked {selectRowProp.selectedOpponentRank}?<p></p>
+         <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
+          onAfterchallenge={(e) => this._handleClose()}></DoChallenge>
+
               Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
 
-              <EnterResult selectedOpponentName={selectRowProp.selectedOpponentName}
-               onAfterchallenge={(e) => this._handleClose()}></EnterResult>
-           </li>
-        </ul>
+              <EnterResult
+              data={this.props.rankingJSONdata}
+              selectedOpponentRank={selectRowProp.selectedOpponentRank}
+              currentUserRank={currentUserRank}
+              user={this.props.user}
+              selectedOpponentName={selectRowProp.selectedOpponentName}
+              onAfterchallenge={(e) => this._handleClose()}></EnterResult>
+
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
