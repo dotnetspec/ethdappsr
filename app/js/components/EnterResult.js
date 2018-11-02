@@ -22,6 +22,24 @@ class EnterResult extends Component{
     //REVIEW: How is this line below supposed to work?
     const { username, account, onAfterchallenge } = this.props;
 
+    // var jsonObj = [{'Id':'1','Username':'Ray','FatherName':'Thompson'},
+    //        {'Id':'2','Username':'Steve','FatherName':'Johnson'},
+    //        {'Id':'3','Username':'Albert','FatherName':'Einstein'}];
+
+
+
+    let update = {
+      //jsonRS: jsonObj,
+      jsonRS: data,
+      lookupField: "id",
+      lookupKey: 2,
+      targetField: "RANK",
+      targetData: "5",
+      checkAllRows: false
+      };
+
+      this.setVal(update);
+
 
     //REVIEW: to see the selectedOption change in console had to use an auxilary variabe
     //https://stackoverflow.com/questions/34974775/react-js-setstate-is-late-on-last-input
@@ -43,6 +61,31 @@ class EnterResult extends Component{
     this.challengeInput = null;
   }
   //#endregion
+
+  setVal(update) {
+    /* Included to show an option if you care to use jQuery
+    var defaults = { jsonRS: null, lookupField: null, lookupKey: null,
+        targetField: null, targetData: null, checkAllRows: false };
+    //update = $.extend({}, defaults, update); */
+
+    console.log(update);
+
+    for (var i = 0; i < update.jsonRS.length; i++) {
+      console.log(typeof(update.jsonRS[i][update.lookupField]));
+      console.log(typeof(update.lookupKey));
+        if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
+          console.log('here1');
+
+            update.jsonRS[i][update.targetField] = update.targetData;
+            console.log(update.jsonRS[i][update.targetField]);
+            console.log(update.jsonRS);
+            this._sendJSONData(update.jsonRS);
+            if (!update.checkAllRows) { return; }
+        }
+    }
+
+
+}
 
 _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
 
@@ -73,12 +116,12 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
       //console.log('clicked ' + this.selectedOption);
       const data = this.props.data;
 
-        console.log(data);
-
-      console.log('opponent ' + selectedOpponent);
-      console.log('username ' + currentUser);
-      console.log('currentUserRank ' + currentUserRank);
-      console.log('oppenentRank ' + selectedOpponentRank);
+      //   console.log(data);
+      //
+      // console.log('opponent ' + selectedOpponent);
+      // console.log('username ' + currentUser);
+      // console.log('currentUserRank ' + currentUserRank);
+      // console.log('oppenentRank ' + selectedOpponentRank);
 
       //once the update has been completed send the updated json to jsonbin
       this._sendJSONData(data);
@@ -104,7 +147,7 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
             req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
             req.setRequestHeader("Content-type", "application/json");
             var myJsonString = JSON.stringify(data);
-            console.log(myJsonString);
+            //console.log(myJsonString);
             req.send(myJsonString);
       }
 

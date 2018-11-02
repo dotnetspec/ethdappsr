@@ -135,6 +135,7 @@ class Home extends Component{
   //    //return arr[0].RANK;
   // }
 
+// TODO: Challenge/Enter button should be part of onrowselect, not a separate button
   render() {
     return (
       <div>
