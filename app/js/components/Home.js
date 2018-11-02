@@ -7,13 +7,19 @@ import Spinner from 'react-spinkit';
 import Chance from "chance"
 import DoChallenge from './DoChallenge'
 import EnterResult from './EnterResult'
-
-
+//import testData from "../../json/Rankings.json";
 
 //REVIEW: Global variable
 //currently only assigned when click challenge... button
  let currentUserRank = 0;
  let opponentUserRank = 0;
+
+ //REVIEW: May be able to improve setting rank with similar to:
+ //this.setState((state, props) => ({
+//   counter: state.counter + props.increment
+// }));
+//i.e. setting state by passing a function
+//https://reactjs.org/docs/state-and-lifecycle.html
 
  const selectRowProp = {
    mode: 'radio',
@@ -32,9 +38,6 @@ import EnterResult from './EnterResult'
         selectRowProp.selectedOpponentRank = `${row['RANK']}`;
       }
     }
-
-
-
 
 
 //REVIEW: Possibly unnecessary re-rendering

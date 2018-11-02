@@ -49,7 +49,7 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
 
              const currentUserRankInt = parseInt(currentUserRank);
              const selectedOpponentRankInt = parseInt(selectedOpponentRank);
-//console.log('here1');
+
             if (wonorLost === 'won' && currentUserRankInt < selectedOpponentRankInt){
             //No change. Do nothing
             console.log('won do nothing');
@@ -65,15 +65,6 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
 
-            // if (wonorLost === 'won' && currentUserRankInt < selectedOpponentRankInt){
-            //   //No change. Do nothing
-            //   console.log('here4');
-            //     return "Thank you. Your result has been entered. Your ranking is unchanged"
-            //   }else {
-            //     console.log('here5');
-            //     this._updateJSON(selectedOpponent, currentUser, currentUserRank, selectedOpponentRank);
-            //     return "Thank you. Your result has been entered. Your ranking has been changed"
-            // }
             console.log('here6');
     }
 
@@ -89,9 +80,34 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
       console.log('currentUserRank ' + currentUserRank);
       console.log('oppenentRank ' + selectedOpponentRank);
 
+      //once the update has been completed send the updated json to jsonbin
+      this._sendJSONData(data);
+
       // swap Rankings
       // reset current user CURRENTCHALLENGERID to 0
     }
+
+    _sendJSONData(data){
+
+        let req = new XMLHttpRequest();
+
+            req.onreadystatechange = () => {
+              if (req.readyState == XMLHttpRequest.DONE) {
+                console.log(req.responseText);
+              }
+            };
+
+            //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+            //JSON data can and should be in ANY order
+            //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+
+            req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
+            req.setRequestHeader("Content-type", "application/json");
+            var myJsonString = JSON.stringify(data);
+            console.log(myJsonString);
+            req.send(myJsonString);
+      }
+
 
   //#region Component events
   /**
@@ -117,13 +133,6 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
     //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
-      //  console.log('clicked ' + this.selectedOption);
-      // console.log('opponent ' + this.props.selectedOpponentName);
-      // console.log('username ' + this.props.user);
-      // console.log('currentUserRank ' + this.props.currentUserRank);
-      // console.log('oppenentRank ' + this.props.selectedOpponentRank);
-
-
 
       const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
         this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
@@ -192,6 +201,7 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
 
 
   render(){
+    //REVIEW: remove comments?
     //state is handled by DoChallenge now
 //     let states = {};
 //     // state when we are waiting for the App component to finish loading

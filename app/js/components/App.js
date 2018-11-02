@@ -7,7 +7,7 @@ import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import axios from 'axios'
-//import jsonData from '../../json/Rankings.json'
+import jsonData from '../../json/Rankings.json'
 
 //REVIEW: Global variable
 //currently only assigned when click challenge... button
@@ -75,7 +75,6 @@ _loadsetJSONData(){
   //JSON data can and should be in ANY order
   //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
   fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
-  //axios.get('https://api.jsonbin.io/b/5bd28e5651e8b664f2c234c7')
   //TODO: get it working with ipfs/swarm
   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
   .then((response) => response.json())
@@ -208,7 +207,6 @@ _loadsetJSONData(){
   }
 
   render() {
-    //this._getUserRank();
     return (
       <div>
         <Header
