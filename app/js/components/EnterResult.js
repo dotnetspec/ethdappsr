@@ -28,17 +28,17 @@ class EnterResult extends Component{
 
 
 
-    let update = {
-      //jsonRS: jsonObj,
-      jsonRS: data,
-      lookupField: "id",
-      lookupKey: 2,
-      targetField: "RANK",
-      targetData: "5",
-      checkAllRows: false
-      };
+    // let update = {
+    //   //jsonRS: jsonObj,
+    //   jsonRS: data,
+    //   lookupField: "id",
+    //   lookupKey: 2,
+    //   targetField: "RANK",
+    //   targetData: "5",
+    //   checkAllRows: false
+    //   };
 
-      this.setVal(update);
+      //this.setVal(update);
 
 
     //REVIEW: to see the selectedOption change in console had to use an auxilary variabe
@@ -63,19 +63,12 @@ class EnterResult extends Component{
   //#endregion
 
   setVal(update) {
-    /* Included to show an option if you care to use jQuery
-    var defaults = { jsonRS: null, lookupField: null, lookupKey: null,
-        targetField: null, targetData: null, checkAllRows: false };
-    //update = $.extend({}, defaults, update); */
-
-    console.log(update);
-
+console.log('in setval');
     for (var i = 0; i < update.jsonRS.length; i++) {
       console.log(typeof(update.jsonRS[i][update.lookupField]));
       console.log(typeof(update.lookupKey));
         if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
           console.log('here1');
-
             update.jsonRS[i][update.targetField] = update.targetData;
             console.log(update.jsonRS[i][update.targetField]);
             console.log(update.jsonRS);
@@ -89,6 +82,7 @@ class EnterResult extends Component{
 
 _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
 
+console.log('currentUser' + currentUser);
 
              const currentUserRankInt = parseInt(currentUserRank);
              const selectedOpponentRankInt = parseInt(selectedOpponentRank);
@@ -108,15 +102,48 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
 
-            console.log('here6');
+            //console.log('here6');
     }
 
     _updateJSON(selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
 
       //console.log('clicked ' + this.selectedOption);
-      const data = this.props.data;
+      //const data = this.props.data;
+      //REVIEW: using currentUser as lookupKey. May link to id in future
 
-      //   console.log(data);
+      console.log(currentUser);
+
+      let update = {
+        //jsonRS: jsonObj,
+        jsonRS: this.props.data,
+        lookupField: "id",
+        lookupKey: 2,
+        targetField: "RANK",
+        targetData: "2",
+        checkAllRows: false
+        };
+
+      console.log(update);
+
+      const update2 = Object.create(update);
+
+      update2.lookupField = "NAME";
+      update2.lookupKey = currentUser; // inherited properties can be overwritten
+      update2.targetField = "RANK";
+      update2.targetData = selectedOpponentRank;
+
+    //  const update2 = Object.assign({lookupField:"NAME", lookupKey:currentUser, targetField:"RANK", targetData:selectedOpponentRank}, update);
+
+        // update.lookupField = "NAME";
+        // update.lookupKey = currentUser;
+        // update.targetField = "RANK";
+        // update.targetData = "6";
+
+        console.log(update2);
+
+      this.setVal(update2);
+
+         //console.log(update);
       //
       // console.log('opponent ' + selectedOpponent);
       // console.log('username ' + currentUser);
@@ -124,7 +151,7 @@ _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, select
       // console.log('oppenentRank ' + selectedOpponentRank);
 
       //once the update has been completed send the updated json to jsonbin
-      this._sendJSONData(data);
+      //this._sendJSONData(data);
 
       // swap Rankings
       // reset current user CURRENTCHALLENGERID to 0
