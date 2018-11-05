@@ -25,7 +25,7 @@ class DoChallenge extends Component{
       selection: [],
       data,
       showModal: false,
-      challenge: '',
+      challenge: 'Please write contact details and suggested court location(s)/time(s)/date(s) here:',
       selectedOpponentName: "",
       challengeHasChanged: false,
       isLoading: false,
@@ -33,7 +33,7 @@ class DoChallenge extends Component{
       selectedChallengeOption: 'No'
     };
 
-    this.challengeInput = null;
+    this.challengeInput = '';
   }
   //#endregion
 
@@ -47,8 +47,13 @@ class DoChallenge extends Component{
    */
   _handleClick = async (e) => {
 
+console.log('in handleclick this._getValidationState()');
+    console.log(this._getValidationState());
+      console.log(this.state.challengeHasChanged);
+
     // do not post challenge if there is a form error or user has not typed anything
     if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
+      console.log('here preventDefault');
       return e.preventDefault();
     }
 
@@ -56,16 +61,20 @@ class DoChallenge extends Component{
     this.setState({ isLoading: true });
 
 
-    const challenge = DSportRank.methods.challenge(this.state.challenge);
+    //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
+
+      // const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
+      //   this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
+
       // estimate gas before sending challenge transaction
       const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
 
       // send the challenge transaction plus a little extra gas in case the contract state
       // has changed since we've done our gas estimate
       await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
-
+      
       // remove loading state
       this.setState({ isLoading: false });
 
@@ -86,9 +95,14 @@ class DoChallenge extends Component{
    * @return {null}
    */
   _handleChange(e) {
-    let state = {challengeHasChanged: true};
-    state[e.target.name] = e.target.value;
-    this.setState(state);
+    //REVIEW: line below was original but not working
+    //changed to working code below for challengeHasChanged
+    //let state = {challengeHasChanged: true};
+    //state[e.target.name] = e.target.value;
+    //this.setState(state);
+
+    this.setState({ challenge: e.target.value });
+    this.setState({ challengeHasChanged: true });
   }
   //#endregion
 
@@ -116,9 +130,11 @@ class DoChallenge extends Component{
     this.setState({ selectedChallengeOption: e.target.value });
     this.selectedChallengeOption = e.target.value;
     //console.log(`state: ${this.selectedOption}, value: ${e.target.value}`);
-    //REVIEW: to work with this value need to use this.selectedOption
-    //and not this.state.selectedOption
+    //REVIEW: to work with this value need to use this.selectedChallengeOption
+    //and not this.state.selectedChallengeOption
       console.log(this.selectedChallengeOption);
+
+
   }
 
   render(){
@@ -165,9 +181,10 @@ class DoChallenge extends Component{
 
         <Button
           bsStyle="primary"
-          disabled={ !isValid || Boolean(error) || !challengeHasChanged }
-          onClick={ (!isValid || Boolean(error) || !challengeHasChanged) ? null : (e) => this._handleClick(e) }
-        >{isLoading ? 'Loading...' : 'Post challenge'}</Button>
+          // disabled={ !isValid || Boolean(error) || !challengeHasChanged }
+          // onClick={ (!isValid || Boolean(error) || !challengeHasChanged) ? null : (e) => this._handleClick(e) }
+            onClick={ (e) => this._handleClick(e) }
+        >{isLoading ? 'Loading...' : 'Post Challenge'}</Button>
         <FormGroup
           controlId="formBasicText"
           validationState={ validationState }

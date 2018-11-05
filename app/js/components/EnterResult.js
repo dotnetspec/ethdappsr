@@ -22,25 +22,6 @@ class EnterResult extends Component{
     //REVIEW: How is this line below supposed to work?
     const { username, account, onAfterchallenge } = this.props;
 
-    // var jsonObj = [{'Id':'1','Username':'Ray','FatherName':'Thompson'},
-    //        {'Id':'2','Username':'Steve','FatherName':'Johnson'},
-    //        {'Id':'3','Username':'Albert','FatherName':'Einstein'}];
-
-
-
-    // let update = {
-    //   //jsonRS: jsonObj,
-    //   jsonRS: data,
-    //   lookupField: "id",
-    //   lookupKey: 2,
-    //   targetField: "RANK",
-    //   targetData: "5",
-    //   checkAllRows: false
-    //   };
-
-      //this.setVal(update);
-
-
     //REVIEW: to see the selectedOption change in console had to use an auxilary variabe
     //https://stackoverflow.com/questions/34974775/react-js-setstate-is-late-on-last-input
     //much of this code is redundant pertaining to the original app DoTweet functionality only
@@ -89,10 +70,9 @@ console.log('currentUser' + currentUser);
             //console.log('here6');
     }
 
+//TODO: Refactor _updateJSON
     _updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank){
 
-      //console.log('clicked ' + this.selectedOption);
-      //const data = this.props.data;
       //REVIEW: using currentUser as lookupKey. May link to id in future
 
       console.log(currentUser);
@@ -139,29 +119,25 @@ console.log('currentUser' + currentUser);
       // updateUser.targetField = "CURRENTCHALLENGERID";
       // updateUser.targetData = 0;
 
-      //update the User
+      //create an updatedUserJSON object to update the User in the Json
       let updatedUserJSON = this._setVal(updateUserRank);
       console.log('updatedUserJSON');
       console.log(updatedUserJSON);
 
       //re-set User CURRENTCHALLENGERID field
+      //and add result to the updatedUserJSON object
       updateUserCURRENTCHALLENGERID.lookupField = "NAME";
       updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
       updateUserCURRENTCHALLENGERID.targetField = "CURRENTCHALLENGERID";
       //update the current user's rank to the selected opponent's rank
       updateUserCURRENTCHALLENGERID.targetData = 0;
 
+      //add the new changes to the same updatedUserJSON object
       updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
       console.log('updatedUserJSON CURRENTCHALLENGERID');
       console.log(updatedUserJSON);
-      //re-set user's CURRENTCHALLENGERID to 0
-      // updateUser.targetField = "CURRENTCHALLENGERID";
-      // updateUser.targetData = 0;
 
       //update the Opponent fields
-     //  const update2 = Object.create(update);
-     // update2 = Object.assign({lookupField:"NAME", lookupKey:selectedOpponent, targetField:"RANK", targetData:currentUserRank}, updatedJSON);
-
      updateOpponent.lookupField = "NAME";
      updateOpponent.lookupKey = selectedOpponent;
      updateOpponent.targetField = "RANK";
@@ -170,12 +146,12 @@ console.log('currentUser' + currentUser);
 
      console.log('updateOpponent');
       console.log(updateOpponent);
-      //update again with the oppenent's details also changed
-      //let updatedUserandOpponentJSON = this._setVal(updateOpponent);
+      //update again with the oppenent's rank also changed
+      //to the same updatedUserJSON object
       updatedUserJSON = this._setVal(updateOpponent);
 
-      //only send after all the updates
-      //this._sendJSONData(updatedUserandOpponentJSON);
+      //only send after all the updates have been made
+      //to the updatedUserJSON object
       this._sendJSONData(updatedUserJSON);
 
       // reset current user CURRENTCHALLENGERID to 0
@@ -318,23 +294,6 @@ console.log('currentUser' + currentUser);
   render(){
     //REVIEW: remove comments?
     //state is handled by DoChallenge now
-//     let states = {};
-//     // state when we are waiting for the App component to finish loading
-//     // the current account (address) from web3.eth.getAccounts()
-//     states.isLoading = <Spinner name="pacman" color="white" fadeIn='none' />;
-//
-//     states.isError = <span className='error'>ERROR!</span>;
-// //determine userName from account no. stored in JSON
-// //with this.getUserNameFromAccount(userName)
-//
-//     const validationState = this._getValidationState();
-//     const isValid = validationState !== 'error';
-//     const { isLoading, error, challenge, resultHasChanged } = this.state;
-//
-//     let feedback = !isValid ? 'challenge must be 140 characters or less' : '';
-//     if(this.state.error) feedback = error;
-
-
     return (
 <>
       <div onChange={event => this.setResult(event)}>
