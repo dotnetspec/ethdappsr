@@ -25,7 +25,7 @@ class DoChallenge extends Component{
       selection: [],
       data,
       showModal: false,
-      challenge: 'Please write contact details and suggested court location(s)/time(s)/date(s) here:',
+      challenge: '',
       selectedOpponentName: "",
       challengeHasChanged: false,
       isLoading: false,
@@ -74,7 +74,7 @@ console.log('in handleclick this._getValidationState()');
       // send the challenge transaction plus a little extra gas in case the contract state
       // has changed since we've done our gas estimate
       await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
-      
+
       // remove loading state
       this.setState({ isLoading: false });
 
@@ -126,16 +126,16 @@ console.log('in handleclick this._getValidationState()');
   }
 
 //TODO: get this working from the challenge button not the radio buttons
-  setResult(e) {
-    this.setState({ selectedChallengeOption: e.target.value });
-    this.selectedChallengeOption = e.target.value;
-    //console.log(`state: ${this.selectedOption}, value: ${e.target.value}`);
-    //REVIEW: to work with this value need to use this.selectedChallengeOption
-    //and not this.state.selectedChallengeOption
-      console.log(this.selectedChallengeOption);
-
-
-  }
+  // setResult(e) {
+  //   this.setState({ selectedChallengeOption: e.target.value });
+  //   this.selectedChallengeOption = e.target.value;
+  //   //console.log(`state: ${this.selectedOption}, value: ${e.target.value}`);
+  //   //REVIEW: to work with this value need to use this.selectedChallengeOption
+  //   //and not this.state.selectedChallengeOption
+  //     console.log(this.selectedChallengeOption);
+  //
+  //
+  // }
 
   render(){
 
@@ -156,21 +156,18 @@ console.log('in handleclick this._getValidationState()');
 
     let feedback = !isValid ? 'challenge details must be 140 characters or less' : '';
     if(this.state.error) feedback = error;
-
+    let placeholderText = "Please write contact details and suggested court location(s)/time(s)/date(s) you would like to send to ";
+    placeholderText += this.props.selectedOpponentName;
+    placeholderText += " here:";
 
     return (
       <>
-      <div onChange={event => this.setResult(event)}>
-              <input type="radio" value="yes" name="Challenge"/> Yes
-              <input type="radio" value="no" name="Challenge"/> No
-      </div>
-      Please write contact details and suggested court location(s)/time(s)/date(s) below:
-      <p></p>
+
       <form>
         <FieldGroup
           type="text"
           value={ challenge }
-          placeholder={ this.props.selectedOpponentName }
+          placeholder= {placeholderText}
           onChange={ (e) => this._handleChange(e) }
           name="Information"
           componentClass="textarea"
