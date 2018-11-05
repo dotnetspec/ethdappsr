@@ -20,7 +20,7 @@ class EnterResult extends Component{
 
     const data = this.props.data;
     //REVIEW: How is this line below supposed to work?
-    const { username, account, onAfterchallenge } = this.props;
+    const { username, account, onAfterChallenge } = this.props;
 
     //REVIEW: to see the selectedOption change in console had to use an auxilary variabe
     //https://stackoverflow.com/questions/34974775/react-js-setstate-is-late-on-last-input

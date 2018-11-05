@@ -203,7 +203,7 @@ class Header extends Component {
         Update Profile
       </Button>
 
-      <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
+      {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
           <Modal.Title>New tweet</Modal.Title>
         </Modal.Header>
@@ -213,14 +213,14 @@ class Header extends Component {
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
         </Modal.Footer>
-      </Modal>
+      </Modal>*/}
     </React.Fragment>;
 
     return (
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">Sportrank <small>Decentralized Sport</small></NavLink>
+            <NavLink exact to="/">Sportrank HOME<small>Decentralized Sport</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

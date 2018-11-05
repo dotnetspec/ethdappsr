@@ -19,7 +19,11 @@ class DoChallenge extends Component{
     super(props, context);
 
     const data = this.props.data;
-    const { username, account, onAfterchallenge } = this.props;
+    //original code before onAfterChallenge bound
+    //const { username, account, onAfterChallenge } = this.props;
+    const { username, account } = this.props;
+    let onAfterChallenge = this.props.onAfterChallenge.bind(this);
+
     // initial state
     this.state = {
       selection: [],
@@ -61,7 +65,7 @@ console.log('in handleclick this._getValidationState()');
     this.setState({ isLoading: true });
 
 
-    //const challenge = DSportRank.methods.challenge(this.state.challenge);
+    const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
 
@@ -79,7 +83,7 @@ console.log('in handleclick this._getValidationState()');
       this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      onAfterchallenge();
+      onAfterChallenge();
     }
     catch(err){
       // remove loading state and show error message
