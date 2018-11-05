@@ -62,23 +62,7 @@ class EnterResult extends Component{
   }
   //#endregion
 
-  setVal(update) {
-console.log('in setval');
-    for (var i = 0; i < update.jsonRS.length; i++) {
-      console.log(typeof(update.jsonRS[i][update.lookupField]));
-      console.log(typeof(update.lookupKey));
-        if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
-          console.log('here1');
-            update.jsonRS[i][update.targetField] = update.targetData;
-            console.log(update.jsonRS[i][update.targetField]);
-            console.log(update.jsonRS);
-            this._sendJSONData(update.jsonRS);
-            if (!update.checkAllRows) { return; }
-        }
-    }
 
-
-}
 
 _processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
 
@@ -98,14 +82,14 @@ console.log('currentUser' + currentUser);
 
             }else{
               console.log('update');
-              this._updateJSON(selectedOpponent, currentUser, currentUserRank, selectedOpponentRank);
+              this._updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank);
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
 
             //console.log('here6');
     }
 
-    _updateJSON(selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
+    _updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank){
 
       //console.log('clicked ' + this.selectedOption);
       //const data = this.props.data;
@@ -113,36 +97,65 @@ console.log('currentUser' + currentUser);
 
       console.log(currentUser);
 
-      let update = {
-        //jsonRS: jsonObj,
+      //use update objects to manage the json data
+      //values are just placeholders until they get updated
+      let updateUser = {
         jsonRS: this.props.data,
-        lookupField: "id",
-        lookupKey: 2,
-        targetField: "RANK",
-        targetData: "2",
+        lookupField: "",
+        lookupKey: 0,
+        targetField: "",
+        targetData: "",
         checkAllRows: false
         };
 
-      console.log(update);
+        let updateOpponent = {
+          jsonRS: this.props.data,
+          lookupField: "",
+          lookupKey: 0,
+          targetField: "",
+          targetData: "",
+          checkAllRows: false
+          };
 
-      const update2 = Object.create(update);
+        console.log(selectedOpponentRank);
+      console.log(typeof selectedOpponentRank);
 
-      update2.lookupField = "NAME";
-      update2.lookupKey = currentUser; // inherited properties can be overwritten
-      update2.targetField = "RANK";
-      update2.targetData = selectedOpponentRank;
+      //update the User fields
+      updateUser.lookupField = "NAME";
+      updateUser.lookupKey = currentUser;
+      updateUser.targetField = "RANK";
+      //update the current user's rank to the selected opponent's rank
+      updateUser.targetData = selectedOpponentRank;
 
-    //  const update2 = Object.assign({lookupField:"NAME", lookupKey:currentUser, targetField:"RANK", targetData:selectedOpponentRank}, update);
+      //update the User
+      let updatedUserJSON = this._setVal(updateUser);
+      console.log('updatedUserJSON');
+      console.log(updatedUserJSON);
 
+      //update the Opponent fields
+     //  const update2 = Object.create(update);
+     // update2 = Object.assign({lookupField:"NAME", lookupKey:selectedOpponent, targetField:"RANK", targetData:currentUserRank}, updatedJSON);
+
+     updateOpponent.lookupField = "NAME";
+     updateOpponent.lookupKey = selectedOpponent;
+     updateOpponent.targetField = "RANK";
+     //update the opponent's rank to the user's rank
+     updateOpponent.targetData = currentUserRank;
+
+     console.log('updateOpponent');
+      console.log(updateOpponent);
+      //update again with the oppenent's details also changed
+      let updatedUserandOpponentJSON = this._setVal(updateOpponent);
+
+      //only send after all the updates
+      this._sendJSONData(updatedUserandOpponentJSON);
+      //this._sendJSONData(updatedOpponentJSON);
         // update.lookupField = "NAME";
         // update.lookupKey = currentUser;
         // update.targetField = "RANK";
         // update.targetData = "6";
 
-        console.log(update2);
-
-      this.setVal(update2);
-
+        //console.log(update2);
          //console.log(update);
       //
       // console.log('opponent ' + selectedOpponent);
@@ -156,6 +169,27 @@ console.log('currentUser' + currentUser);
       // swap Rankings
       // reset current user CURRENTCHALLENGERID to 0
     }
+
+    _setVal(update) {
+  console.log('in setval');
+  console.log(update);
+      for (var i = 0; i < update.jsonRS.length; i++) {
+        console.log('in setval for loop');
+        console.log(typeof(update.jsonRS[i][update.lookupField]));
+        console.log(typeof(update.lookupKey));
+          if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
+            console.log('here1');
+              update.jsonRS[i][update.targetField] = update.targetData;
+              console.log(update.jsonRS[i][update.targetField]);
+              console.log(update.jsonRS);
+              return update.jsonRS;
+              //this._sendJSONData(update.jsonRS);
+              //if (!update.checkAllRows) { return; }
+          }
+      }
+
+
+  }
 
     _sendJSONData(data){
 
