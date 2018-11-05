@@ -22,7 +22,7 @@ class DoChallenge extends Component{
     //original code before onAfterChallenge bound
     //const { username, account, onAfterChallenge } = this.props;
     const { username, account } = this.props;
-    let onAfterChallenge = this.props.onAfterChallenge.bind(this);
+    //let onAfterChallenge = this.props.onAfterChallenge();
 
     // initial state
     this.state = {
@@ -50,14 +50,7 @@ class DoChallenge extends Component{
 
     //use update objects to manage the json data
     //values are just placeholders until they get updated
-    // let updateUserRank = {
-    //   jsonRS: this.props.data,
-    //   lookupField: "",
-    //   lookupKey: 0,
-    //   targetField: "",
-    //   targetData: "",
-    //   checkAllRows: false
-    //   };
+
 
       let updateUserCURRENTCHALLENGERID = {
         jsonRS: this.props.data,
@@ -79,7 +72,7 @@ class DoChallenge extends Component{
         };
 
 
-//get the opponent's ID number
+        //get the opponent's ID number
         lookupOpponentID.lookupField = "NAME";
         lookupOpponentID.lookupKey = selectedOpponent;
         lookupOpponentID.targetField = "id";
@@ -92,39 +85,29 @@ class DoChallenge extends Component{
     console.log(typeof selectedOpponentIDNumber);
 
     //TODO: change name to lookupandupdateUserID
-
     //get the user's id number
 
     updateUserCURRENTCHALLENGERID.lookupField = "NAME";
     updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
     updateUserCURRENTCHALLENGERID.targetField = "id";
-    //update the current user's challengeID to the selected opponent's ID
-    //lookupOpponentID.targetData = selectedOpponentIDNumber;
-
-//find selectedOpponent's ID
-const userIDNumber = this._getVal(updateUserCURRENTCHALLENGERID);
-console.log(userIDNumber);
-console.log(typeof userIDNumber);
-
+    //find selectedOpponent's ID
+    const userIDNumber = this._getVal(updateUserCURRENTCHALLENGERID);
+// console.log(userIDNumber);
+// console.log(typeof userIDNumber);
     //update the User CURRENTCHALLENGERID field with the opponenet's id number
     updateUserCURRENTCHALLENGERID.lookupField = "NAME";
     updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
     updateUserCURRENTCHALLENGERID.targetField = "CURRENTCHALLENGERID";
     //update the current user's challengeID to the selected opponent's ID
     updateUserCURRENTCHALLENGERID.targetData = selectedOpponentIDNumber;
-    //re-set user's CURRENTCHALLENGERID to 0
-    // updateUser.targetField = "CURRENTCHALLENGERID";
-    // updateUser.targetData = 0;
-    //create an updatedUserJSON object to update the User in the Json
-    //let updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
-
+    //now do the update:
     updateUserCURRENTCHALLENGERID = this._setVal(updateUserCURRENTCHALLENGERID);
 
-    console.log('updateUserCURRENTCHALLENGERID');
-    console.log(updateUserCURRENTCHALLENGERID);
-
-    console.log('userIDNumber');
-    console.log(userIDNumber);
+    // console.log('updateUserCURRENTCHALLENGERID');
+    // console.log(updateUserCURRENTCHALLENGERID);
+    //
+    // console.log('userIDNumber');
+    // console.log(userIDNumber);
 
     lookupOpponentID.lookupField = "NAME";
     lookupOpponentID.lookupKey = selectedOpponent;
@@ -134,32 +117,6 @@ console.log(typeof userIDNumber);
 
     //create a new obj with all the updates within it before sending
     let updatedUserJSON = this._setVal(lookupOpponentID);
-
-    //re-set User CURRENTCHALLENGERID field
-    //and add result to the updatedUserJSON object
-    // updateUserCURRENTCHALLENGERID.lookupField = "NAME";
-    // updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
-    // updateUserCURRENTCHALLENGERID.targetField = "CURRENTCHALLENGERID";
-    // //update the current user's rank to the selected opponent's rank
-    // updateUserCURRENTCHALLENGERID.targetData = 0;
-
-    //add the new changes to the same updatedUserJSON object
-   //  updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
-   //  console.log('updatedUserJSON CURRENTCHALLENGERID');
-   //  console.log(updatedUserJSON);
-   //
-   //  //update the Opponent fields
-   // updateOpponent.lookupField = "NAME";
-   // updateOpponent.lookupKey = selectedOpponent;
-   // updateOpponent.targetField = "RANK";
-   // //update the opponent's rank to the user's rank
-   // updateOpponent.targetData = currentUserRank;
-   //
-   // console.log('updateOpponent');
-   //  console.log(updateOpponent);
-   //  //update again with the oppenent's rank also changed
-   //  //to the same updatedUserJSON object
-   //  updatedUserJSON = this._setVal(updateOpponent);
 
     //only send after all the updates have been made
     //to the updatedUserJSON object
@@ -177,11 +134,12 @@ console.log(update);
       // console.log(typeof(update.jsonRS[i][update.lookupField]));
       // console.log(typeof(update.lookupKey));
       //REVIEW: what does update.lookupKey === '*' mean?
+      //do need: if (!update.checkAllRows) { return; }?
         if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
           console.log('here1');
             update.jsonRS[i][update.targetField] = update.targetData;
-            console.log(update.jsonRS[i][update.targetField]);
-            console.log(update.jsonRS);
+            // console.log(update.jsonRS[i][update.targetField]);
+            // console.log(update.jsonRS);
             return update.jsonRS;
             //if (!update.checkAllRows) { return; }
         }
@@ -192,17 +150,14 @@ console.log(update);
 _getVal(jsonObj){
   for (var i = 0; i < jsonObj.jsonRS.length; i++) {
      console.log('in _getVal for loop');
-    console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
-    console.log(typeof(jsonObj.lookupKey));
+    // console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
+    // console.log(typeof(jsonObj.lookupKey));
     //REVIEW: what does update.lookupKey === '*' mean?
       if (jsonObj.jsonRS[i][jsonObj.lookupField] === jsonObj.lookupKey || jsonObj.lookupKey === '*') {
-        console.log('targetField');
-        console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
+        // console.log('targetField');
+        // console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
           //jsonObj.jsonRS[i][jsonObj.targetField] = jsonObj.targetData;
           return jsonObj.jsonRS[i][jsonObj.targetField];
-          // console.log(update.jsonRS[i][update.targetField]);
-          // console.log(update.jsonRS);
-          //return jsonObj.jsonRS;
           //if (!update.checkAllRows) { return; }
       }
   }
@@ -231,20 +186,6 @@ _getVal(jsonObj){
           req.send(myJsonString);
     }
 
-
-  // _processUpdateCURRENTCHALLENGERID(currentUser, selectedOpponent){
-  //
-  // console.log('currentUser' + currentUser);
-  //
-  //              // const currentUserRankInt = parseInt(currentUserRank);
-  //              // const selectedOpponentRankInt = parseInt(selectedOpponentRank);
-  //
-  //               this._updateJSON(currentUser, selectedOpponent, selectedOpponentRank);
-  //               return "Thank you. Your result has been entered. Your ranking has been changed"
-  //             }
-  //
-  //             //console.log('here6');
-  //     }
 
   //#region Component events
   /**
@@ -287,7 +228,9 @@ _getVal(jsonObj){
       this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      onAfterChallenge();
+      //NB: onAfterChallenge undefined error unless use this.props - currently don't know why
+      this.props.onAfterChallenge();
+      //onAfterChallenge();
     }
     catch(err){
       // remove loading state and show error message
@@ -333,18 +276,6 @@ _getVal(jsonObj){
     if(this.challengeInput) this.challengeInput.focus();
   }
 
-//TODO: get this working from the challenge button not the radio buttons
-  // setResult(e) {
-  //   this.setState({ selectedChallengeOption: e.target.value });
-  //   this.selectedChallengeOption = e.target.value;
-  //   //console.log(`state: ${this.selectedOption}, value: ${e.target.value}`);
-  //   //REVIEW: to work with this value need to use this.selectedChallengeOption
-  //   //and not this.state.selectedChallengeOption
-  //     console.log(this.selectedChallengeOption);
-  //
-  //
-  // }
-
   render(){
 
     //const userAccountNo = web3.eth.defaultAccount;
@@ -355,8 +286,8 @@ _getVal(jsonObj){
     states.isLoading = <Spinner name="pacman" color="white" fadeIn='none' />;
 
     states.isError = <span className='error'>ERROR!</span>;
-//determine userName from account no. stored in JSON
-//with this.getUserNameFromAccount(userName)
+    //determine userName from account no. stored in JSON
+    //with this.getUserNameFromAccount(userName)
 
     const validationState = this._getValidationState();
     const isValid = validationState !== 'error';
@@ -383,6 +314,7 @@ _getVal(jsonObj){
           validationState={validationState}
           inputRef={(input) => { this.challengeInput = input; }}
         />
+        {/* REVIEW: Re-enable this validation functionality? */}
 
         <Button
           bsStyle="primary"

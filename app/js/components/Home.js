@@ -78,7 +78,9 @@ class Home extends Component{
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
-};
+   };
+   //_handleClose must be bound if it's going to be used in child components (it is)
+   //this._handleClose = this._handleClose.bind(this);
   }
   //#endregion
 
@@ -88,6 +90,7 @@ class Home extends Component{
   _handleClose() {
     this.setState({ showModal: false });
   }
+
 
   /**
    * Shows the challenge modal
@@ -151,11 +154,14 @@ class Home extends Component{
         </Modal.Header>
         <Modal.Body>
         Would you like to challenge {selectRowProp.selectedOpponentName} who is ranked {selectRowProp.selectedOpponentRank}?<p></p>
-         <DoChallenge
+         <DoChallenge onAfterChallenge={(e) => this._handleClose()}
           data={this.props.rankingJSONdata}
           selectedOpponentName={selectRowProp.selectedOpponentName}
-          user={this.props.user}
-          onAfterChallenge={(e) => this._handleClose()}></DoChallenge>
+          user={this.props.user}>
+          </DoChallenge>
+
+
+
 
               Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
 
