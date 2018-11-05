@@ -151,7 +151,10 @@ class Home extends Component{
         </Modal.Header>
         <Modal.Body>
         Would you like to challenge {selectRowProp.selectedOpponentName} who is ranked {selectRowProp.selectedOpponentRank}?<p></p>
-         <DoChallenge selectedOpponentName={selectRowProp.selectedOpponentName}
+         <DoChallenge
+          data={this.props.rankingJSONdata}
+          selectedOpponentName={selectRowProp.selectedOpponentName}
+          user={this.props.user}
           onAfterChallenge={(e) => this._handleClose()}></DoChallenge>
 
               Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
