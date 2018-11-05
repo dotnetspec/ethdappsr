@@ -149,24 +149,7 @@ console.log('currentUser' + currentUser);
 
       //only send after all the updates
       this._sendJSONData(updatedUserandOpponentJSON);
-      //this._sendJSONData(updatedOpponentJSON);
-        // update.lookupField = "NAME";
-        // update.lookupKey = currentUser;
-        // update.targetField = "RANK";
-        // update.targetData = "6";
-
-        //console.log(update2);
-         //console.log(update);
-      //
-      // console.log('opponent ' + selectedOpponent);
-      // console.log('username ' + currentUser);
-      // console.log('currentUserRank ' + currentUserRank);
-      // console.log('oppenentRank ' + selectedOpponentRank);
-
-      //once the update has been completed send the updated json to jsonbin
-      //this._sendJSONData(data);
-
-      // swap Rankings
+  
       // reset current user CURRENTCHALLENGERID to 0
     }
 

@@ -75,6 +75,10 @@ class Home extends Component{
       showModal: false,
       warningText: ''
     }
+    this.tablesortoptions = {
+     defaultSortName: 'RANK',  // default sort column name
+     defaultSortOrder: 'asc'  // default sort order
+};
   }
   //#endregion
 
@@ -88,7 +92,7 @@ class Home extends Component{
   /**
    * Shows the challenge modal
    */
-  _handleShow() {
+  _handleShow() {dataSort
     //render(){
     if(selectRowProp.selectedOpponentName != this.props.user){
     this.setState({ showModal: true });
@@ -180,14 +184,14 @@ class Home extends Component{
                 {Object.keys(this.props.rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}
-            <small>Select an opponent to challenge</small>
+            <small>Select an opponent to challenge or enter a result against:</small>
               </PageHeader>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
             <div>
-              <BootstrapTable data={this.props.rankingJSONdata}
+              <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
                     selectRow={ selectRowProp }
                   >
                     <TableHeaderColumn isKey dataField='id'
@@ -198,7 +202,7 @@ class Home extends Component{
                     >
                       Name
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField='RANK'
+                    <TableHeaderColumn dataSort dataField='RANK'
                     >
                       Rank
                     </TableHeaderColumn>
