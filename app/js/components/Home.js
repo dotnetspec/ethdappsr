@@ -92,8 +92,7 @@ class Home extends Component{
   /**
    * Shows the challenge modal
    */
-  _handleShow() {dataSort
-    //render(){
+  _handleShow() {
     if(selectRowProp.selectedOpponentName != this.props.user){
     this.setState({ showModal: true });
   }else{
@@ -105,7 +104,6 @@ class Home extends Component{
       </div>
     );
     }
-  //}
 }
 
   //find the user entry in the json return id, name and Rank
@@ -191,6 +189,9 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
             <div>
+
+           {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
+
               <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
                     selectRow={ selectRowProp }
                   >
@@ -202,7 +203,7 @@ class Home extends Component{
                     >
                       Name
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataSort dataField='RANK'
+                    <TableHeaderColumn  dataField='RANK' dataSort
                     >
                       Rank
                     </TableHeaderColumn>

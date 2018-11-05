@@ -99,7 +99,7 @@ console.log('currentUser' + currentUser);
 
       //use update objects to manage the json data
       //values are just placeholders until they get updated
-      let updateUser = {
+      let updateUserRank = {
         jsonRS: this.props.data,
         lookupField: "",
         lookupKey: 0,
@@ -107,6 +107,15 @@ console.log('currentUser' + currentUser);
         targetData: "",
         checkAllRows: false
         };
+
+        let updateUserCURRENTCHALLENGERID = {
+          jsonRS: this.props.data,
+          lookupField: "",
+          lookupKey: 0,
+          targetField: "",
+          targetData: "",
+          checkAllRows: false
+          };
 
         let updateOpponent = {
           jsonRS: this.props.data,
@@ -120,17 +129,34 @@ console.log('currentUser' + currentUser);
         console.log(selectedOpponentRank);
       console.log(typeof selectedOpponentRank);
 
-      //update the User fields
-      updateUser.lookupField = "NAME";
-      updateUser.lookupKey = currentUser;
-      updateUser.targetField = "RANK";
+      //update the User RANK field
+      updateUserRank.lookupField = "NAME";
+      updateUserRank.lookupKey = currentUser;
+      updateUserRank.targetField = "RANK";
       //update the current user's rank to the selected opponent's rank
-      updateUser.targetData = selectedOpponentRank;
+      updateUserRank.targetData = selectedOpponentRank;
+      //re-set user's CURRENTCHALLENGERID to 0
+      // updateUser.targetField = "CURRENTCHALLENGERID";
+      // updateUser.targetData = 0;
 
       //update the User
-      let updatedUserJSON = this._setVal(updateUser);
+      let updatedUserJSON = this._setVal(updateUserRank);
       console.log('updatedUserJSON');
       console.log(updatedUserJSON);
+
+      //re-set User CURRENTCHALLENGERID field
+      updateUserCURRENTCHALLENGERID.lookupField = "NAME";
+      updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
+      updateUserCURRENTCHALLENGERID.targetField = "CURRENTCHALLENGERID";
+      //update the current user's rank to the selected opponent's rank
+      updateUserCURRENTCHALLENGERID.targetData = 0;
+
+      updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
+      console.log('updatedUserJSON CURRENTCHALLENGERID');
+      console.log(updatedUserJSON);
+      //re-set user's CURRENTCHALLENGERID to 0
+      // updateUser.targetField = "CURRENTCHALLENGERID";
+      // updateUser.targetData = 0;
 
       //update the Opponent fields
      //  const update2 = Object.create(update);
@@ -145,28 +171,30 @@ console.log('currentUser' + currentUser);
      console.log('updateOpponent');
       console.log(updateOpponent);
       //update again with the oppenent's details also changed
-      let updatedUserandOpponentJSON = this._setVal(updateOpponent);
+      //let updatedUserandOpponentJSON = this._setVal(updateOpponent);
+      updatedUserJSON = this._setVal(updateOpponent);
 
       //only send after all the updates
-      this._sendJSONData(updatedUserandOpponentJSON);
-  
+      //this._sendJSONData(updatedUserandOpponentJSON);
+      this._sendJSONData(updatedUserJSON);
+
       // reset current user CURRENTCHALLENGERID to 0
     }
 
     _setVal(update) {
-  console.log('in setval');
+  //console.log('in setval');
   console.log(update);
       for (var i = 0; i < update.jsonRS.length; i++) {
-        console.log('in setval for loop');
-        console.log(typeof(update.jsonRS[i][update.lookupField]));
-        console.log(typeof(update.lookupKey));
+        // console.log('in setval for loop');
+        // console.log(typeof(update.jsonRS[i][update.lookupField]));
+        // console.log(typeof(update.lookupKey));
+        //REVIEW: what does update.lookupKey === '*' mean?
           if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
-            console.log('here1');
+            //console.log('here1');
               update.jsonRS[i][update.targetField] = update.targetData;
-              console.log(update.jsonRS[i][update.targetField]);
-              console.log(update.jsonRS);
+              // console.log(update.jsonRS[i][update.targetField]);
+              // console.log(update.jsonRS);
               return update.jsonRS;
-              //this._sendJSONData(update.jsonRS);
               //if (!update.checkAllRows) { return; }
           }
       }
