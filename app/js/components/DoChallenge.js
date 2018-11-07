@@ -197,10 +197,6 @@ _getVal(jsonObj){
    */
   _handleClick = async (e) => {
 
-//console.log('in handleclick this._getValidationState()');
-    //console.log(this._getValidationState());
-      //console.log(this.state.challengeHasChanged);
-
     // do not post challenge if there is a form error or user has not typed anything
     if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
       console.log('here preventDefault');
@@ -229,6 +225,7 @@ _getVal(jsonObj){
 
       // tell parent we've updated a user and to re-fetch user details from the contract
       //NB: onAfterChallenge undefined error unless use this.props - currently don't know why
+      //original code didn't need it
       this.props.onAfterChallenge();
       //onAfterChallenge();
     }
