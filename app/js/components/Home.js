@@ -21,6 +21,8 @@ import EnterResult from './EnterResult'
 //i.e. setting state by passing a function
 //https://reactjs.org/docs/state-and-lifecycle.html
 
+//quick edit
+
  const selectRowProp = {
    mode: 'radio',
    selectedOpponentName: '',
