@@ -1,0 +1,341 @@
+
+[info]: [32m[1m========================[22m[39m
+[info]: [1m[33mWelcome to Embark 3.1.9[39m[22m
+[info]: [32m[1m========================[22m[39m
+[trace]: add check: embarkVersion
+[trace]: startMonitor
+[trace]: add check: Ethereum
+[trace]: add check: Whisper
+[info]: pid 6774 listening on /home/linuxuser/Downloads/embark-3.1.7/sportrank/.embark/embark.ipc
+[trace]: add check: IPFS
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: Storage module: Checking ipfs availability...
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: add check: Webserver
+[info]: webserver available at [32m[4m[1mhttp://localhost:8000[22m[24m[39m
+[trace]: watchFiles
+[trace]: app/css/**/*.*,app/js/**/*.*,app/xml/**/*.*,app/images/**/*.*,app/**/*.*
+[trace]: watchFiles
+[trace]: contracts/**
+[trace]: watchFiles
+[trace]: config/**/contracts.json,config/**/contracts.js
+[info]: ready to watch file changes
+[info]: [36mStarting Blockchain node in another process[39m
+[trace]: IPFS unavailable
+[trace]: IPFS unavailable
+[trace]: Storage module: ipfs node not available.
+[trace]: Storage module: Launching ipfs process...
+[info]: [36mStarting ipfs process[39m
+[trace]: ready to watch contract changes
+[trace]: ready to watch config changes
+[trace]: ready to watch asset changes
+[debug]: IPFS: Initializing daemon...
+
+[debug]: [35m===============================================================================[39m
+[debug]: [35m===============================================================================[39m
+[debug]: [35mEmbark Blockchain Using: [4mGo-Ethereum (https://github.com/ethereum/go-ethereum)[24m[39m
+[debug]: [35m===============================================================================[39m
+[debug]: [35m===============================================================================[39m
+[debug]: [32mrunning: [4mgeth version[24m[39m
+[debug]: [32mrunning: [4mgeth --networkid=1337 --datadir=.embark/development/datadir --password=config/development/password --port=30303 --rpc --rpcport=8555 --rpcaddr=localhost --rpccorsdomain=http://localhost:8000,http://localhost:8080 --ws --wsport=8556 --wsaddr=localhost --wsorigins=http://localhost:8000,http://localhost:8080 --nodiscover --maxpeers=0 --mine --shh --rpcapi=eth,web3,net,debug,shh --wsapi=eth,web3,net,shh,debug,personal --targetgaslimit=8000000 --dev[24m[39m
+[debug]: Geth: INFO [08-21|12:28:11.493] Maximum peer count                       ETH=0 LES=0 total=0
+
+[debug]: Geth: INFO [08-21|12:28:12.446] Using developer account                  address=0xD7B262c3405E81fa2B2c4f96a2fa455F9eA0e3BA
+
+[debug]: Geth: INFO [08-21|12:28:12.447] Starting peer-to-peer node               instance=Geth/v1.8.13-stable-225171a4/linux-amd64/go1.10
+
+[debug]: Geth: INFO [08-21|12:28:12.447] Allocated cache and file handles         database=/home/linuxuser/Downloads/embark-3.1.7/sportrank/.embark/development/datadir/geth/chaindata cache=768 handles=1024
+
+[debug]: Geth: INFO [08-21|12:28:12.558] Persisted trie from memory database      nodes=11 size=1.71kB time=76.569µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+
+[debug]: Geth: INFO [08-21|12:28:12.558] Initialised chain configuration          config="{ChainID: 1337 Homestead: 0 DAO: <nil> DAOSupport: false EIP150: 0 EIP155: 0 EIP158: 0 Byzantium: 0 Constantinople: <nil> Engine: clique}"
+
+[debug]: Geth: INFO [08-21|12:28:12.559] Initialising Ethereum protocol           versions="[63 62]" network=1337
+
+[debug]: Geth: INFO [08-21|12:28:12.560] Loaded most recent local header          number=12468 hash=14a1cf…bb612a td=24937
+INFO [08-21|12:28:12.561] Loaded most recent local full block      number=12468 hash=14a1cf…bb612a td=24937
+
+[debug]: Geth: INFO [08-21|12:28:12.561] Loaded most recent local fast block      number=12468 hash=14a1cf…bb612a td=24937
+
+[debug]: IPFS: Swarm listening on /ip4/127.0.0.1/tcp/4001
+Swarm listening on /ip4/192.168.1.127/tcp/4001
+Swarm listening on /ip6/::1/tcp/4001
+Swarm listening on /p2p-circuit/ipfs/Qme2qFgitekEX6GZMvhqKifkmn9ZTfnAxHSn5j9ByrhCGV
+
+[debug]: IPFS: Swarm announcing /ip4/127.0.0.1/tcp/4001
+Swarm announcing /ip4/192.168.1.127/tcp/4001
+Swarm announcing /ip6/::1/tcp/4001
+
+[debug]: IPFS: API server listening on /ip4/127.0.0.1/tcp/5001
+
+[trace]: Updating IPFS CORS using command: ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://localhost:8000\", \"http://localhost:8545\", \"ws://localhost:8546\"]"
+[debug]: IPFS: Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
+Daemon is ready
+
+[info]: [36mipfs process started[39m
+[trace]: Storage module: Checking ipfs availability...
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[info]: Finished starting all storage providers.
+[debug]: Geth: INFO [08-21|12:28:13.107] Loaded local transaction journal         transactions=2071 dropped=2071
+
+[debug]: Geth: INFO [08-21|12:28:13.107] Regenerated local transaction journal    transactions=0    accounts=0
+
+[debug]: Geth: WARN [08-21|12:28:13.107] Blockchain not empty, fast sync disabled 
+
+[debug]: Geth: INFO [08-21|12:28:13.155] Starting P2P networking 
+
+[debug]: Geth: INFO [08-21|12:28:13.156] RLPx listener up                         self="enode://4c8e5e76ffebb60505b25b486cc2f703686e0685ce47dbeedbbb984af0537b21093939c4cc155158bfc107fbd229da722694f67221c0025e2aa76c98c714234a@[::]:37307?discport=0"
+INFO [08-21|12:28:13.156] started whisper v.6.0 
+
+[debug]: Geth: INFO [08-21|12:28:13.158] IPC endpoint opened                      url=/home/linuxuser/Downloads/embark-3.1.7/sportrank/.embark/development/datadir/geth.ipc
+
+[debug]: Geth: INFO [08-21|12:28:13.158] HTTP endpoint opened                     url=http://localhost:8555                                                                 cors=http://localhost:8000,http://localhost:8080 vhosts=localhost
+
+[info]: [36mBlockchain node is ready[39m
+[debug]: Geth: INFO [08-21|12:28:13.159] WebSocket endpoint opened                url=ws://127.0.0.1:8556
+
+[debug]: Geth: INFO [08-21|12:28:13.159] Transaction pool price threshold updated price=18000000000
+INFO [08-21|12:28:13.159] Etherbase automatically configured       address=0xD7B262c3405E81fa2B2c4f96a2fa455F9eA0e3BA
+INFO [08-21|12:28:13.159] Starting mining operation 
+INFO [08-21|12:28:13.159] Commit new mining work                   number=12469 txs=0 uncles=0 elapsed=99.871µs
+WARN [08-21|12:28:13.159] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:14.717] Submitted transaction                    fullhash=0x4cb8c8166c2ef7e159609258d26c6f4d15fdca3376dc9ecc5d7941a247d770f6 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:14.718] Commit new mining work                   number=12469 txs=1 uncles=0 elapsed=756.435µs
+INFO [08-21|12:28:14.718] Successfully sealed new block            number=12469 hash=5c5759…b4e2b6
+INFO [08-21|12:28:14.719] 🔨 mined potential block                  number=12469 hash=5c5759…b4e2b6
+
+[debug]: Geth: INFO [08-21|12:28:14.720] Commit new mining work                   number=12470 txs=0 uncles=0 elapsed=654.974µs
+WARN [08-21|12:28:14.720] Block sealing failed                     err="waiting for transactions"
+
+[info]: Ethereum node detected..
+[trace]: [object Object]
+[trace]: [4mfinished[24m
+[info]: deploying contracts
+[info]: no contracts found
+[info]: Deployment Done
+[trace]: creating dir dist/css
+[info]: writing file [2m[1mdist/css/app.css[22m[22m
+[trace]: reading app/js/index.js
+[trace]: reading app/js/xml-doc-ops.js
+[trace]: reading app/xml/individual_rankings.xml
+[trace]: creating dir dist/xml
+[info]: writing file [2m[1mdist/xml/individual_rankings.xml[22m[22m
+[trace]: creating dir dist/images
+[trace]: reading app/index.html
+[trace]: creating dir dist/
+[info]: writing file [2m[1mdist/index.html[22m[22m
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[info]: IPFS node detected..
+[debug]: Geth: INFO [08-21|12:28:15.492] Mapped network port                      proto=tcp extport=37307 intport=37307 interface="UPNP IGDv1-IP1"
+
+[trace]: creating dir dist/js
+[info]: writing file [2m[1mdist/js/xml-doc-ops.js[22m[22m
+[debug]: Geth: INFO [08-21|12:28:16.218] Submitted transaction                    fullhash=0xfc6a676634d5d5ee3a3e0693d36413e4cbb6ae92462a7c25c18c7f6d80c7e450 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+INFO [08-21|12:28:16.218] Commit new mining work                   number=12470 txs=1 uncles=0 elapsed=236.383µs
+INFO [08-21|12:28:16.219] Successfully sealed new block            number=12470 hash=9cf7fc…811677
+INFO [08-21|12:28:16.219] 🔨 mined potential block                  number=12470 hash=9cf7fc…811677
+
+[debug]: Geth: INFO [08-21|12:28:16.220] Commit new mining work                   number=12471 txs=0 uncles=0 elapsed=853.323µs
+WARN [08-21|12:28:16.220] Block sealing failed                     err="waiting for transactions"
+
+[trace]: creating dir dist/js
+[info]: writing file [2m[1mdist/js/app.js[22m[22m
+[warning]: [32mNote: The console uses [39m[36m[4mweb3.js 1.0[24m [39m[32m the reference docs for web3.js can be found at http://web3js.readthedocs.io/en/1.0/[39m
+[info]: [36mLooking for documentation? You can find it at [39m[4m[32mhttp://embark.status.im/docs/[39m[24m[36m.[39m
+[info]: [4mReady[24m
+[debug]: Geth: INFO [08-21|12:28:17.722] Submitted transaction                    fullhash=0xc535977635da3951a55e1331c8ceaa3217b2396107ab3ce0d6ab36507b85e5a3 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+INFO [08-21|12:28:17.723] Commit new mining work                   number=12471 txs=1 uncles=0 elapsed=461.188µs
+
+[debug]: Geth: INFO [08-21|12:28:17.724] Successfully sealed new block            number=12471 hash=01be51…338240
+INFO [08-21|12:28:17.725] 🔨 mined potential block                  number=12471 hash=01be51…338240
+
+[debug]: Geth: INFO [08-21|12:28:17.726] Commit new mining work                   number=12472 txs=0 uncles=0 elapsed=1.743ms
+WARN [08-21|12:28:17.727] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:19.223] Submitted transaction                    fullhash=0x2c89767a4a01725031a0148631c6139349f2d41cc2ef1d6242557d438a4d1b8d recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:19.224] Commit new mining work                   number=12472 txs=1 uncles=0 elapsed=619.961µs
+
+[debug]: Geth: INFO [08-21|12:28:19.225] Successfully sealed new block            number=12472 hash=9c208c…ee2e59
+INFO [08-21|12:28:19.227] 🔨 mined potential block                  number=12472 hash=9c208c…ee2e59
+INFO [08-21|12:28:19.228] Commit new mining work                   number=12473 txs=0 uncles=0 elapsed=1.145ms
+WARN [08-21|12:28:19.228] Block sealing failed                     err="waiting for transactions"
+
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[debug]: Geth: INFO [08-21|12:28:20.725] Submitted transaction                    fullhash=0x529e1eefd2e0cd9d2ff45a9154117b5096fbf84b17f05893a25f506460cf2db3 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+INFO [08-21|12:28:20.726] Commit new mining work                   number=12473 txs=1 uncles=0 elapsed=327.217µs
+
+[debug]: Geth: INFO [08-21|12:28:20.726] Successfully sealed new block            number=12473 hash=d83c33…7fd472
+
+[debug]: Geth: INFO [08-21|12:28:20.727] 🔨 mined potential block                  number=12473 hash=d83c33…7fd472
+
+[debug]: Geth: INFO [08-21|12:28:20.728] Commit new mining work                   number=12474 txs=0 uncles=0 elapsed=959.861µs
+WARN [08-21|12:28:20.728] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:22.225] Submitted transaction                    fullhash=0x30d74057d90d94c87a6a5217ad42dc1ef4d61add91257438c77aa31e2656ee50 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:22.226] Commit new mining work                   number=12474 txs=1 uncles=0 elapsed=396.55µs
+INFO [08-21|12:28:22.226] Successfully sealed new block            number=12474 hash=6c60ac…c3fd3c
+INFO [08-21|12:28:22.228] 🔗 block reached canonical chain          number=12469 hash=5c5759…b4e2b6
+INFO [08-21|12:28:22.228] 🔨 mined potential block                  number=12474 hash=6c60ac…c3fd3c
+INFO [08-21|12:28:22.229] Commit new mining work                   number=12475 txs=0 uncles=0 elapsed=492.218µs
+WARN [08-21|12:28:22.229] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:23.730] Submitted transaction                    fullhash=0x6a0d62d0b3c10cf355ecbc8efcaac216d4b3bc17cfc9cceed42a20abe68e41ad recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:23.731] Commit new mining work                   number=12475 txs=1 uncles=0 elapsed=240.447µs
+
+[debug]: Geth: INFO [08-21|12:28:23.731] Successfully sealed new block            number=12475 hash=f7cb9e…8833d3
+
+[debug]: Geth: INFO [08-21|12:28:23.734] 🔗 block reached canonical chain          number=12470 hash=9cf7fc…811677
+INFO [08-21|12:28:23.734] 🔨 mined potential block                  number=12475 hash=f7cb9e…8833d3
+
+[debug]: Geth: INFO [08-21|12:28:23.735] Commit new mining work                   number=12476 txs=0 uncles=0 elapsed=708.908µs
+WARN [08-21|12:28:23.735] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:25.230] Submitted transaction                    fullhash=0x780d8b25c72c6004e1b58df869e6b6040b396b6da73f7b32368ddc198e5302e7 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:25.230] Commit new mining work                   number=12476 txs=1 uncles=0 elapsed=436.638µs
+
+[debug]: Geth: INFO [08-21|12:28:25.231] Successfully sealed new block            number=12476 hash=3429ef…5b2269
+
+[debug]: Geth: INFO [08-21|12:28:25.232] 🔗 block reached canonical chain          number=12471 hash=01be51…338240
+INFO [08-21|12:28:25.232] 🔨 mined potential block                  number=12476 hash=3429ef…5b2269
+
+[debug]: Geth: INFO [08-21|12:28:25.233] Commit new mining work                   number=12477 txs=0 uncles=0 elapsed=955.035µs
+WARN [08-21|12:28:25.233] Block sealing failed                     err="waiting for transactions"
+
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[debug]: Geth: INFO [08-21|12:28:26.730] Submitted transaction                    fullhash=0xd8bc44e020610c19c734f5baad2ecb8053361f15b9a3b6c8f6b92a130c8d4b10 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:26.731] Commit new mining work                   number=12477 txs=1 uncles=0 elapsed=258.289µs
+
+[debug]: Geth: INFO [08-21|12:28:26.731] Successfully sealed new block            number=12477 hash=c3ef4b…cb6d23
+
+[debug]: Geth: INFO [08-21|12:28:26.732] 🔗 block reached canonical chain          number=12472 hash=9c208c…ee2e59
+INFO [08-21|12:28:26.732] 🔨 mined potential block                  number=12477 hash=c3ef4b…cb6d23
+
+[debug]: Geth: INFO [08-21|12:28:26.732] Commit new mining work                   number=12478 txs=0 uncles=0 elapsed=626.59µs
+
+[debug]: Geth: WARN [08-21|12:28:26.732] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:28.235] Submitted transaction                    fullhash=0x8a57b28b07341640d0d9fa2eeaec155cf988b7df7af0e173f06e06e1b2b10fbe recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:28.235] Commit new mining work                   number=12478 txs=1 uncles=0 elapsed=495.135µs
+
+[debug]: Geth: INFO [08-21|12:28:28.236] Successfully sealed new block            number=12478 hash=f68b25…ad330f
+
+[debug]: Geth: INFO [08-21|12:28:28.237] 🔗 block reached canonical chain          number=12473 hash=d83c33…7fd472
+INFO [08-21|12:28:28.237] 🔨 mined potential block                  number=12478 hash=f68b25…ad330f
+
+[debug]: Geth: INFO [08-21|12:28:28.239] Commit new mining work                   number=12479 txs=0 uncles=0 elapsed=1.553ms
+WARN [08-21|12:28:28.239] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:29.736] Submitted transaction                    fullhash=0x78d12a68af621aa4e0244d69c385a8c3c8bf289fb5a12dc1e0ab62f27229cdac recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:29.738] Commit new mining work                   number=12479 txs=1 uncles=0 elapsed=1.052ms
+
+[debug]: Geth: INFO [08-21|12:28:29.740] Successfully sealed new block            number=12479 hash=e40ed7…6e80d4
+INFO [08-21|12:28:29.742] 🔗 block reached canonical chain          number=12474 hash=6c60ac…c3fd3c
+INFO [08-21|12:28:29.742] 🔨 mined potential block                  number=12479 hash=e40ed7…6e80d4
+
+[debug]: Geth: INFO [08-21|12:28:29.743] Commit new mining work                   number=12480 txs=0 uncles=0 elapsed=920.625µs
+
+[debug]: Geth: WARN [08-21|12:28:29.743] Block sealing failed                     err="waiting for transactions"
+
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[debug]: Geth: INFO [08-21|12:28:31.238] Submitted transaction                    fullhash=0x4edfd1d6b4993b3286ac2d91e4ebcb88390edff83964315e539df1a2ee409b24 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:31.239] Commit new mining work                   number=12480 txs=1 uncles=0 elapsed=565.362µs
+
+[debug]: Geth: INFO [08-21|12:28:31.240] Successfully sealed new block            number=12480 hash=ac629f…72690e
+
+[debug]: Geth: INFO [08-21|12:28:31.241] 🔗 block reached canonical chain          number=12475 hash=f7cb9e…8833d3
+INFO [08-21|12:28:31.241] 🔨 mined potential block                  number=12480 hash=ac629f…72690e
+
+[debug]: Geth: INFO [08-21|12:28:31.242] Commit new mining work                   number=12481 txs=0 uncles=0 elapsed=732.308µs
+WARN [08-21|12:28:31.242] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:32.742] Submitted transaction                    fullhash=0x1dd313f47051289ed3f9791600370e96d113f1c6bcd70b60e4df0a3fdc5e5798 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:32.742] Commit new mining work                   number=12481 txs=1 uncles=0 elapsed=352.201µs
+
+[debug]: Geth: INFO [08-21|12:28:32.743] Successfully sealed new block            number=12481 hash=465fc3…83deb7
+
+[debug]: Geth: INFO [08-21|12:28:32.744] 🔗 block reached canonical chain          number=12476 hash=3429ef…5b2269
+INFO [08-21|12:28:32.744] 🔨 mined potential block                  number=12481 hash=465fc3…83deb7
+
+[debug]: Geth: INFO [08-21|12:28:32.745] Commit new mining work                   number=12482 txs=0 uncles=0 elapsed=896.986µs
+
+[debug]: Geth: WARN [08-21|12:28:32.745] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:34.241] Submitted transaction                    fullhash=0xa843f77cf08ebab2973e8a74d0b1b9726878645f1cd6f052feb57c9bd8026c62 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:34.242] Commit new mining work                   number=12482 txs=1 uncles=0 elapsed=636.943µs
+
+[debug]: Geth: INFO [08-21|12:28:34.244] Successfully sealed new block            number=12482 hash=ed2698…605dcd
+
+[debug]: Geth: INFO [08-21|12:28:34.245] 🔗 block reached canonical chain          number=12477 hash=c3ef4b…cb6d23
+INFO [08-21|12:28:34.245] 🔨 mined potential block                  number=12482 hash=ed2698…605dcd
+
+[debug]: Geth: INFO [08-21|12:28:34.246] Commit new mining work                   number=12483 txs=0 uncles=0 elapsed=1.205ms
+WARN [08-21|12:28:34.246] Block sealing failed                     err="waiting for transactions"
+
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
+[debug]: Geth: INFO [08-21|12:28:35.743] Submitted transaction                    fullhash=0x84c56fa2c372f14aea64f541122cf199a5b29c7809f9b2833a2a188dba452677 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:35.743] Commit new mining work                   number=12483 txs=1 uncles=0 elapsed=374.161µs
+
+[debug]: Geth: INFO [08-21|12:28:35.744] Successfully sealed new block            number=12483 hash=ddc32e…283cd0
+INFO [08-21|12:28:35.745] 🔗 block reached canonical chain          number=12478 hash=f68b25…ad330f
+INFO [08-21|12:28:35.745] 🔨 mined potential block                  number=12483 hash=ddc32e…283cd0
+
+[debug]: Geth: INFO [08-21|12:28:35.747] Commit new mining work                   number=12484 txs=0 uncles=0 elapsed=1.369ms
+WARN [08-21|12:28:35.747] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:37.246] Submitted transaction                    fullhash=0xa0da7f234e1628c04b4fcf43bd6de045d8c115a044b4f5cadbc42f2efef69d24 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:37.247] Commit new mining work                   number=12484 txs=1 uncles=0 elapsed=389.367µs
+INFO [08-21|12:28:37.248] Successfully sealed new block            number=12484 hash=f3dcfa…d3bc69
+
+[debug]: Geth: INFO [08-21|12:28:37.249] 🔗 block reached canonical chain          number=12479 hash=e40ed7…6e80d4
+INFO [08-21|12:28:37.249] 🔨 mined potential block                  number=12484 hash=f3dcfa…d3bc69
+
+[debug]: Geth: INFO [08-21|12:28:37.250] Commit new mining work                   number=12485 txs=0 uncles=0 elapsed=1.383ms
+
+[debug]: Geth: WARN [08-21|12:28:37.250] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:38.748] Submitted transaction                    fullhash=0xb2ba368cf9c56ef66ebfd81faccdd6f8fde9c51d04c404cf50330efca53cc981 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:38.749] Commit new mining work                   number=12485 txs=1 uncles=0 elapsed=693.656µs
+
+[debug]: Geth: INFO [08-21|12:28:38.751] Successfully sealed new block            number=12485 hash=b285b2…36dd7e
+INFO [08-21|12:28:38.752] 🔗 block reached canonical chain          number=12480 hash=ac629f…72690e
+INFO [08-21|12:28:38.752] 🔨 mined potential block                  number=12485 hash=b285b2…36dd7e
+
+[debug]: Geth: INFO [08-21|12:28:38.753] Commit new mining work                   number=12486 txs=0 uncles=0 elapsed=848.691µs
+WARN [08-21|12:28:38.753] Block sealing failed                     err="waiting for transactions"
+
+[debug]: Geth: INFO [08-21|12:28:40.250] Submitted transaction                    fullhash=0xe456d492e5a15b0ea16e86087086b15e63fcce4ce10fcbcd295f94781cbc5182 recipient=0xA2817254cb8E7b6269D1689c3E0eBadbB78889d1
+
+[debug]: Geth: INFO [08-21|12:28:40.251] Commit new mining work                   number=12486 txs=1 uncles=0 elapsed=486.897µs
+
+[debug]: Geth: INFO [08-21|12:28:40.252] Successfully sealed new block            number=12486 hash=b7de20…b16f8c
+
+[debug]: Geth: INFO [08-21|12:28:40.253] 🔗 block reached canonical chain          number=12481 hash=465fc3…83deb7
+INFO [08-21|12:28:40.253] 🔨 mined potential block                  number=12486 hash=b7de20…b16f8c
+
+[debug]: Geth: INFO [08-21|12:28:40.255] Commit new mining work                   number=12487 txs=0 uncles=0 elapsed=1.705ms
+
+[debug]: Geth: WARN [08-21|12:28:40.255] Block sealing failed                     err="waiting for transactions"
+
+[trace]: Checking IPFS version on http://localhost:5001/api/v0/version...
+[trace]: IPFS available
