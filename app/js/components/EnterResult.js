@@ -120,6 +120,7 @@ console.log('currentUser' + currentUser);
       // updateUser.targetData = 0;
 
       //create an updatedUserJSON object to update the User in the Json
+      //_setVal each time you need to make a change
       let updatedUserJSON = this._setVal(updateUserRank);
       console.log('updatedUserJSON');
       console.log(updatedUserJSON);
@@ -137,6 +138,15 @@ console.log('currentUser' + currentUser);
       console.log('updatedUserJSON CURRENTCHALLENGERID');
       console.log(updatedUserJSON);
 
+      //re-set the current user's CURRENTCHALLENGERNAME
+      //TODO:change updateUserCURRENTCHALLENGERID to a better name
+      updateUserCURRENTCHALLENGERID.lookupField = "NAME";
+      updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
+      updateUserCURRENTCHALLENGERID.targetField = "CURRENTCHALLENGERNAME";
+      //update the current user's rank to the selected opponent's rank
+      updateUserCURRENTCHALLENGERID.targetData = "Available";
+      updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
+
       //update the Opponent fields
      updateOpponent.lookupField = "NAME";
      updateOpponent.lookupKey = selectedOpponent;
@@ -144,11 +154,21 @@ console.log('currentUser' + currentUser);
      //update the opponent's rank to the user's rank
      updateOpponent.targetData = currentUserRank;
 
+       updatedUserJSON = this._setVal(updateOpponent);
+
      console.log('updateOpponent');
       console.log(updateOpponent);
-      //update again with the oppenent's rank also changed
+      //update again with the oppenent's CURRENTCHALLENGERNAME also changed
       //to the same updatedUserJSON object
+
+      updateOpponent.lookupField = "NAME";
+      updateOpponent.lookupKey = selectedOpponent;
+      updateOpponent.targetField = "CURRENTCHALLENGERNAME";
+      //update the opponent's rank to the user's rank
+      updateOpponent.targetData = "Available";
+
       updatedUserJSON = this._setVal(updateOpponent);
+
 
       //only send after all the updates have been made
       //to the updatedUserJSON object
@@ -228,6 +248,7 @@ console.log('currentUser' + currentUser);
       const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
         this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
 
+        console.log('_handleClick');
         console.log(result);
 
       // estimate gas before sending challenge transaction
@@ -241,7 +262,7 @@ console.log('currentUser' + currentUser);
       //this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      //onAfterchallenge();
+      this.props.onAfterChallenge();
     }
     catch(err){
       // remove loading state and show error message

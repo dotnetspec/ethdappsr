@@ -210,7 +210,7 @@ class Home extends Component{
                     >
                       Rank
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField='CURRENTCHALLENGERID'
+                    <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
                     >
                       Current Challenger
                     </TableHeaderColumn>
