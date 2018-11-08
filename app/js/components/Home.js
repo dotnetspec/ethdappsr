@@ -161,12 +161,7 @@ class Home extends Component{
           selectedOpponentName={selectRowProp.selectedOpponentName}
           user={this.props.user}>
           </DoChallenge>
-
-
-
-
               Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
-
           <EnterResult
           data={this.props.rankingJSONdata}
           selectedOpponentRank={selectRowProp.selectedOpponentRank}

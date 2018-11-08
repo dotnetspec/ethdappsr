@@ -118,6 +118,17 @@ class DoChallenge extends Component{
     //create a new obj with all the updates within it before sending
     let updatedUserJSON = this._setVal(lookupOpponentID);
 
+    //update the CURRENTCHALLENGERNAME as well
+    lookupOpponentID.lookupField = "NAME";
+    lookupOpponentID.lookupKey = selectedOpponent;
+    lookupOpponentID.targetField = "CURRENTCHALLENGERNAME";
+    //update the opponent's CURRENTCHALLENGERNAME to the current user's name
+    lookupOpponentID.targetData = currentUser;
+
+    //update json with all the updates within it before sending
+    updatedUserJSON = this._setVal(lookupOpponentID);
+
+
     //only send after all the updates have been made
     //to the updatedUserJSON object
     this._sendJSONData(updatedUserJSON);
