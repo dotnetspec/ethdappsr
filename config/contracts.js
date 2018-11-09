@@ -9,9 +9,9 @@ module.exports = {
     },
     // order of connections the dapp should connect to
     dappConnection: [
-      "$WEB3",  // uses pre existing web3 object if available (e.g in Mist)
-      "ws://localhost:8546",
       "http://localhost:8545"
+      //"ws://localhost:8546"
+      //"$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
     contracts: {
 
