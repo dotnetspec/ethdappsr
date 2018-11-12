@@ -9,7 +9,7 @@ import DoChallenge from './DoChallenge'
 import EnterResult from './EnterResult'
 //import testData from "../../json/Rankings.json";
 
-//REVIEW: Global variable
+//REVIEW: Global variables
 //currently only assigned when click challenge... button
  let currentUserRank = 0;
  let opponentUserRank = 0;
@@ -21,25 +21,14 @@ import EnterResult from './EnterResult'
 //i.e. setting state by passing a function
 //https://reactjs.org/docs/state-and-lifecycle.html
 
-//quick edit
 
- const selectRowProp = {
-   mode: 'radio',
-   selectedOpponentName: '',
-   clickToSelect: true,
-   unselectable: [0],
-   selected: [],
-   onSelect: onSelectRow,
-   bgColor: 'gold',
-   selectedOpponentRank: ''
- };
-
- function onSelectRow(row, isSelected, e) {
-      if (isSelected) {
-        selectRowProp.selectedOpponentName = `${row['NAME']}`;
-        selectRowProp.selectedOpponentRank = `${row['RANK']}`;
-      }
-    }
+//REVIEW: selectRowPropAfterClickRow had to be created separately from selectRowProp to handle the row data
+//after selecting a row
+const selectRowPropAfterClickRow = {
+  selectedOpponentName: '',
+  selected: [],
+  selectedOpponentRank: ''
+};
 
 
 //REVIEW: Possibly unnecessary re-rendering
@@ -81,10 +70,21 @@ class Home extends Component{
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
    };
+   //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
    //this._handleClose = this._handleClose.bind(this);
   }
   //#endregion
+
+
+//onSelectRow must be a component function of Home so that it is possible to toggle the modal
+  onSelectRow(row, isSelected, e) {
+       if (isSelected) {
+          selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
+          selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
+          this._handleShow();
+       }
+     }
 
   /**
    * Hides the challenge modal
@@ -98,76 +98,52 @@ class Home extends Component{
    * Shows the challenge modal
    */
   _handleShow() {
-    if(selectRowProp.selectedOpponentName != this.props.user){
+    if(selectRowPropAfterClickRow.selectedOpponentName != this.props.user){
     this.setState({ showModal: true });
+    this.setState({ warningText: '' });
   }else{
-    console.log('try');
       this.setState({ warningText: ' You cannot challenge yourself!' });
-      return (
-      <div>
-       You can't challenge yourself!
-      </div>
-    );
     }
 }
 
-  //find the user entry in the json return id, name and Rank
-  // _findUserInJson(username){
-  //   // Object.keys(PlayerData).map(key => (
-  //   //     <Issue key={key} details={PlayerData[key]} />
-  //   //   ))
-  //   return username;
-  // }
-
-//   Your current ranking is:
-//   {Object.keys(this.props.rankingJSONdata).map(key => (
-//  <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
-// ))}
-
-  // _getUserRank(){
-  //   const jsondata = this.state.data;
-  // //  const username = this.state.user;
-  //   //console.log(username);
-  //   var arr = [];
-  //   //Object.keys(jsondata).forEach(function(key) {
-  //     Object.keys(this.props.rankingJSONdata).map(key => {
-  //     console.log(this.props.rankingJSONdata[key].NAME);
-  //     console.log(this.props.user);
-  //
-  //     if (this.props.rankingJSONdata[key].NAME === this.props.user){
-  //      arr.push(this.props.rankingJSONdata[key]);
-  //     }
-  //   });
-  //    console.log(arr[0].RANK);
-  //    //return arr[0].RANK;
-  // }
 
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
+//REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
+//onSelectRow function within this component. This is not fully understood and needs to be
+//better understood
   render() {
+    const selectRowProp = {
+      mode: 'radio',
+      selectedOpponentName: '',
+      clickToSelect: true,
+      unselectable: [0],
+      selected: [],
+      onSelect: this.onSelectRow.bind(this),
+      bgColor: 'gold',
+      selectedOpponentRank: ''
+    };
+
     return (
       <div>
-      <Button bsStyle="primary" onClick={(e) => this._handleShow(e)}>
-        Challenge/Enter Result vs Selected Opponent
-      </Button>
-      <p></p>
+
       <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
           <Modal.Title>Instructions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        Would you like to challenge {selectRowProp.selectedOpponentName} who is ranked {selectRowProp.selectedOpponentRank}?<p></p>
+        Would you like to challenge {selectRowPropAfterClickRow.selectedOpponentName} who is ranked {selectRowPropAfterClickRow.selectedOpponentRank}?<p></p>
          <DoChallenge onAfterChallenge={(e) => this._handleClose()}
           data={this.props.rankingJSONdata}
-          selectedOpponentName={selectRowProp.selectedOpponentName}
+          selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}>
           </DoChallenge>
-              Or enter the result from your last ladder match with {selectRowProp.selectedOpponentName}:
+              Or enter the result from your last ladder match with {selectRowPropAfterClickRow.selectedOpponentName}:
           <EnterResult
           data={this.props.rankingJSONdata}
-          selectedOpponentRank={selectRowProp.selectedOpponentRank}
+          selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
           currentUserRank={currentUserRank}
           user={this.props.user}
-          selectedOpponentName={selectRowProp.selectedOpponentName}
+          selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           onAfterChallenge={(e) => this._handleClose()}></EnterResult>
 
         </Modal.Body>
