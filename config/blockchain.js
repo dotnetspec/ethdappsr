@@ -16,8 +16,8 @@ module.exports = {
     proxy: true,
     account: {
       password: "config/development/password",
-      numAccounts: 3,
-      balance: "5 ether"
+      numAccounts: 6,
+      balance: "1 ether"
     },
     targetGasLimit: 10000000000,
     wsOrigins: "auto",

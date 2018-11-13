@@ -53,6 +53,9 @@ class CreateUser extends Component {
       // check result status. if status is false or '0x0', show user the tx details to debug error
       if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
         return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+      } else {
+
+        //update the json with the new user
       }
 
       // Completed of async action, set loading state back
@@ -188,7 +191,7 @@ class CreateUser extends Component {
                 type="text"
                 value={ this.state.username }
                 disabled={ isLoading }
-                placeholder="Relevant info e.g. your current grade"
+                placeholder="No gaps e.g. Jahangir_Khan - cannot be changed!"
                 onKeyPress={ (e) => e.key === '@' || e.key === ' ' ? e.preventDefault() : true }
                 onChange={ (e) => this._handleChange(e) }
                 name="username"
@@ -207,7 +210,7 @@ class CreateUser extends Component {
               <FieldGroup
                 type="text"
                 value={ this.state.description }
-                placeholder="Germany for the 2018 World Cup winnnnnn!! 😞"
+                placeholder="Relevant info e.g. your contact details and current grade"
                 onChange={(e) => this._handleChange(e)}
                 name="description"
                 label="Description"

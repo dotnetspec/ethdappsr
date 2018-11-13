@@ -7,7 +7,7 @@ import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import axios from 'axios'
-import jsonData from '../../json/Rankings.json'
+//import jsonData from '../../json/Rankings.json'
 
 //REVIEW: Global variable
 //currently only assigned when click challenge... button

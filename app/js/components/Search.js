@@ -32,7 +32,7 @@ class Search extends Component {
    * @returns {null}
    */
   _handleClick(e) {
-    // if the form is in error, or the user has not typed in a username, do no nothing
+    // if the form is in error, or the user has not typed in a username, do nothing
     if (this._getValidationState() === 'error' || !this.state.usernameHasChanged) {
       return e.preventDefault();
     }

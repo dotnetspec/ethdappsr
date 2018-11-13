@@ -7,6 +7,8 @@ import Spinner from 'react-spinkit';
 import Chance from "chance"
 import DoChallenge from './DoChallenge'
 import EnterResult from './EnterResult'
+import JSONops from './JSONops'
+
 //import testData from "../../json/Rankings.json";
 
 //REVIEW: Global variables
@@ -98,6 +100,7 @@ class Home extends Component{
    * Shows the challenge modal
    */
   _handleShow() {
+    //TODO: make current user unselectable
     if(selectRowPropAfterClickRow.selectedOpponentName != this.props.user){
     this.setState({ showModal: true });
     this.setState({ warningText: '' });
@@ -111,16 +114,15 @@ class Home extends Component{
 //REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
 //onSelectRow function within this component. This is not fully understood and needs to be
 //better understood
+//https://github.com/AllenFang/react-bootstrap-table/issues/1035
   render() {
     const selectRowProp = {
       mode: 'radio',
-      selectedOpponentName: '',
       clickToSelect: true,
       unselectable: [0],
       selected: [],
       onSelect: this.onSelectRow.bind(this),
-      bgColor: 'gold',
-      selectedOpponentRank: ''
+      bgColor: 'gold'
     };
 
     return (
@@ -155,7 +157,8 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
               <PageHeader>
-              {this.state.warningText}<p></p>
+              
+                {this.state.warningText}<p></p>
                 {this.props.user}<p></p>
                 Your current ranking is:
                 {Object.keys(this.props.rankingJSONdata).map(key => (

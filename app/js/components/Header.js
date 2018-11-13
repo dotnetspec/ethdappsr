@@ -71,9 +71,9 @@ class Header extends Component {
     this.props.onAfterUserUpdate();
     if (e.target.attributes.username.value) {
       //this used to be:
-      //this.props.history.push('/update/@' + e.target.attributes.username.value);
+      this.props.history.push('/update/@' + e.target.attributes.username.value);
       //if there's already a username just return to home page
-      this.props.history.push('/');
+      //this.props.history.push('/');
     }
     else {
       //create a new user
