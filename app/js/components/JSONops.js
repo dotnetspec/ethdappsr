@@ -1,5 +1,34 @@
 //TODO: refactor
 const JSONops = {
+
+  _loadsetJSONData: function(){
+
+
+    //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+    //JSON data can and should be in ANY order
+    //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+    fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
+    //TODO: get it working with ipfs/swarm
+    //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      // this.setState({
+      //   //isLoading: false,
+      //   data: responseJson,
+      //
+      // }
+
+      //, function(){
+  //console.log(responseJson);
+      //});
+      console.log(responseJson);
+  return responseJson
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  },
+
     _updateEnterResultJSON: function(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, data){
 
       let updateUserRank = {
@@ -243,6 +272,56 @@ const JSONops = {
                   //if (!update.checkAllRows) { return; }
               }
           }
+
+    },
+
+    createNewUserInJSON: function(data){
+
+      let createNewJSONuserObj = {
+        jsonRS: data
+        // lookupField: '',
+        // lookupKey: '',
+        // targetField: "CURRENTCHALLENGERID",
+        // targetData: "",
+        // checkAllRows: false
+        };
+
+        const newData = {
+                           "id":5,
+                           "NAME": "Joe Bloggs",
+                           "RANK": "5",
+                           "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
+                           "CURRENTCHALLENGERID": 0,
+                           "CURRENTCHALLENGERNAME": "",
+                           "NICKNAME": "JoeyB"
+                        }
+
+      console.log('in createNewUserInJSON');
+      console.log(createNewJSONuserObj.jsonRS);
+
+//TODO: ready to send to jsonbin
+        createNewJSONuserObj.jsonRS.push(newData);
+
+        console.log('after the push');
+        console.log(createNewJSONuserObj.jsonRS);
+
+          //for (var i = 0; i < update.jsonRS.length; i++) {
+            // console.log('in setval for loop');
+            // console.log(typeof(update.jsonRS[i][update.lookupField]));
+            // console.log(typeof(update.lookupKey));
+            //REVIEW: what does update.lookupKey === '*' mean?
+              //if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
+                //console.log('here1');
+                  //update.jsonRS[i][update.targetField] = update.targetData;
+                    // console.log(update.jsonRS[i][update.targetField]);
+                    // console.log(update.jsonRS);
+                    //return update.jsonRS;
+                  //return "in createNewUserInJSON";
+                  //if (!update.checkAllRows) { return; }
+              //}
+          //}
+
+          //this._sendJSONData(createNewJSONuserObj);
 
     },
 

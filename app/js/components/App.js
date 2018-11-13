@@ -7,6 +7,7 @@ import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 import axios from 'axios'
+import JSONops from './JSONops'
 //import jsonData from '../../json/Rankings.json'
 
 //REVIEW: Global variable
@@ -57,7 +58,7 @@ class App extends Component {
       userAccounts: [],
       balance: 0,
       data: [],
-      //data: jsonData,
+      //data: JSONops._loadsetJSONData(),
       rank: '0'
     }
     this._loadsetJSONData();
@@ -68,7 +69,8 @@ class App extends Component {
 
   //#region Helper methods
 
-
+//TODO; any way to ge this into JSONops?
+//problem is setting data: in state of this component
 _loadsetJSONData(){
 
   //NOTE: it is the api.jsonbin NOT the jsonbin.io!
