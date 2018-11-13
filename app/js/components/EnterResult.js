@@ -65,7 +65,7 @@ console.log('currentUser' + currentUser);
             }else{
               console.log('update');
               //this._updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank);
-              JSONops._updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, this.props.data);
+              JSONops._updateEnterResultJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, this.props.data);
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
 
