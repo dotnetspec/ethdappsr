@@ -39,7 +39,7 @@ class CreateUser extends Component {
     //console.log(JSONops.createNewUserInJSON());
     //TODO: all the json data for create new user is here ready to be appended to
     console.log(this.props.rankingJSONdata);
-    JSONops.createNewUserInJSON(this.props.rankingJSONdata);
+    JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
 
     // this.setState({ isLoading: true });
     // const { username, description } = this.state;

@@ -275,25 +275,26 @@ const JSONops = {
 
     },
 
-    createNewUserInJSON: function(data){
+    createNewUserInJSON: function(originalData, username, accountno, description){
 
       let createNewJSONuserObj = {
-        jsonRS: data
-        // lookupField: '',
-        // lookupKey: '',
-        // targetField: "CURRENTCHALLENGERID",
-        // targetData: "",
-        // checkAllRows: false
+        jsonRS: originalData
         };
 
+        const nextIDandInitialRank = this.getNextID(createNewJSONuserObj.jsonRS);
+        console.log(nextIDandInitialRank);
+        const nickName = username.substring(0,5);
+          console.log(nickName);
+
         const newData = {
-                           "id":5,
-                           "NAME": "Joe Bloggs",
-                           "RANK": "5",
-                           "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
+                           "id":nextIDandInitialRank,
+                           "NAME": username,
+                           "RANK": nextIDandInitialRank,
+                           "ACCOUNT": accountno,
                            "CURRENTCHALLENGERID": 0,
                            "CURRENTCHALLENGERNAME": "",
-                           "NICKNAME": "JoeyB"
+                           "NICKNAME": nickName,
+                           "DESCRIPTION": description
                         }
 
       console.log('in createNewUserInJSON');
@@ -324,6 +325,12 @@ const JSONops = {
           //this._sendJSONData(createNewJSONuserObj);
 
     },
+
+      //add 1 to existing length of json obj array to obtain a new id number
+      getNextID: function(data){
+        const add1toLengthtogetID = data.length + 1;
+        return add1toLengthtogetID;
+      },
 
     _sendJSONData: function(data){
       let req = new XMLHttpRequest();

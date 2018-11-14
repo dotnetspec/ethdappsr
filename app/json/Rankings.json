@@ -6,7 +6,8 @@
         "ACCOUNT": "0xD1B15d00dc4E025C1138ec659d8C019dCD8671B8",
         "CURRENTCHALLENGERID": 2,
         "CURRENTCHALLENGERNAME": "Phil_Mockridge",
-        "NICKNAME": "PhilM"
+        "NICKNAME": "PhilM",
+        "DESCRIPTION": ""
       },
       {
         "id":2,
@@ -15,24 +16,7 @@
         "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
         "CURRENTCHALLENGERID": 3,
         "CURRENTCHALLENGERNAME": "Bob Dylan",
-        "NICKNAME": "PhilipM"
-      },
-      {
-        "id":3,
-        "NAME": "Bob Dylan",
-        "RANK": "3",
-        "ACCOUNT": "0xD1B15d00dc4E025C1138ec659d8C019dCD8671B8",
-        "CURRENTCHALLENGERID": 4,
-        "CURRENTCHALLENGERNAME": "Dolly Parton",
-        "NICKNAME": "BobD"
-      },
-      {
-        "id":4,
-        "NAME": "Dolly Parton",
-        "RANK": "4",
-        "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166",
-        "CURRENTCHALLENGERID": 0,
-        "CURRENTCHALLENGERNAME": "",
-        "NICKNAME": "DollyP"
+        "NICKNAME": "PhilipM",
+        "DESCRIPTION": ""
       }
 ]
