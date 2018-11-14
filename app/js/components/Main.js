@@ -4,6 +4,7 @@ import Home from './Home';
 import Userchallenges from './Userchallenges';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
+import DeletePlayer from './DeletePlayer';
 import Error from './Error';
 import React, { Component } from 'react';
 
@@ -38,6 +39,7 @@ class Main extends Component {
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
+          <PropsRoute path='/delete/@:username' component={DeletePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>
       </main>

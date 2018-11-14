@@ -326,6 +326,11 @@ const JSONops = {
 
     },
 
+    deletePlayer: function(data, username, accountno){
+      //const add1toLengthtogetID = data.length + 1;
+      return username + accountno;
+    },
+
       //add 1 to existing length of json obj array to obtain a new id number
       getNextID: function(data){
         const add1toLengthtogetID = data.length + 1;

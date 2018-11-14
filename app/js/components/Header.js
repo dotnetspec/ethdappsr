@@ -53,6 +53,18 @@ class Header extends Component {
     }
   }
 
+  _handleDeletePlayer(username) {
+    if(username != null){
+      // redirect user to the profile update page
+      this.props.history.push('/delete/@' + username);
+    }
+    else {
+      //create a new user
+      //TODO: add better handling here
+      //this.props.history.push('/create');
+    }
+  }
+
   /**
    * Toggles the current account address tooltip
    */
@@ -201,6 +213,9 @@ class Header extends Component {
 
       <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
+      </Button>
+      <Button bsStyle="primary" onClick={(e) => this._handleDeletePlayer(this.props.user[1])}>
+        Delete Player
       </Button>
 
       {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
