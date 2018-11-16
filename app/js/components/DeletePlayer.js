@@ -40,8 +40,14 @@ class DeletePlayer extends Component {
     //TODO: all the json data for create new user is here ready to be appended to
     //console.log(this.props.rankingJSONdata);
     //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
-    const temp = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
-    console.log(temp);
+    try {
+    const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+    //console.log(temp);
+    JSONops._sendJSONData(deletedPlayerJSON);
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
     // this.setState({ isLoading: true });
     // const { username, description } = this.state;
     //
@@ -95,57 +101,57 @@ class DeletePlayer extends Component {
    *
    * @return {null}
    */
-  _handleChange = async(e) => {
-    let state = {};
-    const input = e.target.name;
-    const value = e.target.value;
+  // _handleChange = async(e) => {
+  //   let state = {};
+  //   const input = e.target.name;
+  //   const value = e.target.value;
+  //
+  //   state[input] = value;
+  //
+  //   if (input === 'username') {
+  //
+  //     state.usernameHasChanged = true;
+  //
+  //     if (value.length >= 5) {
+  //
+  //       // ensure we're not already loading the last lookup
+  //       if (!this.state.isLoading) {
+  //
+  //         // call the userExists method in our contract asynchronously
+  //         DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
+  //         .then((exists) => {
+  //
+  //
+  //           // stop loading state
+  //           state.isLoading = false;
+  //
+  //           // show error to user if user doesn't exist
+  //           state.error = exists ? 'Username not available' : '';
+  //
+  //           this.setState(state);
+  //
+  //         }).catch((err) => {
+  //
+  //           // stop loading state
+  //           state.isLoading = false;
+  //
+  //           // show error message to user
+  //           state.error = err.message;
+  //
+  //           this.setState(state);
+  //         });
+  //
+  //         // set loading state while checking the contract
+  //         state.isLoading = true;
+  //       }
+  //
+  //       // we are loading already, do nothing while we wait
+  //       return true;
+  //     }
+  //   }
 
-    state[input] = value;
-
-    if (input === 'username') {
-
-      state.usernameHasChanged = true;
-
-      if (value.length >= 5) {
-
-        // ensure we're not already loading the last lookup
-        if (!this.state.isLoading) {
-
-          // call the userExists method in our contract asynchronously
-          DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
-          .then((exists) => {
-
-
-            // stop loading state
-            state.isLoading = false;
-
-            // show error to user if user doesn't exist
-            state.error = exists ? 'Username not available' : '';
-
-            this.setState(state);
-
-          }).catch((err) => {
-
-            // stop loading state
-            state.isLoading = false;
-
-            // show error message to user
-            state.error = err.message;
-
-            this.setState(state);
-          });
-
-          // set loading state while checking the contract
-          state.isLoading = true;
-        }
-
-        // we are loading already, do nothing while we wait
-        return true;
-      }
-    }
-
-    this.setState(state);
-  }
+  //   this.setState(state);
+  // }
   //#endregion
 
   //#region Helper methods
@@ -156,49 +162,61 @@ class DeletePlayer extends Component {
    * @return {string} null for no state change, 'success'
    * if valid, and error' if invalid
    */
-  _getValidationState() {
-
-    // considered valid while loading as we don't know yet
-    if (this.state.isLoading) return null;
-
-    // check that we have at least 5 characters in the username
-    const length = this.state.username.length;
-    if (length === 0){
-      if(this.state.usernameHasChanged) return 'error';
-      return null;
-    }
-    if (length <= 5) return 'error';
-
-    // don't allow '@' or spaces
-    if(new RegExp(/[@\s]/gi).test(this.state.username)) return 'error';
-
-    // if we have an error, returning 'error' shows the user
-    // the form is in error (red). Conversely, returning 'success'
-    // shows the user the form is valid (green).
-    return this.state.error.length > 0 ? 'error' : 'success';
-  }
+  // _getValidationState() {
+  //
+  //   // considered valid while loading as we don't know yet
+  //   if (this.state.isLoading) return null;
+  //
+  //   // check that we have at least 5 characters in the username
+  //   const length = this.state.username.length;
+  //   if (length === 0){
+  //     if(this.state.usernameHasChanged) return 'error';
+  //     return null;
+  //   }
+  //   if (length <= 5) return 'error';
+  //
+  //   // don't allow '@' or spaces
+  //   if(new RegExp(/[@\s]/gi).test(this.state.username)) return 'error';
+  //
+  //   // if we have an error, returning 'error' shows the user
+  //   // the form is in error (red). Conversely, returning 'success'
+  //   // shows the user the form is valid (green).
+  //   return this.state.error.length > 0 ? 'error' : 'success';
+  // }
   //#endregion
 
   //#region React lifecycle events
   render() {
     const { isLoading } = this.state;
-    let validationState = this._getValidationState();
-    let isValid = validationState === 'success' && !isLoading && !this.state.error;
-    let feedback = isValid ? 'Username is available' : this.state.error || 'Usernames must be 6 or more characters and cannot include @ or spaces.';
-
-    if (!this.state.usernameHasChanged) feedback = '';
+    // let validationState = this._getValidationState();
+    // let isValid = validationState === 'success' && !isLoading && !this.state.error;
+    // let feedback = isValid ? 'Username is available' : this.state.error || 'Usernames must be 6 or more characters and cannot include @ or spaces.';
+    //
+    // if (!this.state.usernameHasChanged) feedback = '';
 
     return (
       <>
-      <h3>Are you sure you want to delete this player?</h3>
-      <Button
-        bsStyle="primary"
-        //disabled={ !isValid }
-        //onClick={ !isValid ? null : (e) => this._handleClick(e) }
-        onClick={ (e) => this._handleClick(e) }
-      >
-      { isLoading ? 'Loading...' : 'Delete Player' }
-      </Button>
+        <Grid>
+          <Row className="show-grid">
+            <Col xs={12} md={8}>
+              <h3 align='center'>Are you sure you want to delete this player?</h3>
+
+            </Col>
+          </Row>
+          <Row className="show-grid">
+            <Col xs={12} md={8} xsOffset={3} >
+
+              <Button
+                bsStyle="primary"
+                //disabled={ !isValid }
+                //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+                onClick={ (e) => this._handleClick(e) }
+              >
+              { isLoading ? 'Loading...' : 'Delete Player' }
+              </Button>
+            </Col>
+          </Row>
+        </Grid>
       </>
     );
   }

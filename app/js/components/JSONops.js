@@ -281,6 +281,10 @@ const JSONops = {
         jsonRS: originalData
         };
 
+        createNewJSONuserObj.lookupField = "NAME";
+        //TODO: this is 'currentuser' elasewhere
+        createNewJSONuserObj.lookupKey = username;
+
         const nextIDandInitialRank = this.getNextID(createNewJSONuserObj.jsonRS);
         console.log(nextIDandInitialRank);
         const nickName = username.substring(0,5);
@@ -321,14 +325,33 @@ const JSONops = {
                   //if (!update.checkAllRows) { return; }
               //}
           //}
-
+          //when delete has been coded can implement/send create
           //this._sendJSONData(createNewJSONuserObj);
 
     },
 
-    deletePlayer: function(data, username, accountno){
-      //const add1toLengthtogetID = data.length + 1;
-      return username + accountno;
+    deletePlayer: function(originalData, currentUser, accountno){
+      let deletePlayerJSONuserObj = {
+        jsonRS: originalData,
+
+        };
+
+        deletePlayerJSONuserObj.lookupField = "NAME";
+        deletePlayerJSONuserObj.lookupKey = currentUser;
+
+
+        console.log(deletePlayerJSONuserObj.jsonRS);
+        //delete deletePlayerJSONuserObj.jsonRS[3];
+        //console.log(deletePlayerJSONuserObj.jsonRS);
+
+          for (var i = 0; i < deletePlayerJSONuserObj.jsonRS.length; i++) {
+              if (deletePlayerJSONuserObj.jsonRS[i][deletePlayerJSONuserObj.lookupField] === deletePlayerJSONuserObj.lookupKey || deletePlayerJSONuserObj.lookupKey === '*') {
+                console.log(deletePlayerJSONuserObj.jsonRS[i]);
+                  delete deletePlayerJSONuserObj.jsonRS[i];
+              }
+          }
+          deletePlayerJSONuserObj.jsonRS = deletePlayerJSONuserObj.jsonRS.filter(function(x) { return x !== null }); 
+      return deletePlayerJSONuserObj.jsonRS;
     },
 
       //add 1 to existing length of json obj array to obtain a new id number
@@ -349,11 +372,13 @@ const JSONops = {
           //NOTE: it is the api.jsonbin NOT the jsonbin.io!
           //JSON data can and should be in ANY order
           //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+          //use above to edit manually.
+          //to view latest https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest
 
           req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
           req.setRequestHeader("Content-type", "application/json");
           var myJsonString = JSON.stringify(data);
-          //console.log(myJsonString);
+          console.log(myJsonString);
           req.send(myJsonString);
 
   }
