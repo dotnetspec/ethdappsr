@@ -7,16 +7,30 @@
         "CURRENTCHALLENGERID": 2,
         "CURRENTCHALLENGERNAME": "Phil_Mockridge",
         "NICKNAME": "PhilM",
-        "DESCRIPTION": ""
+        "DESCRIPTION": "",
+        "ACTIVE": true
       },
       {
         "id":2,
         "NAME": "Phil_Mockridge",
         "RANK": "2",
-        "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
+        "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166",
         "CURRENTCHALLENGERID": 3,
         "CURRENTCHALLENGERNAME": "Bob Dylan",
         "NICKNAME": "PhilipM",
-        "DESCRIPTION": ""
+        "DESCRIPTION": "",
+        "ACTIVE": true
+      }
+      ,
+      {
+        "id":3,
+        "NAME": "mrbobman",
+        "RANK": "3",
+        "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
+        "CURRENTCHALLENGERID": 3,
+        "CURRENTCHALLENGERNAME": "",
+        "NICKNAME": "mrbob",
+        "DESCRIPTION": "",
+        "ACTIVE": false
       }
 ]
