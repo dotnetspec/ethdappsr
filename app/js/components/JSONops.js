@@ -237,15 +237,43 @@ const JSONops = {
 
       // reset current user CURRENTCHALLENGERID to 0
     },
+
+      _getUserRank: function(jsonObj, currentUser){
+
+
+        console.log('_getUserRank')
+        console.log(jsonObj)
+        console.log(currentUser)
+
+        let lookupCurrentUserRank = {
+          jsonRS: jsonObj,
+          lookupField: 'NAME',
+          lookupKey: currentUser,
+          targetField: "RANK",
+          //targetData: "",
+          checkAllRows: false
+          };
+
+            console.log(lookupCurrentUserRank)
+
+          // updateUserCURRENTCHALLENGERID.lookupField = "NAME";
+          // updateUserCURRENTCHALLENGERID.lookupKey = currentUser;
+          // updateUserCURRENTCHALLENGERID.targetField = "id";
+          const currentUserRank = this._getVal(lookupCurrentUserRank);
+
+            return currentUserRank;
+      },
+
       _getVal: function(jsonObj){
     //_getVal(jsonObj){
       for (var i = 0; i < jsonObj.jsonRS.length; i++) {
          console.log('in _getVal for loop');
-        // console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
-        // console.log(typeof(jsonObj.lookupKey));
+        console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
+        console.log(typeof(jsonObj.lookupKey));
         //REVIEW: what does update.lookupKey === '*' mean?
           if (jsonObj.jsonRS[i][jsonObj.lookupField] === jsonObj.lookupKey || jsonObj.lookupKey === '*') {
-            // console.log('targetField');
+            console.log('targetField');
+            console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
             // console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
               //jsonObj.jsonRS[i][jsonObj.targetField] = jsonObj.targetData;
               return jsonObj.jsonRS[i][jsonObj.targetField];
