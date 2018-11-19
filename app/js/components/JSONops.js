@@ -387,9 +387,9 @@ const JSONops = {
       getNextID: function(data){
         const add1toLengthtogetID = data.length + 1;
         return add1toLengthtogetID;
-      }
-      //don't miss the comma here!
-        ,
+      },
+
+      
       //
       // removeInactivePlayers: function(originalData){
       //

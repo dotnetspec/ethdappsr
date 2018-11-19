@@ -40,18 +40,30 @@ class UserPlayerJsonData extends Component {
       //using the object.keys code
         const { details } = this.props;
         //console.log(details.RANK);
-          if (details.NAME === this.props.username)
-    {
-      //console.log(details.RANK);
-      currentUserRank = details.RANK;
+          if (details.NAME === this.props.username && details.ACTIVE === true)
+            {
+                //console.log(details.RANK);
+              currentUserRank = details.RANK;
 
-      return (
-        <div>
-          {details.RANK}
-       </div>);
-     }else{return (null)
-       ;}
-   }
+              return (
+                <div>
+                  Your current ranking is: {details.RANK}
+               </div>);
+             }else if (details.NAME === this.props.username && details.ACTIVE === false){
+                 //this.setState({ activateText: 'Your account currently has no player associated with it' });
+                //this.props.history.push('/update/@' + this.props.username);
+               return (
+                 <div>
+                   Your account currently has no player associated with it and is inactive!
+                </div>)
+               ;}
+               else {
+                   //this.setState({ activateText: 'Your account currently has no player associated with it' });
+                  //this.props.history.push('/update/@' + this.props.username);
+                 return (
+                  null)
+                 ;}
+           }
 }
 
 /**
@@ -67,6 +79,7 @@ class Home extends Component{
     this.state = {
       showModal: false,
       warningText: ''
+      //activateText: ''
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
@@ -162,7 +175,7 @@ class Home extends Component{
 
                 {this.state.warningText}<p></p>
                 {this.props.user}<p></p>
-                Your current ranking is:
+
                 {Object.keys(this.props.rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}
