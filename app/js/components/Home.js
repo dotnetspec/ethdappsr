@@ -110,6 +110,8 @@ class Home extends Component{
 }
 
 
+
+
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
 //REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
 //onSelectRow function within this component. This is not fully understood and needs to be
@@ -157,7 +159,7 @@ class Home extends Component{
           <Row>
             <Col xs={12}>
               <PageHeader>
-              
+
                 {this.state.warningText}<p></p>
                 {this.props.user}<p></p>
                 Your current ranking is:
@@ -182,8 +184,13 @@ class Home extends Component{
                       ID
                     </TableHeaderColumn>
                     <TableHeaderColumn dataField='NAME'
+
                     >
-                      Name
+                      Account Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField='NICKNAME'
+                    >
+                      Player Name
                     </TableHeaderColumn>
                     <TableHeaderColumn  dataField='RANK' dataSort
                     >
@@ -192,6 +199,12 @@ class Home extends Component{
                     <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
                     >
                       Current Challenger
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField='ACTIVE'
+                    filter={ { type: 'TextFilter', defaultValue: 'true' } }
+                    hidden
+                    >
+                      Active?
                     </TableHeaderColumn>
 
                   </BootstrapTable>

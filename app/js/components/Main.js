@@ -7,6 +7,7 @@ import UpdateUser from './UpdateUser';
 import DeletePlayer from './DeletePlayer';
 import Error from './Error';
 import React, { Component } from 'react';
+import JSONops from './JSONops'
 
 /**
  * Class representing the area below the header.
@@ -23,10 +24,27 @@ class Main extends Component {
   //#region Constructor
   constructor(props){
     super(props);
+
+    // this.state = {
+    //   data: this.removeAllInactivePlayers()
+    // }
+
+
   }
   //#endregion
 
   //#region React lifecycle events
+
+//REVIEW: Better somewhere else?
+  // removeAllInactivePlayers(){
+  //
+  //   console.log('removeAllInactivePlayers');
+  //   //return this.props.rankingJSONdata
+  //   const activeData = JSONops.removeInactivePlayers(this.props.rankingJSONdata);
+  //   this.setState({ data: activeData });
+  // }
+
+
 
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   //but need to pass the username and display it as a greeting and to link account with json data

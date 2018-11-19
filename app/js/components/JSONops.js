@@ -326,7 +326,8 @@ const JSONops = {
                            "CURRENTCHALLENGERID": 0,
                            "CURRENTCHALLENGERNAME": "",
                            "NICKNAME": nickName,
-                           "DESCRIPTION": description
+                           "DESCRIPTION": description,
+                           "ACTIVE": true
                         }
 
       console.log('in createNewUserInJSON');
@@ -378,7 +379,7 @@ const JSONops = {
                   delete deletePlayerJSONuserObj.jsonRS[i];
               }
           }
-          deletePlayerJSONuserObj.jsonRS = deletePlayerJSONuserObj.jsonRS.filter(function(x) { return x !== null }); 
+          deletePlayerJSONuserObj.jsonRS = deletePlayerJSONuserObj.jsonRS.filter(function(x) { return x !== null });
       return deletePlayerJSONuserObj.jsonRS;
     },
 
@@ -386,7 +387,35 @@ const JSONops = {
       getNextID: function(data){
         const add1toLengthtogetID = data.length + 1;
         return add1toLengthtogetID;
-      },
+      }
+      //don't miss the comma here!
+        ,
+      //
+      // removeInactivePlayers: function(originalData){
+      //
+      //   let removeInactivePlayersJSONuserObj = {
+      //     jsonRS: originalData
+      //     //,
+      //     //checkAllRows: false
+      //     };
+      //
+      //     removeInactivePlayersJSONuserObj.lookupField = "ACTIVE";
+      //     removeInactivePlayersJSONuserObj.lookupKey = false;
+      //
+      //
+      //     console.log(removeInactivePlayersJSONuserObj.jsonRS);
+      //     //delete deletePlayerJSONuserObj.jsonRS[3];
+      //     //console.log(deletePlayerJSONuserObj.jsonRS);
+      //
+      //       for (var i = 0; i < removeInactivePlayersJSONuserObj.jsonRS.length; i++) {
+      //           if (removeInactivePlayersJSONuserObj.jsonRS[i][removeInactivePlayersJSONuserObj.lookupField] === removeInactivePlayersJSONuserObj.lookupKey || removeInactivePlayersJSONuserObj.lookupKey === '*') {
+      //             console.log(removeInactivePlayersJSONuserObj.jsonRS[i]);
+      //               delete removeInactivePlayersJSONuserObj.jsonRS[i];
+      //           }
+      //       }
+      //       removeInactivePlayersJSONuserObj.jsonRS = removeInactivePlayersJSONuserObj.jsonRS.filter(function(x) { return x !== null });
+      //   return removeInactivePlayersJSONuserObj.jsonRS;
+      //   },
 
     _sendJSONData: function(data){
       let req = new XMLHttpRequest();
