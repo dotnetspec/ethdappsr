@@ -2,6 +2,7 @@ import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Image, Grid, C
 import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react';
 import FieldGroup from './FieldGroup';
+import JSONops from './JSONops'
 
 class UpdateUser extends Component {
 
@@ -24,15 +25,15 @@ class UpdateUser extends Component {
   //#region Component events
   /**
    * Handles the 'Update user' button click event which
-   * sends a transaction to the contract to update the 
+   * sends a transaction to the contract to update the
    * user's profile.
-   * 
+   *
    * @returns {null}
    */
   _handleClick = async () => {
     // if the form has not been updated, do nothing
     if (!this.state.formUpdated) return;
-    
+
     // show loading state
     this.setState({ isLoading: true });
 
@@ -61,7 +62,7 @@ class UpdateUser extends Component {
     try {
       // send the transaction with our gas estimate (plus a little bit more in case the contract)
       // state has changed since we got our estimate
-      
+
       // if (result.status && !Boolean(result.status.toString().replace('0x', ''))) {
       //   return this.setState({ isLoading: false, formState: 'error', formUpdated: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
       // }
@@ -83,11 +84,11 @@ class UpdateUser extends Component {
 
   /**
    * When user changes an input value, record that in the state.
-   * Additionally, sets state that the form has been updated to 
+   * Additionally, sets state that the form has been updated to
    * allow for more fine validation control
-   * 
+   *
    * @param {SyntheticEvent} cross-browser wrapper around the browser’s native event
-   * 
+   *
    * @return {null}
    */
   _handleChange(e) {
@@ -99,6 +100,24 @@ class UpdateUser extends Component {
 
     this.setState(state);
   }
+
+//QUESTION; Why was it necessary to send this.props.user[1] as a parameter
+//to this function and not just use this.props.user (which is seen as an object by JSONops.reactivatePlayer)?
+  _handleReactivatePlayer(user) {
+    try {
+    //const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+    //console.log(this.props.rankingJSONdata);
+    //console.log(this.props.user);
+    //const reactivatedPlayerJSON = JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+    JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+    //console.log(reactivatedPlayerJSON);
+    //JSONops._sendJSONData(deactivatedPlayerJSON);
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
   //#endergion
 
   //#region React lifecycle events
@@ -118,6 +137,9 @@ class UpdateUser extends Component {
           <Col xs={12}>
             <PageHeader>Update { user.username } <small>{this.props.account}</small></PageHeader>
           </Col>
+          <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
+            Reactivate Player
+          </Button>
         </Row>
         <Row>
           <Col xs={12}>
@@ -127,15 +149,15 @@ class UpdateUser extends Component {
                 value={ user.username }
                 disabled={true}
                 name="username"
-                label="Username"
+                label="Account Name"
               />
               <FieldGroup
                 type="text"
                 value={ description }
-                placeholder="description"
+                placeholder="Grade, Contact Details etc."
                 onChange={ (e) => this._handleChange(e) }
                 name="description"
-                label="Description"
+                label="Player Details"
                 validationState={ formState }
               />
               <FieldGroup

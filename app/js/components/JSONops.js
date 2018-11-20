@@ -282,26 +282,7 @@ const JSONops = {
       }
     },
 
-    _setVal: function(update){
 
-      //console.log('in setval');
-      console.log('inside setVal');
-          for (var i = 0; i < update.jsonRS.length; i++) {
-            // console.log('in setval for loop');
-            // console.log(typeof(update.jsonRS[i][update.lookupField]));
-            // console.log(typeof(update.lookupKey));
-            //REVIEW: what does update.lookupKey === '*' mean?
-              if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
-                //console.log('here1');
-                  update.jsonRS[i][update.targetField] = update.targetData;
-                  // console.log(update.jsonRS[i][update.targetField]);
-                  // console.log(update.jsonRS);
-                  return update.jsonRS;
-                  //if (!update.checkAllRows) { return; }
-              }
-          }
-
-    },
 
     createNewUserInJSON: function(originalData, username, accountno, description){
 
@@ -339,25 +320,104 @@ const JSONops = {
         console.log('after the push');
         console.log(createNewJSONuserObj.jsonRS);
 
-          //for (var i = 0; i < update.jsonRS.length; i++) {
-            // console.log('in setval for loop');
-            // console.log(typeof(update.jsonRS[i][update.lookupField]));
-            // console.log(typeof(update.lookupKey));
-            //REVIEW: what does update.lookupKey === '*' mean?
-              //if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
-                //console.log('here1');
-                  //update.jsonRS[i][update.targetField] = update.targetData;
-                    // console.log(update.jsonRS[i][update.targetField]);
-                    // console.log(update.jsonRS);
-                    //return update.jsonRS;
-                  //return "in createNewUserInJSON";
-                  //if (!update.checkAllRows) { return; }
-              //}
-          //}
-          //when delete has been coded can implement/send create
-          //this._sendJSONData(createNewJSONuserObj);
+    },
+
+    reactivatePlayer: function(originalData, currentUser, accountno){
+
+        let updateUserACTIVE = {
+          jsonRS: originalData,
+          lookupField: "",
+          lookupKey: 0,
+          targetField: "",
+          targetData: "",
+          checkAllRows: false
+          };
+
+          updateUserACTIVE.lookupField = "NAME";
+          updateUserACTIVE.lookupKey = currentUser;
+          updateUserACTIVE.targetField = "ACTIVE";
+          updateUserACTIVE.targetData = true;
+
+
+      //update json with all the updates within it before sending
+      let updatedUserJSON = this._setVal(updateUserACTIVE);
+
+      console.log(updatedUserJSON);
+
+      this._sendJSONData(updatedUserJSON);
 
     },
+
+    _setVal: function(update){
+
+      //console.log('in setval');
+      // console.log('inside setVal');
+      // console.log(update);
+          for (var i = 0; i < update.jsonRS.length; i++) {
+            console.log('in setval for loop');
+            console.log(typeof(update.jsonRS[i][update.lookupField]));
+            console.log(update.jsonRS[i][update.lookupField]);
+            console.log(typeof(update.lookupKey));
+            console.log(update.lookupKey);
+            //REVIEW: what does update.lookupKey === '*' mean?
+              if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
+                console.log('here1');
+                  update.jsonRS[i][update.targetField] = update.targetData;
+                  console.log(update.jsonRS[i][update.targetField]);
+                  console.log(update.jsonRS);
+                  return update.jsonRS;
+                  //if (!update.checkAllRows) { return; }
+              }
+          }
+
+    },
+
+    deactivatePlayer: function(originalData, currentUser, accountno){
+
+        let updateUserACTIVE = {
+          jsonRS: originalData,
+          lookupField: "",
+          lookupKey: 0,
+          targetField: "",
+          targetData: "",
+          checkAllRows: false
+          };
+
+          updateUserACTIVE.lookupField = "NAME";
+          updateUserACTIVE.lookupKey = currentUser;
+          updateUserACTIVE.targetField = "ACTIVE";
+          updateUserACTIVE.targetData = false;
+
+      //now do the update:
+      //does this require a separate obj?
+      //updateUserACTIVE = this._setVal(updateUserACTIVE);
+
+      // lookupOpponentID.lookupField = "NAME";
+      // lookupOpponentID.lookupKey = selectedOpponent;
+      // lookupOpponentID.targetField = "CURRENTCHALLENGERID";
+      // //update the opponent's challengeID to the user's ID
+      // lookupOpponentID.targetData = userIDNumber;
+      //
+      // //create a new obj with all the updates within it before sending
+      // let updatedUserJSON = this._setVal(lookupOpponentID);
+      //
+      // //update the CURRENTCHALLENGERNAME as well
+      // lookupOpponentID.lookupField = "NAME";
+      // lookupOpponentID.lookupKey = selectedOpponent;
+      // lookupOpponentID.targetField = "CURRENTCHALLENGERNAME";
+      // //update the opponent's CURRENTCHALLENGERNAME to the current user's name
+      // lookupOpponentID.targetData = currentUser;
+
+      //update json with all the updates within it before sending
+      let updatedUserJSON = this._setVal(updateUserACTIVE);
+
+
+      //only send after all the updates have been made
+      //to the updatedUserJSON object
+      this._sendJSONData(updatedUserJSON);
+
+    },
+
 
     deletePlayer: function(originalData, currentUser, accountno){
       let deletePlayerJSONuserObj = {
@@ -389,7 +449,7 @@ const JSONops = {
         return add1toLengthtogetID;
       },
 
-      
+
       //
       // removeInactivePlayers: function(originalData){
       //

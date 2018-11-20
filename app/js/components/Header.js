@@ -53,9 +53,10 @@ class Header extends Component {
     }
   }
 
-  _handleDeletePlayer(username) {
+  _handleDeactivatePlayer(username) {
     if(username != null){
-      // redirect user to the profile update page
+      //REVIEW: The naming of 'delete/deactivate' etc.
+      // redirect user to the deactive player (currently named 'DeletePlayer') page
       this.props.history.push('/delete/@' + username);
     }
     else {
@@ -214,8 +215,8 @@ class Header extends Component {
       <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
       </Button>
-      <Button bsStyle="primary" onClick={(e) => this._handleDeletePlayer(this.props.user[1])}>
-        Delete Player
+      <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
+        Deactivate Player
       </Button>
 
       {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>

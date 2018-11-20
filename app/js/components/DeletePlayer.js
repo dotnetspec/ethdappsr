@@ -41,13 +41,15 @@ class DeletePlayer extends Component {
     //console.log(this.props.rankingJSONdata);
     //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
     try {
-    const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
-    //console.log(temp);
-    JSONops._sendJSONData(deletedPlayerJSON);
+    //const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+    const deactivatedPlayerJSON = JSONops.deactivatePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+    console.log(deactivatedPlayerJSON);
+    //JSONops._sendJSONData(deactivatedPlayerJSON);
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
     };
+  }
     // this.setState({ isLoading: true });
     // const { username, description } = this.state;
     //
@@ -89,7 +91,7 @@ class DeletePlayer extends Component {
     //   // stop loading state and show the error
     //   this.setState({ isLoading: false, error: err.message });
     // };
-  }
+  //}
 
   /**
    * When user changes an input value, record that in the state.
@@ -199,7 +201,7 @@ class DeletePlayer extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} md={8}>
-              <h3 align='center'>Are you sure you want to delete this player?</h3>
+              <h3 align='center'>Are you sure you want to deactive this player?</h3>
 
             </Col>
           </Row>
