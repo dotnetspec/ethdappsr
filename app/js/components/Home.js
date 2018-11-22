@@ -54,7 +54,8 @@ class UserPlayerJsonData extends Component {
                 //this.props.history.push('/update/@' + this.props.username);
                return (
                  <div>
-                   Your account currently has no player associated with it and is inactive!
+                   Your account currently has no player associated with it and is inactive!<p></p>
+                   Click Update Profile (top  menu) to re-active Player
                 </div>)
                ;}
                else {
@@ -198,10 +199,6 @@ class Home extends Component{
                     </TableHeaderColumn>
                     <TableHeaderColumn dataField='NAME'
 
-                    >
-                      Account Name
-                    </TableHeaderColumn>
-                    <TableHeaderColumn dataField='NICKNAME'
                     >
                       Player Name
                     </TableHeaderColumn>

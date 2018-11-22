@@ -105,13 +105,8 @@ class UpdateUser extends Component {
 //to this function and not just use this.props.user (which is seen as an object by JSONops.reactivatePlayer)?
   _handleReactivatePlayer(user) {
     try {
-    //const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
-    //console.log(this.props.rankingJSONdata);
-    //console.log(this.props.user);
-    //const reactivatedPlayerJSON = JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
     JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
-    //console.log(reactivatedPlayerJSON);
-    //JSONops._sendJSONData(deactivatedPlayerJSON);
+      this.props.history.push('/');
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
@@ -149,7 +144,7 @@ class UpdateUser extends Component {
                 value={ user.username }
                 disabled={true}
                 name="username"
-                label="Account Name"
+                label="Player Name"
               />
               <FieldGroup
                 type="text"

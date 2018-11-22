@@ -31,6 +31,19 @@
         "CURRENTCHALLENGERNAME": "",
         "NICKNAME": "mrbob",
         "DESCRIPTION": "",
-        "ACTIVE": false
+        "ACTIVE": true
       }
+      ,
+      {
+        "id":4,
+        "NAME": "My_SRAccount1",
+        "RANK": "4",
+        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
+        "CURRENTCHALLENGERID": 0,
+        "CURRENTCHALLENGERNAME": "",
+        "NICKNAME": "My_SRA",
+        "DESCRIPTION": "",
+        "ACTIVE": true
+      }
+
 ]

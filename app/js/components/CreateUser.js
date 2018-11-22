@@ -38,50 +38,53 @@ class CreateUser extends Component {
 
     //console.log(JSONops.createNewUserInJSON());
     //TODO: all the json data for create new user is here ready to be appended to
-    console.log(this.props.rankingJSONdata);
+    //console.log(this.props.rankingJSONdata);
+
     JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
 
-    // this.setState({ isLoading: true });
-    // const { username, description } = this.state;
-    //
-    // try {
-    //
-    //   // set up our contract method with the input values from the form
-    //   const createAccount = DSportRank.methods.createAccount(username, description);
-    //
-    //   // get a gas estimate before sending the transaction
-    //   const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
-    //
-    //   // send the transaction to create an account with our gas estimate
-    //   // (plus a little bit more in case the contract state has changed).
-    //   const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
-    //
-    //   // check result status. if status is false or '0x0', show user the tx details to debug error
-    //   if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-    //     return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
-    //   }
-    //
-    //   //else {
-    //
-    //     //update the json with the new user
-    //     //mything.NewField = 'foo';
-    //
-    //   //}
-    //
-    //   // Completed of async action, set loading state back
-    //   this.setState({ isLoading: false });
-    //
-    //   // tell our parent that we've created a user so it
-    //   // will re-fetch the current user details from the contract
-    //   this.props.onAfterUserUpdate();
-    //
-    //   // redirect user to the profile update page
-    //   this.props.history.push('/update/@' + username);
-    //
-    // } catch (err) {
-    //   // stop loading state and show the error
-    //   this.setState({ isLoading: false, error: err.message });
-    // };
+    this.setState({ isLoading: true });
+    const { username, description } = this.state;
+
+    try {
+
+      // set up our contract method with the input values from the form
+      const createAccount = DSportRank.methods.createAccount(username, description);
+
+      // get a gas estimate before sending the transaction
+      const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+
+      // send the transaction to create an account with our gas estimate
+      // (plus a little bit more in case the contract state has changed).
+      const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+
+
+
+      // check result status. if status is false or '0x0', show user the tx details to debug error
+      if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+        return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+      }
+
+      //else {
+
+        //update the json with the new user
+        //mything.NewField = 'foo';
+
+      //}
+
+      // Completed of async action, set loading state back
+      this.setState({ isLoading: false });
+
+      // tell our parent that we've created a user so it
+      // will re-fetch the current user details from the contract
+      this.props.onAfterUserUpdate();
+
+      // redirect user to the profile update page
+      this.props.history.push('/update/@' + username);
+
+    } catch (err) {
+      // stop loading state and show the error
+      this.setState({ isLoading: false, error: err.message });
+    };
   }
 
   /**
@@ -191,7 +194,7 @@ class CreateUser extends Component {
       <Grid>
         <Row>
           <Col xs={12}>
-          <PageHeader>Create a user <small>for { this.props.account }</small></PageHeader>
+          <PageHeader>Create An Account Name<small> for account number:  { this.props.account }</small></PageHeader>
           </Col>
         </Row>
         <Row>
@@ -201,12 +204,12 @@ class CreateUser extends Component {
                 type="text"
                 value={ this.state.username }
                 disabled={ isLoading }
-                placeholder="No gaps e.g. Jahangir_Khan - cannot be changed!"
+                placeholder="No gaps e.g. My_SRAccount1 - Must be unique. Cannot be changed!"
                 onKeyPress={ (e) => e.key === '@' || e.key === ' ' ? e.preventDefault() : true }
                 onChange={ (e) => this._handleChange(e) }
                 name="username"
                 autoComplete="off"
-                label="Desired username"
+                label="Desired Account Name (Cannot Be Changed!)"
                 validationState={ validationState }
                 hasFeedback={ true }
                 help={ feedback }
@@ -223,7 +226,7 @@ class CreateUser extends Component {
                 placeholder="Relevant info e.g. your contact details and current grade"
                 onChange={(e) => this._handleChange(e)}
                 name="description"
-                label="Description"
+                label="Player Description"
               />
               <Button
                 bsStyle="primary"
@@ -231,7 +234,7 @@ class CreateUser extends Component {
                 //onClick={ !isValid ? null : (e) => this._handleClick(e) }
                 onClick={ (e) => this._handleClick(e) }
               >
-                { isLoading ? 'Loading...' : 'Create user' }
+                { isLoading ? 'Loading...' : 'Create Account' }
               </Button>
             </form>
           </Col>

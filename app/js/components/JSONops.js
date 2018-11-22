@@ -290,35 +290,42 @@ const JSONops = {
         jsonRS: originalData
         };
 
-        createNewJSONuserObj.lookupField = "NAME";
-        //TODO: this is 'currentuser' elasewhere
-        createNewJSONuserObj.lookupKey = username;
+        let nextIDandInitialRankObj = {
+          jsonRS: originalData
+          };
 
-        const nextIDandInitialRank = this.getNextID(createNewJSONuserObj.jsonRS);
+        nextIDandInitialRankObj.lookupField = "NAME";
+        //TODO: this is 'currentuser' elasewhere
+        nextIDandInitialRankObj.lookupKey = username;
+
+        const nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
         console.log(nextIDandInitialRank);
         const nickName = username.substring(0,5);
           console.log(nickName);
 
+        //QUESTION: it appears the data needs to be sent in reverse order - why?
         const newData = {
-                           "id":nextIDandInitialRank,
-                           "NAME": username,
-                           "RANK": nextIDandInitialRank,
-                           "ACCOUNT": accountno,
-                           "CURRENTCHALLENGERID": 0,
-                           "CURRENTCHALLENGERNAME": "",
-                           "NICKNAME": nickName,
-                           "DESCRIPTION": description,
-                           "ACTIVE": true
+                          "ACTIVE": true,
+                          "DESCRIPTION": description,
+                          "NICKNAME": nickName,
+                          "CURRENTCHALLENGERNAME": "",
+                          "CURRENTCHALLENGERID": 0,
+                          "ACCOUNT": accountno,
+                          "RANK": nextIDandInitialRank,
+                          "NAME": username,
+                          "id":nextIDandInitialRank
                         }
 
-      console.log('in createNewUserInJSON');
-      console.log(createNewJSONuserObj.jsonRS);
+      //console.log('in createNewUserInJSON');
+      //console.log(createNewJSONuserObj.jsonRS);
 
 //TODO: ready to send to jsonbin
         createNewJSONuserObj.jsonRS.push(newData);
 
-        console.log('after the push');
-        console.log(createNewJSONuserObj.jsonRS);
+
+        // console.log('after the push');
+        // console.log(createNewJSONuserObj.jsonRS);
+        this._sendJSONData(createNewJSONuserObj.jsonRS);
 
     },
 
@@ -482,7 +489,7 @@ const JSONops = {
 
           req.onreadystatechange = () => {
             if (req.readyState == XMLHttpRequest.DONE) {
-              console.log(req.responseText);
+              //console.log(req.responseText);
             }
           };
 
