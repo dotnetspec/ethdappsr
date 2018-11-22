@@ -45,6 +45,7 @@ class UpdateUser extends Component {
 //caused by deleting accounts for dev purposes
 if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description);
+    this.props.history.push('/');
 }
 
     // if the user has updated their photo, try to upload it to ipfs

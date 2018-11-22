@@ -443,7 +443,7 @@ const JSONops = {
           };
 
           //used for return value below
-          const isPlayerListed = false;
+          let isPlayerListed = false;
 
           isPlayerListedInJSONObj.lookupField = "NAME";
           isPlayerListedInJSONObj.lookupKey = currentUser;
