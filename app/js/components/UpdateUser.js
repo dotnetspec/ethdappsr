@@ -31,11 +31,21 @@ class UpdateUser extends Component {
    * @returns {null}
    */
   _handleClick = async () => {
+
+    const { account, user } = this.props;
+    const { description } = this.state;
+    //REVIEW: Had to change below to cover no player in json but account active
     // if the form has not been updated, do nothing
-    if (!this.state.formUpdated) return;
+    //if (!this.state.formUpdated) return;
 
     // show loading state
     this.setState({ isLoading: true });
+
+//if the ployer account name isn't yet listed as a 'NAME' in the json (should be just a dev issue)
+//caused by deleting accounts for dev purposes
+if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
+    JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description);
+}
 
     // if the user has updated their photo, try to upload it to ipfs
     // and use the resulting ipfs hash to send to the contract as part
@@ -52,8 +62,7 @@ class UpdateUser extends Component {
       }
     }
 
-    const { account, user } = this.props;
-    const { description } = this.state;
+
     // get a handle for the editAccount method
 
     // get a gas estimate for the transaction with the input username
@@ -62,6 +71,8 @@ class UpdateUser extends Component {
     try {
       // send the transaction with our gas estimate (plus a little bit more in case the contract)
       // state has changed since we got our estimate
+
+
 
       // if (result.status && !Boolean(result.status.toString().replace('0x', ''))) {
       //   return this.setState({ isLoading: false, formState: 'error', formUpdated: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
@@ -170,8 +181,9 @@ class UpdateUser extends Component {
               <FormGroup>
                 <Button
                   bsStyle="primary"
-                  disabled={ isLoading || !formUpdated }
-                  onClick={ isLoading || !formUpdated ? null : (e) => this._handleClick(e) }
+                  // disabled={ isLoading || !formUpdated }
+                  // onClick={ isLoading || !formUpdated ? null : (e) => this._handleClick(e) }
+                  onClick={ (e) => this._handleClick(e, user.username) }
                 >
                   { isLoading ? 'Loading...' : 'Update profile' }
                 </Button>

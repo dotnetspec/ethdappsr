@@ -7,6 +7,7 @@ import { limitLength, limitAddressLength } from '../utils';
 import Spinner from 'react-spinkit';
 import FieldGroup from './FieldGroup';
 import imgAvatar from '../../img/avatar-default.png';
+import JSONops from './JSONops'
 
 /**
  * Class representing the header of the page that handles
@@ -82,13 +83,16 @@ class Header extends Component {
     if (e.target.tagName !== 'A') e.target = e.target.parentElement;
     web3.eth.defaultAccount = e.target.attributes.value.value;
     this.props.onAfterUserUpdate();
-    if (e.target.attributes.username.value) {
+    if (e.target.attributes.username.value && JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, e.target.attributes.username.value)) {
       //this used to be:
       //this.props.history.push('/update/@' + e.target.attributes.username.value);
       //if there's already a username just return to home page
       this.props.history.push('/');
     }
-    else {
+    else if (e.target.attributes.username.value){
+      this.props.history.push('/update/@' + e.target.attributes.username.value);
+    }
+    else{
       //create a new user
       this.props.history.push('/create');
     }

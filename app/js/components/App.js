@@ -218,7 +218,9 @@ _loadsetJSONData(){
           balance={this.state.balance}
           error={this.state.error}
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
-          onError={(err, source) => this._onError(err, source)} />
+          onError={(err, source) => this._onError(err, source)}
+          rankingJSONdata={this.state.data}
+          />
         <Main
           user={this.state.user}
           account={this.state.account}

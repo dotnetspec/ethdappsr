@@ -395,26 +395,6 @@ const JSONops = {
           updateUserACTIVE.targetField = "ACTIVE";
           updateUserACTIVE.targetData = false;
 
-      //now do the update:
-      //does this require a separate obj?
-      //updateUserACTIVE = this._setVal(updateUserACTIVE);
-
-      // lookupOpponentID.lookupField = "NAME";
-      // lookupOpponentID.lookupKey = selectedOpponent;
-      // lookupOpponentID.targetField = "CURRENTCHALLENGERID";
-      // //update the opponent's challengeID to the user's ID
-      // lookupOpponentID.targetData = userIDNumber;
-      //
-      // //create a new obj with all the updates within it before sending
-      // let updatedUserJSON = this._setVal(lookupOpponentID);
-      //
-      // //update the CURRENTCHALLENGERNAME as well
-      // lookupOpponentID.lookupField = "NAME";
-      // lookupOpponentID.lookupKey = selectedOpponent;
-      // lookupOpponentID.targetField = "CURRENTCHALLENGERNAME";
-      // //update the opponent's CURRENTCHALLENGERNAME to the current user's name
-      // lookupOpponentID.targetData = currentUser;
-
       //update json with all the updates within it before sending
       let updatedUserJSON = this._setVal(updateUserACTIVE);
 
@@ -425,7 +405,7 @@ const JSONops = {
 
     },
 
-
+//NB:admin function - not used directly by app
     deletePlayer: function(originalData, currentUser, accountno){
       let deletePlayerJSONuserObj = {
         jsonRS: originalData,
@@ -456,33 +436,39 @@ const JSONops = {
         return add1toLengthtogetID;
       },
 
+      //apart from IN/ACTIVE is player listed at all?
+      isPlayerListedInJSON: function(data, currentUser){
+        let isPlayerListedInJSONObj = {
+          jsonRS: data
+          };
 
-      //
-      // removeInactivePlayers: function(originalData){
-      //
-      //   let removeInactivePlayersJSONuserObj = {
-      //     jsonRS: originalData
-      //     //,
-      //     //checkAllRows: false
-      //     };
-      //
-      //     removeInactivePlayersJSONuserObj.lookupField = "ACTIVE";
-      //     removeInactivePlayersJSONuserObj.lookupKey = false;
-      //
-      //
-      //     console.log(removeInactivePlayersJSONuserObj.jsonRS);
-      //     //delete deletePlayerJSONuserObj.jsonRS[3];
-      //     //console.log(deletePlayerJSONuserObj.jsonRS);
-      //
-      //       for (var i = 0; i < removeInactivePlayersJSONuserObj.jsonRS.length; i++) {
-      //           if (removeInactivePlayersJSONuserObj.jsonRS[i][removeInactivePlayersJSONuserObj.lookupField] === removeInactivePlayersJSONuserObj.lookupKey || removeInactivePlayersJSONuserObj.lookupKey === '*') {
-      //             console.log(removeInactivePlayersJSONuserObj.jsonRS[i]);
-      //               delete removeInactivePlayersJSONuserObj.jsonRS[i];
-      //           }
-      //       }
-      //       removeInactivePlayersJSONuserObj.jsonRS = removeInactivePlayersJSONuserObj.jsonRS.filter(function(x) { return x !== null });
-      //   return removeInactivePlayersJSONuserObj.jsonRS;
-      //   },
+          //used for return value below
+          const isPlayerListed = false;
+
+          isPlayerListedInJSONObj.lookupField = "NAME";
+          isPlayerListedInJSONObj.lookupKey = currentUser;
+
+
+          console.log(isPlayerListedInJSONObj.jsonRS);
+          //delete deletePlayerJSONuserObj.jsonRS[3];
+          //console.log(deletePlayerJSONuserObj.jsonRS);
+
+            for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
+                if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
+                  // console.log(isPlayerListedInJSONObj.jsonRS[i]);
+                  //   delete isPlayerListedInJSONObj.jsonRS[i];
+                  isPlayerListed = true;
+                }
+            }
+
+            if (isPlayerListed === true){
+              return true;
+            }
+            else {
+              return false;
+            }
+            //isPlayerListedInJSONObj.jsonRS = isPlayerListedInJSONObj.jsonRS.filter(function(x) { return x !== null });
+      },
 
     _sendJSONData: function(data){
       let req = new XMLHttpRequest();
