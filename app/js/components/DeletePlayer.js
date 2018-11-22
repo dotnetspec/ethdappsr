@@ -34,20 +34,15 @@ class DeletePlayer extends Component {
    *
    * @returns {null}
    */
-  _handleClick = async () => {
 
-    //console.log(JSONops.createNewUserInJSON());
-    //TODO: all the json data for create new user is here ready to be appended to
-    //console.log(this.props.rankingJSONdata);
-    //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
+   //QUESTION: why does below not work with this.props.history.push('/');?
+  //_handleClick = async () => {
+  _handleClick(e) {
+
     try {
-    //const deletedPlayerJSON = JSONops.deletePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
-    //const deactivatedPlayerJSON = JSONops.deactivatePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
-    JSONops.deactivatePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
 
-    //QUESTION: how to navigate?
-    //this.props.history.push('/');
-    //console.log(deactivatedPlayerJSON);
+    JSONops.deactivatePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+    this.props.history.push('/');
 
     } catch (err) {
     // stop loading state and show the error
