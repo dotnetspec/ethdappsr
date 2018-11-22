@@ -56,7 +56,7 @@ class Header extends Component {
   _handleDeactivatePlayer(username) {
     if(username != null){
       //REVIEW: The naming of 'delete/deactivate' etc.
-      // redirect user to the deactive player (currently named 'DeletePlayer') page
+      // redirect user to the deactive player (currently named 'DeactivatePlayer') page
       this.props.history.push('/delete/@' + username);
     }
     else {
