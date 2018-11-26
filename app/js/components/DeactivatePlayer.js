@@ -67,7 +67,7 @@ class DeactivatePlayer extends Component {
           <Row className="show-grid">
             <Col xs={12} md={8}>
               <h3 align='center'>Are you sure you want to deactive this player?</h3>
-<h5>(You can re-activate in future via the 'Update Profile')</h5>
+              <h5 align='center'>(You can re-activate (at the bottom of the rankings) in future via 'Update Profile')</h5>
             </Col>
           </Row>
           <Row className="show-grid">

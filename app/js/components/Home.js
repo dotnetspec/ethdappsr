@@ -54,8 +54,8 @@ class UserPlayerJsonData extends Component {
                 //this.props.history.push('/update/@' + this.props.username);
                return (
                  <div>
-                   Your account currently has no player associated with it and is inactive!<p></p>
-                   Click Update Profile (top  menu) to re-active Player
+                   Your player is currently deactivated!<p></p>
+                   Click Update Profile (top  menu) to re-enter the rankings (at the bottom)
                 </div>)
                ;}
                else {

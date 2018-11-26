@@ -300,15 +300,14 @@ const JSONops = {
 
         const nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
         console.log(nextIDandInitialRank);
-        const nickName = username.substring(0,5);
-          console.log(nickName);
+        // const nickName = username.substring(0,5);
+        //   console.log(nickName);
 
         //QUESTION: it appears the data needs to be sent in reverse order - why?
         const newData = {
                           "ACTIVE": true,
                           "DESCRIPTION": description,
-                          "NICKNAME": nickName,
-                          "CURRENTCHALLENGERNAME": "",
+                          "CURRENTCHALLENGERNAME": "AVAILABLE",
                           "CURRENTCHALLENGERID": 0,
                           "ACCOUNT": accountno,
                           "RANK": nextIDandInitialRank,
@@ -349,10 +348,15 @@ const JSONops = {
       //update json with all the updates within it before sending
       let updatedUserJSON = this._setVal(updateUserACTIVE);
 
+
+
+      //update json with all the updates within it before sending
+      //updatedUserJSON = this._setVal(updateUserACTIVE);
+
+      console.log('updatedUserJSON on re-activate');
       console.log(updatedUserJSON);
 
       this._sendJSONData(updatedUserJSON);
-
     },
 
     _setVal: function(update){
@@ -393,19 +397,106 @@ const JSONops = {
           updateUserACTIVE.lookupField = "NAME";
           updateUserACTIVE.lookupKey = currentUser;
           updateUserACTIVE.targetField = "ACTIVE";
+          //key line
           updateUserACTIVE.targetData = false;
 
-      //update json with all the updates within it before sending
+
       let updatedUserJSON = this._setVal(updateUserACTIVE);
 
+      const currentUserRank = this._getUserRank(originalData, currentUser);
+
+      //re-set targetfield and targetData set to 1
+      updateUserACTIVE.lookupField = "RANK";
+      updateUserACTIVE.targetField = "RANK";
+      updateUserACTIVE.targetData = 1;
+
+
+      console.log('before shiftAllOtherPlayersRankingUpByOne');
+      updatedUserJSON = this.shiftAllOtherPlayersRankingUpByOne(updateUserACTIVE, currentUserRank);
+
+      updatedUserJSON = this._setVal(updateUserACTIVE);
+
+      //set the user's rank to the bottom  as well
+      //REVIEW: it's possible this (below) could be part of shiftAllOtherPlayersRankingUpByOne code
+      //but currently is necessary here
+      updateUserACTIVE.lookupField = "NAME";
+      updateUserACTIVE.lookupKey = currentUser;
+      updateUserACTIVE.targetField = "RANK";
+      //the length of the data is the equivalent of the bottom rank
+      console.log(updateUserACTIVE.jsonRS.length);
+      updateUserACTIVE.targetData = updateUserACTIVE.jsonRS.length;
+
+      //update json with ALL the updates within it before sending
+      updatedUserJSON = this._setVal(updateUserACTIVE);
 
       //only send after all the updates have been made
       //to the updatedUserJSON object
+
+      console.log(updatedUserJSON);
+
       this._sendJSONData(updatedUserJSON);
 
     },
 
+  shiftAllOtherPlayersRankingUpByOne: function(update, currentUserRank){
+
+      //console.log('in setval');
+      // console.log('inside setVal');
+      // console.log(update);
+
+          let ranktobeupdated = 1;
+
+          for (var i = 0; i < update.jsonRS.length; i++) {
+
+            console.log('in shiftAllOtherPlayersRankingUpByOne for loop');
+            // console.log(typeof(update.targetData));
+            // console.log(update.targetData);
+
+            // console.log(typeof(update.jsonRS[i][update.lookupField]));
+            console.log('update.jsonRS[i][update.lookupField]');
+            console.log(update.jsonRS[i][update.lookupField]);
+            // console.log(typeof(update.lookupKey));
+            // console.log(update.lookupKey);
+
+            //i += 1;
+            ranktobeupdated = update.jsonRS[i][update.lookupField];
+
+            // console.log('currentUserRank');
+            // console.log(currentUserRank);
+            //
+            // console.log('ranktoeupdated');
+            // console.log(ranktobeupdated);
+
+            //make the change according to the current users relative position
+            if(currentUserRank === update.jsonRS[i][update.lookupField]){
+              //this is the current user's rank which must now be set to the last rank
+              console.log('inside if 1');
+              update.jsonRS[i][update.targetField] = update.jsonRS.length;
+
+            }
+            else if(currentUserRank < update.jsonRS[i][update.lookupField]){
+              console.log('inside if 2');
+              //this counter manages the first player after the de-activated Player
+
+              //let counter = 0;
+              //if (counter === 0){
+                //update.jsonRS[i][update.targetField] = ranktobeupdated;
+              //} else {
+              ranktobeupdated -= 1;
+              update.jsonRS[i][update.targetField] = ranktobeupdated;
+            }
+            //bring nearest up to current users rank
+            //probably never used
+            // else if (currentUserRank === ranktobeupdated){
+            //   console.log('inside if 3');
+            //       update.jsonRS[i][update.targetField] = currentUserRank;
+            //   }
+          }
+          return update.jsonRS;
+    },
+
 //NB:admin function - not used directly by app
+//TODO: create a separate admin screen
     deletePlayer: function(originalData, currentUser, accountno){
       let deletePlayerJSONuserObj = {
         jsonRS: originalData,
@@ -435,6 +526,12 @@ const JSONops = {
         const add1toLengthtogetID = data.length + 1;
         return add1toLengthtogetID;
       },
+
+      //same functionality as getNextID
+      // getBottomRank: function(data){
+      //   const add1toLengthtogetID = data.length + 1;
+      //   return add1toLengthtogetID;
+      // },
 
       //apart from IN/ACTIVE is player listed at all?
       isPlayerListedInJSON: function(data, currentUser){

@@ -2,22 +2,20 @@
       {
         "id":1,
         "NAME": "mrphilip",
-        "RANK": "1",
+        "RANK": 1,
         "ACCOUNT": "0xD1B15d00dc4E025C1138ec659d8C019dCD8671B8",
         "CURRENTCHALLENGERID": 2,
         "CURRENTCHALLENGERNAME": "Phil_Mockridge",
-        "NICKNAME": "PhilM",
         "DESCRIPTION": "",
         "ACTIVE": true
       },
       {
         "id":2,
         "NAME": "Phil_Mockridge",
-        "RANK": "2",
+        "RANK": 2,
         "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166",
         "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "Bob Dylan",
-        "NICKNAME": "PhilipM",
+        "CURRENTCHALLENGERNAME": "My_SRAccount2",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
@@ -25,11 +23,10 @@
       {
         "id":3,
         "NAME": "mrbobman",
-        "RANK": "3",
+        "RANK": 3,
         "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
         "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "",
-        "NICKNAME": "mrbob",
+        "CURRENTCHALLENGERNAME": "AVAILABLE",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
@@ -37,11 +34,21 @@
       {
         "id":4,
         "NAME": "My_SRAccount1",
-        "RANK": "4",
+        "RANK": 4,
         "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
         "CURRENTCHALLENGERID": 0,
-        "CURRENTCHALLENGERNAME": "",
-        "NICKNAME": "My_SRA",
+        "CURRENTCHALLENGERNAME": "AVAILABLE",
+        "DESCRIPTION": "",
+        "ACTIVE": true
+      }
+      ,
+      {
+        "id":5,
+        "NAME": "My_SRAccount2",
+        "RANK": 5,
+        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
+        "CURRENTCHALLENGERID": 0,
+        "CURRENTCHALLENGERNAME": "AVAILABLE",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
