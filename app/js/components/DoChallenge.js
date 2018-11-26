@@ -58,6 +58,11 @@ class DoChallenge extends Component{
       return e.preventDefault();
     }
 
+    // do not post challenge if the opponent already has a challenger
+    // if(!JSONops.isPlayerAvailableToChallenge()){
+    //     return e.preventDefault();
+    // }
+
     // show loading state
     this.setState({ isLoading: true });
 

@@ -115,17 +115,16 @@ class Home extends Component{
    */
   _handleShow() {
     //TODO: make current user unselectable
-    if(selectRowPropAfterClickRow.selectedOpponentName != this.props.user){
-    this.setState({ showModal: true });
-    this.setState({ warningText: '' });
-  }else{
+    if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
+    }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName)){
+        this.setState({ warningText: ' This player is currently being challenged by another player!' });
     }
+    else{
+      this.setState({ showModal: true });
+      this.setState({ warningText: '' });
+      }
 }
-
-
-
-
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
 //REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
 //onSelectRow function within this component. This is not fully understood and needs to be
