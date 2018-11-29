@@ -2,7 +2,7 @@
 const DSportRank = require('Embark/contracts/DSportRank');
 
 // contract methods we'll be testing
-const { createAccount, users, owners, userExists, editAccount, challenge } = DSportRank.methods;
+//const { createAccount, users, owners, userExists, editAccount, challenge } = DSportRank.methods;
 
 // variables that will be updated in the tests
 let accounts;
@@ -33,7 +33,7 @@ contract("DSportRank contract", function () {
   it("transaction to create a DSportRank user 'testhandle' with description 'test description' should be successful", async function () {
 
     // do the create account tx
-    const createAccountTx = await createAccount(username, description).send();
+    const createAccountTx = await DSportRank.methods.createAccount(username, description).send();
 
     // assert that the transaction was successful
     assert.equal(createAccountTx.status, true);
@@ -43,7 +43,7 @@ contract("DSportRank contract", function () {
   it("should have created a user 'testhandle'", async function () {
 
     // get user details from contract
-    const user = await users(web3.utils.keccak256(username)).call();
+    const user = await DSportRank.methods.users(web3.utils.keccak256(username)).call();
 
     assert.equal(user.username, username);
     assert.equal(user.description, description);
@@ -53,7 +53,7 @@ contract("DSportRank contract", function () {
   it("should have created an owner for our defaultAccount", async function () {
 
     // read from the owners mapping the value associated with the defaultAccount
-    const usernameHash = await owners(web3.eth.defaultAccount).call();
+    const usernameHash = await DSportRank.methods.owners(web3.eth.defaultAccount).call();
 
     // check the return value from owners mapping matches
     assert.equal(usernameHash, web3.utils.keccak256(username));
@@ -63,7 +63,7 @@ contract("DSportRank contract", function () {
     const usernameHash = web3.utils.keccak256(username);
 
     // check the usernamehash exists
-    const exists = await userExists(usernameHash).call();
+    const exists = await DSportRank.methods.userExists(usernameHash).call();
 
     assert.equal(exists, true);
   });
@@ -75,10 +75,10 @@ contract("DSportRank contract", function () {
     const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
 
     // call edit account
-    await editAccount(usernameHash, updatedDescription, updatedImageHash).send();
+    await DSportRank.methods.editAccount(usernameHash, updatedDescription, updatedImageHash).send();
 
     // then fetch the user details with the usernamehash
-    const updatedUserDetails = await users(usernameHash).call();
+    const updatedUserDetails = await DSportRank.methods.users(usernameHash).call();
 
     assert.equal(updatedUserDetails.description, updatedDescription);
     assert.equal(updatedUserDetails.picture, updatedImageHash);
@@ -88,7 +88,7 @@ contract("DSportRank contract", function () {
     const usernameHash = web3.utils.keccak256(username);
 
     // send the challenge
-    await challenge(challengeContent).send();
+    await DSportRank.methods.challenge(challengeContent).send();
 
     // subscribe to new challenge events
     DSportRank.events.Newchallenge({
