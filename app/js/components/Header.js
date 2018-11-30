@@ -103,10 +103,11 @@ class Header extends Component {
    * @param {*} balance to be formatted
    */
   _formatBalance(balance) {
+    //trim middle set to false - looks better
     return 'Ξ' + limitLength(
       parseFloat(
         balance
-      ).toFixed(4), 6, '', true
+      ).toFixed(4), 6, '', false
     );
   }
   //#endregion
@@ -134,6 +135,7 @@ class Header extends Component {
       const isCurrUser = userAccount.address === this.props.account;
       const hasUser = Boolean(userAccount.user.username);
 
+//NB: return is part of accts definition above. Not the render return (below)
       return <MenuItem
         key={index}
         eventKey={index}
@@ -214,7 +216,7 @@ class Header extends Component {
     //in same place
     //TODO: change to states.challenge
 
-    states.tweet = <React.Fragment>
+    states.challenge = <React.Fragment>
 
       <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
@@ -271,7 +273,7 @@ class Header extends Component {
                       </Dropdown.Menu>
                     </Dropdown>
                   </ButtonToolbar>
-                  {isEditable ? states.tweet : ''}
+                  {isEditable ? states.challenge : ''}
                 </React.Fragment>
             }
           </div>

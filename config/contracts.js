@@ -9,8 +9,9 @@ module.exports = {
     },
     // order of connections the dapp should connect to
     dappConnection: [
+      "ws://localhost:8546",
       "http://localhost:8545"
-      //"ws://localhost:8546"
+
       //"$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
     contracts: {
@@ -26,7 +27,21 @@ module.exports = {
   },
 
   // ...
+
+    // development: {
+    //   dappConnection: [
+    //     "ws://localhost:8546",
+    //     "http://localhost:8545",
+    //     "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
+    //   ]
+    // }
+
   development: {
+    dappConnection: [
+      "ws://localhost:8546",
+      "http://localhost:8545",
+      "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
+    ],
       contracts: {
         DSportRank: {
           address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900"

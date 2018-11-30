@@ -79,8 +79,8 @@ class Home extends Component{
     super(props, context);
     this.state = {
       showModal: false,
-      warningText: ''
-      //activateText: ''
+      warningText: '',
+      rank: 0
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
@@ -117,7 +117,7 @@ class Home extends Component{
     //TODO: make current user unselectable
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
-    }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName)){
+    }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' This player is currently being challenged by another player!' });
     }
     else{
@@ -125,6 +125,49 @@ class Home extends Component{
       this.setState({ warningText: '' });
       }
 }
+
+//TODO: use https://reactjs.org/docs/faq-state.html
+//and code below for better setting of rank in state (perhaps?)
+// setStateOfRank() {
+//   this.setState((state) => {
+//     // Important: read `state` instead of `this.state` when updating.
+//     return {rank: state.count + 1}
+//   });
+// }
+//
+//
+// getRank(theJSONdata, username){
+//
+//   const { details } = this.props;
+//   //console.log(details.RANK);
+//     if (details.NAME === this.props.username && details.ACTIVE === true)
+//       {
+//           //console.log(details.RANK);
+//         currentUserRank = details.RANK;
+//
+//         return (
+//           <div>
+//             Your current ranking is: {details.RANK}
+//          </div>);
+//        }else if (details.NAME === this.props.username && details.ACTIVE === false){
+//            //this.setState({ activateText: 'Your account currently has no player associated with it' });
+//           //this.props.history.push('/update/@' + this.props.username);
+//          return (
+//            <div>
+//              Your player is currently deactivated!<p></p>
+//              Click Update Profile (top  menu) to re-enter the rankings (at the bottom)
+//           </div>)
+//          ;}
+//          else {
+//              //this.setState({ activateText: 'Your account currently has no player associated with it' });
+//             //this.props.history.push('/update/@' + this.props.username);
+//            return (
+//             null)
+//            ;}
+//      }
+//
+// }
+
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
 //REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
 //onSelectRow function within this component. This is not fully understood and needs to be
@@ -179,7 +222,7 @@ class Home extends Component{
                 {Object.keys(this.props.rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}
-            <small>Select an opponent to challenge or enter a result against:</small>
+            <small>Select an opponent (below) to challenge or enter a result against:</small>
               </PageHeader>
             </Col>
           </Row>

@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
+//import sendmail from 'sendmail'
 
 /**
  * Class that renders a form to allow the user to create
@@ -42,6 +43,39 @@ class DoChallenge extends Component{
   }
   //#endregion
 
+//REVIEW: Revive this send mail functionality or remove?
+// onClickSendEmail(){
+//
+//   console.log('here in email');
+//
+//   const sendmail = require('sendmail')({logger: {
+//     debug: console.log,
+//     info: console.info,
+//     warn: console.warn,
+//     error: console.error
+//   },
+//   silent: false,
+//   dkim: { // Default: False
+//     // privateKey: fs.readFileSync('./dkim-private.pem', 'utf8'),
+//     // keySelector: 'mydomainkey'
+//   },
+//   devPort: 1025, // Default: False
+//   devHost: 'localhost', // Default: localhost
+//   smtpPort: 2525, // Default: 25
+//   smtpHost: 'localhost' // Default: -1 - extra smtp host after resolveMX);
+//   })
+//
+//       sendmail({
+//           from: 'freerossagora@tutanota.com',
+//           to: 'test@qq.com, test@sohu.com, test@163.com ',
+//           subject: 'test sendmail',
+//           html: 'Mail of test sendmail ',
+//         }, function(err, reply) {
+//           console.log(err && err.stack);
+//           console.dir(reply);
+//       });
+// }
+
   //#region Component events
   /**
    * Handles the 'challenge' button click event which
@@ -51,7 +85,7 @@ class DoChallenge extends Component{
    * @returns {null}
    */
   _handleClick = async (e) => {
-
+      console.log('in _handleClick');
     // do not post challenge if there is a form error or user has not typed anything
     if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
       console.log('here preventDefault');
@@ -66,16 +100,21 @@ class DoChallenge extends Component{
     // show loading state
     this.setState({ isLoading: true });
 
+    const { username, account, onAfterChallenge } = this.props;
+  
+      console.log('this.state.challenge');
+      console.log(this.state.challenge);
 
     const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
 
+
       //const result = this._updateJSON(this.props.user, this.props.selectedOpponentName);
       const result = JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // estimate gas before sending challenge transaction
-      const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+      const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount });
 
       // send the challenge transaction plus a little extra gas in case the contract state
       // has changed since we've done our gas estimate
@@ -87,8 +126,8 @@ class DoChallenge extends Component{
       // tell parent we've updated a user and to re-fetch user details from the contract
       //NB: onAfterChallenge undefined error unless use this.props - currently don't know why
       //original code didn't need it
-      this.props.onAfterChallenge();
-      //onAfterChallenge();
+      //this.props.onAfterChallenge();
+      onAfterChallenge();
     }
     catch(err){
       // remove loading state and show error message
@@ -179,6 +218,7 @@ class DoChallenge extends Component{
           // disabled={ !isValid || Boolean(error) || !challengeHasChanged }
           // onClick={ (!isValid || Boolean(error) || !challengeHasChanged) ? null : (e) => this._handleClick(e) }
             onClick={ (e) => this._handleClick(e) }
+            //onClick={ () => this.onClickSendEmail() }
         >{isLoading ? 'Loading...' : 'Post Challenge'}</Button>
         <FormGroup
           controlId="formBasicText"

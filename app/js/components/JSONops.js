@@ -18,7 +18,7 @@ const JSONops = {
       //, function(){
   //console.log(responseJson);
       //});
-      console.log(responseJson);
+      //console.log(responseJson);
   return responseJson
     })
     .catch((error) => {
@@ -51,8 +51,8 @@ const JSONops = {
           targetData: "",
           checkAllRows: false
           };
-        console.log(selectedOpponentRank);
-      console.log(typeof selectedOpponentRank);
+        //console.log(selectedOpponentRank);
+      //console.log(typeof selectedOpponentRank);
       //update the User RANK field
       updateUserRank.lookupField = "NAME";
       updateUserRank.lookupKey = currentUser;
@@ -66,8 +66,8 @@ const JSONops = {
       //_setVal each time you need to make a change
       let updatedUserJSON = this._setVal(updateUserRank);
       //let updatedUserJSON = JSONops._setVal(updateUserRank);
-      console.log('updatedUserJSON');
-      console.log(updatedUserJSON);
+      //console.log('updatedUserJSON');
+      //console.log(updatedUserJSON);
       //re-set User CURRENTCHALLENGERID field
       //and add result to the updatedUserJSON object
       updateUserCURRENTCHALLENGERID.lookupField = "NAME";
@@ -78,8 +78,8 @@ const JSONops = {
       //add the new changes to the same updatedUserJSON object
       updatedUserJSON = this._setVal(updateUserCURRENTCHALLENGERID);
       //updatedUserJSON = JSONops._setVal(updateUserCURRENTCHALLENGERID);
-      console.log('updatedUserJSON CURRENTCHALLENGERID');
-      console.log(updatedUserJSON);
+      //console.log('updatedUserJSON CURRENTCHALLENGERID');
+    //  console.log(updatedUserJSON);
       //re-set the current user's CURRENTCHALLENGERNAME
       //TODO:change updateUserCURRENTCHALLENGERID to a better name
       updateUserCURRENTCHALLENGERID.lookupField = "NAME";
@@ -97,8 +97,8 @@ const JSONops = {
      updateOpponent.targetData = currentUserRank;
        updatedUserJSON = this._setVal(updateOpponent);
        //updatedUserJSON = JSONops._setVal(updateOpponent);
-     console.log('updateOpponent');
-      console.log(updateOpponent);
+     //console.log('updateOpponent');
+      //console.log(updateOpponent);
       //update again with the oppenent's CURRENTCHALLENGERNAME also changed
       //to the same updatedUserJSON object
       updateOpponent.lookupField = "NAME";
@@ -108,8 +108,8 @@ const JSONops = {
       updateOpponent.targetData = "AVAILABLE";
       updatedUserJSON = this._setVal(updateOpponent);
       //updatedUserJSON = JSONops._setVal(updateOpponent);
-      console.log('updatedUserJSON');
-       console.log(updatedUserJSON);
+      //console.log('updatedUserJSON');
+       //console.log(updatedUserJSON);
       //only send after all the updates have been made
       //to the updatedUserJSON object
       this._sendJSONData(updatedUserJSON);
@@ -118,8 +118,8 @@ const JSONops = {
     _updateDoChallengeJSON: function(currentUser, selectedOpponent, data){
     //_updateDoChallengeJSON(currentUser, selectedOpponent){
       //REVIEW: using currentUser as lookupKey. May link to id in future
-      console.log(currentUser);
-      console.log(selectedOpponent);
+      //console.log(currentUser);
+    //  console.log(selectedOpponent);
       //use update objects to manage the json data
       //values are just placeholders until they get updated
         let updateUserCURRENTCHALLENGERID = {
@@ -149,8 +149,8 @@ const JSONops = {
 
       //find selectedOpponent's ID
       const selectedOpponentIDNumber = this._getVal(lookupOpponentID);
-      console.log(selectedOpponentIDNumber);
-      console.log(typeof selectedOpponentIDNumber);
+    //  console.log(selectedOpponentIDNumber);
+      //console.log(typeof selectedOpponentIDNumber);
 
       //TODO: change name to lookupandupdateUserID
       //get the user's id number
@@ -199,9 +199,9 @@ const JSONops = {
     },
 
       _getUserRank: function(jsonObj, currentUser){
-        console.log('_getUserRank')
-        console.log(jsonObj)
-        console.log(currentUser)
+        //console.log('_getUserRank')
+        //console.log(jsonObj)
+        //console.log(currentUser)
 
         let lookupCurrentUserRank = {
           jsonRS: jsonObj,
@@ -211,7 +211,7 @@ const JSONops = {
           //targetData: "",
           checkAllRows: false
           };
-          console.log(lookupCurrentUserRank)
+          //console.log(lookupCurrentUserRank)
           const currentUserRank = this._getVal(lookupCurrentUserRank);
 
             return currentUserRank;
@@ -220,13 +220,13 @@ const JSONops = {
       _getVal: function(jsonObj){
     //_getVal(jsonObj){
       for (var i = 0; i < jsonObj.jsonRS.length; i++) {
-         console.log('in _getVal for loop');
-        console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
-        console.log(typeof(jsonObj.lookupKey));
+         //console.log('in _getVal for loop');
+      //  console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
+      //  console.log(typeof(jsonObj.lookupKey));
         //REVIEW: what does update.lookupKey === '*' mean?
           if (jsonObj.jsonRS[i][jsonObj.lookupField] === jsonObj.lookupKey || jsonObj.lookupKey === '*') {
-            console.log('targetField');
-            console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
+            //console.log('targetField');
+            //console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
             // console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
               //jsonObj.jsonRS[i][jsonObj.targetField] = jsonObj.targetData;
               return jsonObj.jsonRS[i][jsonObj.targetField];
@@ -250,7 +250,7 @@ const JSONops = {
         nextIDandInitialRankObj.lookupKey = username;
 
         const nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
-        console.log(nextIDandInitialRank);
+        //console.log(nextIDandInitialRank);
         // const nickName = username.substring(0,5);
         //   console.log(nickName);
 
@@ -297,8 +297,8 @@ const JSONops = {
       //update json with all the updates within it before sending
       //updatedUserJSON = this._setVal(updateUserACTIVE);
 
-      console.log('updatedUserJSON on re-activate');
-      console.log(updatedUserJSON);
+    //  console.log('updatedUserJSON on re-activate');
+      //console.log(updatedUserJSON);
 
       this._sendJSONData(updatedUserJSON);
     },
@@ -309,17 +309,17 @@ const JSONops = {
       // console.log('inside setVal');
       // console.log(update);
           for (var i = 0; i < update.jsonRS.length; i++) {
-            console.log('in setval for loop');
-            console.log(typeof(update.jsonRS[i][update.lookupField]));
-            console.log(update.jsonRS[i][update.lookupField]);
-            console.log(typeof(update.lookupKey));
-            console.log(update.lookupKey);
+            // console.log('in setval for loop');
+            // console.log(typeof(update.jsonRS[i][update.lookupField]));
+            // console.log(update.jsonRS[i][update.lookupField]);
+            // console.log(typeof(update.lookupKey));
+            // console.log(update.lookupKey);
             //REVIEW: what does update.lookupKey === '*' mean?
               if (update.jsonRS[i][update.lookupField] === update.lookupKey || update.lookupKey === '*') {
-                console.log('here1');
+              //  console.log('here1');
                   update.jsonRS[i][update.targetField] = update.targetData;
-                  console.log(update.jsonRS[i][update.targetField]);
-                  console.log(update.jsonRS);
+                  // console.log(update.jsonRS[i][update.targetField]);
+                  // console.log(update.jsonRS);
                   return update.jsonRS;
                   //if (!update.checkAllRows) { return; }
               }
@@ -355,7 +355,7 @@ const JSONops = {
       updateUserACTIVE.targetData = 1;
 
 
-      console.log('before shiftAllOtherPlayersRankingUpByOne');
+      //console.log('before shiftAllOtherPlayersRankingUpByOne');
       updatedUserJSON = this.shiftAllOtherPlayersRankingUpByOne(updateUserACTIVE, currentUserRank);
 
       updatedUserJSON = this._setVal(updateUserACTIVE);
@@ -367,7 +367,7 @@ const JSONops = {
       updateUserACTIVE.lookupKey = currentUser;
       updateUserACTIVE.targetField = "RANK";
       //the length of the data is the equivalent of the bottom rank
-      console.log(updateUserACTIVE.jsonRS.length);
+      //console.log(updateUserACTIVE.jsonRS.length);
       updateUserACTIVE.targetData = updateUserACTIVE.jsonRS.length;
 
       //update json with ALL the updates within it before sending
@@ -376,7 +376,7 @@ const JSONops = {
       //only send after all the updates have been made
       //to the updatedUserJSON object
 
-      console.log(updatedUserJSON);
+      //console.log(updatedUserJSON);
 
       this._sendJSONData(updatedUserJSON);
 
@@ -392,13 +392,13 @@ const JSONops = {
 
           for (var i = 0; i < update.jsonRS.length; i++) {
 
-            console.log('in shiftAllOtherPlayersRankingUpByOne for loop');
+            //console.log('in shiftAllOtherPlayersRankingUpByOne for loop');
             // console.log(typeof(update.targetData));
             // console.log(update.targetData);
 
             // console.log(typeof(update.jsonRS[i][update.lookupField]));
-            console.log('update.jsonRS[i][update.lookupField]');
-            console.log(update.jsonRS[i][update.lookupField]);
+            // console.log('update.jsonRS[i][update.lookupField]');
+            // console.log(update.jsonRS[i][update.lookupField]);
             // console.log(typeof(update.lookupKey));
             // console.log(update.lookupKey);
 
@@ -414,12 +414,12 @@ const JSONops = {
             //make the change according to the current users relative position
             if(currentUserRank === update.jsonRS[i][update.lookupField]){
               //this is the current user's rank which must now be set to the last rank
-              console.log('inside if 1');
+            //  console.log('inside if 1');
               update.jsonRS[i][update.targetField] = update.jsonRS.length;
 
             }
             else if(currentUserRank < update.jsonRS[i][update.lookupField]){
-              console.log('inside if 2');
+              //console.log('inside if 2');
               //this counter manages the first player after the de-activated Player
 
               //let counter = 0;
@@ -451,13 +451,13 @@ const JSONops = {
         deletePlayerJSONuserObj.lookupKey = currentUser;
 
 
-        console.log(deletePlayerJSONuserObj.jsonRS);
+        //console.log(deletePlayerJSONuserObj.jsonRS);
         //delete deletePlayerJSONuserObj.jsonRS[3];
         //console.log(deletePlayerJSONuserObj.jsonRS);
 
           for (var i = 0; i < deletePlayerJSONuserObj.jsonRS.length; i++) {
               if (deletePlayerJSONuserObj.jsonRS[i][deletePlayerJSONuserObj.lookupField] === deletePlayerJSONuserObj.lookupKey || deletePlayerJSONuserObj.lookupKey === '*') {
-                console.log(deletePlayerJSONuserObj.jsonRS[i]);
+              //  console.log(deletePlayerJSONuserObj.jsonRS[i]);
                   delete deletePlayerJSONuserObj.jsonRS[i];
               }
           }
@@ -487,7 +487,7 @@ const JSONops = {
           isPlayerListedInJSONObj.lookupField = "NAME";
           isPlayerListedInJSONObj.lookupKey = currentUser;
 
-          console.log(isPlayerListedInJSONObj.jsonRS);
+        //  console.log(isPlayerListedInJSONObj.jsonRS);
 
             for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
                 if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
@@ -506,7 +506,9 @@ const JSONops = {
             //isPlayerListedInJSONObj.jsonRS = isPlayerListedInJSONObj.jsonRS.filter(function(x) { return x !== null });
       },
 
-      isPlayerAvailableToChallenge: function(data, opponentName){
+      //TODO: will have to separate isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user
+      //out to new function at some point cos otherwise pos of double challenge v same Player
+      isPlayerAvailableToChallenge: function(data, opponentName, user){
         let isPlayerAvailableToChallengeObj = {
           jsonRS: data
           };
@@ -515,13 +517,14 @@ const JSONops = {
           isPlayerAvailableToChallengeObj.lookupField = "NAME";
           isPlayerAvailableToChallengeObj.lookupKey = opponentName;
 
-          console.log(isPlayerAvailableToChallengeObj.jsonRS);
+          //console.log(isPlayerAvailableToChallengeObj.jsonRS);
 
             for (var i = 0; i < isPlayerAvailableToChallengeObj.jsonRS.length; i++) {
                 if (isPlayerAvailableToChallengeObj.jsonRS[i][isPlayerAvailableToChallengeObj.lookupField] === isPlayerAvailableToChallengeObj.lookupKey || isPlayerAvailableToChallengeObj.lookupKey === '*') {
                   //   console.log('isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME');
                   // console.log(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME);
-                  if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'){
+                  if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
+                || isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
                     isPlayerAvailable = true;
                   }
                 }
@@ -553,7 +556,7 @@ const JSONops = {
           req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
           req.setRequestHeader("Content-type", "application/json");
           var myJsonString = JSON.stringify(data);
-          console.log(myJsonString);
+          //console.log(myJsonString);
           req.send(myJsonString);
 
   }

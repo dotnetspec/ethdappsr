@@ -37,7 +37,8 @@ class Search extends Component {
       return e.preventDefault();
     }
 
-    // redirec the user to the user's challenges page
+    // redirec the user to the searched for user's challenges page
+    //ie. to the Userchallenges.js component
     this.props.history.push('/@' + this.state.username);
   }
 

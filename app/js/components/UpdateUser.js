@@ -73,11 +73,22 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
       // send the transaction with our gas estimate (plus a little bit more in case the contract)
       // state has changed since we got our estimate
 
+      const usernameHash = web3.utils.keccak256(user.username);
+      const updatedDescription = this.state.description;
+      const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
+
+      // set up our contract method with the input values from the form
+          const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, updatedImageHash);
+
+          // get a gas estimate before sending the transaction
+          const gasEstimate = await editAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
 
 
-      // if (result.status && !Boolean(result.status.toString().replace('0x', ''))) {
-      //   return this.setState({ isLoading: false, formState: 'error', formUpdated: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
-      // }
+            const result = await editAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+
+      if (result.status && !Boolean(result.status.toString().replace('0x', ''))) {
+        return this.setState({ isLoading: false, formState: 'error', formUpdated: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+      }
 
       // stop loading state, and render the form as successful
       this.setState({ isLoading: false, formState: 'success', formUpdated: false });

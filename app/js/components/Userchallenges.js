@@ -57,30 +57,38 @@ class Userchallenges extends Component {
    * @param {String} username
    * @returns {null}
    */
-  _subscribeToNewchallengeEvent(username){
-    // this.event = new EventEmitter() // replace me with the Newchallenge subscription
-    //   .on('data', (event) => {
-    //     let challenges = this.state.challenges;
-    //
-    //     challenges.push({
-    //       content: event.returnValues.challenge,
-    //       time: this._formatDate(event.returnValues.time)
-    //     });
-    //
-    //     this.setState({challenges: challenges});
-    //   })
-    //   .on('error', function(error){
-    //     this.props.onError(err, 'Userchallenges._subscribeToNewchallengeEvent');
-    //   });
-    DSportRank.events.Newchallenge({
-   filter: {_from: web3.utils.keccak256(username)},
-   fromBlock: 1
-        }, (err, event) => {
-         if (err){
-           this.props.onError(err, 'Userchallenges._subscribeToNewchallengeEvent');
-         }
-      })
-  }
+
+   _subscribeToNewchallengeEvent(username){
+     console.log('_subscribeToNewchallengeEvent');
+     const usernameHash = web3.utils.keccak256(username);
+     console.log(this.state.challenges);
+     //console.log(username);
+     this.event = DSportRank.events.Newchallenge({
+        filter: {_from: usernameHash},
+        fromBlock: 1
+      }, (err, event) => {
+        if (err){
+          console.log('first err');
+          // console.log(this.event);
+          //   console.log(this.props);
+          this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
+        }
+     })
+       .on('data', (event) => {
+         let challenges = this.state.challenges;
+         console.log(challenges);
+         challenges.push({
+           content: event.returnValues.challenges,
+           time: this._formatDate(event.returnValues.time)
+         });
+
+         this.setState({challenges: challenges});
+       })
+       .on('error', function(error){
+         console.log('second err');
+         this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
+       });
+ }
 
   /**
    * Formats an int date into a displayable date
