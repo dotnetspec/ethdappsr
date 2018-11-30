@@ -6,7 +6,7 @@ import imgAvatar from '../../img/avatar-default.png';
 import { map } from 'async';
 import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-import axios from 'axios'
+//import axios from 'axios'
 import JSONops from './JSONops'
 //import jsonData from '../../json/Rankings.json'
 

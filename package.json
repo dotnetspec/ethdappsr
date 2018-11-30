@@ -2,7 +2,6 @@
   "name": "embark-dsportrank",
   "version": "0.0.1",
   "description": "",
-  "main": "Gruntfile.js",
   "scripts": {
     "test": "embark test"
   },
@@ -10,26 +9,22 @@
   "license": "ISC",
   "homepage": "",
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
     "async": "^2.6.1",
-    "axios": "^0.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chance": "^1.0.16",
-    "date-fns": "^2.0.0-alpha.11",
-    "npm": "^6.2.0",
-    "react": "^16.3.2",
-    "react-bootstrap": "^0.32.1",
+    "date-fns": "^2.0.0-alpha.25",
+    "react": "^16.6.3",
+    "react-bootstrap": "^0.32.4",
     "react-bootstrap-table": "^4.3.1",
-    "react-dom": "^16.3.2",
-    "react-router-dom": "^4.2.2",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
     "react-spinkit": "^3.0.0",
     "react-table": "^6.8.6",
     "sendmail": "^1.4.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0"
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0"
   }
 }

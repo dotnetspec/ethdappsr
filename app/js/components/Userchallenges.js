@@ -132,7 +132,8 @@ class Userchallenges extends Component {
   componentWillUnmount(){
     if(!this.event) return;
     // TODO: check if this is the 'right' way to remove / stop the event listener
-    this.event.removeListener(this.event);
+    //this.event.removeListener(this.event);
+    this.event.unsubscribe();
   }
 
   render(){
@@ -153,8 +154,9 @@ class Userchallenges extends Component {
     }else {
       // Render real UI ...
       const {username, description, picture, creationDate} = user;
+      //REVIEW: class name left as 'tweet' assuming compatibility required?
       const challengeList = this.state.challenges.map(function(challenge, index){
-                          return <ListGroupItem className='challenge' key={ index } header={ challenge.time }>{ challenge.content }</ListGroupItem>
+                          return <ListGroupItem className='tweet' key={ index } header={ challenge.time }>{ challenge.content }</ListGroupItem>
                         });
       return (
         <Grid>
@@ -173,7 +175,7 @@ class Userchallenges extends Component {
 
             </Col>
             <Col xs={8}>
-              <ListGroup className='challenges'>
+              <ListGroup className='tweets'>
                 { challengeList }
               </ListGroup>
             </Col>
