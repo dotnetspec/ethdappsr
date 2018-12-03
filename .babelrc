@@ -1,13 +1,5 @@
 {
   "plugins": [
-    "transform-object-rest-spread",
     "@babel/plugin-proposal-class-properties"
-  ],
-  "presets": [
-    "@babel/preset-react"
-  ],
-  "ignore": [
-    "config/",
-    "node_modules"
   ]
 }

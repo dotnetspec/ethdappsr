@@ -9,11 +9,10 @@
   "license": "ISC",
   "homepage": "",
   "dependencies": {
-    "@babel/preset-react": "^7.0.0",
     "async": "^2.6.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chance": "^1.0.16",
     "date-fns": "^2.0.0-alpha.25",
+    "embark": "^3.2.4",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-table": "^4.3.1",
