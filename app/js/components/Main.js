@@ -29,7 +29,6 @@ class Main extends Component {
     //   data: this.removeAllInactivePlayers()
     // }
 
-
   }
   //#endregion
 

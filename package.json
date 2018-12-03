@@ -1,7 +1,7 @@
 {
   "name": "embark-dsportrank",
   "version": "0.0.1",
-  "description": "",
+  "description": "Distributed Sport Ranking System",
   "scripts": {
     "test": "embark test"
   },

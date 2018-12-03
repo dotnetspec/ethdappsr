@@ -94,13 +94,13 @@ class Home extends Component{
 
 
 //onSelectRow must be a component function of Home so that it is possible to toggle the modal
-  onSelectRow(row, isSelected, e) {
-       if (isSelected) {
-          selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
-          selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-          this._handleShow();
-       }
-     }
+  // onSelectRow(row, isSelected, e) {
+  //      if (isSelected) {
+  //         selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
+  //         selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
+  //         this._handleShow();
+  //      }
+  //    }
 
   /**
    * Hides the challenge modal
@@ -168,18 +168,60 @@ class Home extends Component{
 //
 // }
 
+
+
+onClickChallengeSelected(cell, row, rowIndex){
+  //console.log('Product #', rowIndex);
+  selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
+  selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
+  this._handleShow();
+ }
+
+ onClickResultSelected(cell, row, rowIndex){
+   //console.log('Product #', rowIndex);
+   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
+   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
+   this._handleShow();
+  }
+
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
 //REVIEW: selectRowProp has to be defined in render for the onSelect to be bound to the
 //onSelectRow function within this component. This is not fully understood and needs to be
 //better understood
 //https://github.com/AllenFang/react-bootstrap-table/issues/1035
+
+challengeButton(cell, row, enumObject, rowIndex) {
+    return (
+       <button
+          type="button"
+          onClick={() =>
+          this.onClickChallengeSelected(cell, row, rowIndex)}
+       >
+       Challenge
+       </button>
+    )
+ }
+
+ resultButton(cell, row, enumObject, rowIndex) {
+     return (
+        <button
+           type="button"
+           onClick={() =>
+           this.onClickResultSelected(cell, row, rowIndex)}
+        >
+        Result
+        </button>
+     )
+  }
+
+
   render() {
     const selectRowProp = {
       mode: 'radio',
       clickToSelect: true,
       unselectable: [0],
       selected: [],
-      onSelect: this.onSelectRow.bind(this),
+      //onSelect: this.onSelectRow.bind(this),
       bgColor: 'gold'
     };
 
@@ -248,9 +290,22 @@ class Home extends Component{
                     >
                       Rank
                     </TableHeaderColumn>
+
                     <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
                     >
-                      Current Challenger
+                     Current Challenger
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                    dataField='button'
+                    dataFormat={this.challengeButton.bind(this)}
+                  >
+                    Challenge
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                    dataField='button'
+                    dataFormat={this.resultButton.bind(this)}
+                  >
+                    Enter Result
                     </TableHeaderColumn>
                     <TableHeaderColumn dataField='ACTIVE'
                     filter={ { type: 'TextFilter', defaultValue: 'true' } }
