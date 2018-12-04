@@ -79,6 +79,7 @@ class Home extends Component{
     super(props, context);
     this.state = {
       showModal: false,
+      secondModalIsOpen: false,
       warningText: '',
       rank: 0
     }
@@ -174,6 +175,7 @@ onClickChallengeSelected(cell, row, rowIndex){
   //console.log('Product #', rowIndex);
   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
+
   this._handleShow();
  }
 
@@ -181,7 +183,8 @@ onClickChallengeSelected(cell, row, rowIndex){
    //console.log('Product #', rowIndex);
    selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
    selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-   this._handleShow();
+   this.openSecondModal();
+   //this._handleShow();
   }
 
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
@@ -203,6 +206,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
  }
 
  resultButton(cell, row, enumObject, rowIndex) {
+
      return (
         <button
            type="button"
@@ -213,6 +217,15 @@ challengeButton(cell, row, enumObject, rowIndex) {
         </button>
      )
   }
+
+  openSecondModal = () => {
+    console.log('open');
+    this.setState({ secondModalIsOpen: true });
+  };
+
+  closeSecondModal = () => {
+    this.setState({ secondModalIsOpen: false });
+  };
 
 
   render() {
@@ -253,6 +266,14 @@ challengeButton(cell, row, enumObject, rowIndex) {
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
         </Modal.Footer>
       </Modal>
+      <button onClick={this.openSecondModal}>Open Second Modal</button>
+      <Modal
+          show={this.state.secondModalIsOpen}
+          onRequestClose={this.closeSecondModal}
+        >
+          <button onClick={this.closeSecondModal}>close</button>
+          <div>second modal</div>
+        </Modal>
         <Grid>
           <Row>
             <Col xs={12}>
