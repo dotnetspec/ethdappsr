@@ -220,6 +220,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
   openResultModal = () => {
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot enter a result against yourself!' });
+    }else if(JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+        this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result' });
     }else{
       this.setState({ ResultModalIsOpen: true });
     }
@@ -284,13 +286,11 @@ challengeButton(cell, row, enumObject, rowIndex) {
           <Row>
             <Col xs={12}>
               <PageHeader>
-
-                {this.state.warningText}<p></p>
                 {this.props.user}<p></p>
-
                 {Object.keys(this.props.rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}
+            <small><font color="red">{this.state.warningText}</font></small><p></p>
             <small>Select an opponent (below) to challenge or enter a result against:</small>
               </PageHeader>
             </Col>

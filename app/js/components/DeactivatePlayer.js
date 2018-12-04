@@ -50,6 +50,16 @@ class DeactivatePlayer extends Component {
     };
   }
 
+  _cancelClick(e) {
+
+    try {
+    this.props.history.push('/');
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
   //#endregion
 
   //#region React lifecycle events
@@ -80,6 +90,19 @@ class DeactivatePlayer extends Component {
                 onClick={ (e) => this._handleClick(e) }
               >
               { isLoading ? 'Loading...' : 'De-Activate Player' }
+              </Button>
+            </Col>
+          </Row>
+          <p></p>
+          <Row className="show-grid">
+            <Col xs={12} md={8} xsOffset={3} >
+              <Button
+                bsStyle="primary"
+                //disabled={ !isValid }
+                //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+                onClick={ (e) => this._cancelClick(e) }
+              >
+              { isLoading ? 'Loading...' : 'Cancel' }
               </Button>
             </Col>
           </Row>

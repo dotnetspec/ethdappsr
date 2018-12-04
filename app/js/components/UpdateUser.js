@@ -136,6 +136,15 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     };
   }
 
+  _cancelClick(e) {
+    try {
+    this.props.history.push('/');
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
   //#endergion
 
   //#region React lifecycle events
@@ -158,6 +167,19 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
           <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
             Reactivate Player
           </Button>
+        </Row>
+        <p></p>
+        <Row className="show-grid">
+          <Col xs={12} >
+            <Button
+              bsStyle="primary"
+              //disabled={ !isValid }
+              //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+              onClick={ (e) => this._cancelClick(e) }
+            >
+            { isLoading ? 'Loading...' : 'Cancel' }
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col xs={12}>

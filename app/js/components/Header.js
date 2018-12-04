@@ -110,6 +110,18 @@ class Header extends Component {
       ).toFixed(4), 6, '', false
     );
   }
+
+
+  _handleReactivatePlayer(user) {
+    try {
+    JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+      this.props.history.push('/');
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
   //#endregion
 
   //#region React lifecycle events
@@ -223,6 +235,9 @@ class Header extends Component {
       </Button>
       <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
         Deactivate Player
+      </Button>
+      <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
+        Reactivate Player
       </Button>
 
       {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>

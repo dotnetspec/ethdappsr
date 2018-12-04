@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FormGroup, InputGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
+import { FormGroup, InputGroup, FormControl, Button, Glyphicon, ControlLabel, Col } from 'react-bootstrap';
 
 /**
  * Class that renders a form to faciliate searching of
@@ -77,12 +77,14 @@ class Search extends Component {
     let isValid = validationState !== 'error';
 
     return (
+      <>
       <FormGroup validationState={validationState}>
         <InputGroup>
           <FormControl
+            style={{width: "310px"}}
             type="text"
             value={this.state.username}
-            placeholder="username"
+            placeholder="Enter opponent name to list your challenges"
             name="username"
             onChange={ (e) => this._handleChange(e) }
             onKeyPress={ (e) => e.key === 'Enter' ? this._handleClick(e) : false }
@@ -95,6 +97,7 @@ class Search extends Component {
           </InputGroup.Button>
         </InputGroup>
       </FormGroup>
+      </>
     );
   }
   //#endregion
