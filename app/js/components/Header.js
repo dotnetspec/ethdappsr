@@ -257,7 +257,7 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+            <NavLink exact to="/update/@:username">Sportrank HOME<small>Decentralized Sport</small></NavLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

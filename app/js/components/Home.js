@@ -99,7 +99,7 @@ class Home extends Component{
   //      if (isSelected) {
   //         selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   //         selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-  //         this._handleShow();
+  //         this._handleShowChallengeModal();
   //      }
   //    }
 
@@ -114,10 +114,12 @@ class Home extends Component{
   /**
    * Shows the challenge modal
    */
-  _handleShow() {
+  _handleShowChallengeModal() {
     //TODO: make current user unselectable
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
+    }else if(JSONops.isPlayerAlreadyChallengingThisOpp(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+        this.setState({ warningText: ' You are already challenging this player!' });
     }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' This player is currently being challenged by another player!' });
     }
@@ -175,8 +177,11 @@ onClickChallengeSelected(cell, row, rowIndex){
   //console.log('Product #', rowIndex);
   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-
-  this._handleShow();
+    if(this.props.user != ''){
+      this._handleShowChallengeModal();
+    }else{
+        this.setState({ warningText: 'Error: Sorry your account is not recognized' });
+    }
  }
 
  onClickResultSelected(cell, row, rowIndex){
@@ -184,7 +189,7 @@ onClickChallengeSelected(cell, row, rowIndex){
    selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
    selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
    this.openResultModal();
-   //this._handleShow();
+   //this._handleShowChallengeModal();
   }
 
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
@@ -221,7 +226,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot enter a result against yourself!' });
     }else if(JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
-        this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result' });
+        this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
     }else{
       this.setState({ ResultModalIsOpen: true });
     }
@@ -286,10 +291,10 @@ challengeButton(cell, row, enumObject, rowIndex) {
           <Row>
             <Col xs={12}>
               <PageHeader>
-                {this.props.user}<p></p>
+                <small>{this.props.user}<p></p>
                 {Object.keys(this.props.rankingJSONdata).map(key => (
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
-            ))}
+            ))}</small>
             <small><font color="red">{this.state.warningText}</font></small><p></p>
             <small>Select an opponent (below) to challenge or enter a result against:</small>
               </PageHeader>

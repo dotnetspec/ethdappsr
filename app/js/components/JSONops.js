@@ -508,6 +508,7 @@ const JSONops = {
 
       //TODO: will have to separate isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user
       //out to new function at some point cos otherwise pos of double challenge v same Player
+      //update: think this has been done in isPlayerAlreadyChallengingThisOpp
       isPlayerAvailableToChallenge: function(data, opponentName, user){
         let isPlayerAvailableToChallengeObj = {
           jsonRS: data
@@ -524,13 +525,41 @@ const JSONops = {
                   //   console.log('isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME');
                   // console.log(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME);
                   if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
-                || isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
+                || isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME != user){
                     isPlayerAvailable = true;
                   }
                 }
             }
 
             if (isPlayerAvailable === true){
+              return true;
+            }
+            else {
+              return false;
+            }
+      },
+      isPlayerAlreadyChallengingThisOpp: function(data, opponentName, user){
+        let isPlayerAlreadyChallengingThisOppObj = {
+          jsonRS: data
+          };
+          //used for return value below
+          let isPlayerAlreadyChallengingThisOpp = false;
+          isPlayerAlreadyChallengingThisOppObj.lookupField = "NAME";
+          isPlayerAlreadyChallengingThisOppObj.lookupKey = opponentName;
+
+          //console.log(isPlayerAlreadyChallengingThisOppObj.jsonRS);
+
+            for (var i = 0; i < isPlayerAlreadyChallengingThisOppObj.jsonRS.length; i++) {
+                if (isPlayerAlreadyChallengingThisOppObj.jsonRS[i][isPlayerAlreadyChallengingThisOppObj.lookupField] === isPlayerAlreadyChallengingThisOppObj.lookupKey || isPlayerAlreadyChallengingThisOppObj.lookupKey === '*') {
+                  //   console.log('isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME');
+                  // console.log(isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME);
+                  if(isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
+                    isPlayerAlreadyChallengingThisOpp = true;
+                  }
+                }
+            }
+
+            if (isPlayerAlreadyChallengingThisOpp === true){
               return true;
             }
             else {

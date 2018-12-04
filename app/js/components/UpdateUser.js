@@ -55,12 +55,14 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     if (this.state.picture !== '') {
       try {
         // upload the file to ipfs and get the resulting hash
+          user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
         hash = '';
       }
       catch (err) {
         // stop loading state and show user the error
         return this.setState({ isLoading: false, formState: 'error', error: err.message });
       }
+      this.props.history.push('/');
     }
 
 
@@ -164,9 +166,6 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
           <Col xs={12}>
             <PageHeader>Update { user.username } <small>{this.props.account}</small></PageHeader>
           </Col>
-          <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
-            Reactivate Player
-          </Button>
         </Row>
         <p></p>
         <Row className="show-grid">

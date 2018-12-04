@@ -16,10 +16,10 @@ module.exports = {
     ],
     contracts: {
 
-      DSportRank: {
-        address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
-        args: [ ]
-      }
+      // DSportRank: {
+      //   address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
+      //   args: [ ]
+      // }
     },
     gas: "auto",
     gasLimit: 9000000,
@@ -44,7 +44,7 @@ module.exports = {
     ],
       contracts: {
         DSportRank: {
-          address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900"
+          address: "0x41f7061623cbF30Eae0142c890A50Ab1F47152a9"
                   }
                 },
     gas: "auto",
@@ -71,10 +71,10 @@ module.exports = {
         }
       ],
       contracts: {
-        DSportRank: {
-          address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
-          args: [ ]
-        }
+        // DSportRank: {
+        //   address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
+        //   args: [ ]
+        // }
       },
       gasLimit: 9000000,
       gasPrice: 91200,
