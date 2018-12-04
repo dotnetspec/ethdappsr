@@ -79,7 +79,7 @@ class Home extends Component{
     super(props, context);
     this.state = {
       showModal: false,
-      secondModalIsOpen: false,
+      ResultModalIsOpen: false,
       warningText: '',
       rank: 0
     }
@@ -183,7 +183,7 @@ onClickChallengeSelected(cell, row, rowIndex){
    //console.log('Product #', rowIndex);
    selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
    selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-   this.openSecondModal();
+   this.openResultModal();
    //this._handleShow();
   }
 
@@ -206,7 +206,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
  }
 
  resultButton(cell, row, enumObject, rowIndex) {
-
      return (
         <button
            type="button"
@@ -218,13 +217,16 @@ challengeButton(cell, row, enumObject, rowIndex) {
      )
   }
 
-  openSecondModal = () => {
-    console.log('open');
-    this.setState({ secondModalIsOpen: true });
+  openResultModal = () => {
+    if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
+      this.setState({ warningText: ' You cannot enter a result against yourself!' });
+    }else{
+      this.setState({ ResultModalIsOpen: true });
+    }
   };
 
-  closeSecondModal = () => {
-    this.setState({ secondModalIsOpen: false });
+  closeResultModal = () => {
+    this.setState({ ResultModalIsOpen: false });
   };
 
 
@@ -252,27 +254,31 @@ challengeButton(cell, row, enumObject, rowIndex) {
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}>
           </DoChallenge>
-              Or enter the result from your last ladder match with {selectRowPropAfterClickRow.selectedOpponentName}:
-          <EnterResult
-          data={this.props.rankingJSONdata}
-          selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
-          currentUserRank={currentUserRank}
-          user={this.props.user}
-          selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
-          onAfterChallenge={(e) => this._handleClose()}></EnterResult>
-
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={(e) => this._handleClose(e)}>Close</Button>
         </Modal.Footer>
       </Modal>
-      <button onClick={this.openSecondModal}>Open Second Modal</button>
+
       <Modal
-          show={this.state.secondModalIsOpen}
-          onRequestClose={this.closeSecondModal}
+          show={this.state.ResultModalIsOpen}
         >
-          <button onClick={this.closeSecondModal}>close</button>
-          <div>second modal</div>
+        <Modal.Header closeButton>
+          <Modal.Title>Please enter your result vs {selectRowPropAfterClickRow.selectedOpponentName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <EnterResult
+        data={this.props.rankingJSONdata}
+        selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
+        currentUserRank={currentUserRank}
+        user={this.props.user}
+        selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
+        onAfterChallenge={this.closeResultModal}>
+        </EnterResult>
+        </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeResultModal}>Close</Button>
+          </Modal.Footer>
         </Modal>
         <Grid>
           <Row>
@@ -296,8 +302,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
            {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
 
               <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
-                    selectRow={ selectRowProp }
-                  >
+              >
                     <TableHeaderColumn isKey dataField='id'
                     hidden>
                       ID
