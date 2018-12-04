@@ -55,8 +55,9 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     if (this.state.picture !== '') {
       try {
         // upload the file to ipfs and get the resulting hash
-          user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
-        hash = '';
+        //hash = await EmbarkJS.Storage.uploadFile([this.inputPicture]);
+        //   user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
+        // hash = '';
       }
       catch (err) {
         // stop loading state and show user the error
@@ -77,6 +78,7 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
 
       const usernameHash = web3.utils.keccak256(user.username);
       const updatedDescription = this.state.description;
+      //hash
       const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
 
       // set up our contract method with the input values from the form

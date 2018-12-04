@@ -199,9 +199,9 @@ const JSONops = {
     },
 
       _getUserRank: function(jsonObj, currentUser){
-        //console.log('_getUserRank')
-        //console.log(jsonObj)
-        //console.log(currentUser)
+        console.log('_getUserRank')
+        console.log(jsonObj)
+        console.log(currentUser)
 
         let lookupCurrentUserRank = {
           jsonRS: jsonObj,

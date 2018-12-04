@@ -24,11 +24,10 @@ class Main extends Component {
   //#region Constructor
   constructor(props){
     super(props);
-
-    // this.state = {
-    //   data: this.removeAllInactivePlayers()
-    // }
-
+    this.state = {
+      //data: this.removeAllInactivePlayers()
+      rank: 0
+    }
   }
   //#endregion
 
@@ -43,6 +42,14 @@ class Main extends Component {
   //   this.setState({ data: activeData });
   // }
 
+//QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
+//when it clearly gets passed to Home.js?
+  componentDidMount() {
+    console.log(this.props.rankingJSONdata);
+    let currentUserRank = JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
+    console.log(currentUserRank);
+     this.setState({ rank: currentUserRank });
+  }
 
 
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
@@ -52,7 +59,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path='/' render={(props) => <Home user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
+          <Route exact path='/' render={(props) => <Home currentUserRank={this.state.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>

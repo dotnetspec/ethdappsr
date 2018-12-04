@@ -46,19 +46,22 @@ class EnterResult extends Component{
 
 
 
-_processResult(wonorLost, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
+_processResult(resultEntered, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
 
-console.log('currentUser' + currentUser);
+console.log('resultEntered' + resultEntered);
 
              const currentUserRankInt = parseInt(currentUserRank);
              const selectedOpponentRankInt = parseInt(selectedOpponentRank);
 
-            if (wonorLost === 'won' && currentUserRankInt < selectedOpponentRankInt){
+             if (resultEntered === 'undecided' ){
+               return "Thank you. No changes have been made. Your ranking is unchanged"
+             }
+             else if (resultEntered === 'won' && currentUserRankInt < selectedOpponentRankInt){
             //No change. Do nothing
             console.log('won do nothing');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
-            }else if (wonorLost === 'lost' && currentUserRankInt > selectedOpponentRankInt){
+            }else if (resultEntered === 'lost' && currentUserRankInt > selectedOpponentRankInt){
             console.log('lost do nothing');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
@@ -89,11 +92,8 @@ console.log('currentUser' + currentUser);
     // if(this._getValidationState() === 'error' || !this.state.resultHasChanged){
     //   return e.preventDefault();
     // }
-
     // show loading state
     //this.setState({ isLoading: true });
-
-
     //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     try{
@@ -171,10 +171,11 @@ console.log('currentUser' + currentUser);
     return (
 <>
       <div onChange={event => this.setResult(event)}>
-              <input type="radio" value="won" name="result"/> Won
-              <input type="radio" value="lost" name="result"/> Lost
+              <input type="radio" value="won" name="result"/> Won<p></p>
+              <input type="radio" value="lost" name="result"/> Lost<p></p>
               <input type="radio" value="undecided" name="result"/> Undecided
       </div>
+      <p></p>
       <form>
         <Button
           bsStyle="primary"
