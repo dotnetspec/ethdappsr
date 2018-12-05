@@ -17,6 +17,7 @@ class Userchallenges extends Component {
       challenges: []
     };
     this.event = null;
+    this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent.bind(this);
   }
   //#endregion
 

@@ -231,6 +231,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
     }else{
       this.setState({ ResultModalIsOpen: true });
+      this.setState({ warningText: '' });
     }
   };
 

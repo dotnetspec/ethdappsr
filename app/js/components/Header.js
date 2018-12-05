@@ -122,6 +122,14 @@ class Header extends Component {
     };
   }
 
+  navHomeOrToUserUpdate(){
+    if(this.props.user.username != ''){
+      return  <NavLink exact to="/">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+    }else{
+      return <NavLink exact to="/create">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+    }
+  }
+
   //#endregion
 
   //#region React lifecycle events
@@ -257,7 +265,8 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink exact to="/update/@:username">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+          {this.navHomeOrToUserUpdate()}
+
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
