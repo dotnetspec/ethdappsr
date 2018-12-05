@@ -20,6 +20,8 @@ class Search extends Component {
       username: '',
       usernameHasChanged: false
     };
+
+    //this._handleClick = this._handleClick.bind(this);
   }
   //#endregion
 
