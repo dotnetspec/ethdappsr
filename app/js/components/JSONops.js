@@ -25,6 +25,44 @@ const JSONops = {
       console.error(error);
     });
   },
+
+  _getUserValue: function(jsonObj, currentUser, valueToLookup){
+
+    console.log(jsonObj)
+    console.log(currentUser)
+
+    let lookupCurrentUserValue = {
+      jsonRS: jsonObj,
+      lookupField: 'NAME',
+      lookupKey: currentUser,
+      targetField: valueToLookup,
+      //targetData: "",
+      checkAllRows: false
+      };
+      //console.log(lookupCurrentUserRank)
+      const currentUserValue = this._getVal(lookupCurrentUserValue);
+
+        return currentUserValue;
+  },
+
+  _setUserValue: function(jsonObj, currentUser, valueToSet, newValue){
+
+    console.log(valueToSet)
+    console.log(newValue)
+
+    let setNewUserValue = {
+      jsonRS: jsonObj,
+      lookupField: 'NAME',
+      lookupKey: currentUser,
+      targetField: valueToSet,
+      targetData: newValue,
+      checkAllRows: false
+      };
+      const newUserValue = this._setVal(setNewUserValue);
+
+      return newUserValue;
+  },
+
     _updateEnterResultJSON: function(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, data){
       let updateUserRank = {
         //jsonRS: this.props.data,
@@ -54,17 +92,20 @@ const JSONops = {
         //console.log(selectedOpponentRank);
       //console.log(typeof selectedOpponentRank);
       //update the User RANK field
-      updateUserRank.lookupField = "NAME";
-      updateUserRank.lookupKey = currentUser;
-      updateUserRank.targetField = "RANK";
-      //update the current user's rank to the selected opponent's rank
-      updateUserRank.targetData = selectedOpponentRank;
+
+      // updateUserRank.lookupField = "NAME";
+      // updateUserRank.lookupKey = currentUser;
+      // updateUserRank.targetField = "RANK";
+      // //update the current user's rank to the selected opponent's rank
+      // updateUserRank.targetData = selectedOpponentRank;
+
       //re-set user's CURRENTCHALLENGERID to 0
       // updateUser.targetField = "CURRENTCHALLENGERID";
       // updateUser.targetData = 0;
       //create an updatedUserJSON object to update the User in the Json
       //_setVal each time you need to make a change
-      let updatedUserJSON = this._setVal(updateUserRank);
+      //let updatedUserJSON = this._setVal(updateUserRank);
+      let updatedUserJSON = this._setUserValue(data, currentUser, "RANK", selectedOpponentRank)
       //let updatedUserJSON = JSONops._setVal(updateUserRank);
       //console.log('updatedUserJSON');
       //console.log(updatedUserJSON);
@@ -235,41 +276,12 @@ const JSONops = {
       // reset current user CURRENTCHALLENGERID to 0
     },
 
-      _getUserRank: function(jsonObj, currentUser){
-        console.log('_getUserRank')
-        console.log(jsonObj)
-        console.log(currentUser)
-
-        let lookupCurrentUserRank = {
-          jsonRS: jsonObj,
-          lookupField: 'NAME',
-          lookupKey: currentUser,
-          targetField: "RANK",
-          //targetData: "",
-          checkAllRows: false
-          };
-          //console.log(lookupCurrentUserRank)
-          const currentUserRank = this._getVal(lookupCurrentUserRank);
-
-            return currentUserRank;
-      },
-
       _getVal: function(jsonObj){
-    //_getVal(jsonObj){
       for (var i = 0; i < jsonObj.jsonRS.length; i++) {
-         //console.log('in _getVal for loop');
-      //  console.log(typeof(jsonObj.jsonRS[i][jsonObj.lookupField]));
-      //  console.log(typeof(jsonObj.lookupKey));
-        //REVIEW: what does update.lookupKey === '*' mean?
           if (jsonObj.jsonRS[i][jsonObj.lookupField] === jsonObj.lookupKey || jsonObj.lookupKey === '*') {
-            //console.log('targetField');
-            //console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
-            // console.log(jsonObj.jsonRS[i][jsonObj.targetField]);
-              //jsonObj.jsonRS[i][jsonObj.targetField] = jsonObj.targetData;
               return jsonObj.jsonRS[i][jsonObj.targetField];
-              //if (!update.checkAllRows) { return; }
           }
-      }
+       }
     },
 
     createNewUserInJSON: function(originalData, username, accountno, description){
@@ -384,7 +396,8 @@ const JSONops = {
 
       let updatedUserJSON = this._setVal(updateUserACTIVE);
 
-      const currentUserRank = this._getUserRank(originalData, currentUser);
+      //const currentUserRank = this._getUserRank(originalData, currentUser);
+      const currentUserRank = this._getUserValue(originalData, currentUser, "RANK");
 
       //re-set targetfield and targetData set to 1
       updateUserACTIVE.lookupField = "RANK";
