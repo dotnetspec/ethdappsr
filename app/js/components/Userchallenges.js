@@ -29,6 +29,7 @@ class Userchallenges extends Component {
     this._getUserDetails(username);
 
     // subscribe to challenge events
+    //this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent().bind(this);
     this._subscribeToNewchallengeEvent(username);
   }
 
@@ -76,6 +77,7 @@ class Userchallenges extends Component {
      })
        .on('data', (event) => {
          let challenges = this.state.challenges;
+         //this.challenges = this.challenges.bind(this);
          console.log(challenges);
          challenges.push({
            content: event.returnValues.challenges,

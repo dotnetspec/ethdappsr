@@ -223,9 +223,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
   }
 
   openResultModal = () => {
-    if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
-      this.setState({ warningText: ' You cannot enter a result against yourself!' });
-    }else if(JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    //NB: need to code for the case where user enters a result on his own row as well as when the slot is
+    //available
+    //TODO: create a JSONops for canResultBeEnteredvsOpponent (don't use isPlayerAvailableToChallenge here)
+    if(JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)
+    ^ selectRowPropAfterClickRow.selectedOpponentName === this.props.user)
+  {
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
     }else{
       this.setState({ ResultModalIsOpen: true });

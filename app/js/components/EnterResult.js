@@ -54,6 +54,7 @@ console.log('resultEntered' + resultEntered);
              const selectedOpponentRankInt = parseInt(selectedOpponentRank);
 
              if (resultEntered === 'undecided' ){
+               JSONops._updateEnterResultUndecidedJSON(currentUser,selectedOpponent, this.props.data);
                return "Thank you. No changes have been made. Your ranking is unchanged"
              }
              else if (resultEntered === 'won' && currentUserRankInt < selectedOpponentRankInt){

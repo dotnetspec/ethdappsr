@@ -28,6 +28,7 @@ class Main extends Component {
       //data: this.removeAllInactivePlayers()
       rank: 0
     }
+    console.log(this.props.rankingJSONdata);
   }
   //#endregion
 
@@ -44,18 +45,22 @@ class Main extends Component {
 
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
-  componentDidMount() {
-    console.log(this.props.rankingJSONdata);
-    let currentUserRank = JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
-    console.log(currentUserRank);
-     this.setState({ rank: currentUserRank });
-  }
+  // async componentDidMount() {
+  //   // console.log(this.props.rankingJSONdata);
+  //   let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
+  //    console.log(currentUserRank);
+  //   this.setState({ rank: currentUserRank });
+  // }
 
 
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
+      // console.log(this.props.rankingJSONdata);
+      // let currentUserRank = JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
+      // console.log(currentUserRank);
+      //  this.setState({ rank: currentUserRank });
     return (
       <main>
         <Switch>

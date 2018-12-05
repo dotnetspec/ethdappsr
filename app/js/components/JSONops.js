@@ -115,6 +115,43 @@ const JSONops = {
       this._sendJSONData(updatedUserJSON);
       //JSONops._sendJSONData(updatedUserJSON);
     },
+    _updateEnterResultUndecidedJSON: function(currentUser, selectedOpponent, data){
+      let updateUser = {
+        jsonRS: data,
+        lookupField: "",
+        lookupKey: 0,
+        targetField: "",
+        targetData: "",
+        checkAllRows: false
+        };
+      let updateOpponent = {
+        jsonRS: data,
+        lookupField: "",
+        lookupKey: 0,
+        targetField: "",
+        targetData: "",
+        checkAllRows: false
+        };
+
+        updateUser.lookupField = "NAME";
+        updateUser.lookupKey = currentUser;
+        updateUser.targetField = "CURRENTCHALLENGERNAME";
+        //update the current user's rank to the selected opponent's rank
+        updateUser.targetData = "AVAILABLE";
+        //re-set user's CURRENTCHALLENGERNAME to AVAILABLE
+        //create an updatedUserJSON object to update the User in the Json
+        //_setVal each time you need to make a change
+        let updatedUserJSON = this._setVal(updateUser);
+
+        updateOpponent.lookupField = "NAME";
+        updateOpponent.lookupKey = selectedOpponent;
+        updateOpponent.targetField = "CURRENTCHALLENGERNAME";
+        //update the opponent's rank to the user's rank
+        updateOpponent.targetData = "AVAILABLE";
+        updatedUserJSON = this._setVal(updateOpponent);
+
+        this._sendJSONData(updatedUserJSON);
+    },
     _updateDoChallengeJSON: function(currentUser, selectedOpponent, data){
     //_updateDoChallengeJSON(currentUser, selectedOpponent){
       //REVIEW: using currentUser as lookupKey. May link to id in future
