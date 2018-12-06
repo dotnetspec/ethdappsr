@@ -114,7 +114,7 @@ class Home extends Component{
         this.setState({ warningText: ' You are already challenging this player!' });
         this.setState({ WarningModalIsOpen: true });
     }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
-        this.setState({ warningText: ' You are already challenging someone or this player is currently being challenged by another player!' });
+        this.setState({ warningText: ' Please allow ongoing challenge(s) to complete ...' });
         this.setState({ WarningModalIsOpen: true });
     }
     else{
