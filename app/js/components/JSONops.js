@@ -137,7 +137,15 @@ const JSONops = {
 
     reactivatePlayer: function(data, currentUser, accountno){
 
-      let updatedUserJSON = this._setUserValue(data, currentUser, "ACTIVE", true);
+      let updateUserRankToEndObj = {
+        jsonRS: data
+        };
+
+      let updatedUserJSON = this._setUserValue(updateUserRankToEndObj.jsonRS, currentUser, "ACTIVE", true);
+
+      const currentNumberOfActivePlayers = this.getCurrentNoOfActivePlayers(updateUserRankToEndObj.jsonRS)
+      //Set rank to last of the ACTIVE players
+      updatedUserJSON = this._setUserValue(updateUserRankToEndObj.jsonRS, currentUser, "RANK", currentNumberOfActivePlayers);
 
       this._sendJSONData(updatedUserJSON);
     },
@@ -165,6 +173,18 @@ const JSONops = {
           checkAllRows: false
           };
 
+//need this one to get the opponenets name when user is the challenger
+          let lookupCurrentUsersOppenentPlayerValue = {
+            jsonRS: data,
+            lookupField: 'CURRENTCHALLENGERNAME',
+            lookupKey: currentUser,
+            targetField: 'NAME',
+            //targetData: "",
+            checkAllRows: false
+            };
+            //console.log(lookupCurrentUserRank)
+            const currentUsersOppenentPlayerValue = this._getVal(lookupCurrentUsersOppenentPlayerValue);
+
       let updatedUserJSON = this._setUserValue(data, currentUser, "ACTIVE", false);
 
       //const currentUserRank = this._getUserRank(originalData, currentUser);
@@ -186,7 +206,21 @@ const JSONops = {
       //REVIEW: it's possible this (below) could be part of shiftAllOtherPlayersRankingUpByOne code
       //but currently is necessary here
       updatedUserJSON = this._setUserValue(data, currentUser, "RANK", shiftUpRankingUpdateObj.jsonRS.length);
+      //re-set my current opponent to AVAILABLE
+      updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
+      //get current opponent (who player is challenging) name
+      //where current user is the challenger then we get the player name
+      //const opponentsName = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
+      console.log('currentUsersOppenentPlayerValue')
+      console.log(currentUsersOppenentPlayerValue)
+      //re-set my opponents 'current opponent' to AVAILABLE if not already AVAILABLE
+      // if(opponentsName != "AVAILABLE"){
+      //   updatedUserJSON = this._setUserValue(data, opponentsName, "CURRENTCHALLENGERNAME", "AVAILABLE");
+      // }
+      //re-set my opponents 'current opponent' to AVAILABLE
+      updatedUserJSON = this._setUserValue(data, currentUsersOppenentPlayerValue, "CURRENTCHALLENGERNAME", "AVAILABLE");
 
+      //console.log(updatedUserJSON)
       this._sendJSONData(updatedUserJSON);
 
     },
@@ -198,17 +232,36 @@ const JSONops = {
 
             ranktobeupdated = update.jsonRS[i][update.lookupField];
             //make the change according to the current users relative position
-            if(currentUserRank === update.jsonRS[i][update.lookupField]){
-              //this is the current user's rank which must now be set to the last rank
-              update.jsonRS[i][update.targetField] = update.jsonRS.length;
-            }
-            else if(currentUserRank < update.jsonRS[i][update.lookupField]){
+            // if(currentUserRank === update.jsonRS[i][update.lookupField]){
+            //   //this is the current user's rank which must now be set to the last rank
+            //   update.jsonRS[i][update.targetField] = update.jsonRS.length;
+            // }
+            // else
+
+            if(currentUserRank < update.jsonRS[i][update.lookupField]){
               ranktobeupdated -= 1;
               update.jsonRS[i][update.targetField] = ranktobeupdated;
             }
           }
           return update.jsonRS;
     },
+
+    getCurrentNoOfActivePlayers: function(data){
+            let currentNoOfActivePlayers = 0;
+
+            let activePlayerJSONuserObj = {
+              jsonRS: data,
+              };
+
+            activePlayerJSONuserObj.lookupField = "ACTIVE";
+
+            for (var i = 0; i < activePlayerJSONuserObj.jsonRS.length; i++) {
+              if(activePlayerJSONuserObj.jsonRS[i][activePlayerJSONuserObj.lookupField] === true){
+                currentNoOfActivePlayers += 1;
+              }
+            }
+            return currentNoOfActivePlayers;
+      },
 
 //NB:admin function - not used directly by app
 //TODO: create a separate admin screen
@@ -270,12 +323,37 @@ const JSONops = {
           isPlayerAvailableToChallengeObj.lookupKey = opponentName;
             for (var i = 0; i < isPlayerAvailableToChallengeObj.jsonRS.length; i++) {
                 if (isPlayerAvailableToChallengeObj.jsonRS[i][isPlayerAvailableToChallengeObj.lookupField] === isPlayerAvailableToChallengeObj.lookupKey || isPlayerAvailableToChallengeObj.lookupKey === '*') {
-                  if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'){
+                  if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
+                && !this.doesPlayerAlreadHaveAChallenge(data, opponentName, user)){
                     isPlayerAvailable = true;
                   }
                 }
             }
             if (isPlayerAvailable === true){
+              return true;
+            }
+            else {
+              return false;
+            }
+      },
+
+      doesPlayerAlreadHaveAChallenge: function(data, opponentName, user){
+        let doesPlayerAlreadHaveAChallengeObj = {
+          jsonRS: data
+          };
+          //used for return value below
+          let doesPlayerAlreadHaveAChallenge = false;
+          doesPlayerAlreadHaveAChallengeObj.lookupField = "CURRENTCHALLENGERNAME";
+          //NB: using the opponentName to look this up against the user (as challenger) name
+          doesPlayerAlreadHaveAChallengeObj.lookupKey = user;
+            for (var i = 0; i < doesPlayerAlreadHaveAChallengeObj.jsonRS.length; i++) {
+                if (doesPlayerAlreadHaveAChallengeObj.jsonRS[i][doesPlayerAlreadHaveAChallengeObj.lookupField] === doesPlayerAlreadHaveAChallengeObj.lookupKey || doesPlayerAlreadHaveAChallengeObj.lookupKey === '*') {
+                  if(doesPlayerAlreadHaveAChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
+                    doesPlayerAlreadHaveAChallenge= true;
+                  }
+                }
+            }
+            if (doesPlayerAlreadHaveAChallenge === true){
               return true;
             }
             else {
