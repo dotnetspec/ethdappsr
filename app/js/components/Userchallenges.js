@@ -105,6 +105,16 @@ class Userchallenges extends Component {
     }
     return formatDistance(new Date(intDate), new Date()) + ' ago';
   }
+
+  _cancelClick(e) {
+
+    try {
+    this.props.history.push('/');
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
   //#endregion
 
   //#region React lifecycle events
@@ -163,6 +173,18 @@ class Userchallenges extends Component {
                         });
       return (
         <Grid>
+        <Row className="show-grid">
+          <Col xs={12} md={8} xsOffset={3} >
+            <Button
+              bsStyle="primary"
+              //disabled={ !isValid }
+              //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+              onClick={ (e) => this._cancelClick(e) }
+            >
+            { isLoading ? 'Loading...' : 'Cancel' }
+            </Button>
+          </Col>
+        </Row>
           <Row>
             <Col xs={12}>
               <PageHeader>{ username } s <small>challenges</small></PageHeader>

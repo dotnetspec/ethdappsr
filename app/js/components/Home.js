@@ -80,6 +80,7 @@ class Home extends Component{
     this.state = {
       showModal: false,
       ResultModalIsOpen: false,
+      WarningModalIsOpen: false,
       warningText: '',
       rank: 0
     }
@@ -92,16 +93,6 @@ class Home extends Component{
    //this._handleClose = this._handleClose.bind(this);
   }
   //#endregion
-
-
-//onSelectRow must be a component function of Home so that it is possible to toggle the modal
-  // onSelectRow(row, isSelected, e) {
-  //      if (isSelected) {
-  //         selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
-  //         selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-  //         this._handleShowChallengeModal();
-  //      }
-  //    }
 
   /**
    * Hides the challenge modal
@@ -118,10 +109,13 @@ class Home extends Component{
     //TODO: make current user unselectable
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
+      this.setState({ WarningModalIsOpen: true });
     }else if(JSONops.isPlayerAlreadyChallengingThisOpp(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' You are already challenging this player!' });
+        this.setState({ WarningModalIsOpen: true });
     }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' This player is currently being challenged by another player!' });
+        this.setState({ WarningModalIsOpen: true });
     }
     else{
       this.setState({ showModal: true });
@@ -139,39 +133,6 @@ class Home extends Component{
 // }
 //
 //
-// getRank(theJSONdata, username){
-//
-//   const { details } = this.props;
-//   //console.log(details.RANK);
-//     if (details.NAME === this.props.username && details.ACTIVE === true)
-//       {
-//           //console.log(details.RANK);
-//         currentUserRank = details.RANK;
-//
-//         return (
-//           <div>
-//             Your current ranking is: {details.RANK}
-//          </div>);
-//        }else if (details.NAME === this.props.username && details.ACTIVE === false){
-//            //this.setState({ activateText: 'Your account currently has no player associated with it' });
-//           //this.props.history.push('/update/@' + this.props.username);
-//          return (
-//            <div>
-//              Your player is currently deactivated!<p></p>
-//              Click Update Profile (top  menu) to re-enter the rankings (at the bottom)
-//           </div>)
-//          ;}
-//          else {
-//              //this.setState({ activateText: 'Your account currently has no player associated with it' });
-//             //this.props.history.push('/update/@' + this.props.username);
-//            return (
-//             null)
-//            ;}
-//      }
-//
-// }
-
-
 
 onClickChallengeSelected(cell, row, rowIndex){
   //console.log('Product #', rowIndex);
@@ -181,6 +142,7 @@ onClickChallengeSelected(cell, row, rowIndex){
       this._handleShowChallengeModal();
     }else{
         this.setState({ warningText: 'Error: Sorry your account is not recognized' });
+        this.setState({ openWarningModal: true });
     }
  }
 
@@ -223,12 +185,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
   }
 
   openResultModal = () => {
-    //NB: need to code for the case where user enters a result on his own row as well as when the slot is
-    //available
-    //TODO: create a JSONops for canResultBeEnteredvsOpponent (don't use isPlayerAvailableToChallenge here)
+    //NB: this is a NOT operation!
     if(!JSONops.isPlayerAvailableToEnterResultAgainst(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user))
   {
+    console.log(1)
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
+        this.setState({ WarningModalIsOpen: true });
     }else{
       this.setState({ ResultModalIsOpen: true });
       this.setState({ warningText: '' });
@@ -237,6 +199,10 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
   closeResultModal = () => {
     this.setState({ ResultModalIsOpen: false });
+  };
+
+  closeWarningModal = () => {
+    this.setState({ WarningModalIsOpen: false });
   };
 
 
@@ -290,6 +256,21 @@ challengeButton(cell, row, enumObject, rowIndex) {
             <Button onClick={this.closeResultModal}>Close</Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal
+            show={this.state.WarningModalIsOpen}
+          >
+          <Modal.Header closeButton>
+            <Modal.Title>Please Note!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <font color="red">{this.state.warningText}</font>
+          </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeWarningModal}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+
         <Grid>
           <Row>
             <Col xs={12}>
