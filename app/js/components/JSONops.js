@@ -270,15 +270,11 @@ const JSONops = {
           isPlayerAvailableToChallengeObj.lookupKey = opponentName;
             for (var i = 0; i < isPlayerAvailableToChallengeObj.jsonRS.length; i++) {
                 if (isPlayerAvailableToChallengeObj.jsonRS[i][isPlayerAvailableToChallengeObj.lookupField] === isPlayerAvailableToChallengeObj.lookupKey || isPlayerAvailableToChallengeObj.lookupKey === '*') {
-                  //   console.log('isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME');
-                  // console.log(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME);
                   if(isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'){
-                //^ isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME != user){
                     isPlayerAvailable = true;
                   }
                 }
             }
-
             if (isPlayerAvailable === true){
               return true;
             }
@@ -286,6 +282,7 @@ const JSONops = {
               return false;
             }
       },
+
       isPlayerAvailableToEnterResultAgainst: function(data, opponentName, user){
         let isPlayerAvailableToEnterResultAgainstObj = {
           jsonRS: data
@@ -299,91 +296,26 @@ const JSONops = {
           console.log(user)
           console.log(opponentName)
 
-
             for (var i = 0; i < isPlayerAvailableToEnterResultAgainstObj.jsonRS.length; i++) {
                 if (isPlayerAvailableToEnterResultAgainstObj.jsonRS[i][isPlayerAvailableToEnterResultAgainstObj.lookupField]
                   === isPlayerAvailableToEnterResultAgainstObj.lookupKey || isPlayerAvailableToEnterResultAgainstObj.lookupKey
                   === '*') {
-
+                    //NB. be careful editing this logic - save first!
                     if(  (isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != user
-                        && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user)
-                      ||
-                      (isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != opponentName
-                        && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != opponentName)
+                          && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user)
                         ||
-                        isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
+                          (isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != opponentName
+                          && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != opponentName)
+                        ||
+                          isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
                       ){
                       console.log(1)
                       isPlayerAvailableToEnterResultAgainst = false;
                     }
-                  //   else
-                  //    if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != opponentName
-                  // && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user){
-                  //   console.log(2)
-                  //        isPlayerAvailableToEnterResultAgainst = false;
-                  // }
-                    // }
-                    // else
-                    // if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != opponentName
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
-                    // )
-                    // {
-                    //     console.log(3)
-                    //     isPlayerAvailableToEnterResultAgainst = false;
-                    // }
-                    // else
-                    // if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != opponentName
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME === 'AVAILABLE'
-                    // )
-                    // {
-                    //     console.log(3)
-                    //     isPlayerAvailableToEnterResultAgainst = false;
-                    // }
-
-
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != 'AVAILABLE'
-                    //   && user === isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME)
-                    // {
-                    //   console.log(1)
-                    //   isPlayerAvailableToEnterResultAgainst = true;
-                    // }
-
-                  //   console.log('isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME');
-                  // console.log(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME);
-                    // if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME != user
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user
-                    //   && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != 'AVAILABLE'
-                    //   && user === isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME)
-                    // {
-                    //   console.log(1)
-                    //   isPlayerAvailableToEnterResultAgainst = true;
-                    // }
-                    // else if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != user
-                    // && isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != 'AVAILABLE'
-                    // && user === isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME){
-                    // //&& isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME === user){
-                    // console.log(2)
-                    //   isPlayerAvailableToEnterResultAgainst = true;
-                    // }
-                    // else if(isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME != 'AVAILABLE'
-                    // && user === isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME){
-                    // //&& isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].NAME === user){
-                    // console.log(3)
-                    //   isPlayerAvailableToEnterResultAgainst = true;
-                    // }
-                    // else if(user === isPlayerAvailableToEnterResultAgainstObj.jsonRS[i].CURRENTCHALLENGERNAME)
-                    //   {
-                    //   console.log(4)
-                    //     isPlayerAvailableToEnterResultAgainst = true;
-                    //   }
-                      else{
-                        console.log(4)
-                        //isPlayerAvailableToEnterResultAgainst = true;
-                      }
-
+                    else{
+                      //will default to true (modal will display)
+                      console.log(2)
+                    }
                 }
             }
 
@@ -394,6 +326,7 @@ const JSONops = {
               return false;
             }
       },
+
       isPlayerAlreadyChallengingThisOpp: function(data, opponentName, user){
         let isPlayerAlreadyChallengingThisOppObj = {
           jsonRS: data
@@ -403,12 +336,8 @@ const JSONops = {
           isPlayerAlreadyChallengingThisOppObj.lookupField = "NAME";
           isPlayerAlreadyChallengingThisOppObj.lookupKey = opponentName;
 
-          //console.log(isPlayerAlreadyChallengingThisOppObj.jsonRS);
-
             for (var i = 0; i < isPlayerAlreadyChallengingThisOppObj.jsonRS.length; i++) {
                 if (isPlayerAlreadyChallengingThisOppObj.jsonRS[i][isPlayerAlreadyChallengingThisOppObj.lookupField] === isPlayerAlreadyChallengingThisOppObj.lookupKey || isPlayerAlreadyChallengingThisOppObj.lookupKey === '*') {
-                  //   console.log('isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME');
-                  // console.log(isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME);
                   if(isPlayerAlreadyChallengingThisOppObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
                     isPlayerAlreadyChallengingThisOpp = true;
                   }
@@ -431,7 +360,6 @@ const JSONops = {
               //console.log(req.responseText);
             }
           };
-
           //NOTE: it is the api.jsonbin NOT the jsonbin.io!
           //JSON data can and should be in ANY order
           //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
@@ -443,7 +371,6 @@ const JSONops = {
           var myJsonString = JSON.stringify(data);
           //console.log(myJsonString);
           req.send(myJsonString);
-
   }
 }
 
