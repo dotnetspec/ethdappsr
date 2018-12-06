@@ -341,17 +341,28 @@ const JSONops = {
         let doesPlayerAlreadHaveAChallengeObj = {
           jsonRS: data
           };
+          console.log('opponentName')
+          console.log(opponentName)
+          console.log('user')
+          console.log(user)
+
+
           //used for return value below
           let doesPlayerAlreadHaveAChallenge = false;
           doesPlayerAlreadHaveAChallengeObj.lookupField = "CURRENTCHALLENGERNAME";
           //NB: using the opponentName to look this up against the user (as challenger) name
           doesPlayerAlreadHaveAChallengeObj.lookupKey = user;
             for (var i = 0; i < doesPlayerAlreadHaveAChallengeObj.jsonRS.length; i++) {
-                if (doesPlayerAlreadHaveAChallengeObj.jsonRS[i][doesPlayerAlreadHaveAChallengeObj.lookupField] === doesPlayerAlreadHaveAChallengeObj.lookupKey || doesPlayerAlreadHaveAChallengeObj.lookupKey === '*') {
-                  if(doesPlayerAlreadHaveAChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user){
+                // if (doesPlayerAlreadHaveAChallengeObj.jsonRS[i][doesPlayerAlreadHaveAChallengeObj.lookupField] === doesPlayerAlreadHaveAChallengeObj.lookupKey || doesPlayerAlreadHaveAChallengeObj.lookupKey === '*')
+                // {
+                  // console.log('doesPlayerAlreadHaveAChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME')
+                  // console.log(doesPlayerAlreadHaveAChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME)
+
+                  if(doesPlayerAlreadHaveAChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === opponentName
+                  ){
                     doesPlayerAlreadHaveAChallenge= true;
                   }
-                }
+                //}
             }
             if (doesPlayerAlreadHaveAChallenge === true){
               return true;
