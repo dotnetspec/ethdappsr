@@ -1,8 +1,31 @@
-import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Grid, Row, Col, PageHeader } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, FormControl, HelpBlock, Grid, Row, Col, PageHeader, Modal } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import JSONops from './JSONops'
+
+
+//helper class
+class UserConfirmCreateUser extends Component {
+
+   render(
+
+   ) {
+     const isLoading = false;
+              return (
+                <div>
+                hello
+                <Button
+                  //bsStyle="primary"
+                  //disabled={ !isValid }
+                  //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+                  onClick={ (e) => this._cancelClick(e) }
+                >
+                { isLoading ? 'Loading...' : 'Cancel' }
+                </Button>
+               </div>);
+          }
+        }
 
 /**
  * Class that renders a form to facilitate the creation
@@ -22,8 +45,17 @@ class CreateUser extends Component {
       username: '',
       description: '',
       usernameHasChanged: false,
-      error: ''
+      error: '',
+      WarningModalIsOpen: false,
+      warningText: '',
+      userConfirm: false
     };
+  }
+
+
+  _continueClick(){
+      this.setState({ userConfirm: true });
+      this.setState({ WarningModalIsOpen: false });
   }
   //#endregion
 
@@ -39,52 +71,73 @@ class CreateUser extends Component {
     //console.log(JSONops.createNewUserInJSON());
     //TODO: all the json data for create new user is here ready to be appended to
     //console.log(this.props.rankingJSONdata);
-
-    JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
-
-    this.setState({ isLoading: true });
-    const { username, description } = this.state;
-
-    try {
-
-      // set up our contract method with the input values from the form
-      const createAccount = DSportRank.methods.createAccount(username, description);
-
-      // get a gas estimate before sending the transaction
-      const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
-
-      // send the transaction to create an account with our gas estimate
-      // (plus a little bit more in case the contract state has changed).
-      const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+    if (this.state.userConfirm === false){
+      this.setState({ WarningModalIsOpen: true });
+    }
 
 
+    if(this.state.userConfirm){
 
-      // check result status. if status is false or '0x0', show user the tx details to debug error
-      if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-        return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
-      }
+              JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
+              const { username, description } = this.state;
+              try {
+                // set up our contract method with the input values from the form
+                const createAccount = DSportRank.methods.createAccount(username, description);
+                // get a gas estimate before sending the transaction
+                const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+                // send the transaction to create an account with our gas estimate
+                // (plus a little bit more in case the contract state has changed).
+                const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+                // check result status. if status is false or '0x0', show user the tx details to debug error
+                if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+                  return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+                }
+                // Completed of async action, set loading state back
+                this.setState({ isLoading: false });
+                // tell our parent that we've created a user so it
+                // will re-fetch the current user details from the contract
+                this.props.onAfterUserUpdate();
+                // redirect user to the profile update page
+                this.props.history.push('/update/@' + username);
+              } catch (err) {
+                // stop loading state and show the error
+                this.setState({ isLoading: false, error: err.message });
+              };
+            //user didn't confirm
+          }else{
+              console.log('user has not confirmed')
+            // const wtext = 'Please ensure your username is as you want it'
+            // wtext = ' since it CANNOT be changed, even if you de-activate your account!'
+            //   this.setState({ warningText: wtext });
+          }
+  }
 
-      //else {
-
-        //update the json with the new user
-        //mything.NewField = 'foo';
-
-      //}
-
-      // Completed of async action, set loading state back
-      this.setState({ isLoading: false });
-
-      // tell our parent that we've created a user so it
-      // will re-fetch the current user details from the contract
-      this.props.onAfterUserUpdate();
-
-      // redirect user to the profile update page
-      this.props.history.push('/update/@' + username);
-
-    } catch (err) {
-      // stop loading state and show the error
-      this.setState({ isLoading: false, error: err.message });
-    };
+  getUserConfirmationOfAccountCreation(){
+    //REVIEW: Fix the validation isLoading if necessary
+     const isLoading = false;
+     let  wtext = 'Please ensure your username is exactly as you want it'
+            wtext += ' since it CANNOT be changed, even if you de-activate your account!'
+    return (
+      <div>
+      {wtext}<p></p>
+      <Button
+        bsStyle="primary"
+        //disabled={ !isValid }
+        //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+        onClick={ (e) => this._cancelClick(e) }
+      >
+      { isLoading ? 'Loading...' : 'Cancel' }
+      </Button><p></p>
+      Go ahead I am happy with this username: <p></p>
+      <Button
+        bsStyle="primary"
+        //disabled={ !isValid }
+        //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+        onClick={ (e) => this._continueClick(e) }
+      >
+      { isLoading ? 'Loading...' : 'Continue' }
+      </Button>
+     </div>);
   }
 
   /**
@@ -103,49 +156,33 @@ class CreateUser extends Component {
     const value = e.target.value;
 
     state[input] = value;
-
     if (input === 'username') {
-
       state.usernameHasChanged = true;
-
       if (value.length >= 5) {
-
         // ensure we're not already loading the last lookup
         if (!this.state.isLoading) {
-
           // call the userExists method in our contract asynchronously
           DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
           .then((exists) => {
-
-
             // stop loading state
             state.isLoading = false;
-
             // show error to user if user doesn't exist
             state.error = exists ? 'Username not available' : '';
-
             this.setState(state);
-
           }).catch((err) => {
-
             // stop loading state
             state.isLoading = false;
-
             // show error message to user
             state.error = err.message;
-
             this.setState(state);
           });
-
           // set loading state while checking the contract
           state.isLoading = true;
         }
-
         // we are loading already, do nothing while we wait
         return true;
       }
     }
-
     this.setState(state);
   }
   //#endregion
@@ -179,6 +216,22 @@ class CreateUser extends Component {
     // shows the user the form is valid (green).
     return this.state.error.length > 0 ? 'error' : 'success';
   }
+
+  _cancelClick(e) {
+    try {
+    //this.props.history.push('/');
+    console.log('user cancelled')
+    this.setState({ userConfirm: false });
+    this.setState({ WarningModalIsOpen: false });
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
+  closeWarningModal = () => {
+    this.setState({ WarningModalIsOpen: false });
+  };
   //#endregion
 
   //#region React lifecycle events
@@ -192,6 +245,21 @@ class CreateUser extends Component {
 
     return (
       <Grid>
+      <Modal
+          show={this.state.WarningModalIsOpen}
+        >
+        <Modal.Header closeButton>
+          <Modal.Title>Please Note!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        {this.getUserConfirmationOfAccountCreation()}
+
+        </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeWarningModal}>Close</Button>
+
+          </Modal.Footer>
+        </Modal>
         <Row>
           <Col xs={12}>
           <PageHeader>Create An Account Name<small> for account number:  { this.props.account }</small></PageHeader>
