@@ -46,30 +46,53 @@ class EnterResult extends Component{
 
 
 
-_processResult(resultEntered, selectedOpponent, currentUser, currentUserRank, selectedOpponentRank){
+_processResult(resultEntered, playerNameOnRowClicked, currentUser, currentUserRank, selectedOpponentRank){
 
-console.log('resultEntered' + resultEntered);
+console.log('resultEntered ' + resultEntered);
 
-             const currentUserRankInt = parseInt(currentUserRank);
-             const selectedOpponentRankInt = parseInt(selectedOpponentRank);
+//REVIEW: ensure handle the opponent's row being clicked as well as user's row
+let checkedUserRank, checkedOpponentRank = 0;
+
+const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, currentUser, "CURRENTCHALLENGERNAME");
+
+if(currentUser === playerNameOnRowClicked){
+  //get the RANK value from the opponent
+  //console.log('1')
+  checkedUserRank = currentUserRank;
+  checkedOpponentRank = selectedOpponentRank;
+}
+else{
+  //console.log('2')
+  checkedUserRank = JSONops._getUserValue(this.props.data, currentUser, "RANK");
+  checkedOpponentRank = JSONops._getUserValue(this.props.data, opponentCurrentlyChallengingUser, "RANK");
+}
+
+             const currentUserRankInt = parseInt(checkedUserRank);
+             const selectedOpponentRankInt = parseInt(checkedOpponentRank);
+
+             console.log('currentUserRankInt')
+             console.log(currentUserRankInt)
+             console.log('selectedOpponentRankInt')
+             console.log(selectedOpponentRankInt)
+
 
              if (resultEntered === 'undecided' ){
-               JSONops._updateEnterResultUndecidedJSON(currentUser,selectedOpponent, this.props.data);
+               JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
                return "Thank you. No changes have been made. Your ranking is unchanged"
              }
              else if (resultEntered === 'won' && currentUserRankInt < selectedOpponentRankInt){
-            //No change. Do nothing
-            console.log('won do nothing');
+              JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else if (resultEntered === 'lost' && currentUserRankInt > selectedOpponentRankInt){
-            console.log('lost do nothing');
+              JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else{
-              console.log('update');
-              //this._updateJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank);
-              JSONops._updateEnterResultJSON(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, this.props.data);
+
+              //this._updateJSON(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank);
+              JSONops._updateEnterResultJSON(currentUser, checkedUserRank, playerNameOnRowClicked, checkedOpponentRank, this.props.data);
+              console.log('result send to _updateEnterResultJSON');
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
 

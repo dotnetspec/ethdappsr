@@ -58,24 +58,56 @@ const JSONops = {
   },
 
     //re-set user and opponent fields now that a result needs to be processed
-    _updateEnterResultJSON: function(currentUser, currentUserRank, selectedOpponent, selectedOpponentRank, data){
+    //NB:playerNameOnRowClicked is for when opponent row clicked
+    _updateEnterResultJSON: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
+
+      // console.log('playerNameOnRowClicked')
+      // console.log(playerNameOnRowClicked)
+      console.log('_updateEnterResultJSON')
+      // console.log(selectedOpponentRank)
+
+
+      const opponentCurrentlyChallengingUser = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
+
+      let newUserRank, newOpponentRank = 0;
+
+      if(currentUser === playerNameOnRowClicked){
+        //get the RANK value from the opponent
+        newUserRank = this._getUserValue(data, opponentCurrentlyChallengingUser, "RANK");
+        newOpponentRank = this._getUserValue(data, currentUser, "RANK");
+      }
+      else{
+        newUserRank = selectedOpponentRank;
+        newOpponentRank = currentUserRank;
+      }
 
       //create an updatedUserJSON object to update the User in the Json
-      let updatedUserJSON = this._setUserValue(data, currentUser, "RANK", selectedOpponentRank);
-      //and add result to the updatedUserJSON object
-      updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERID", 0);
+      let updatedUserJSON = this._setUserValue(data, currentUser, "RANK", newUserRank);
+      //NB:have to code for user clicking on result for self or clicking on his opponent
+      //to enter the result
+      updatedUserJSON = this._setUserValue(data, playerNameOnRowClicked, "RANK", newOpponentRank);
+
+      updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
       updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
-      updatedUserJSON = this._setUserValue(data, selectedOpponent, "RANK", currentUserRank);
-      updatedUserJSON = this._setUserValue(data, selectedOpponent, "CURRENTCHALLENGERNAME", "AVAILABLE");
+      updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERID", 0);
+      updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERID", 0);
+
+      //console.log(updatedUserJSON);
       //send after all the updates have been made
       //to the updatedUserJSON object
       this._sendJSONData(updatedUserJSON);
     },
 
-    _updateEnterResultUndecidedJSON: function(currentUser, selectedOpponent, data){
+    _updateEnterResultUnchangedJSON: function(currentUser, selectedOpponent, data){
         //set both player to AVAILABLE
-        let updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
-        updatedUserJSON = this._setUserValue(data, selectedOpponent, "CURRENTCHALLENGERNAME", "AVAILABLE");
+        const opponentCurrentlyChallengingUser = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
+        console.log(opponentCurrentlyChallengingUser)
+        let updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
+            updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
+            updatedUserJSON = this._setUserValue(data, selectedOpponent, "CURRENTCHALLENGERNAME", "AVAILABLE");
+            //case where opponent's row isn't the one clicked on (user clicks own row to enter result)
+            updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
+
 
         this._sendJSONData(updatedUserJSON);
     },
@@ -225,8 +257,22 @@ const JSONops = {
 
       //console.log(updatedUserJSON)
       this._sendJSONData(updatedUserJSON);
-
     },
+
+    // getCurrentUsersOppenentPlayerValue: function((data, currentUser){
+    //   let lookupCurrentUsersOppenentPlayerValue = {
+    //     jsonRS: data,
+    //     lookupField: 'CURRENTCHALLENGERNAME',
+    //     lookupKey: currentUser,
+    //     targetField: 'NAME',
+    //     //targetData: "",
+    //     checkAllRows: false
+    //     };
+    //     //console.log(lookupCurrentUserRank)
+    //     this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAMEANK");
+    //     const currentUsersOppenentPlayerValue = this._getVal(lookupCurrentUsersOppenentPlayerValue);
+    //     return currentUsersOppenentPlayerValue;
+    // },
 
   shiftAllOtherPlayersRankingUpByOne: function(update, currentUserRank){
           let ranktobeupdated = 1;
