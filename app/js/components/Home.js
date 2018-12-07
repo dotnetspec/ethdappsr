@@ -61,16 +61,13 @@ class UserPlayerJsonData extends Component {
         const currentChallengerName = details.CURRENTCHALLENGERNAME;
 
       textToDisplayRank = 'Your current rank is: ' + currentUserRank;
-
         //console.log(details.RANK);
           if (details.NAME === this.props.username && details.ACTIVE === true)
             {
                 //console.log(details.RANK);
-
-
                 if(currentChallengerName != 'AVAILABLE'){
                   textToDisplayChallenger = 'Your current challenger is: ' + currentChallengerName;
-                  textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue</small>'
+                  textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
 
                 }else{
                     textToDisplayChallenger += 'You do NOT currently have a challenger'
@@ -323,67 +320,70 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
         <Grid>
           <Row>
+          <h2>{this.props.user}</h2><p></p>
+          <h3>{Object.keys(this.props.rankingJSONdata).map(key => (
+         <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
+      ))}
+      <font color="red">{this.state.warningText}</font><p></p></h3>
+
+      <div>
+
+     {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
+
+        <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
+        >
+              <TableHeaderColumn  isKey dataField='id'
+              hidden>
+                ID
+              </TableHeaderColumn>
+              <TableHeaderColumn  dataField='NAME'
+              filter={ { type: 'TextFilter', defaultValue: '' } }
+              >
+                Player Name
+              </TableHeaderColumn>
+              <TableHeaderColumn  dataField='RANK' dataSort
+              width={'7%'}
+              >
+                Rank
+              </TableHeaderColumn>
+
+              <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
+
+              filter={ { type: 'TextFilter',  defaultValue: '' } }
+              >
+               Current Challenger
+              </TableHeaderColumn>
+              <TableHeaderColumn
+              dataField='button'
+              dataFormat={this.challengeButton.bind(this)}
+            >
+              Challenge
+              </TableHeaderColumn>
+              <TableHeaderColumn
+              dataField='button'
+              dataFormat={this.resultButton.bind(this)}
+            >
+              Enter Result
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField='ACTIVE'
+              filter={ { type: 'TextFilter', defaultValue: 'true' } }
+              hidden
+              >
+                Active?
+              </TableHeaderColumn>
+
+            </BootstrapTable>
+          </div>
+
             <Col xs={12}>
               <PageHeader>
-                <small>{this.props.user}<p></p>
-                {Object.keys(this.props.rankingJSONdata).map(key => (
-               <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
-            ))}</small>
-            <small><font color="red">{this.state.warningText}</font></small><p></p>
 
               </PageHeader>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-            <div>
 
-           {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-
-              <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
-              >
-                    <TableHeaderColumn  isKey dataField='id'
-                    hidden>
-                      ID
-                    </TableHeaderColumn>
-                    <TableHeaderColumn  dataField='NAME'
-                    filter={ { type: 'TextFilter', defaultValue: '' } }
-                    >
-                      Player Name
-                    </TableHeaderColumn>
-                    <TableHeaderColumn  dataField='RANK' dataSort
-                    width={'7%'}
-                    >
-                      Rank
-                    </TableHeaderColumn>
-
-                    <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
-
-                    filter={ { type: 'TextFilter',  defaultValue: '' } }
-                    >
-                     Current Challenger
-                    </TableHeaderColumn>
-                    <TableHeaderColumn
-                    dataField='button'
-                    dataFormat={this.challengeButton.bind(this)}
-                  >
-                    Challenge
-                    </TableHeaderColumn>
-                    <TableHeaderColumn
-                    dataField='button'
-                    dataFormat={this.resultButton.bind(this)}
-                  >
-                    Enter Result
-                    </TableHeaderColumn>
-                    <TableHeaderColumn dataField='ACTIVE'
-                    filter={ { type: 'TextFilter', defaultValue: 'true' } }
-                    hidden
-                    >
-                      Active?
-                    </TableHeaderColumn>
-
-                  </BootstrapTable>
-                </div>
             </Col>
           </Row>
         </Grid>
