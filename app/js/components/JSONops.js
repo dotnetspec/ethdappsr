@@ -71,15 +71,17 @@ const JSONops = {
 
       let newUserRank, newOpponentRank = 0;
 
-      if(currentUser === playerNameOnRowClicked){
-        //get the RANK value from the opponent
-        newUserRank = this._getUserValue(data, opponentCurrentlyChallengingUser, "RANK");
-        newOpponentRank = this._getUserValue(data, currentUser, "RANK");
-      }
-      else{
+      // if(currentUser === playerNameOnRowClicked){
+      //   //get the RANK value from the opponent
+      //   newUserRank = this._getUserValue(data, opponentCurrentlyChallengingUser, "RANK");
+      //   newOpponentRank = this._getUserValue(data, currentUser, "RANK");
+      // }
+      // else{
+      
+      //swap the ranks
         newUserRank = selectedOpponentRank;
         newOpponentRank = currentUserRank;
-      }
+      //}
 
       //create an updatedUserJSON object to update the User in the Json
       let updatedUserJSON = this._setUserValue(data, currentUser, "RANK", newUserRank);
@@ -97,6 +99,11 @@ const JSONops = {
       //to the updatedUserJSON object
       this._sendJSONData(updatedUserJSON);
     },
+
+    swapPlayerRanks: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
+
+    },
+
 
     _updateEnterResultUnchangedJSON: function(currentUser, selectedOpponent, data){
         //set both player to AVAILABLE

@@ -44,37 +44,35 @@ class EnterResult extends Component{
   }
   //#endregion
 
-
-
 _processResult(resultEntered, playerNameOnRowClicked, currentUser, currentUserRank, selectedOpponentRank){
 
 console.log('resultEntered ' + resultEntered);
 
 //REVIEW: ensure handle the opponent's row being clicked as well as user's row
 let checkedUserRank, checkedOpponentRank = 0;
-
 const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, currentUser, "CURRENTCHALLENGERNAME");
-
-if(currentUser === playerNameOnRowClicked){
-  //get the RANK value from the opponent
-  //console.log('1')
-  checkedUserRank = currentUserRank;
-  checkedOpponentRank = selectedOpponentRank;
-}
-else{
-  //console.log('2')
+console.log('opponentCurrentlyChallengingUser')
+console.log(opponentCurrentlyChallengingUser)
+//set the correct ranks
+// if(currentUser === playerNameOnRowClicked){
+//
+//   checkedUserRank = currentUserRank;
+//   checkedOpponentRank = selectedOpponentRank;
+//   console.log('checkedUserRank')
+//   console.log(checkedUserRank)
+//   console.log('checkedOpponentRank')
+//   console.log(checkedOpponentRank)
+// }
+// else{
   checkedUserRank = JSONops._getUserValue(this.props.data, currentUser, "RANK");
   checkedOpponentRank = JSONops._getUserValue(this.props.data, opponentCurrentlyChallengingUser, "RANK");
-}
-
+  // console.log('checkedUserRank2')
+  // console.log(checkedUserRank)
+  // console.log('checkedOpponentRank2')
+  // console.log(checkedOpponentRank)
+//}
              const currentUserRankInt = parseInt(checkedUserRank);
              const selectedOpponentRankInt = parseInt(checkedOpponentRank);
-
-             console.log('currentUserRankInt')
-             console.log(currentUserRankInt)
-             console.log('selectedOpponentRankInt')
-             console.log(selectedOpponentRankInt)
-
 
              if (resultEntered === 'undecided' ){
                JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
@@ -89,14 +87,10 @@ else{
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else{
-
-              //this._updateJSON(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank);
-              JSONops._updateEnterResultJSON(currentUser, checkedUserRank, playerNameOnRowClicked, checkedOpponentRank, this.props.data);
+              JSONops._updateEnterResultJSON(currentUser, checkedUserRank, opponentCurrentlyChallengingUser, checkedOpponentRank, this.props.data);
               console.log('result send to _updateEnterResultJSON');
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
-
-            //console.log('here6');
     }
 
 
