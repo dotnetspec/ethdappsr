@@ -273,7 +273,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <div className='navbar-right'>
             <Navbar.Form>
-              <Search />
+              
             </Navbar.Form>
 
             {isLoading ?

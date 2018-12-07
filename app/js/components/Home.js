@@ -23,7 +23,11 @@ import JSONops from './JSONops'
 //i.e. setting state by passing a function
 //https://reactjs.org/docs/state-and-lifecycle.html
 
-
+/**
+ * Functionality representing the table search properties
+ *
+ *
+ */
 //REVIEW: selectRowPropAfterClickRow had to be created separately from selectRowProp to handle the row data
 //after selecting a row
 const selectRowPropAfterClickRow = {
@@ -32,6 +36,16 @@ const selectRowPropAfterClickRow = {
   selectedOpponentRank: ''
 };
 
+const qualityType = {
+  0: 'AVAILABLE',
+  1: 'player'
+};
+
+function enumFormatter(cell, row, enumObject) {
+  console.log(enumObject[cell])
+  return enumObject[cell];
+}
+  //#endregion
 
 //REVIEW: Possibly re-factor to clarify code in the Home component
 class UserPlayerJsonData extends Component {
@@ -39,17 +53,38 @@ class UserPlayerJsonData extends Component {
       // details is all the object -> array data coming from the data prop sent from Home
       //using the object.keys code
         const { details} = this.props;
+        let textToDisplayRank = '';
+        let textToDisplayChallenger = '';
+        let textToDisplayContinue = '';
+
+        const currentUserRank = details.RANK;
+        const currentChallengerName = details.CURRENTCHALLENGERNAME;
+
+      textToDisplayRank = 'Your current rank is: ' + currentUserRank;
 
         //console.log(details.RANK);
           if (details.NAME === this.props.username && details.ACTIVE === true)
             {
                 //console.log(details.RANK);
-              currentUserRank = details.RANK;
+
+
+                if(currentChallengerName != 'AVAILABLE'){
+                  textToDisplayChallenger = 'Your current challenger is: ' + currentChallengerName;
+                  textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue</small>'
+
+                }else{
+                    textToDisplayChallenger += 'You do NOT currently have a challenger'
+                    textToDisplayContinue += 'Please select an opponent (below) to challenge: '
+                }
 
               return (
                 <div>
-                  Your current ranking is: {details.RANK}
-               </div>);
+                    { textToDisplayRank }
+                  <p></p>
+                    { textToDisplayChallenger }
+                  <p></p>
+                    { textToDisplayContinue }
+                </div>)
              }else
 
              if (details.NAME === this.props.username && details.ACTIVE === false){
@@ -219,6 +254,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
     //   this.setState({ rank: userRank });
   }
 
+
+
   render() {
     const selectRowProp = {
       mode: 'radio',
@@ -293,7 +330,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
                <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
             ))}</small>
             <small><font color="red">{this.state.warningText}</font></small><p></p>
-            <small>Select an opponent (below) to challenge or enter a result against:</small>
+
               </PageHeader>
             </Col>
           </Row>
@@ -305,12 +342,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
               <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
               >
-                    <TableHeaderColumn isKey dataField='id'
+                    <TableHeaderColumn  isKey dataField='id'
                     hidden>
                       ID
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField='NAME'
-
+                    <TableHeaderColumn  dataField='NAME'
+                    filter={ { type: 'TextFilter', defaultValue: '' } }
                     >
                       Player Name
                     </TableHeaderColumn>
@@ -321,6 +358,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
                     </TableHeaderColumn>
 
                     <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
+
+                    filter={ { type: 'TextFilter',  defaultValue: '' } }
                     >
                      Current Challenger
                     </TableHeaderColumn>
