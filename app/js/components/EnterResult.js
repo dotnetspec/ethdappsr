@@ -44,17 +44,18 @@ class EnterResult extends Component{
   }
   //#endregion
 
-_processResult(resultEntered, playerNameOnRowClicked, currentUser, currentUserRank, selectedOpponentRank){
+//_processResult(resultEntered, playerNameOnRowClicked, currentUser, currentUserRank, selectedOpponentRank){
+_processResult(resultEntered, currentUser){
 
 console.log('resultEntered ' + resultEntered);
 
 //REVIEW: ensure handle the opponent's row being clicked as well as user's row
 let checkedUserRank, checkedOpponentRank = 0;
 const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, currentUser, "CURRENTCHALLENGERNAME");
-console.log('opponentCurrentlyChallengingUser')
-console.log(opponentCurrentlyChallengingUser)
+// console.log('opponentCurrentlyChallengingUser')
+// console.log(opponentCurrentlyChallengingUser)
 //set the correct ranks
-// if(currentUser === playerNameOnRowClicked){
+// if(currentUser === opponentCurrentlyChallengingUser){
 //
 //   checkedUserRank = currentUserRank;
 //   checkedOpponentRank = selectedOpponentRank;
@@ -75,15 +76,18 @@ console.log(opponentCurrentlyChallengingUser)
              const selectedOpponentRankInt = parseInt(checkedOpponentRank);
 
              if (resultEntered === 'undecided' ){
-               JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
+               JSONops._updateEnterResultUnchangedJSON(currentUser,opponentCurrentlyChallengingUser, this.props.data);
                return "Thank you. No changes have been made. Your ranking is unchanged"
              }
              else if (resultEntered === 'won' && currentUserRankInt < selectedOpponentRankInt){
-              JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
+              JSONops._updateEnterResultUnchangedJSON(currentUser,opponentCurrentlyChallengingUser, this.props.data);
+              console.log('result send to _updateEnterResultUnchangedJSON');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else if (resultEntered === 'lost' && currentUserRankInt > selectedOpponentRankInt){
-              JSONops._updateEnterResultUnchangedJSON(currentUser,playerNameOnRowClicked, this.props.data);
+
+              JSONops._updateEnterResultUnchangedJSON(currentUser,opponentCurrentlyChallengingUser, this.props.data);
+              console.log('result send to _updateEnterResultUnchangedJSON');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else{
@@ -116,8 +120,10 @@ console.log(opponentCurrentlyChallengingUser)
 
     try{
 
-      const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
-        this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
+      // const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
+      //   this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
+
+      const result = this._processResult(this.selectedOption, this.props.user);
 
         console.log('_handleClick');
         console.log(result);
@@ -130,7 +136,7 @@ console.log(opponentCurrentlyChallengingUser)
       //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
 
       // remove loading state
-      //this.setState({ isLoading: false });
+      this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
       this.props.onAfterChallenge();
