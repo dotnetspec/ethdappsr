@@ -33,12 +33,13 @@ const selectRowPropAfterClickRow = {
 };
 
 
-//REVIEW: Possibly unnecessary re-rendering
+//REVIEW: Possibly re-factor to clarify code in the Home component
 class UserPlayerJsonData extends Component {
    render() {
       // details is all the object -> array data coming from the data prop sent from Home
       //using the object.keys code
-        const { details } = this.props;
+        const { details} = this.props;
+
         //console.log(details.RANK);
           if (details.NAME === this.props.username && details.ACTIVE === true)
             {
@@ -49,13 +50,15 @@ class UserPlayerJsonData extends Component {
                 <div>
                   Your current ranking is: {details.RANK}
                </div>);
-             }else if (details.NAME === this.props.username && details.ACTIVE === false){
+             }else
+
+             if (details.NAME === this.props.username && details.ACTIVE === false){
                  //this.setState({ activateText: 'Your account currently has no player associated with it' });
                 //this.props.history.push('/update/@' + this.props.username);
                return (
                  <div>
                    Your player is currently deactivated!<p></p>
-                   Click Update Profile (top  menu) to re-enter the rankings (at the bottom)
+                   Click Reactivate (top  menu) to re-enter the rankings (at the bottom)
                 </div>)
                ;}
                else {
@@ -66,6 +69,9 @@ class UserPlayerJsonData extends Component {
                  ;}
            }
 }
+
+
+
 
 /**
  * Class representing the home page rendering
@@ -88,6 +94,8 @@ class Home extends Component{
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
    };
+
+
    //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
    //this._handleClose = this._handleClose.bind(this);
@@ -205,6 +213,11 @@ challengeButton(cell, row, enumObject, rowIndex) {
     this.setState({ WarningModalIsOpen: false });
   };
 
+  componentDidMount(){
+    // const userRank = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user , "RANK");
+    // console.log(userRank)
+    //   this.setState({ rank: userRank });
+  }
 
   render() {
     const selectRowProp = {

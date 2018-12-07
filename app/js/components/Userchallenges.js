@@ -1,4 +1,4 @@
-import { Grid, Row, Col, Thumbnail, ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap';
+import { Grid, Row, Col, Thumbnail, ListGroup, ListGroupItem, PageHeader, Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import imgAvatar from '../../img/avatar-default.png';
 import { formatDistance } from 'date-fns/esm'
@@ -107,7 +107,6 @@ class Userchallenges extends Component {
   }
 
   _cancelClick(e) {
-
     try {
     this.props.history.push('/');
     } catch (err) {
@@ -181,7 +180,7 @@ class Userchallenges extends Component {
               //onClick={ !isValid ? null : (e) => this._handleClick(e) }
               onClick={ (e) => this._cancelClick(e) }
             >
-            { isLoading ? 'Loading...' : 'Cancel' }
+            Cancel
             </Button>
           </Col>
         </Row>

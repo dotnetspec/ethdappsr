@@ -44,34 +44,15 @@ class EnterResult extends Component{
   }
   //#endregion
 
-//_processResult(resultEntered, playerNameOnRowClicked, currentUser, currentUserRank, selectedOpponentRank){
 _processResult(resultEntered, currentUser){
 
-console.log('resultEntered ' + resultEntered);
-
-//REVIEW: ensure handle the opponent's row being clicked as well as user's row
+//Handle the opponent's row being clicked as well as user's row
 let checkedUserRank, checkedOpponentRank = 0;
 const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, currentUser, "CURRENTCHALLENGERNAME");
-// console.log('opponentCurrentlyChallengingUser')
-// console.log(opponentCurrentlyChallengingUser)
-//set the correct ranks
-// if(currentUser === opponentCurrentlyChallengingUser){
-//
-//   checkedUserRank = currentUserRank;
-//   checkedOpponentRank = selectedOpponentRank;
-//   console.log('checkedUserRank')
-//   console.log(checkedUserRank)
-//   console.log('checkedOpponentRank')
-//   console.log(checkedOpponentRank)
-// }
-// else{
+
   checkedUserRank = JSONops._getUserValue(this.props.data, currentUser, "RANK");
   checkedOpponentRank = JSONops._getUserValue(this.props.data, opponentCurrentlyChallengingUser, "RANK");
-  // console.log('checkedUserRank2')
-  // console.log(checkedUserRank)
-  // console.log('checkedOpponentRank2')
-  // console.log(checkedOpponentRank)
-//}
+
              const currentUserRankInt = parseInt(checkedUserRank);
              const selectedOpponentRankInt = parseInt(checkedOpponentRank);
 
@@ -96,8 +77,7 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
     }
-
-
+    
   //#region Component events
   /**
    * Handles the 'challenge' button click event which
@@ -107,37 +87,11 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
    * @returns {null}
    */
 
-   //REVIEW: _handleClick can probably be removed from this component
   _handleClick = async (e) => {
-
-    // do not post challenge if there is a form error or user has not typed anything
-    // if(this._getValidationState() === 'error' || !this.state.resultHasChanged){
-    //   return e.preventDefault();
-    // }
-    // show loading state
-    //this.setState({ isLoading: true });
-    //const challenge = DSportRank.methods.challenge(this.state.challenge);
-
     try{
-
-      // const result = this._processResult(this.selectedOption, this.props.selectedOpponentName,
-      //   this.props.user, this.props.currentUserRank, this.props.selectedOpponentRank);
-
       const result = this._processResult(this.selectedOption, this.props.user);
-
-        console.log('_handleClick');
-        console.log(result);
-
-      // estimate gas before sending challenge transaction
-      //const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
-
-      // send the challenge transaction plus a little extra gas in case the contract state
-      // has changed since we've done our gas estimate
-      //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
-
       // remove loading state
       this.setState({ isLoading: false });
-
       // tell parent we've updated a user and to re-fetch user details from the contract
       this.props.onAfterChallenge();
     }

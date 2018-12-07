@@ -61,49 +61,25 @@ const JSONops = {
     //NB:playerNameOnRowClicked is for when opponent row clicked
     _updateEnterResultJSON: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
 
-      // console.log('playerNameOnRowClicked')
-      // console.log(playerNameOnRowClicked)
-      console.log('_updateEnterResultJSON')
-      // console.log(selectedOpponentRank)
-
-
       const opponentCurrentlyChallengingUser = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
-
       let newUserRank, newOpponentRank = 0;
-
-      // if(currentUser === playerNameOnRowClicked){
-      //   //get the RANK value from the opponent
-      //   newUserRank = this._getUserValue(data, opponentCurrentlyChallengingUser, "RANK");
-      //   newOpponentRank = this._getUserValue(data, currentUser, "RANK");
-      // }
-      // else{
-      
-      //swap the ranks
+      //swap the ranks (we should only be here if there is a change to record)
         newUserRank = selectedOpponentRank;
         newOpponentRank = currentUserRank;
-      //}
 
-      //create an updatedUserJSON object to update the User in the Json
       let updatedUserJSON = this._setUserValue(data, currentUser, "RANK", newUserRank);
-      //NB:have to code for user clicking on result for self or clicking on his opponent
+      //NB:cover cases of user clicking on result for self or clicking on his opponent
       //to enter the result
       updatedUserJSON = this._setUserValue(data, playerNameOnRowClicked, "RANK", newOpponentRank);
-
       updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
       updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
       updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERID", 0);
       updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERID", 0);
 
-      //console.log(updatedUserJSON);
       //send after all the updates have been made
       //to the updatedUserJSON object
       this._sendJSONData(updatedUserJSON);
     },
-
-    swapPlayerRanks: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
-
-    },
-
 
     _updateEnterResultUnchangedJSON: function(currentUser, selectedOpponent, data){
         //set both player to AVAILABLE
