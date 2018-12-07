@@ -87,8 +87,11 @@ const JSONops = {
       //const selectedOpponentIDNumber = this._getUserValue(data, selectedOpponent, "id");
 
       let updatedUserJSON = this._setUserValue(data, selectedOpponent, "CURRENTCHALLENGERID", userIDNumber);
-
+      //set both names to be challenging eachother (no AVAILABLE) to ensure only 1 opponent at a time
+      //to avoid validation problems with selecting opponents etc.
       updatedUserJSON = this._setUserValue(data, selectedOpponent, "CURRENTCHALLENGERNAME", currentUser);
+
+      updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", selectedOpponent);
 
       this._sendJSONData(updatedUserJSON);
     },
