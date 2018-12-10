@@ -18,8 +18,8 @@ class UpdateUser extends Component {
       error: '',
       formState: null,
       formUpdated: false,
-      contactno: this.props.user.contactno,
-      email: this.props.user.email
+      contactno: JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "CONTACTNO"),
+      email: JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "EMAIL")
     };
   }
   //#endregion
@@ -50,11 +50,22 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description);
     this.props.history.push('/');
 }
-// OPTIMIZE: 
+// OPTIMIZE:
 else{
-    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "CONTACTNO", this.state.contactno);
-    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "EMAIL", this.state.email);
-    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "DESCRIPTION", this.state.description);
+  console.log('user.username')
+  console.log(user.username)
+  console.log('his.state.contactno')
+  console.log(this.state.contactno)
+  console.log('this.state.email')
+  console.log(this.state.email)
+
+  JSONops.updateUserInJSON(this.props.rankingJSONdata, user.username, this.state.contactno, this.state.email, this.state.description);
+
+
+    // const newUserValue =JSONops._setUserValue(this.props.rankingJSONdata, user.username, "CONTACTNO", this.state.contactno);
+    // JSONops._setUserValue(this.props.rankingJSONdata, user.username, "EMAIL", this.state.email);
+    // JSONops._setUserValue(this.props.rankingJSONdata, user.username, "DESCRIPTION", this.state.description);
+
 }
 
     // if the user has updated their photo, try to upload it to ipfs
@@ -103,12 +114,20 @@ else{
         return this.setState({ isLoading: false, formState: 'error', formUpdated: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
       }
 
+      console.log(1)
+
       // stop loading state, and render the form as successful
       this.setState({ isLoading: false, formState: 'success', formUpdated: false });
+
+      //NB: below prevents onAfterUserUpdate
+      this.props.history.push('/');
 
       // tell parent we've updated our user, so the current
       // user is re-fetched to get the user's details
       return this.props.onAfterUserUpdate();
+
+      //return to home page
+      this.props.history.push('/');
     }
     catch (err) {
       // stop loading state and show user the error
@@ -161,10 +180,26 @@ else{
   //#endergion
 
   //#region React lifecycle events
+  //REVIEW: not sure what this is doing
   componentDidUpdate(prevProps){
     if(this.props.user.description !== prevProps.user.description){
       this.setState({description: this.props.user.description});
     }
+  }
+
+  componentDidMount(){
+    // const { user } = this.props;
+    // console.log('this.props.rankingJSONdata')
+    // console.log(this.props.rankingJSONdata)
+    // console.log('user.username')
+    // console.log(user.username)
+    //
+    // let contactno = JSONops._getUserValue(this.props.rankingJSONdata, user.username, "CONTACTNO");
+    // this.setState({contactno: contactno});
+    // //console.log(this.state.contactno)
+    // let email = JSONops._getUserValue(this.props.rankingJSONdata, user.username, "EMAIL");
+    // this.setState({email: email});
+    //console.log(this.state.email)
   }
 
   render() {

@@ -67,7 +67,7 @@ class Main extends Component {
           <Route exact path='/' render={(props) => <Home currentUserRank={this.state.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
-          <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props}/>
+          <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/delete/@:username' component={DeactivatePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>

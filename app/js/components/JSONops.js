@@ -155,6 +155,25 @@ const JSONops = {
 
     },
 
+    updateUserInJSON: function(data, username, contactno, email, description){
+
+      //REVIEW: get the user's id number or should stick to username?
+      //const userIDNumber = this._getUserValue(data, currentUser, "id");
+      //NB: selectedOpponentIDNumber not currently used but possible it may be needed
+      //const selectedOpponentIDNumber = this._getUserValue(data, selectedOpponent, "id");
+
+      let updatedUserJSON = this._setUserValue(data, username, "CONTACTNO", contactno);
+      //set both names to be challenging eachother (no AVAILABLE) to ensure only 1 opponent at a time
+      //to avoid validation problems with selecting opponents etc.
+      updatedUserJSON = this._setUserValue(data, username, "EMAIL", email);
+
+      updatedUserJSON = this._setUserValue(data, username, "DESCRIPTION", description);
+
+      this._sendJSONData(updatedUserJSON);
+
+    },
+
+
     reactivatePlayer: function(data, currentUser, accountno){
 
       let updateUserRankToEndObj = {

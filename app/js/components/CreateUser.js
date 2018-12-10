@@ -136,7 +136,7 @@ _continueClick = () => {
   getUserConfirmationOfAccountCreation(){
     //REVIEW: Fix the validation isLoading if necessary
      const isLoading = false;
-     let  wtext = 'Please ensure your username is exactly as you want it'
+     let  wtext = 'Please ensure your username (' + this.state.username + ') is exactly as you want it'
             wtext += ' since it CANNOT be changed, even if you de-activate your account!'
     return (
       <div>
