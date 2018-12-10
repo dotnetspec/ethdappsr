@@ -1,40 +1,61 @@
  [
       {
         "id":1,
-        "NAME": "mrphilip",
+        "NAME": "player1",
         "RANK": 1,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
         "ACCOUNT": "0xD1B15d00dc4E025C1138ec659d8C019dCD8671B8",
         "CURRENTCHALLENGERID": 2,
-        "CURRENTCHALLENGERNAME": "Phil_Mockridge",
+        "CURRENTCHALLENGERNAME": "player2",
         "DESCRIPTION": "",
         "ACTIVE": true
       },
       {
         "id":2,
-        "NAME": "Phil_Mockridge",
+        "NAME": "player2",
         "RANK": 2,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
         "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166",
         "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "My_SRAccount2",
+        "CURRENTCHALLENGERNAME": "player3",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
       ,
       {
         "id":3,
-        "NAME": "mrbobman",
+        "NAME": "player3",
         "RANK": 3,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
         "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
         "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "AVAILABLE",
+        "CURRENTCHALLENGERNAME": "player4",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
       ,
       {
         "id":4,
-        "NAME": "My_SRAccount1",
+        "NAME": "player4",
         "RANK": 4,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
+        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
+        "CURRENTCHALLENGERID": 0,
+        "CURRENTCHALLENGERNAME": "player3",
+        "DESCRIPTION": "",
+        "ACTIVE": true
+      }
+      ,
+      {
+        "id":5,
+        "NAME": "player5",
+        "RANK": 5,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
         "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
         "CURRENTCHALLENGERID": 0,
         "CURRENTCHALLENGERNAME": "AVAILABLE",
@@ -43,14 +64,15 @@
       }
       ,
       {
-        "id":5,
-        "NAME": "My_SRAccount2",
-        "RANK": 5,
+        "id":6,
+        "NAME": "player6",
+        "RANK": 6,
+        "CONTACTNO": 98876655,
+        "EMAIL": "johndoe@jdoe.com",
         "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
         "CURRENTCHALLENGERID": 0,
         "CURRENTCHALLENGERNAME": "AVAILABLE",
         "DESCRIPTION": "",
         "ACTIVE": true
       }
-
 ]

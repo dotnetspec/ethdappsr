@@ -42,11 +42,11 @@ module.exports = {
       "http://localhost:8545",
       "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
-      contracts: {
-        DSportRank: {
-          address: "0x41f7061623cbF30Eae0142c890A50Ab1F47152a9"
-                  }
-                },
+    contracts: {
+      DSportRank: {
+        address: "0x90305Ee2083d9B0013524dF287639e9Fd1E8Bc17"
+                }
+              },
     gas: "auto",
     gasLimit: 9000000,
     gasPrice: 100

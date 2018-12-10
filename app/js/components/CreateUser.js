@@ -18,7 +18,7 @@ class UserConfirmCreateUser extends Component {
                 <Button
                   //bsStyle="primary"
                   //disabled={ !isValid }
-                  //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+                  //onClick={ !isValid ? null : (e) => this._continueClick(e) }
                   onClick={ (e) => this._cancelClick(e) }
                 >
                 { isLoading ? 'Loading...' : 'Cancel' }
@@ -43,6 +43,8 @@ class CreateUser extends Component {
     this.state = {
       isLoading: false,
       username: '',
+      contactno: '',
+      email: '',
       description: '',
       usernameHasChanged: false,
       error: '',
@@ -52,10 +54,16 @@ class CreateUser extends Component {
     };
   }
 
-
-  _continueClick(){
+_continueClick = () => {
+  //_continueClick(){
       this.setState({ userConfirm: true });
+      //console.log('userConfirm in _continueClick1')
+      //console.log(this.state.userConfirm)
       this.setState({ WarningModalIsOpen: false });
+      //console.log('userConfirm in _continueClick2')
+    //  console.log(this.state.userConfirm)
+      this._handleClick();
+      //console.log('_continueClick');
   }
   //#endregion
 
@@ -71,14 +79,26 @@ class CreateUser extends Component {
     //console.log(JSONops.createNewUserInJSON());
     //TODO: all the json data for create new user is here ready to be appended to
     //console.log(this.props.rankingJSONdata);
+    this.setState({ isLoading: true });
+
+      console.log('this.state.userConfirm')
+      console.log(this.state.userConfirm)
+
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
     }
 
-
+    //only do this once the user has confirmed the user name because it cannot be
+    //changed in future
     if(this.state.userConfirm){
 
-              JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.props.account, this.state.description);
+            console.log('this.state.contactno')
+            console.log(this.state.contactno)
+            console.log('this.state.email')
+            console.log(this.state.email)
+
+
+              JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
@@ -94,11 +114,12 @@ class CreateUser extends Component {
                 }
                 // Completed of async action, set loading state back
                 this.setState({ isLoading: false });
-                // tell our parent that we've created a user so it
-                // will re-fetch the current user details from the contract
+                // tell our parent (app.js) that we've created a user so it
+                // will re-fetch the current user details from the contract (re-load the account info)
                 this.props.onAfterUserUpdate();
-                // redirect user to the profile update page
-                this.props.history.push('/update/@' + username);
+                // redirect user to the  update user page
+                //this.props.history.push('/update/@' + username);
+                this.props.history.push('/');
               } catch (err) {
                 // stop loading state and show the error
                 this.setState({ isLoading: false, error: err.message });
@@ -122,8 +143,10 @@ class CreateUser extends Component {
       {wtext}<p></p>
       <Button
         bsStyle="primary"
-        //disabled={ !isValid }
-        //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+        //validation is done by the 'create user' button
+        //not here
+        // disabled={ !isValid }
+        // onClick={ !isValid ? null : (e) => this._handleClick(e) }
         onClick={ (e) => this._cancelClick(e) }
       >
       { isLoading ? 'Loading...' : 'Cancel' }
@@ -131,8 +154,10 @@ class CreateUser extends Component {
       Go ahead I am happy with this username: <p></p>
       <Button
         bsStyle="primary"
-        //disabled={ !isValid }
-        //onClick={ !isValid ? null : (e) => this._handleClick(e) }
+        //validation is done by the 'create user' button
+        //not here
+        // disabled={ !isValid }
+        // onClick={ !isValid ? null : (e) => this._continueClick(e) }
         onClick={ (e) => this._continueClick(e) }
       >
       { isLoading ? 'Loading...' : 'Continue' }
@@ -267,7 +292,7 @@ class CreateUser extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <form onSubmit={ !isValid ? null : (e) => this._handleClick(e) }>
+            <form onSubmit={ !isValid ? null : (e) => this._continueClick(e) }>
               <FieldGroup
                 type="text"
                 value={ this.state.username }
@@ -290,17 +315,33 @@ class CreateUser extends Component {
               />
               <FieldGroup
                 type="text"
+                value={ this.state.contactno }
+                placeholder="Contact Number"
+                onChange={(e) => this._handleChange(e)}
+                name="contactno"
+                label="Your Contact Number"
+              />
+              <FieldGroup
+                type="text"
+                value={ this.state.email }
+                placeholder="Contact Email"
+                onChange={(e) => this._handleChange(e)}
+                name="email"
+                label="Your Contact Email"
+              />
+              <FieldGroup
+                type="text"
                 value={ this.state.description }
-                placeholder="Relevant info e.g. your contact details and current grade"
+                placeholder="Relevant info e.g. your current grade and usual availability"
                 onChange={(e) => this._handleChange(e)}
                 name="description"
                 label="Player Description"
               />
               <Button
                 bsStyle="primary"
-                //disabled={ !isValid }
-                //onClick={ !isValid ? null : (e) => this._handleClick(e) }
-                onClick={ (e) => this._handleClick(e) }
+                disabled={ !isValid }
+                onClick={ !isValid ? null : (e) => this._continueClick(e) }
+                //onClick={ (e) => this._continueClick(e) }
               >
                 { isLoading ? 'Loading...' : 'Create Account' }
               </Button>

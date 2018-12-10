@@ -59,7 +59,7 @@ class App extends Component {
       balance: 0,
       data: [],
       //data: JSONops._loadsetJSONData(),
-      rank: '0'
+      rank: 0
     }
     this._loadsetJSONData();
     //this._getUserRank();
@@ -208,7 +208,10 @@ _loadsetJSONData(){
     });
   }
 
+
+
   render() {
+
     return (
       <div>
         <Header

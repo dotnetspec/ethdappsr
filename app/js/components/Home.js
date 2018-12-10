@@ -36,15 +36,19 @@ const selectRowPropAfterClickRow = {
   selectedOpponentRank: ''
 };
 
-const qualityType = {
-  0: 'AVAILABLE',
-  1: 'player'
-};
+//REIVEW: potentially used as selector for the table,
+//but currenlty unused
+// const qualityType = {
+//   0: 'AVAILABLE',
+//   1: 'player'
+// };
 
-function enumFormatter(cell, row, enumObject) {
-  console.log(enumObject[cell])
-  return enumObject[cell];
-}
+//REIVEW: potentially used as selector for the table,
+//but currenlty unused
+// function enumFormatter(cell, row, enumObject) {
+//   console.log(enumObject[cell])
+//   return enumObject[cell];
+// }
   //#endregion
 
 //REVIEW: Possibly re-factor to clarify code in the Home component
@@ -66,7 +70,7 @@ class UserPlayerJsonData extends Component {
             {
                 //console.log(details.RANK);
                 if(currentChallengerName != 'AVAILABLE'){
-                  textToDisplayChallenger = 'Your current challenger is: ' + currentChallengerName;
+                  textToDisplayChallenger = 'Your current challenge is VS ' + currentChallengerName;
                   textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
 
                 }else{
@@ -336,6 +340,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
       <div>
 
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
+
 
         <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >

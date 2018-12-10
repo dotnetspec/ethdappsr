@@ -119,7 +119,7 @@ const JSONops = {
        }
     },
 
-    createNewUserInJSON: function(originalData, username, accountno, description){
+    createNewUserInJSON: function(originalData, username, contactno, email, accountno, description){
 
         let createNewJSONuserObj = {
           jsonRS: originalData
@@ -143,6 +143,8 @@ const JSONops = {
                           "CURRENTCHALLENGERID": 0,
                           "ACCOUNT": accountno,
                           "RANK": nextIDandInitialRank,
+                          "EMAIL": email,
+                          "CONTACTNO": contactno,
                           "NAME": username,
                           "id":nextIDandInitialRank
                         }

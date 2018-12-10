@@ -17,7 +17,9 @@ class UpdateUser extends Component {
       description: this.props.user.description,
       error: '',
       formState: null,
-      formUpdated: false
+      formUpdated: false,
+      contactno: this.props.user.contactno,
+      email: this.props.user.email
     };
   }
   //#endregion
@@ -41,11 +43,18 @@ class UpdateUser extends Component {
     // show loading state
     this.setState({ isLoading: true });
 
+//REVIEW: this could be handled better -
 //if the ployer account name isn't yet listed as a 'NAME' in the json (should be just a dev issue)
 //caused by deleting accounts for dev purposes
 if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
     JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description);
     this.props.history.push('/');
+}
+// OPTIMIZE: 
+else{
+    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "CONTACTNO", this.state.contactno);
+    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "EMAIL", this.state.email);
+    JSONops._setUserValue(this.props.rankingJSONdata, user.username, "DESCRIPTION", this.state.description);
 }
 
     // if the user has updated their photo, try to upload it to ipfs
@@ -78,7 +87,7 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
 
       const usernameHash = web3.utils.keccak256(user.username);
       const updatedDescription = this.state.description;
-      //hash
+      //TODO: dummy value - This needs to be fully implemented with IPFS
       const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
 
       // set up our contract method with the input values from the form
@@ -159,7 +168,7 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
   }
 
   render() {
-    const { isLoading, error, formState, formUpdated, description, picture } = this.state;
+    const { isLoading, error, formState, formUpdated, contactno, email, description, picture } = this.state;
     const { user } = this.props;
     const feedback = formState === 'success' ? 'Saved' : error;
     return (
@@ -194,8 +203,26 @@ if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
               />
               <FieldGroup
                 type="text"
+                value={ contactno }
+                placeholder="Your Contact Number"
+                onChange={ (e) => this._handleChange(e) }
+                name="contactno"
+                label="Contact Number"
+                validationState={ formState }
+              />
+              <FieldGroup
+                type="text"
+                value={ email }
+                placeholder="Your Email"
+                onChange={ (e) => this._handleChange(e) }
+                name="email"
+                label="Email"
+                validationState={ formState }
+              />
+              <FieldGroup
+                type="text"
                 value={ description }
-                placeholder="Grade, Contact Details etc."
+                placeholder="Grade, availability etc."
                 onChange={ (e) => this._handleChange(e) }
                 name="description"
                 label="Player Details"
