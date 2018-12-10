@@ -70,8 +70,8 @@ class UserPlayerJsonData extends Component {
                   textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
 
                 }else{
-                    textToDisplayChallenger += 'You do NOT currently have a challenger'
-                    textToDisplayContinue += 'Please select an opponent (below) to challenge: '
+                    textToDisplayChallenger += 'You do NOT currently have a challenge'
+                    textToDisplayContinue += 'Please select an AVAILABLE opponent (below) to challenge: '
                 }
 
               return (
@@ -102,8 +102,13 @@ class UserPlayerJsonData extends Component {
            }
 }
 
-
-
+//NB: this function gets called from sibling Header.js
+//to clear the warning text when user changes account
+//based on info from
+//https://www.codeproject.com/Tips/1215984/Update-State-of-a-Component-from-Another-in-React
+export function updateText(warningText) {
+    this.setState({warningText})
+}
 
 /**
  * Class representing the home page rendering
@@ -125,9 +130,11 @@ class Home extends Component{
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
+
+
    };
 
-
+    updateText = updateText.bind(this);
    //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
    //this._handleClose = this._handleClose.bind(this);

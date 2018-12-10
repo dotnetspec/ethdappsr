@@ -28,7 +28,7 @@ class Main extends Component {
       //data: this.removeAllInactivePlayers()
       rank: 0
     }
-    console.log(this.props.rankingJSONdata);
+    //console.log(this.props.rankingJSONdata);
   }
   //#endregion
 

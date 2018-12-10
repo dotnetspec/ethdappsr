@@ -8,6 +8,9 @@ import Spinner from 'react-spinkit';
 import FieldGroup from './FieldGroup';
 import imgAvatar from '../../img/avatar-default.png';
 import JSONops from './JSONops'
+import {updateText} from './Home'
+
+
 
 /**
  * Class representing the header of the page that handles
@@ -26,8 +29,8 @@ class Header extends Component {
       showModal: false,
       showTooltip: false
     };
-  }
   //#endregion
+}
 
   //#region Component events
   /**
@@ -84,15 +87,22 @@ class Header extends Component {
     web3.eth.defaultAccount = e.target.attributes.value.value;
     this.props.onAfterUserUpdate();
     if (e.target.attributes.username.value && JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, e.target.attributes.username.value)) {
+
+      //update the text in the Home.js sibling warkingText
+      updateText('');
       //this used to be:
       //this.props.history.push('/update/@' + e.target.attributes.username.value);
       //if there's already a username just return to home page
       this.props.history.push('/');
     }
     else if (e.target.attributes.username.value){
+      //update the text in the Home.js sibling warkingText
+      updateText('');
       this.props.history.push('/update/@' + e.target.attributes.username.value);
     }
     else{
+      //update the text in the Home.js sibling warkingText
+      updateText('');
       //create a new user
       this.props.history.push('/create');
     }
@@ -273,7 +283,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <div className='navbar-right'>
             <Navbar.Form>
-              
+
             </Navbar.Form>
 
             {isLoading ?
