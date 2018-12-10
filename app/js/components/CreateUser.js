@@ -87,17 +87,9 @@ _continueClick = () => {
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
     }
-
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
     if(this.state.userConfirm){
-
-            console.log('this.state.contactno')
-            console.log(this.state.contactno)
-            console.log('this.state.email')
-            console.log(this.state.email)
-
-
               JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
               const { username, description } = this.state;
               try {
@@ -245,7 +237,7 @@ _continueClick = () => {
   _cancelClick(e) {
     try {
     //this.props.history.push('/');
-    console.log('user cancelled')
+    //console.log('user cancelled')
     this.setState({ userConfirm: false });
     this.setState({ WarningModalIsOpen: false });
     } catch (err) {

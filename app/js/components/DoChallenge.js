@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
+import {detailsTextCB} from './Home'
 //import sendmail from 'sendmail'
 
 /**
@@ -29,7 +30,7 @@ class DoChallenge extends Component{
     // initial state
     this.state = {
       selection: [],
-      data,
+      data: [],
       showModal: false,
       challenge: '',
       selectedOpponentName: "",
@@ -76,6 +77,17 @@ class DoChallenge extends Component{
 //       });
 // }
 
+displayContactDetails(){
+
+  const oppoContactNumber = JSONops._getUserValue(this.props.data, this.props.user, 'CONTACTNO')
+  const oppoEmail = JSONops._getUserValue(this.props.data, this.props.user, 'EMAIL')
+  const oppoContactNumberTxt = this.props.selectedOpponentName + "'s contact number is : " + oppoContactNumber;
+  const oppoEmailTxt = this.props.selectedOpponentName + "'s email address is : " + oppoEmail;
+
+  //detailsTextCB callback function (Home.js)
+  detailsTextCB(oppoContactNumberTxt + oppoEmailTxt);
+}
+
   //#region Component events
   /**
    * Handles the 'challenge' button click event which
@@ -86,11 +98,12 @@ class DoChallenge extends Component{
    */
   _handleClick = async (e) => {
       console.log('in _handleClick');
+      //NB: there is now no form to send
     // do not post challenge if there is a form error or user has not typed anything
-    if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
-      console.log('here preventDefault');
-      return e.preventDefault();
-    }
+    // if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
+    //   console.log('here preventDefault');
+    //   return e.preventDefault();
+    // }
 
     // do not post challenge if the opponent already has a challenger
     // if(!JSONops.isPlayerAvailableToChallenge()){
@@ -101,27 +114,30 @@ class DoChallenge extends Component{
     this.setState({ isLoading: true });
 
     const { username, account, onAfterChallenge } = this.props;
-  
+
       console.log('this.state.challenge');
       console.log(this.state.challenge);
 
-    const challenge = DSportRank.methods.challenge(this.state.challenge);
+    //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
+    //NB: we are not currently sending challenges to the blockchain
+    //but updating the json and callback of the detailsTextCB
     try{
-
-
       //const result = this._updateJSON(this.props.user, this.props.selectedOpponentName);
-      const result = JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
+      JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // estimate gas before sending challenge transaction
-      const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount });
+      // const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount });
+      //
+      // // send the challenge transaction plus a little extra gas in case the contract state
+      // // has changed since we've done our gas estimate
+      // await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+      //
+      // // remove loading state
+      // this.setState({ isLoading: false });
 
-      // send the challenge transaction plus a little extra gas in case the contract state
-      // has changed since we've done our gas estimate
-      await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
-
-      // remove loading state
-      this.setState({ isLoading: false });
+      //QUESTION: is this the right place for this function?
+      this.displayContactDetails();
 
       // tell parent we've updated a user and to re-fetch user details from the contract
       //NB: onAfterChallenge undefined error unless use this.props - currently don't know why
@@ -200,6 +216,8 @@ class DoChallenge extends Component{
       <>
 
       <form>
+        {/* REVIEW: Re-enable this challenge functionality? */}
+      {/*
         <FieldGroup
           type="text"
           value={ challenge }
@@ -211,6 +229,7 @@ class DoChallenge extends Component{
           validationState={validationState}
           inputRef={(input) => { this.challengeInput = input; }}
         />
+        */}
         {/* REVIEW: Re-enable this validation functionality? */}
 
         <Button

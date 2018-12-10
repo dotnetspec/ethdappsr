@@ -110,8 +110,12 @@ class UserPlayerJsonData extends Component {
 //to clear the warning text when user changes account
 //based on info from
 //https://www.codeproject.com/Tips/1215984/Update-State-of-a-Component-from-Another-in-React
-export function updateText(warningText) {
+export function updateWarningText(warningText) {
     this.setState({warningText})
+}
+
+export function detailsTextCB(detailsTextCB) {
+    this.setState({detailsTextCB})
 }
 
 /**
@@ -129,16 +133,17 @@ class Home extends Component{
       ResultModalIsOpen: false,
       WarningModalIsOpen: false,
       warningText: '',
-      rank: 0
+      rank: 0,
+      detailsTextCB:''
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
-
-
    };
 
-    updateText = updateText.bind(this);
+    updateWarningText = updateWarningText.bind(this);
+    detailsTextCB = detailsTextCB.bind(this);
+    //updateText1 = (text) => {this.setState({ text })}
    //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
    //this._handleClose = this._handleClose.bind(this);
@@ -286,7 +291,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
          <DoChallenge onAfterChallenge={(e) => this._handleClose()}
           data={this.props.rankingJSONdata}
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
-          user={this.props.user}>
+          user={this.props.user}
+          updateTextCB={this.updateText}>
           </DoChallenge>
         </Modal.Body>
         <Modal.Footer>
@@ -340,7 +346,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
       <div>
 
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-
+      {this.state.detailsTextCB}
 
         <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >
