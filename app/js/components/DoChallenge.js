@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
-import {detailsTextCB} from './Home'
+import {contactNoCB, emailCB} from './Home'
 //import sendmail from 'sendmail'
 
 /**
@@ -84,8 +84,10 @@ displayContactDetails(){
   const oppoContactNumberTxt = this.props.selectedOpponentName + "'s contact number is : " + oppoContactNumber;
   const oppoEmailTxt = this.props.selectedOpponentName + "'s email address is : " + oppoEmail;
 
-  //detailsTextCB callback function (Home.js)
-  detailsTextCB(oppoContactNumberTxt + oppoEmailTxt);
+  //contactNoCB callback function (Home.js)
+  contactNoCB(oppoContactNumberTxt);
+  emailCB(oppoEmailTxt);
+
 }
 
   //#region Component events
@@ -121,7 +123,7 @@ displayContactDetails(){
     //const challenge = DSportRank.methods.challenge(this.state.challenge);
 
     //NB: we are not currently sending challenges to the blockchain
-    //but updating the json and callback of the detailsTextCB
+    //but updating the json and callback of the contactNoCB
     try{
       //const result = this._updateJSON(this.props.user, this.props.selectedOpponentName);
       JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);

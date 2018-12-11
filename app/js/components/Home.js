@@ -114,8 +114,12 @@ export function updateWarningText(warningText) {
     this.setState({warningText})
 }
 
-export function detailsTextCB(detailsTextCB) {
-    this.setState({detailsTextCB})
+export function contactNoCB(contactNoCB) {
+    this.setState({contactNoCB})
+}
+
+export function emailCB(emailCB) {
+    this.setState({emailCB})
 }
 
 /**
@@ -134,7 +138,8 @@ class Home extends Component{
       WarningModalIsOpen: false,
       warningText: '',
       rank: 0,
-      detailsTextCB:''
+      contactNoCB:'',
+      emailCB:''
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
@@ -142,7 +147,8 @@ class Home extends Component{
    };
 
     updateWarningText = updateWarningText.bind(this);
-    detailsTextCB = detailsTextCB.bind(this);
+    contactNoCB = contactNoCB.bind(this);
+    emailCB = emailCB.bind(this);
     //updateText1 = (text) => {this.setState({ text })}
    //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
@@ -346,7 +352,9 @@ challengeButton(cell, row, enumObject, rowIndex) {
       <div>
 
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-      {this.state.detailsTextCB}
+      <h3>{this.state.contactNoCB}</h3>
+      <h3>{this.state.emailCB}</h3>
+
 
         <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >
