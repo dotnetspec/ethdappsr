@@ -60,12 +60,6 @@ else{
   console.log(this.state.email)
 
   JSONops.updateUserInJSON(this.props.rankingJSONdata, user.username, this.state.contactno, this.state.email, this.state.description);
-
-
-    // const newUserValue =JSONops._setUserValue(this.props.rankingJSONdata, user.username, "CONTACTNO", this.state.contactno);
-    // JSONops._setUserValue(this.props.rankingJSONdata, user.username, "EMAIL", this.state.email);
-    // JSONops._setUserValue(this.props.rankingJSONdata, user.username, "DESCRIPTION", this.state.description);
-
 }
 
     // if the user has updated their photo, try to upload it to ipfs
@@ -99,7 +93,7 @@ else{
       const usernameHash = web3.utils.keccak256(user.username);
       const updatedDescription = this.state.description;
       //TODO: dummy value - This needs to be fully implemented with IPFS
-      const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
+      const updatedImageHash = 'Qmcs96FrhP5N9kJnhNsU87tUsuHpVbaSnGm7nxh13jMLLL';
 
       // set up our contract method with the input values from the form
           const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, updatedImageHash);
