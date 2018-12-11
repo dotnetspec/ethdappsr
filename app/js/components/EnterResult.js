@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
+import {contactNoCB, emailCB} from './Home'
 
 /**
  * Class that renders a form to allow the user to create
@@ -77,7 +78,7 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }
     }
-    
+
   //#region Component events
   /**
    * Handles the 'challenge' button click event which
@@ -92,6 +93,9 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
       const result = this._processResult(this.selectedOption, this.props.user);
       // remove loading state
       this.setState({ isLoading: false });
+      //clear the contact info
+      contactNoCB('');
+      emailCB('');
       // tell parent we've updated a user and to re-fetch user details from the contract
       this.props.onAfterChallenge();
     }
