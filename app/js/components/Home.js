@@ -382,12 +382,14 @@ challengeButton(cell, row, enumObject, rowIndex) {
               <TableHeaderColumn
               dataField='button'
               dataFormat={this.challengeButton.bind(this)}
+              
             >
               Challenge
               </TableHeaderColumn>
               <TableHeaderColumn
               dataField='button'
               dataFormat={this.resultButton.bind(this)}
+
             >
               Enter Result
               </TableHeaderColumn>

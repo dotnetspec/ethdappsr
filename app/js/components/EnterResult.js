@@ -63,17 +63,20 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
              }
              else if (resultEntered === 'won' && currentUserRankInt < selectedOpponentRankInt){
               JSONops._updateEnterResultUnchangedJSON(currentUser,opponentCurrentlyChallengingUser, this.props.data);
+              JSONops.updateDateStampsInJSON(this.props.data, currentUser, opponentCurrentlyChallengingUser);
               console.log('result send to _updateEnterResultUnchangedJSON');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else if (resultEntered === 'lost' && currentUserRankInt > selectedOpponentRankInt){
 
               JSONops._updateEnterResultUnchangedJSON(currentUser,opponentCurrentlyChallengingUser, this.props.data);
+              JSONops.updateDateStampsInJSON(this.props.data, currentUser, opponentCurrentlyChallengingUser);
               console.log('result send to _updateEnterResultUnchangedJSON');
               return "Thank you. Your result has been entered. Your ranking is unchanged"
 
             }else{
               JSONops._updateEnterResultJSON(currentUser, checkedUserRank, opponentCurrentlyChallengingUser, checkedOpponentRank, this.props.data);
+              JSONops.updateDateStampsInJSON(this.props.data, currentUser,opponentCurrentlyChallengingUser);
               console.log('result send to _updateEnterResultJSON');
               return "Thank you. Your result has been entered. Your ranking has been changed"
             }

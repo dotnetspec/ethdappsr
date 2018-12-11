@@ -137,6 +137,7 @@ const JSONops = {
 
         //QUESTION: it appears the data needs to be sent in reverse order - why?
         const newData = {
+                          "DATESTAMP": Date.now(),
                           "ACTIVE": true,
                           "DESCRIPTION": description,
                           "CURRENTCHALLENGERNAME": "AVAILABLE",
@@ -153,6 +154,14 @@ const JSONops = {
 
         this._sendJSONData(createNewJSONuserObj.jsonRS);
 
+    },
+
+    updateDateStampsInJSON: function(data, username, opponent){
+      let updatedUserJSON = this._setUserValue(data, username, "DATESTAMP", Date.now());
+      console.log(updatedUserJSON)
+      updatedUserJSON = this._setUserValue(data, opponent, "DATESTAMP", Date.now());
+      console.log(updatedUserJSON)
+      this._sendJSONData(updatedUserJSON);
     },
 
     updateUserInJSON: function(data, username, contactno, email, description){
