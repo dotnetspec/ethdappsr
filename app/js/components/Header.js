@@ -117,7 +117,7 @@ class Header extends Component {
     return 'Ξ' + limitLength(
       parseFloat(
         balance
-      ).toFixed(4), 6, '', false
+      ).toFixed(4), 6, '', true
     );
   }
 

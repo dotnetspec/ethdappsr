@@ -108,6 +108,7 @@ displayContactDetails(){
     // }
 
     // do not post challenge if the opponent already has a challenger
+    //DELETE: this logic is already applied in Home.js - delete
     // if(!JSONops.isPlayerAvailableToChallenge()){
     //     return e.preventDefault();
     // }
@@ -117,26 +118,30 @@ displayContactDetails(){
 
     const { username, account, onAfterChallenge } = this.props;
 
-      console.log('this.state.challenge');
-      console.log(this.state.challenge);
+    const challenge = DSportRank.methods.challenge(this.state.challenge);
+    //const sendETHDev = DSportRank.methods.sendETHDev();
 
-    //const challenge = DSportRank.methods.challenge(this.state.challenge);
-
+    // using the callback
     //NB: we are not currently sending challenges to the blockchain
     //but updating the json and callback of the contactNoCB
     try{
       //const result = this._updateJSON(this.props.user, this.props.selectedOpponentName);
+
       JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // estimate gas before sending challenge transaction
-      // const gasEstimate = await challenge.estimateGas({ from: web3.eth.defaultAccount });
-      //
+      //const gasEstimate = await sendETHDev.estimateGas({ from: web3.eth.defaultAccount });
+      // console.log(gasEstimate)
+
+      //REVIEW; Sending ETH code
+      //const result = await web3.eth.sendTransaction({ from: account, to: '0x0f124b4C7Ccb22c79B3A95BB92188a810802ea26', value: 10**18 });
+
       // // send the challenge transaction plus a little extra gas in case the contract state
       // // has changed since we've done our gas estimate
-      // await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+      //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
       //
-      // // remove loading state
-      // this.setState({ isLoading: false });
+      // remove loading state
+      this.setState({ isLoading: false });
 
       //QUESTION: is this the right place for this function?
       this.displayContactDetails();

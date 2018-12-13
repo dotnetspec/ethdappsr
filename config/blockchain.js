@@ -29,7 +29,7 @@ module.exports = {
     simulatorBlocktime: 0
   },
   testnet: {
-    enabled: true,
+    enabled: false,
     networkType: "testnet",
     light: true,
     rpcHost: "localhost",
@@ -40,7 +40,7 @@ module.exports = {
     }
   },
   livenet: {
-    enabled: true,
+    enabled: false,
     networkType: "livenet",
     light: true,
     rpcHost: "localhost",
@@ -51,7 +51,7 @@ module.exports = {
     }
   },
   privatenet: {
-    enabled: true,
+    enabled: false,
     networkType: "custom",
     rpcHost: "localhost",
     rpcPort: 8545,
