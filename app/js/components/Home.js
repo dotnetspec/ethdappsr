@@ -350,7 +350,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
       <font color="red">{this.state.warningText}</font><p></p></h3>
 
       <div>
-
+Bal:
+      <h3>{this.props.currentDevETHBal}</h3>
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
       <h3>{this.state.contactNoCB}</h3>
       <h3>{this.state.emailCB}</h3>
@@ -382,7 +383,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
               <TableHeaderColumn
               dataField='button'
               dataFormat={this.challengeButton.bind(this)}
-              
+
             >
               Challenge
               </TableHeaderColumn>

@@ -13,6 +13,7 @@ import JSONops from './JSONops'
 //REVIEW: Global variable
 //currently only assigned when click challenge... button
  let currentUserRank = 0;
+ let devAccountTemp = 0;
 
  //REVIEW: Possibly unnecessary re-rendering
  //only used to get the player rank
@@ -59,7 +60,8 @@ class App extends Component {
       balance: 0,
       data: [],
       //data: JSONops._loadsetJSONData(),
-      rank: 0
+      rank: 0,
+      devAccountBal: 0
     }
     this._loadsetJSONData();
     //this._getUserRank();
@@ -155,6 +157,11 @@ _loadsetJSONData(){
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
+          const devAccountBal = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
+
+          console.log(devAccountBal);
+          devAccountTemp = devAccountBal;
+
           //get the user's ranking
           //const userRank = await this._getUserRank(user);
 
@@ -184,7 +191,8 @@ _loadsetJSONData(){
           userAccounts: userAccounts,
           user: defaultUserAccount.user,
           account: web3.eth.defaultAccount,
-          balance: defaultUserAccount.balance
+          balance: defaultUserAccount.balance,
+          devAccountBal: devAccountTemp
         });
       });
   }
@@ -232,6 +240,7 @@ _loadsetJSONData(){
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
+          currentDevETHBal={this.state.devAccountBal}
           />
       </div>
 
