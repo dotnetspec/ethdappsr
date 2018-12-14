@@ -100,6 +100,7 @@ const opponentCurrentlyChallengingUser = JSONops._getUserValue(this.props.data, 
       contactNoCB('');
       emailCB('');
       // tell parent we've updated a user and to re-fetch user details from the contract
+      //TODO: re-set below to onAfterReslt
       this.props.onAfterChallenge();
     }
     catch(err){

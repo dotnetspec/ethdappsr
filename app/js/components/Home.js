@@ -13,8 +13,9 @@ import JSONops from './JSONops'
 
 //REVIEW: Global variables
 //currently only assigned when click challenge... button
- let currentUserRank = 0;
- let opponentUserRank = 0;
+ // let currentUserRank = 0;
+ // let opponentUserRank = 0;
+ // let extAcctBal = 0;
 
  //REVIEW: May be able to improve setting rank with similar to:
  //this.setState((state, props) => ({
@@ -51,6 +52,32 @@ const selectRowPropAfterClickRow = {
 // }
   //#endregion
 
+//CurrentETHBal works with callbacks in the parent (Home)
+//to update the external account balance
+  class CurrentETHBal extends React.Component {
+    constructor(props) {
+      super(props);
+      // no need to set state here because the balance is passed down from the parent component through props
+    }
+    combineETHVals(){
+      const origETHInt = parseInt(this.props.currentDevETHBal);
+      const newETHInt = parseInt(this.props.updatedExtAcctBalCB);
+        const combinedCurrentETHVal = origETHInt + newETHInt;
+        return combinedCurrentETHVal;
+    }
+    render() {
+      //extAcctBal
+      return (
+        <div>
+        <h3>Combined challenges on SportRank have contributed:<p></p>
+              {this.combineETHVals() } ETH<p></p>
+        to your favourite sport
+              </h3>
+        </div>
+      );
+    }
+  }
+
 //REVIEW: Possibly re-factor to clarify code in the Home component
 class UserPlayerJsonData extends Component {
    render() {
@@ -80,6 +107,8 @@ class UserPlayerJsonData extends Component {
 
               return (
                 <div>
+                    {this.props.username}
+                  <p></p>
                     { textToDisplayRank }
                   <p></p>
                     { textToDisplayChallenger }
@@ -114,12 +143,18 @@ export function updateWarningText(warningText) {
     this.setState({warningText})
 }
 
+//these cb functions update the relevant components
+//DoChallenge.js
 export function contactNoCB(contactNoCB) {
     this.setState({contactNoCB})
 }
 
 export function emailCB(emailCB) {
     this.setState({emailCB})
+}
+
+export function updatedExtAcctBalCB(updatedExtAcctBalCB) {
+    this.setState({updatedExtAcctBalCB})
 }
 
 /**
@@ -139,16 +174,22 @@ class Home extends Component{
       warningText: '',
       rank: 0,
       contactNoCB:'',
-      emailCB:''
+      emailCB:'',
+      updatedExtAcctBalCB: 0
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
    };
 
+   //bind the callbacks (defined above) to this parent component Home
+   //so that DoChallenge changes are updated in UI:
+
     updateWarningText = updateWarningText.bind(this);
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
+    updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
+
     //updateText1 = (text) => {this.setState({ text })}
    //REVIEW: not sure about comment below...
    //_handleClose must be bound if it's going to be used in child components (it is)
@@ -298,7 +339,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
           data={this.props.rankingJSONdata}
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}
-          updateTextCB={this.updateText}>
+          updateTextCB={this.updateText}
+          currentDevETHBal={this.state.updatedExtAcctBalCB}>
           </DoChallenge>
         </Modal.Body>
         <Modal.Footer>
@@ -316,7 +358,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
         <EnterResult
         data={this.props.rankingJSONdata}
         selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
-        currentUserRank={currentUserRank}
         user={this.props.user}
         selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
         onAfterChallenge={this.closeResultModal}>
@@ -343,15 +384,16 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
         <Grid>
           <Row>
-          <h2>{this.props.user}</h2><p></p>
           <h3>{Object.keys(this.props.rankingJSONdata).map(key => (
          <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
       ))}
       <font color="red">{this.state.warningText}</font><p></p></h3>
-
       <div>
-Bal:
-      <h3>{this.props.currentDevETHBal}</h3>
+
+      <CurrentETHBal currentDevETHBal={this.props.currentDevETHBal}
+      updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
+      />
+
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
       <h3>{this.state.contactNoCB}</h3>
       <h3>{this.state.emailCB}</h3>
@@ -363,11 +405,13 @@ Bal:
               hidden>
                 ID
               </TableHeaderColumn>
+              
               <TableHeaderColumn  dataField='NAME'
               filter={ { type: 'TextFilter', defaultValue: '' } }
               >
                 Player Name
               </TableHeaderColumn>
+
               <TableHeaderColumn  dataField='RANK' dataSort
               width={'7%'}
               >
@@ -375,25 +419,25 @@ Bal:
               </TableHeaderColumn>
 
               <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
-
               filter={ { type: 'TextFilter',  defaultValue: '' } }
               >
                Current Challenger
               </TableHeaderColumn>
+
               <TableHeaderColumn
               dataField='button'
               dataFormat={this.challengeButton.bind(this)}
-
             >
               Challenge
               </TableHeaderColumn>
+
               <TableHeaderColumn
               dataField='button'
               dataFormat={this.resultButton.bind(this)}
-
             >
               Enter Result
               </TableHeaderColumn>
+
               <TableHeaderColumn dataField='ACTIVE'
               filter={ { type: 'TextFilter', defaultValue: 'true' } }
               hidden

@@ -8,13 +8,14 @@ import { Switch, Route } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
 //import axios from 'axios'
 import JSONops from './JSONops'
+import { formatEth, limitLength, limitAddressLength } from '../utils';
 //import jsonData from '../../json/Rankings.json'
 
 //REVIEW: Global variable
 //currently only assigned when click challenge... button
- let currentUserRank = 0;
+ //let currentUserRank = 0;
  //devAccountTemp used to avoid 'callback' errors
- let devAccountTemp = 0;
+ let globalVardevAccountBalResult = 0;
 
  //REVIEW: Possibly unnecessary re-rendering
  //only used to get the player rank
@@ -61,7 +62,7 @@ class App extends Component {
       balance: 0,
       data: [],
       //data: JSONops._loadsetJSONData(),
-      rank: 0,
+      //rank: 0,
       devAccountBal: 0
     }
     this._loadsetJSONData();
@@ -158,10 +159,13 @@ _loadsetJSONData(){
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
-          let devAccountBal = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
-          devAccountBal = web3.utils.fromWei(devAccountBal, 'ether');
-          console.log(devAccountBal);
-          devAccountTemp = devAccountBal;
+          let devAccountBalResult = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
+          devAccountBalResult = web3.utils.fromWei(devAccountBalResult, 'ether');
+          devAccountBalResult = formatEth(devAccountBalResult, 3)
+          globalVardevAccountBalResult = devAccountBalResult;
+          console.log(globalVardevAccountBalResult);
+
+          //devAccountTemp = devAccountBal;
 
           //get the user's ranking
           //const userRank = await this._getUserRank(user);
@@ -192,8 +196,8 @@ _loadsetJSONData(){
           userAccounts: userAccounts,
           user: defaultUserAccount.user,
           account: web3.eth.defaultAccount,
-          balance: defaultUserAccount.balance,
-          devAccountBal: devAccountTemp
+          balance: defaultUserAccount.balance
+          //,
         });
       });
   }
@@ -215,12 +219,18 @@ _loadsetJSONData(){
     EmbarkJS.onReady(() => {
       setTimeout(() => { this._loadCurrentUserAccounts(); }, 0);
     });
+
   }
 
-
+//rank is now obtained by the UserPlayerJsonData component
+  // getUserRank(){
+  //   return JSONops._getUserValue(this.state.data, this.state.user.username, 'RANK')
+  // }
 
   render() {
-
+    // console.log('this.state.user in didmount')
+    // console.log(this.state.user)
+    // console.log(JSONops._getUserValue(this.state.data, this.state.user.username, 'RANK'));
     return (
       <div>
         <Header
@@ -241,7 +251,8 @@ _loadsetJSONData(){
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
-          currentDevETHBal={this.state.devAccountBal}
+          currentDevETHBal={globalVardevAccountBalResult}
+          //rank={this.getUserRank()}
           />
       </div>
 

@@ -3,7 +3,7 @@ import { Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuI
 import React, { Component } from 'react';
 import DoChallenge from './DoChallenge';
 import Search from './Search';
-import { limitLength, limitAddressLength } from '../utils';
+import { formatEth, limitLength, limitAddressLength } from '../utils';
 import Spinner from 'react-spinkit';
 import FieldGroup from './FieldGroup';
 import imgAvatar from '../../img/avatar-default.png';
@@ -114,6 +114,7 @@ class Header extends Component {
    */
   _formatBalance(balance) {
     //trim middle set to false - looks better
+    balance = formatEth(balance, 3)
     return 'Ξ' + limitLength(
       parseFloat(
         balance

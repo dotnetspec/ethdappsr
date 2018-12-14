@@ -26,7 +26,7 @@ class Main extends Component {
     super(props);
     this.state = {
       //data: this.removeAllInactivePlayers()
-      rank: 0
+      //rank: 0
     }
     //console.log(this.props.rankingJSONdata);
   }
@@ -64,7 +64,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path='/' render={(props) => <Home currentUserRank={this.state.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata} currentDevETHBal={this.props.currentDevETHBal}/>}/>
+          <Route exact path='/' render={(props) => <Home  rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata} currentDevETHBal={this.props.currentDevETHBal}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>

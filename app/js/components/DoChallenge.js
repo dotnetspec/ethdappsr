@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
-import {contactNoCB, emailCB} from './Home'
+import {contactNoCB, emailCB, updatedExtAcctBalCB} from './Home'
 //import sendmail from 'sendmail'
 
 /**
@@ -83,10 +83,12 @@ displayContactDetails(){
   const oppoEmail = JSONops._getUserValue(this.props.data, this.props.user, 'EMAIL')
   const oppoContactNumberTxt = this.props.selectedOpponentName + "'s contact number is : " + oppoContactNumber;
   const oppoEmailTxt = this.props.selectedOpponentName + "'s email address is : " + oppoEmail;
+  //const updatedExtAcctBal =
 
   //contactNoCB callback function (Home.js)
   contactNoCB(oppoContactNumberTxt);
   emailCB(oppoEmailTxt);
+  updatedExtAcctBalCB(this.props.currentDevETHBal + 10 ** 18)
 
 }
 
