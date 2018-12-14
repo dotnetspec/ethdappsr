@@ -493,6 +493,20 @@ const JSONops = {
             }
       },
 
+      isPlayerLowerRankThanChallengeOpponent: function(data, opponentName, currentUser){
+        const playerRank = this._getUserValue(data, currentUser, "RANK");
+        const opponentRank = this._getUserValue(data, opponentName, "RANK");
+
+        let isChallengerLowerRankThanPlayer = false;
+      //NB: A lower number is a HIGHER rank, a HIGHER number is a LOWER rank
+            if (playerRank > opponentRank){
+              return true;
+            }
+            else {
+              return false;
+            }
+      },
+
     _sendJSONData: function(data){
       let req = new XMLHttpRequest();
 

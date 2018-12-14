@@ -54,6 +54,7 @@ const selectRowPropAfterClickRow = {
 
 //CurrentETHBal works with callbacks in the parent (Home)
 //to update the external account balance
+//http://johnnyji.me/react/2015/06/26/why-setting-props-as-state-in-react-is-blasphemy.html
   class CurrentETHBal extends React.Component {
     constructor(props) {
       super(props);
@@ -61,6 +62,7 @@ const selectRowPropAfterClickRow = {
     }
     combineETHVals(){
       const origETHInt = parseInt(this.props.currentDevETHBal);
+      //updatedExtAcctBalCB is updated by callback in Home
       const newETHInt = parseInt(this.props.updatedExtAcctBalCB);
         const combinedCurrentETHVal = origETHInt + newETHInt;
         return combinedCurrentETHVal;
@@ -209,10 +211,12 @@ class Home extends Component{
    * Shows the challenge modal
    */
   _handleShowChallengeModal() {
-    //TODO: make current user unselectable
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
       this.setState({ WarningModalIsOpen: true });
+    }else if(!JSONops.isPlayerLowerRankThanChallengeOpponent(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+        this.setState({ warningText: ' This opponent is lower than you in the rankings - aim high!' });
+        this.setState({ WarningModalIsOpen: true });
     }else if(JSONops.isPlayerAlreadyChallengingThisOpp(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' You are already challenging this player!' });
         this.setState({ WarningModalIsOpen: true });
@@ -405,7 +409,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
               hidden>
                 ID
               </TableHeaderColumn>
-              
+
               <TableHeaderColumn  dataField='NAME'
               filter={ { type: 'TextFilter', defaultValue: '' } }
               >
