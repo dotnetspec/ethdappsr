@@ -13,6 +13,7 @@ import JSONops from './JSONops'
 //REVIEW: Global variable
 //currently only assigned when click challenge... button
  let currentUserRank = 0;
+ //devAccountTemp used to avoid 'callback' errors
  let devAccountTemp = 0;
 
  //REVIEW: Possibly unnecessary re-rendering
@@ -157,8 +158,8 @@ _loadsetJSONData(){
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
-          const devAccountBal = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
-
+          let devAccountBal = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
+          devAccountBal = web3.utils.fromWei(devAccountBal, 'ether');
           console.log(devAccountBal);
           devAccountTemp = devAccountBal;
 

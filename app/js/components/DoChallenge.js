@@ -134,7 +134,7 @@ displayContactDetails(){
       // console.log(gasEstimate)
 
       //REVIEW; Sending ETH code
-      //const result = await web3.eth.sendTransaction({ from: account, to: '0x0f124b4C7Ccb22c79B3A95BB92188a810802ea26', value: 10**18 });
+      const result = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18 });
 
       // // send the challenge transaction plus a little extra gas in case the contract state
       // // has changed since we've done our gas estimate
