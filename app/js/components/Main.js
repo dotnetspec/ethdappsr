@@ -8,6 +8,7 @@ import DeactivatePlayer from './DeactivatePlayer';
 import Error from './Error';
 import React, { Component } from 'react';
 import JSONops from './JSONops'
+import CreateNewRanking from './CreateNewRanking';
 
 /**
  * Class representing the area below the header.
@@ -68,6 +69,7 @@ class Main extends Component {
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
+          <PropsRoute path='/newranking/@:username' component={CreateNewRanking} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/delete/@:username' component={DeactivatePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>

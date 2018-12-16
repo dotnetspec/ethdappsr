@@ -526,7 +526,22 @@ const JSONops = {
           var myJsonString = JSON.stringify(data);
           //console.log(myJsonString);
           req.send(myJsonString);
-  }
+  },
+
+  _sendCreateNewRankingJSONData: function(data){
+      let req = new XMLHttpRequest();
+
+          req.onreadystatechange = () => {
+            if (req.readyState == XMLHttpRequest.DONE) {
+              console.log(req.responseText);
+            }
+          };
+
+          req.open("POST", "https://api.jsonbin.io/b", true);
+          req.setRequestHeader("Content-type", "application/json");
+          let response = req.send('{"Sample": "Hello World"}');
+          console.log(response);
+      }
 }
 
 export default JSONops;

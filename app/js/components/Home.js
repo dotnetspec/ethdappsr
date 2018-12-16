@@ -270,7 +270,8 @@ onClickChallengeSelected(cell, row, rowIndex){
 challengeButton(cell, row, enumObject, rowIndex) {
     return (
        <button
-          type="button"
+          bsstyle="primary"
+          //type="button"
           onClick={() =>
           this.onClickChallengeSelected(cell, row, rowIndex)}
        >
@@ -282,7 +283,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
  resultButton(cell, row, enumObject, rowIndex) {
      return (
         <button
-           type="button"
+          bsstyle="primary"
+           //type="button"
            onClick={() =>
            this.onClickResultSelected(cell, row, rowIndex)}
         >
