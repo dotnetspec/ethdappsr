@@ -90,10 +90,10 @@ displayContactDetails(){
   contactNoCB(oppoContactNumberTxt);
   emailCB(oppoEmailTxt);
   //contactNoCB callback function (Header.js)
-  //let tempbalTodisplay = parseInt(this.props.currentDevETHBal) + (10 ** 18);
-  console.log('this.props.currentDevETHBal')
-  console.log(this.props.currentDevETHBal)
-  let tempXternAccountno = parseInt(this.props.currentDevETHBal)
+  //let tempbalTodisplay = parseInt(this.props.updatedExtAcctBalCB) + (10 ** 18);
+  console.log('this.props.updatedExtAcctBalCB')
+  console.log(this.props.updatedExtAcctBalCB)
+  let tempXternAccountno = parseInt(this.props.updatedExtAcctBalCB)
   //tempXternAccountno += 10 ** 18;
   tempXternAccountno += 1;
   updatedExtAcctBalCB(tempXternAccountno)
@@ -134,25 +134,15 @@ displayContactDetails(){
     //NB: we are not currently sending challenges to the blockchain
     //but updating the json and callback of the contactNoCB
     try{
-      //const result = this._updateJSON(this.props.user, this.props.selectedOpponentName);
-
-      JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
-
       // estimate gas before sending challenge transaction
       const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
-      // console.log(gasEstimate)
 
-      //console.log('JSONops done')
-
-      //REVIEW; Sending ETH code
+      //REVIEW; Sending ETH code. Account currently hard coded
       const result = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
 
-      // console.log('result')
-      // console.log(result)
-      // // send the challenge transaction plus a little extra gas in case the contract state
-      // // has changed since we've done our gas estimate
-      //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
-      //
+      //REVIEW: Update must come after sendTransaction() in case e.g. there's not enough gas
+      JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
+
       // remove loading state
       this.setState({ isLoading: false });
 
@@ -160,9 +150,6 @@ displayContactDetails(){
       this.displayContactDetails();
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      //NB: onAfterChallenge undefined error unless use this.props - currently don't know why
-      //original code didn't need it
-      //this.props.onAfterChallenge();
       onAfterChallenge();
     }
     catch(err){

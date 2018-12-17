@@ -26,7 +26,7 @@ import {updatedExtAcctBalCB} from './App'
       super(props);
       // no need to set state here because the balance is passed down
       //from the parent component through props (and re-set in DoChanllenge using callback)
-      //updatedExtAcctBalCB(this.props.currentDevETHBal + 10 ** 18);
+      //updatedExtAcctBalCB(this.props.updatedExtAcctBalCB + 10 ** 18);
       updatedExtAcctBalCB(this.props.updatedExtAcctBalCB);
     }
     combineETHVals(){

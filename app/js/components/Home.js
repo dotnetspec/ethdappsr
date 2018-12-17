@@ -318,7 +318,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}
           updateTextCB={this.updateText}
-          currentDevETHBal={this.props.currentDevETHBal}>
+          updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}>
           </DoChallenge>
         </Modal.Body>
         <Modal.Footer>
@@ -370,7 +370,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
       <h3>{this.state.contactNoCB}</h3>
       <h3>{this.state.emailCB}</h3>
-      
+
         <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >
               <TableHeaderColumn  isKey dataField='id'

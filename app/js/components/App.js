@@ -15,7 +15,7 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
 //currently only assigned when click challenge... button
  //let currentUserRank = 0;
  //devAccountTemp used to avoid 'callback' errors
- let globalVardevAccountBalResult = 0;
+ //let globalVardevAccountBalResult = 0;
 
  //REVIEW: Possibly unnecessary re-rendering
  //only used to get the player rank
@@ -98,10 +98,10 @@ _loadsetJSONData(){
   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
   .then((response) => response.json())
   .then((responseJson) => {
-    console.log('globalVardevAccountBalResult')
-    console.log(globalVardevAccountBalResult)
-    console.log('responseJson')
-    console.log(responseJson)
+    // console.log('globalVardevAccountBalResult')
+    // console.log(globalVardevAccountBalResult)
+    // console.log('responseJson')
+    // console.log(responseJson)
 
     //if(globalVardevAccountBalResult > 0 && responseJson != null){
           this.setState({
@@ -202,9 +202,10 @@ _loadsetJSONData(){
           next(null, {
             address: address,
             user: user,
-            balance: balance,
+            balance: balance
+            //,
             //NB: added by me:
-            updatedExtAcctBalCB: globalVardevAccountBalResult
+            //updatedExtAcctBalCB: globalVardevAccountBalResult
           });
         }
         catch (err) {
@@ -231,25 +232,23 @@ _loadsetJSONData(){
       });
   }
 
+//REVIEW: below based on
+//https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
+//to a (small) degree - anyway it's a useful reference
   _loadExternalBalance = async () => {
 
     this.setState({ isLoading: true });
 
     try {
-
     let devAccountBalResult = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
     devAccountBalResult = web3.utils.fromWei(devAccountBalResult, 'ether');
-    globalVardevAccountBalResult =  formatEth(devAccountBalResult, 3)
-
-    console.log('globalVardevAccountBalResult')
-    console.log(globalVardevAccountBalResult)
-
+    devAccountBalResult =  formatEth(devAccountBalResult, 3);
     this.setState({
       updatedExtAcctBalCB: devAccountBalResult
     });
     this.setState({ isLoading: false });
-    return globalVardevAccountBalResult;
-
+    //the 'return' is not important, the setState is
+    return devAccountBalResult;
   }catch (err) {
         return {
             name: 'default user'
@@ -311,7 +310,7 @@ if(!this.state.isLoading){
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
-          currentDevETHBal={this.state.updatedExtAcctBalCB}
+          updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           //rank={this.getUserRank()}
           />
       </div>
