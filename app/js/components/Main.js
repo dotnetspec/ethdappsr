@@ -18,31 +18,18 @@ import CreateNewRanking from './CreateNewRanking';
  * @extends React.Component
  */
 
-
-
 class Main extends Component {
 
   //#region Constructor
   constructor(props){
     super(props);
     this.state = {
-      //data: this.removeAllInactivePlayers()
-      //rank: 0
+
     }
-    //console.log(this.props.rankingJSONdata);
   }
   //#endregion
 
   //#region React lifecycle events
-
-//REVIEW: Better somewhere else?
-  // removeAllInactivePlayers(){
-  //
-  //   console.log('removeAllInactivePlayers');
-  //   //return this.props.rankingJSONdata
-  //   const activeData = JSONops.removeInactivePlayers(this.props.rankingJSONdata);
-  //   this.setState({ data: activeData });
-  // }
 
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
@@ -53,18 +40,19 @@ class Main extends Component {
   //   this.setState({ rank: currentUserRank });
   // }
 
-
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
-      // console.log(this.props.rankingJSONdata);
-      // let currentUserRank = JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
-      // console.log(currentUserRank);
-      //  this.setState({ rank: currentUserRank });
     return (
       <main>
         <Switch>
+          {/*
+          REVIEW: The original for Home would be:
+          <Route exact path='/' component={Home}  {...this.props} rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}
+          updatedExtAcctBalCB={this.props.updatedExtAcctBalCB} />
+          It doesn't work. Don't know why
+          */}
           <Route exact path='/' render={(props) => <Home  rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata} updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>

@@ -72,81 +72,41 @@ class App extends Component {
       updatedExtAcctBalCB: 0,
       isLoading: true
     }
-    this._loadsetJSONData();
-    //this._getUserRank();
-    //this._simplefunct();
-
     //bind the callback function
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
 
   }
   //#endregion
-
-
-
   //#region Helper methods
-
-//TODO; any way to ge this into JSONops?
-//problem is setting data: in state of this component
-_loadsetJSONData(){
-
-  //NOTE: it is the api.jsonbin NOT the jsonbin.io!
-  //JSON data can and should be in ANY order
-  //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
-  fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
-  //TODO: get it working with ipfs/swarm
-  //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
-  .then((response) => response.json())
-  .then((responseJson) => {
-    // console.log('globalVardevAccountBalResult')
-    // console.log(globalVardevAccountBalResult)
-    // console.log('responseJson')
-    // console.log(responseJson)
-
-    //if(globalVardevAccountBalResult > 0 && responseJson != null){
-          this.setState({
-            data: responseJson
-            // ,
-            // updatedExtAcctBalCB: globalVardevAccountBalResult,
-            // isLoading: false
-          }
-      , function(){
-      //console.log(responseJson);
-          });
-    //  }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+_loadsetJSONData = async () => {
+  try {
+    //this.setState({ isLoading: true });
+    await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
+     .then((response) => response.json())
+     .then((responseJson) => {
+       console.log('responseJson.length')
+       console.log(responseJson.length)
+       if(responseJson.length != 0){
+         console.log(responseJson.length)
+             this.setState({
+               data: responseJson
+             }
+         , function(){
+             });
+           }
+     })
+  //REVIEW:
+  //this.setState({ isLoading: false });
+  //the 'return' is not important, the setState is
+  return null;
+}catch (err) {
+     return console.error(err);
+  }
 }
-
-// {Object.keys(this.props.rankingJSONdata).map(key => (
-// <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
-// ))}
-// _simplefunct(){
-// //const jsondata = this.state.data;
-// const user = this.state.user;
-//   console.log(this.state.user);
-// }
-
 
 //REVIEW: Possible to getUserRank in App.js (and set state) rather than Home.js?
 //currently no - problem is waiting for username to check against rank
-// _getUserRank(){
-//   const jsondata = this.state.data;
-// //  const username = this.state.user;
-//   console.log(jsondata);
-//   console.log(this.state.user);
-//   var arr = [];
-//   Object.keys(jsondata).forEach(function(key) {
-//     //console.log(key);
-//     if (jsondata[key].NAME === this.state.user){
-//      arr.push(jsondata[key]);
-//     }
-//    });
-//    console.log(arr[0].RANK);
-//    return arr[0].RANK;
-// }
+
 
 /**
  * Loads user details from the contract for all accounts on the node.
@@ -163,8 +123,6 @@ _loadsetJSONData(){
 
   _loadCurrentUserAccounts = async () => {
 
-    //this.setState({ isLoading: true });
-
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
 
@@ -178,22 +136,9 @@ _loadsetJSONData(){
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
-
           // gets the balance of the address
           let balance = await web3.eth.getBalance(address);
           balance = web3.utils.fromWei(balance, 'ether');
-
-//this.setState({ isLoading: false });
-
-
-          // this.setState({
-          //   updatedExtAcctBalCB: devAccountBalResult
-          // });
-
-          //devAccountTemp = devAccountBal;
-
-          //get the user's ranking
-          //const userRank = await this._getUserRank(user);
 
           // update user picture with ipfs url
           user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
@@ -249,6 +194,7 @@ _loadsetJSONData(){
     this.setState({ isLoading: false });
     //the 'return' is not important, the setState is
     return devAccountBalResult;
+    //REVIEW: don't know what this kind of return statement is currently
   }catch (err) {
         return {
             name: 'default user'
@@ -269,25 +215,16 @@ _loadsetJSONData(){
   //#endregion
 
   //#region React lifecycle events
+  //loading the network functions from here
   componentDidMount() {
     EmbarkJS.onReady(() => {
+      setTimeout(() => { this._loadsetJSONData(); }, 0);
       setTimeout(() => { this._loadCurrentUserAccounts(); }, 0);
       setTimeout(() => { this._loadExternalBalance(); }, 0);
     });
-
-    console.log('this.state.updatedExtAcctBalCB')
-    console.log(this.state.updatedExtAcctBalCB)
   }
 
-//rank is now obtained by the UserPlayerJsonData component
-  // getUserRank(){
-  //   return JSONops._getUserValue(this.state.data, this.state.user.username, 'RANK')
-  // }
-
   render() {
-    // console.log('this.state.user in didmount')
-    // console.log(this.state.user)
-    // console.log(JSONops._getUserValue(this.state.data, this.state.user.username, 'RANK'));
 if(!this.state.isLoading){
     return (
       <div>

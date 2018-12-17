@@ -9,14 +9,6 @@ import DoChallenge from './DoChallenge'
 import EnterResult from './EnterResult'
 import JSONops from './JSONops'
 
-//import testData from "../../json/Rankings.json";
-
-//REVIEW: Global variables
-//currently only assigned when click challenge... button
- // let currentUserRank = 0;
- // let opponentUserRank = 0;
- // let extAcctBal = 0;
-
  //REVIEW: May be able to improve setting rank with similar to:
  //this.setState((state, props) => ({
 //   counter: state.counter + props.increment
@@ -26,8 +18,6 @@ import JSONops from './JSONops'
 
 /**
  * Functionality representing the table search properties
- *
- *
  */
 //REVIEW: selectRowPropAfterClickRow had to be created separately from selectRowProp to handle the row data
 //after selecting a row
@@ -51,9 +41,6 @@ const selectRowPropAfterClickRow = {
 //   return enumObject[cell];
 // }
   //#endregion
-
-
-
 
 //REVIEW: Possibly re-factor to clarify code in the Home component
 class UserPlayerJsonData extends Component {
@@ -129,8 +116,6 @@ export function contactNoCB(contactNoCB) {
 export function emailCB(emailCB) {
     this.setState({emailCB})
 }
-
-
 /**
  * Class representing the home page rendering
  *
@@ -149,25 +134,16 @@ class Home extends Component{
       rank: 0,
       contactNoCB:'',
       emailCB:''
-      //updatedExtAcctBalCB: 0
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
    };
-
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
-
     updateWarningText = updateWarningText.bind(this);
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
-    //updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
-
-    //updateText1 = (text) => {this.setState({ text })}
-   //REVIEW: not sure about comment below...
-   //_handleClose must be bound if it's going to be used in child components (it is)
-   //this._handleClose = this._handleClose.bind(this);
   }
   //#endregion
 
@@ -177,22 +153,21 @@ class Home extends Component{
   _handleClose() {
     this.setState({ showModal: false });
   }
-
-
   /**
    * Shows the challenge modal
    */
   _handleShowChallengeModal() {
+    const { rankingJSONdata } = this.props;
     if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
       this.setState({ warningText: ' You cannot challenge yourself!' });
       this.setState({ WarningModalIsOpen: true });
-    }else if(!JSONops.isPlayerLowerRankThanChallengeOpponent(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(!JSONops.isPlayerLowerRankThanChallengeOpponent(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' This opponent is lower than you in the rankings - aim high!' });
         this.setState({ WarningModalIsOpen: true });
-    }else if(JSONops.isPlayerAlreadyChallengingThisOpp(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(JSONops.isPlayerAlreadyChallengingThisOpp(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' You are already challenging this player!' });
         this.setState({ WarningModalIsOpen: true });
-    }else if(!JSONops.isPlayerAvailableToChallenge(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(!JSONops.isPlayerAvailableToChallenge(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
         this.setState({ warningText: ' Please allow ongoing challenge(s) to complete ...' });
         this.setState({ WarningModalIsOpen: true });
     }
@@ -210,8 +185,6 @@ class Home extends Component{
 //     return {rank: state.count + 1}
 //   });
 // }
-//
-//
 
 onClickChallengeSelected(cell, row, rowIndex){
   //console.log('Product #', rowIndex);
@@ -267,7 +240,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
   openResultModal = () => {
     //NB: this is a NOT operation!
-    if(!JSONops.isPlayerAvailableToEnterResultAgainst(this.props.rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user))
+    const { rankingJSONdata } = this.props;
+    if(!JSONops.isPlayerAvailableToEnterResultAgainst(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user))
   {
     console.log(1)
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
@@ -287,12 +261,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
   };
 
   componentDidMount(){
-    // const userRank = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user , "RANK");
-    // console.log(userRank)
-    //   this.setState({ rank: userRank });
   }
-
-
 
   render() {
     const selectRowProp = {
@@ -300,10 +269,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
       clickToSelect: true,
       unselectable: [0],
       selected: [],
-      //onSelect: this.onSelectRow.bind(this),
       bgColor: 'gold'
     };
 
+const { rankingJSONdata } = this.props;
+console.log('this.props.rankingJSONdata in Home')
+console.log(rankingJSONdata)
     return (
       <div>
 
@@ -314,7 +285,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
         <Modal.Body>
         Would you like to challenge {selectRowPropAfterClickRow.selectedOpponentName} who is ranked {selectRowPropAfterClickRow.selectedOpponentRank}?<p></p>
          <DoChallenge onAfterChallenge={(e) => this._handleClose()}
-          data={this.props.rankingJSONdata}
+          data={rankingJSONdata}
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}
           updateTextCB={this.updateText}
@@ -334,7 +305,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
         </Modal.Header>
         <Modal.Body>
         <EnterResult
-        data={this.props.rankingJSONdata}
+        data={rankingJSONdata}
         selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
         user={this.props.user}
         selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
@@ -362,8 +333,8 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
         <Grid>
           <Row>
-          <h3>{Object.keys(this.props.rankingJSONdata).map(key => (
-         <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user}/>
+          <h3>{Object.keys(rankingJSONdata).map(key => (
+         <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user}/>
       ))}
       <font color="red">{this.state.warningText}</font><p></p></h3>
       <div>
@@ -371,7 +342,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
       <h3>{this.state.contactNoCB}</h3>
       <h3>{this.state.emailCB}</h3>
 
-        <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
+        <BootstrapTable options={ this.tablesortoptions } data={rankingJSONdata}
         >
               <TableHeaderColumn  isKey dataField='id'
               hidden>
