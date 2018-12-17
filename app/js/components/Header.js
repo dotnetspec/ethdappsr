@@ -1,7 +1,7 @@
 import { NavLink, withRouter } from 'react-router-dom'
-import { Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip } from 'react-bootstrap';
+import { NavItem, Label, Button, Image, Modal, Navbar, ButtonToolbar, Dropdown, Glyphicon, MenuItem, Overlay, Tooltip } from 'react-bootstrap';
 import React, { Component } from 'react';
-import DoChallenge from './DoChallenge';
+//import DoChallenge from './DoChallenge';
 import Search from './Search';
 import { formatEth, limitLength, limitAddressLength } from '../utils';
 import Spinner from 'react-spinkit';
@@ -9,6 +9,46 @@ import FieldGroup from './FieldGroup';
 import imgAvatar from '../../img/avatar-default.png';
 import JSONops from './JSONops'
 import {updateWarningText} from './Home'
+import {updatedExtAcctBalCB} from './App'
+
+
+/**
+ * Class displaying the accumulated ETH balance from
+ *previous transactions
+ *
+ * @extends React.Component
+ */
+//CurrentETHBal works with callbacks in the parent (Header)
+//to update the external account balance
+//http://johnnyji.me/react/2015/06/26/why-setting-props-as-state-in-react-is-blasphemy.html
+  class CurrentETHBal extends React.Component {
+    constructor(props) {
+      super(props);
+      // no need to set state here because the balance is passed down
+      //from the parent component through props (and re-set in DoChanllenge using callback)
+      //updatedExtAcctBalCB(this.props.currentDevETHBal + 10 ** 18);
+      updatedExtAcctBalCB(this.props.updatedExtAcctBalCB);
+    }
+    combineETHVals(){
+
+      const origETHInt = parseInt(this.props.updatedExtAcctBalCB);
+      //updatedExtAcctBalCB is updated by callback in Home
+      //const newETHInt = parseInt(this.props.ExtAcctBalCB);
+        //const combinedCurrentETHVal = origETHInt + newETHInt;
+        return origETHInt;
+    }
+    render() {
+        //extAcctBal
+        return (
+          <>
+
+          <small>SportRank has contributed:<br></br>
+                {this.combineETHVals() } ETH<br></br>
+                to your favourite sport</small>
+          </>
+        );
+      }
+    }
 
 
 
@@ -28,7 +68,10 @@ class Header extends Component {
     this.state = {
       showModal: false,
       showTooltip: false
+      //updatedExtAcctBalCB: 0
     };
+    //bind the callback function
+    //updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
   //#endregion
 }
 
@@ -38,7 +81,11 @@ class Header extends Component {
    */
   _handleClose() {
     this.setState({ showModal: false });
+
+    updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
   }
+
+
 
   /**
    * Switches to userupdate page
@@ -144,10 +191,11 @@ class Header extends Component {
   }
 
   navHomeOrToUserUpdate(){
+    //TODO: display SportRank Home in white without small tag
     if(this.props.user.username != ''){
-      return  <NavLink exact to="/">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+      return  <NavLink exact to="/"><small>Sportrank HOME</small><small>Decentralized Sport</small></NavLink>
     }else{
-      return <NavLink exact to="/create">Sportrank HOME<small>Decentralized Sport</small></NavLink>
+      return <NavLink exact to="/create"><small>Sportrank HOME</small><small>Decentralized Sport</small></NavLink>
     }
   }
 
@@ -289,11 +337,21 @@ class Header extends Component {
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
-          {this.navHomeOrToUserUpdate()}
 
+            {this.navHomeOrToUserUpdate()}
+            {isLoading ?
+              states.isLoading
+              :
+              isError ?
+                states.isError
+                :
+            <CurrentETHBal updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}
+            />
+          }
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
+
         <Navbar.Collapse>
           <div className='navbar-right'>
             <Navbar.Form>
@@ -316,6 +374,7 @@ class Header extends Component {
                           states.isNotEditable
                         }
                       </Dropdown.Toggle>
+
                       <Dropdown.Menu className="accounts-list">
                         {accts}
                       </Dropdown.Menu>

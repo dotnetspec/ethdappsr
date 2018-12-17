@@ -5,7 +5,8 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
-import {contactNoCB, emailCB, updatedExtAcctBalCB} from './Home'
+import {contactNoCB, emailCB} from './Home'
+import {updatedExtAcctBalCB} from './App'
 //import sendmail from 'sendmail'
 
 /**
@@ -88,8 +89,14 @@ displayContactDetails(){
   //contactNoCB callback function (Home.js)
   contactNoCB(oppoContactNumberTxt);
   emailCB(oppoEmailTxt);
-  updatedExtAcctBalCB(this.props.currentDevETHBal + 10 ** 18)
-
+  //contactNoCB callback function (Header.js)
+  //let tempbalTodisplay = parseInt(this.props.currentDevETHBal) + (10 ** 18);
+  console.log('this.props.currentDevETHBal')
+  console.log(this.props.currentDevETHBal)
+  let tempXternAccountno = parseInt(this.props.currentDevETHBal)
+  //tempXternAccountno += 10 ** 18;
+  tempXternAccountno += 1;
+  updatedExtAcctBalCB(tempXternAccountno)
 }
 
   //#region Component events
@@ -132,12 +139,16 @@ displayContactDetails(){
       JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // estimate gas before sending challenge transaction
-      //const gasEstimate = await sendETHDev.estimateGas({ from: web3.eth.defaultAccount });
+      const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
       // console.log(gasEstimate)
 
-      //REVIEW; Sending ETH code
-      const result = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18 });
+      //console.log('JSONops done')
 
+      //REVIEW; Sending ETH code
+      const result = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
+
+      // console.log('result')
+      // console.log(result)
       // // send the challenge transaction plus a little extra gas in case the contract state
       // // has changed since we've done our gas estimate
       //await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });

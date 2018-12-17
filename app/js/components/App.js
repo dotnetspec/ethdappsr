@@ -39,6 +39,12 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
 //    }
 // }
 
+//Callback function, called in DoChallenge.js and used by Header.js to update the external account
+//balance state
+    export function updatedExtAcctBalCB(updatedExtAcctBalCB) {
+        this.setState({updatedExtAcctBalCB})
+    }
+
 
 /**
  * Class representing the highest order component. Any user
@@ -63,13 +69,20 @@ class App extends Component {
       data: [],
       //data: JSONops._loadsetJSONData(),
       //rank: 0,
-      devAccountBal: 0
+      updatedExtAcctBalCB: 0,
+      isLoading: true
     }
     this._loadsetJSONData();
     //this._getUserRank();
     //this._simplefunct();
+
+    //bind the callback function
+    updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
+
   }
   //#endregion
+
+
 
   //#region Helper methods
 
@@ -85,14 +98,22 @@ _loadsetJSONData(){
   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
   .then((response) => response.json())
   .then((responseJson) => {
-    this.setState({
-      //isLoading: false,
-      data: responseJson,
+    console.log('globalVardevAccountBalResult')
+    console.log(globalVardevAccountBalResult)
+    console.log('responseJson')
+    console.log(responseJson)
 
-    }, function(){
-//console.log(responseJson);
-    });
-
+    //if(globalVardevAccountBalResult > 0 && responseJson != null){
+          this.setState({
+            data: responseJson
+            // ,
+            // updatedExtAcctBalCB: globalVardevAccountBalResult,
+            // isLoading: false
+          }
+      , function(){
+      //console.log(responseJson);
+          });
+    //  }
   })
   .catch((error) => {
     console.error(error);
@@ -142,6 +163,8 @@ _loadsetJSONData(){
 
   _loadCurrentUserAccounts = async () => {
 
+    //this.setState({ isLoading: true });
+
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
 
@@ -149,21 +172,23 @@ _loadsetJSONData(){
       // for populating the accounts dropdown
       await map(accounts, async function (address, next) {
         try {
-          // gets the balance of the address
-          let balance = await web3.eth.getBalance(address);
-          balance = web3.utils.fromWei(balance, 'ether');
-
           // get the owner details for this address from the contract
           const usernameHash = await DSportRank.methods.owners(address).call();
 
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
 
-          let devAccountBalResult = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
-          devAccountBalResult = web3.utils.fromWei(devAccountBalResult, 'ether');
-          devAccountBalResult = formatEth(devAccountBalResult, 3)
-          globalVardevAccountBalResult = devAccountBalResult;
-          console.log(globalVardevAccountBalResult);
+
+          // gets the balance of the address
+          let balance = await web3.eth.getBalance(address);
+          balance = web3.utils.fromWei(balance, 'ether');
+
+//this.setState({ isLoading: false });
+
+
+          // this.setState({
+          //   updatedExtAcctBalCB: devAccountBalResult
+          // });
 
           //devAccountTemp = devAccountBal;
 
@@ -177,7 +202,9 @@ _loadsetJSONData(){
           next(null, {
             address: address,
             user: user,
-            balance: balance
+            balance: balance,
+            //NB: added by me:
+            updatedExtAcctBalCB: globalVardevAccountBalResult
           });
         }
         catch (err) {
@@ -198,8 +225,36 @@ _loadsetJSONData(){
           account: web3.eth.defaultAccount,
           balance: defaultUserAccount.balance
           //,
+          //updatedExtAcctBalCB: devAccountBalResult
+          //,
         });
       });
+  }
+
+  _loadExternalBalance = async () => {
+
+    this.setState({ isLoading: true });
+
+    try {
+
+    let devAccountBalResult = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
+    devAccountBalResult = web3.utils.fromWei(devAccountBalResult, 'ether');
+    globalVardevAccountBalResult =  formatEth(devAccountBalResult, 3)
+
+    console.log('globalVardevAccountBalResult')
+    console.log(globalVardevAccountBalResult)
+
+    this.setState({
+      updatedExtAcctBalCB: devAccountBalResult
+    });
+    this.setState({ isLoading: false });
+    return globalVardevAccountBalResult;
+
+  }catch (err) {
+        return {
+            name: 'default user'
+        };
+    }
   }
 
   /**
@@ -218,8 +273,11 @@ _loadsetJSONData(){
   componentDidMount() {
     EmbarkJS.onReady(() => {
       setTimeout(() => { this._loadCurrentUserAccounts(); }, 0);
+      setTimeout(() => { this._loadExternalBalance(); }, 0);
     });
 
+    console.log('this.state.updatedExtAcctBalCB')
+    console.log(this.state.updatedExtAcctBalCB)
   }
 
 //rank is now obtained by the UserPlayerJsonData component
@@ -231,6 +289,7 @@ _loadsetJSONData(){
     // console.log('this.state.user in didmount')
     // console.log(this.state.user)
     // console.log(JSONops._getUserValue(this.state.data, this.state.user.username, 'RANK'));
+if(!this.state.isLoading){
     return (
       <div>
         <Header
@@ -242,6 +301,7 @@ _loadsetJSONData(){
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
+          updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           />
         <Main
           user={this.state.user}
@@ -251,12 +311,17 @@ _loadsetJSONData(){
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
-          currentDevETHBal={globalVardevAccountBalResult}
+          currentDevETHBal={this.state.updatedExtAcctBalCB}
           //rank={this.getUserRank()}
           />
       </div>
-
     );
+  }else{
+    return (
+    <div>...loading</div>
+  );
+  }
+
   }
   //#endregion
 }

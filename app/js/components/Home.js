@@ -52,33 +52,8 @@ const selectRowPropAfterClickRow = {
 // }
   //#endregion
 
-//CurrentETHBal works with callbacks in the parent (Home)
-//to update the external account balance
-//http://johnnyji.me/react/2015/06/26/why-setting-props-as-state-in-react-is-blasphemy.html
-  class CurrentETHBal extends React.Component {
-    constructor(props) {
-      super(props);
-      // no need to set state here because the balance is passed down from the parent component through props
-    }
-    combineETHVals(){
-      const origETHInt = parseInt(this.props.currentDevETHBal);
-      //updatedExtAcctBalCB is updated by callback in Home
-      const newETHInt = parseInt(this.props.updatedExtAcctBalCB);
-        const combinedCurrentETHVal = origETHInt + newETHInt;
-        return combinedCurrentETHVal;
-    }
-    render() {
-      //extAcctBal
-      return (
-        <div>
-        <h3>Combined challenges on SportRank have contributed:<p></p>
-              {this.combineETHVals() } ETH<p></p>
-        to your favourite sport
-              </h3>
-        </div>
-      );
-    }
-  }
+
+
 
 //REVIEW: Possibly re-factor to clarify code in the Home component
 class UserPlayerJsonData extends Component {
@@ -155,9 +130,6 @@ export function emailCB(emailCB) {
     this.setState({emailCB})
 }
 
-export function updatedExtAcctBalCB(updatedExtAcctBalCB) {
-    this.setState({updatedExtAcctBalCB})
-}
 
 /**
  * Class representing the home page rendering
@@ -176,8 +148,8 @@ class Home extends Component{
       warningText: '',
       rank: 0,
       contactNoCB:'',
-      emailCB:'',
-      updatedExtAcctBalCB: 0
+      emailCB:''
+      //updatedExtAcctBalCB: 0
     }
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
@@ -190,7 +162,7 @@ class Home extends Component{
     updateWarningText = updateWarningText.bind(this);
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
-    updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
+    //updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
 
     //updateText1 = (text) => {this.setState({ text })}
    //REVIEW: not sure about comment below...
@@ -346,7 +318,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
           selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
           user={this.props.user}
           updateTextCB={this.updateText}
-          currentDevETHBal={this.state.updatedExtAcctBalCB}>
+          currentDevETHBal={this.props.currentDevETHBal}>
           </DoChallenge>
         </Modal.Body>
         <Modal.Footer>
@@ -395,16 +367,10 @@ challengeButton(cell, row, enumObject, rowIndex) {
       ))}
       <font color="red">{this.state.warningText}</font><p></p></h3>
       <div>
-
-      <CurrentETHBal currentDevETHBal={this.props.currentDevETHBal}
-      updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
-      />
-
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
       <h3>{this.state.contactNoCB}</h3>
       <h3>{this.state.emailCB}</h3>
-
-
+      
         <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >
               <TableHeaderColumn  isKey dataField='id'
