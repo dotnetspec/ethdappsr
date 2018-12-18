@@ -118,6 +118,7 @@ else{
 
       // tell parent we've updated our user, so the current
       // user is re-fetched to get the user's details
+      //REVIEW: return here?
       return this.props.onAfterUserUpdate();
 
       //return to home page
@@ -164,6 +165,7 @@ else{
 
   _cancelClick(e) {
     try {
+    this.props.onAfterUserUpdate();
     this.props.history.push('/');
     } catch (err) {
     // stop loading state and show the error
@@ -262,7 +264,7 @@ else{
                 value={ picture }
                 onChange={ (e) => this._handleChange(e) }
                 name="picture"
-                label="Profile picture"
+                label="Profile picture (PLEASE IGNORE - THIS FEATURE IS NOT FULLY IMPLEMENTED IN ALPHA)"
                 inputRef={ (input) => this.inputPicture = input }
                 validationState={ formState }
               />

@@ -44,6 +44,8 @@ class Main extends Component {
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
+    // console.log('this.props.contactNoCB')
+    // console.log(this.props.contactNoCB)
     return (
       <main>
         <Switch>
@@ -53,7 +55,7 @@ class Main extends Component {
           updatedExtAcctBalCB={this.props.updatedExtAcctBalCB} />
           It doesn't work. Don't know why
           */}
-          <Route exact path='/' render={(props) => <Home  rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata} updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}/>}/>
+          <Route exact path='/' render={(props) => <Home  rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata} updatedExtAcctBalCB={this.props.updatedExtAcctBalCB} contactNoCB={this.props.contactNoCB} emailCB={this.props.emailCB}/>}/>
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>

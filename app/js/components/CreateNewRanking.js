@@ -90,16 +90,16 @@ _continueClick = () => {
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
     if(this.state.userConfirm){
-              JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
+              //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
-                const createAccount = DSportRank.methods.createAccount(username, description);
+                //const createAccount = DSportRank.methods.createAccount(username, description);
                 // get a gas estimate before sending the transaction
-                const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+                //const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
                 // send the transaction to create an account with our gas estimate
                 // (plus a little bit more in case the contract state has changed).
-                const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+                //const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
                 // check result status. if status is false or '0x0', show user the tx details to debug error
                 if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
                   return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
@@ -128,7 +128,7 @@ _continueClick = () => {
   getUserConfirmationOfAccountCreation(){
     //REVIEW: Fix the validation isLoading if necessary
      const isLoading = false;
-     let  wtext = 'Please ensure your username (' + this.state.username + ') is exactly as you want it'
+     let  wtext = 'Please ensure your new Ranking name (' + this.state.username + ') is exactly as you want it'
             wtext += ' since it CANNOT be changed, even if you de-activate your account!'
     return (
       <div>
@@ -279,7 +279,7 @@ _continueClick = () => {
         </Modal>
         <Row>
           <Col xs={12}>
-          <PageHeader>Create An Account Name<small> for account number:  { this.props.account }</small></PageHeader>
+          <PageHeader>Create A New Ranking Name<small> under this account number:  { this.props.account }</small></PageHeader>
           </Col>
         </Row>
         <Row>
@@ -289,7 +289,7 @@ _continueClick = () => {
                 type="text"
                 value={ this.state.username }
                 disabled={ isLoading }
-                placeholder="No gaps e.g. My_SRAccount1 - Must be unique. Cannot be changed!"
+                placeholder="No gaps e.g. My_Club_Ladder - Must be unique. Cannot be changed!"
                 onKeyPress={ (e) => e.key === '@' || e.key === ' ' ? e.preventDefault() : true }
                 onChange={ (e) => this._handleChange(e) }
                 name="username"

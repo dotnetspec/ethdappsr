@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
-import {contactNoCB, emailCB} from './Home'
+import {contactNoCB, emailCB} from './App'
 
 /**
  * Class that renders a form to allow the user to create

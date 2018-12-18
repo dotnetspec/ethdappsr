@@ -107,15 +107,15 @@ export function updateWarningText(warningText) {
     this.setState({warningText})
 }
 
-//these cb functions update the relevant components
-//DoChallenge.js
-export function contactNoCB(contactNoCB) {
-    this.setState({contactNoCB})
-}
-
-export function emailCB(emailCB) {
-    this.setState({emailCB})
-}
+// //these cb functions update the relevant components
+// //DoChallenge.js
+// export function contactNoCB(contactNoCB) {
+//     this.setState({contactNoCB})
+// }
+//
+// export function emailCB(emailCB) {
+//     this.setState({emailCB})
+// }
 /**
  * Class representing the home page rendering
  *
@@ -142,8 +142,8 @@ class Home extends Component{
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
     updateWarningText = updateWarningText.bind(this);
-    contactNoCB = contactNoCB.bind(this);
-    emailCB = emailCB.bind(this);
+    // contactNoCB = contactNoCB.bind(this);
+    // emailCB = emailCB.bind(this);
   }
   //#endregion
 
@@ -272,9 +272,9 @@ challengeButton(cell, row, enumObject, rowIndex) {
       bgColor: 'gold'
     };
 
-const { rankingJSONdata } = this.props;
-console.log('this.props.rankingJSONdata in Home')
-console.log(rankingJSONdata)
+const { rankingJSONdata, contactNoCB, emailCB } = this.props;
+console.log('contactNoCB in Home')
+console.log(contactNoCB)
     return (
       <div>
 
@@ -339,8 +339,8 @@ console.log(rankingJSONdata)
       <font color="red">{this.state.warningText}</font><p></p></h3>
       <div>
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-      <h3>{this.state.contactNoCB}</h3>
-      <h3>{this.state.emailCB}</h3>
+      <h3>{contactNoCB}</h3>
+      <h3>{emailCB}</h3>
 
         <BootstrapTable options={ this.tablesortoptions } data={rankingJSONdata}
         >
@@ -352,7 +352,7 @@ console.log(rankingJSONdata)
               <TableHeaderColumn  dataField='NAME'
               filter={ { type: 'TextFilter', defaultValue: '' } }
               >
-                Player Name
+                Player Name (Filter)
               </TableHeaderColumn>
 
               <TableHeaderColumn  dataField='RANK' dataSort
@@ -364,7 +364,7 @@ console.log(rankingJSONdata)
               <TableHeaderColumn dataField='CURRENTCHALLENGERNAME'
               filter={ { type: 'TextFilter',  defaultValue: '' } }
               >
-               Current Challenger
+               Current Challenger (Filter)
               </TableHeaderColumn>
 
               <TableHeaderColumn

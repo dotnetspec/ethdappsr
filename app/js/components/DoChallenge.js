@@ -5,8 +5,7 @@ import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
-import {contactNoCB, emailCB} from './Home'
-import {updatedExtAcctBalCB} from './App'
+import {contactNoCB, emailCB, updatedExtAcctBalCB} from './App'
 //import sendmail from 'sendmail'
 
 /**
@@ -86,13 +85,13 @@ displayContactDetails(){
   const oppoEmailTxt = this.props.selectedOpponentName + "'s email address is : " + oppoEmail;
   //const updatedExtAcctBal =
 
-  //contactNoCB callback function (Home.js)
+  //contactNoCB callback function (App.js)
   contactNoCB(oppoContactNumberTxt);
   emailCB(oppoEmailTxt);
   //contactNoCB callback function (Header.js)
   //let tempbalTodisplay = parseInt(this.props.updatedExtAcctBalCB) + (10 ** 18);
-  console.log('this.props.updatedExtAcctBalCB')
-  console.log(this.props.updatedExtAcctBalCB)
+  console.log('oppoContactNumberTxt')
+  console.log(oppoContactNumberTxt)
   let tempXternAccountno = parseInt(this.props.updatedExtAcctBalCB)
   //tempXternAccountno += 10 ** 18;
   tempXternAccountno += 1;
@@ -146,11 +145,11 @@ displayContactDetails(){
       // remove loading state
       this.setState({ isLoading: false });
 
-      //QUESTION: is this the right place for this function?
-      this.displayContactDetails();
-
       // tell parent we've updated a user and to re-fetch user details from the contract
       onAfterChallenge();
+
+      //QUESTION: is this the right place for this function?
+      this.displayContactDetails();
     }
     catch(err){
       // remove loading state and show error message

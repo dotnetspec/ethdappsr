@@ -45,6 +45,18 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
         this.setState({updatedExtAcctBalCB})
     }
 
+    //these cb functions update the relevant components
+    //DoChallenge.js
+    export function contactNoCB(contactNoCB) {
+      console.log('contactNoCB')
+      console.log(contactNoCB)
+        this.setState({contactNoCB})
+    }
+
+    export function emailCB(emailCB) {
+        this.setState({emailCB})
+    }
+
 
 /**
  * Class representing the highest order component. Any user
@@ -70,13 +82,19 @@ class App extends Component {
       //data: JSONops._loadsetJSONData(),
       //rank: 0,
       updatedExtAcctBalCB: 0,
-      isLoading: true
+      isLoading: true,
+      contactNoCB:'',
+      emailCB:''
     }
     //bind the callback function
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
-
+    contactNoCB = contactNoCB.bind(this);
+    emailCB = emailCB.bind(this);
   }
   //#endregion
+
+
+
   //#region Helper methods
 _loadsetJSONData = async () => {
   try {
@@ -248,6 +266,8 @@ if(!this.state.isLoading){
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
+          contactNoCB={this.state.contactNoCB}
+          emailCB={this.state.emailCB}
           //rank={this.getUserRank()}
           />
       </div>
