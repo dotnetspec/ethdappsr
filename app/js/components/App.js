@@ -84,7 +84,8 @@ class App extends Component {
       updatedExtAcctBalCB: 0,
       isLoading: true,
       contactNoCB:'',
-      emailCB:''
+      emailCB:'',
+      usersRankingLists: []
     }
     //bind the callback function
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
@@ -195,6 +196,75 @@ _loadsetJSONData = async () => {
       });
   }
 
+  /**
+   * Originally based on _loadCurrentUserAccounts() (above)
+   * Loads user's rankingLists from the contract.
+   *
+   * This only needs to be done for the currently active account,
+   * first, the owners mapping is queried using the
+   * owner address key. It returns the hash of the username it maps to. This
+   * username hash is then used to query the users mapping in the contract to
+   * get the rankingList of the user. Once the rankingList is returned, the state
+   * is updated with the details, which triggers a render in this component and
+   * all child components.
+   *
+   * @returns {null}
+   */
+
+    _loadRankingLists = async () => {
+
+        // get all the accounts the node controls
+        const accounts = await web3.eth.getAccounts();
+
+        // Generates a mapping of users and accounts to be used
+        // for populating the accounts dropdown
+        await map(accounts, async function (address, next) {
+          try {
+            // get the owner details for this address from the contract
+            const usernameHash = await DSportRank.methods.owners(address).call();
+
+            // get user details from contract
+            const user = await DSportRank.methods.users(usernameHash).call();
+
+            //get the user's RankingLists array
+            //TODO: change to contract code:
+            //const usersRankingLists = await DSportRank.methods.rankingLists(usernameHash).call();
+            // const usersRankingLists = ["5bd82af2baccb064c0bdc92a"];
+            // console.log(usersRankingLists)
+
+            // gets the balance of the address
+            // let balance = await web3.eth.getBalance(address);
+            // balance = web3.utils.fromWei(balance, 'ether');
+
+            // update user picture with ipfs url
+            user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
+
+            // add the following mapping to our result
+            next(null, {
+              address: address,
+              user: user
+              // ,
+              // usersRankingLists: usersRankingLists
+            });
+          }
+          catch (err) {
+            next(err);
+          }
+        }, (err, userAccounts) => {
+          if (err) return this._onError(err, 'App._loadRankingLists');
+
+          const defaultUserAccount = userAccounts.find((userAccount) => {
+            return userAccount.address === web3.eth.defaultAccount;
+          });
+
+          //const userrank = await this._getUserRank();
+
+          // this.setState({
+          //   usersRankingLists: usersRankingLists
+          // });
+        });
+    }
+
 //REVIEW: below based on
 //https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
 //to a (small) degree - anyway it's a useful reference
@@ -235,11 +305,14 @@ _loadsetJSONData = async () => {
   //#region React lifecycle events
   //loading the network functions from here
   componentDidMount() {
+    //this.setState({ isLoading: true });
     EmbarkJS.onReady(() => {
       setTimeout(() => { this._loadsetJSONData(); }, 0);
+      setTimeout(() => { this._loadRankingLists(); }, 0);
       setTimeout(() => { this._loadCurrentUserAccounts(); }, 0);
       setTimeout(() => { this._loadExternalBalance(); }, 0);
     });
+    //this.setState({ isLoading: false });
   }
 
   render() {
@@ -256,6 +329,7 @@ if(!this.state.isLoading){
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
+          usersRankingLists={this.state.usersRankingLists}
           />
         <Main
           user={this.state.user}

@@ -1,78 +1,54 @@
- [
-      {
-        "id":1,
-        "NAME": "player1",
-        "RANK": 1,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0xD1B15d00dc4E025C1138ec659d8C019dCD8671B8",
-        "CURRENTCHALLENGERID": 2,
-        "CURRENTCHALLENGERNAME": "player2",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      },
-      {
-        "id":2,
-        "NAME": "player2",
-        "RANK": 2,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0x437cB63cD79616463f323a66eCB30F8BB1a76166",
-        "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "player3",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      }
-      ,
-      {
-        "id":3,
-        "NAME": "player3",
-        "RANK": 3,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0xaF898B1d26231C3A60CFaA5c2Da16471E57D999C",
-        "CURRENTCHALLENGERID": 3,
-        "CURRENTCHALLENGERNAME": "player4",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      }
-      ,
-      {
-        "id":4,
-        "NAME": "player4",
-        "RANK": 4,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
-        "CURRENTCHALLENGERID": 0,
-        "CURRENTCHALLENGERNAME": "player3",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      }
-      ,
-      {
-        "id":5,
-        "NAME": "player5",
-        "RANK": 5,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
-        "CURRENTCHALLENGERID": 0,
-        "CURRENTCHALLENGERNAME": "AVAILABLE",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      }
-      ,
-      {
-        "id":6,
-        "NAME": "player6",
-        "RANK": 6,
-        "CONTACTNO": 98876655,
-        "EMAIL": "johndoe@jdoe.com",
-        "ACCOUNT": "0x67fdF7E950a2C78B186a5fE6c692bf6EA5994737",
-        "CURRENTCHALLENGERID": 0,
-        "CURRENTCHALLENGERNAME": "AVAILABLE",
-        "DESCRIPTION": "",
-        "ACTIVE": true
-      }
+[
+  {
+    "id": 1,
+    "NAME": "player1",
+    "RANK": 1,
+    "CONTACTNO": "55555555",
+    "EMAIL": "johndoe@java.com",
+    "ACCOUNT": "0xa864Ea9d142C0997572aD7a2077A67a30a853cc0",
+    "CURRENTCHALLENGERID": 0,
+    "CURRENTCHALLENGERNAME": "AVAILABLE",
+    "DESCRIPTION": "FFFFFF",
+    "ACTIVE": true,
+    "DATESTAMP": 1545123836224
+  },
+  {
+    "id": 2,
+    "NAME": "player2",
+    "CONTACTNO": "the dog kennel",
+    "EMAIL": "somewherenice@gmail.com",
+    "RANK": 3,
+    "ACCOUNT": "0x2dCC1bd7852819026981B48479b8C3BE5056C0cd",
+    "CURRENTCHALLENGERID": 0,
+    "CURRENTCHALLENGERNAME": "AVAILABLE",
+    "DESCRIPTION": "the dogs bollocks at everything ",
+    "ACTIVE": true,
+    "DATESTAMP": 1545123125308
+  },
+  {
+    "ACTIVE": true,
+    "DESCRIPTION": "Very keen",
+    "CURRENTCHALLENGERNAME": "AVAILABLE",
+    "CURRENTCHALLENGERID": 0,
+    "ACCOUNT": "0x0f124b4C7Ccb22c79B3A95BB92188a810802ea26",
+    "RANK": 4,
+    "EMAIL": "lkjsf@lksjf.com",
+    "CONTACTNO": "98767654",
+    "NAME": "player3",
+    "id": 3,
+    "DATESTAMP": 1545123836228
+  },
+  {
+    "DATESTAMP": 1545121587603,
+    "ACTIVE": true,
+    "DESCRIPTION": "asdf",
+    "CURRENTCHALLENGERNAME": "AVAILABLE",
+    "CURRENTCHALLENGERID": 0,
+    "ACCOUNT": "0xA87b6b69C139d414D2ca80744dB16172f997a7f7",
+    "RANK": 2,
+    "EMAIL": "asdf",
+    "CONTACTNO": "asdfa",
+    "NAME": "player4",
+    "id": 4
+  }
 ]

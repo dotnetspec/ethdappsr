@@ -43,14 +43,16 @@ class CreateNewRanking extends Component {
     this.state = {
       isLoading: false,
       username: '',
-      contactno: '',
-      email: '',
+      //contactno: '',
+      //email: '',
       description: '',
-      usernameHasChanged: false,
+      ranknameHasChanged: false,
       error: '',
       WarningModalIsOpen: false,
       warningText: '',
-      userConfirm: false
+      userConfirm: false,
+      rankName: '',
+      rankId: ''
     };
   }
 
@@ -62,6 +64,8 @@ _continueClick = () => {
       this.setState({ WarningModalIsOpen: false });
       //console.log('userConfirm in _continueClick2')
     //  console.log(this.state.userConfirm)
+      //get a new rank Id ready
+      this.getNewRankId();
       this._handleClick();
       //console.log('_continueClick');
   }
@@ -75,14 +79,9 @@ _continueClick = () => {
    * @returns {null}
    */
   _handleClick = async () => {
-
-    //console.log(JSONops.createNewUserInJSON());
     //TODO: all the json data for create new user is here ready to be appended to
-    //console.log(this.props.rankingJSONdata);
+    //NB: isLoading is set to false in getNewRankId()
     this.setState({ isLoading: true });
-
-      console.log('this.state.userConfirm')
-      console.log(this.state.userConfirm)
 
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
@@ -94,12 +93,16 @@ _continueClick = () => {
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
-                //const createAccount = DSportRank.methods.createAccount(username, description);
+                //code can be implement within here once new contract has been deployed
+                if(this.state.ranknameHasChanged) {
+                  console.log(this.state.rankId)
+                }
+                //const createRanking = DSportRank.methods.createRanking(this.state.username, this.state.description, this.state.rankName, this.state.rankId);
                 // get a gas estimate before sending the transaction
-                //const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+                //const gasEstimate = await createRanking.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
                 // send the transaction to create an account with our gas estimate
                 // (plus a little bit more in case the contract state has changed).
-                //const result = await createAccount.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+                //const result = await createRanking.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
                 // check result status. if status is false or '0x0', show user the tx details to debug error
                 if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
                   return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
@@ -123,6 +126,40 @@ _continueClick = () => {
             // wtext = ' since it CANNOT be changed, even if you de-activate your account!'
             //   this.setState({ warningText: wtext });
           }
+  }
+
+//TODO:add code to get from jsonbin.io
+getNewRankId = async () => {
+    try{
+    this.setState({ isLoading: true});
+    let req = new XMLHttpRequest();
+      req.onreadystatechange = () => {
+        //this async section tests whether the result
+        //from the code lower down has been returned
+        //(without using await)
+        if (req.readyState == XMLHttpRequest.DONE) {
+          const resulttxt = JSON.parse(req.responseText);
+          //only here can set state (once result is back)
+          this.setState({ rankId: resulttxt.id});
+          this.setState({ ranknameHasChanged: true});
+          this.setState({ isLoading: false});
+          // console.log('this.state.rankId')
+          // console.log(this.state.rankId)
+        }
+      };
+      //NB: following will send the request but
+      //need to wait for the results to come back
+      //(above) before any further processing can be
+      //don
+      req.open("POST", "https://api.jsonbin.io/b", true);
+      req.setRequestHeader("Content-type", "application/json");
+      req.send('{"Player": "Johan Straus"}') || {}
+      }catch (err) {
+      // stop loading state and show the error
+      console.log(err)
+      this.setState({ isLoading: false, error: err.message });
+    };
+      return null;
   }
 
   getUserConfirmationOfAccountCreation(){
@@ -173,18 +210,18 @@ _continueClick = () => {
     const value = e.target.value;
 
     state[input] = value;
-    if (input === 'username') {
-      state.usernameHasChanged = true;
+    if (input === 'ranking') {
+      state.rankingnameHasChanged = true;
       if (value.length >= 5) {
         // ensure we're not already loading the last lookup
         if (!this.state.isLoading) {
-          // call the userExists method in our contract asynchronously
+          // call the rankExists method in our contract asynchronously
           DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
           .then((exists) => {
             // stop loading state
             state.isLoading = false;
             // show error to user if user doesn't exist
-            state.error = exists ? 'Username not available' : '';
+            state.error = exists ? 'Rank name not available' : '';
             this.setState(state);
           }).catch((err) => {
             // stop loading state
@@ -213,20 +250,18 @@ _continueClick = () => {
    * if valid, and error' if invalid
    */
   _getValidationState() {
-
     // considered valid while loading as we don't know yet
     if (this.state.isLoading) return null;
-
     // check that we have at least 5 characters in the username
-    const length = this.state.username.length;
+    const length = this.state.rankName.length;
     if (length === 0){
-      if(this.state.usernameHasChanged) return 'error';
+      if(this.state.rankingnameHasChanged) return 'error';
       return null;
     }
     if (length <= 5) return 'error';
 
     // don't allow '@' or spaces
-    if(new RegExp(/[@\s]/gi).test(this.state.username)) return 'error';
+    if(new RegExp(/[@\s]/gi).test(this.state.rankName)) return 'error';
 
     // if we have an error, returning 'error' shows the user
     // the form is in error (red). Conversely, returning 'success'
@@ -256,9 +291,9 @@ _continueClick = () => {
     const { isLoading } = this.state;
     let validationState = this._getValidationState();
     let isValid = validationState === 'success' && !isLoading && !this.state.error;
-    let feedback = isValid ? 'Username is available' : this.state.error || 'Usernames must be 6 or more characters and cannot include @ or spaces.';
+    let feedback = isValid ? 'Rank name is available' : this.state.error || 'Rank names must be 6 or more characters and cannot include @ or spaces.';
 
-    if (!this.state.usernameHasChanged) feedback = '';
+    if (!this.state.rankingnameHasChanged) feedback = '';
 
     return (
       <Grid>
@@ -279,7 +314,7 @@ _continueClick = () => {
         </Modal>
         <Row>
           <Col xs={12}>
-          <PageHeader>Create A New Ranking Name<small> under this account number:  { this.props.account }</small></PageHeader>
+          <PageHeader>Create A New Ranking Name</PageHeader>
           </Col>
         </Row>
         <Row>
@@ -287,14 +322,14 @@ _continueClick = () => {
             <form onSubmit={ !isValid ? null : (e) => this._continueClick(e) }>
               <FieldGroup
                 type="text"
-                value={ this.state.username }
+                value={ this.state.rankName }
                 disabled={ isLoading }
                 placeholder="No gaps e.g. My_Club_Ladder - Must be unique. Cannot be changed!"
                 onKeyPress={ (e) => e.key === '@' || e.key === ' ' ? e.preventDefault() : true }
                 onChange={ (e) => this._handleChange(e) }
-                name="username"
+                name="rankName"
                 autoComplete="off"
-                label="Desired Account Name (Cannot Be Changed!)"
+                label="Desired Ranking Name (Cannot Be Changed!)"
                 validationState={ validationState }
                 hasFeedback={ true }
                 help={ feedback }
@@ -307,27 +342,11 @@ _continueClick = () => {
               />
               <FieldGroup
                 type="text"
-                value={ this.state.contactno }
-                placeholder="Contact Number"
-                onChange={(e) => this._handleChange(e)}
-                name="contactno"
-                label="Your Contact Number"
-              />
-              <FieldGroup
-                type="text"
-                value={ this.state.email }
-                placeholder="Contact Email"
-                onChange={(e) => this._handleChange(e)}
-                name="email"
-                label="Your Contact Email"
-              />
-              <FieldGroup
-                type="text"
                 value={ this.state.description }
-                placeholder="Additional info e.g. "
+                placeholder="Additional info e.g. Local ranking for our local club"
                 onChange={(e) => this._handleChange(e)}
                 name="description"
-                label="Player Description"
+                label="Ranking Description"
               />
               <Button
                 bsstyle="primary"

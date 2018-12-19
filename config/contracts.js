@@ -43,10 +43,10 @@ module.exports = {
       "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
     contracts: {
-      DSportRank: {
-        address: "0x90305Ee2083d9B0013524dF287639e9Fd1E8Bc17"
-                }
-              },
+     // DSportRank: {
+       //   address: "0x90305Ee2083d9B0013524dF287639e9Fd1E8Bc17"
+       //           }
+               },
     gas: "auto",
     gasLimit: 9000000,
     gasPrice: 100

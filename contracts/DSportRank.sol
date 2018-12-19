@@ -16,6 +16,21 @@ contract DSportRank{
     }
 
     /**
+     * Ranking
+     *
+     * Struct holding the ranking deatils of a new ranking list created by a user.
+     */
+    struct Ranking {
+        uint creationDate;      // date user was created
+        string username;        // username of the user
+        string rankName;        // name of ranking list
+        string rankId;          // id of ranking list (supplied by jsonbin.io)
+        address owner;          // address of the account of user who created the ranking
+        string picture;         // IFPS hash of the ranking's profile picture
+        //string[] challenges;        // array that holds the user's challenges
+    }
+
+    /**
      * users
      *
      * Maps the keccak256 hash of a username to the deatils of the user
@@ -24,6 +39,16 @@ contract DSportRank{
      * {User} the User struct containing the deatils of the user
      */
     mapping (bytes32 => User) public users;
+
+    /**
+     * rankingLists
+     *
+     * Maps the keccak256 hash of a rankName to the deatils of the Ranking
+     *
+     * {bytes32} [KEY] the keccak256 hash of the rankName
+     * {Ranking} the Ranking struct containing the deatils of the Ranking
+     */
+    mapping (bytes32 => Ranking) public rankingLists;
 
 
     /**
@@ -87,6 +112,45 @@ contract DSportRank{
     }
 
     /**
+     * createRanking
+     *
+     * Based on createAccount(above) Creates a ranking based on the user account,
+     * storing the ranking (and ranking details) in the contract.
+     * Additionally, a mapping is created between the owner who created the ranking
+     * (msg.sender) and the keccak256-hash of the ranking name
+     * {string} username - the username of the user
+     * {string} rankName - the rank name
+     * {string} rankId - the rank id (from jsonbin.io)
+     */
+    function createRanking(string username, string rankName, string rankId) public {
+        // ensure a null or empty string wasn't passed in
+        require(bytes(rankName).length > 0);
+
+        // generate the ranking hash using keccak
+        bytes32 rankNameHash = keccak256(abi.encodePacked(rankName));
+
+        // reject if rankName already registered
+        require(rankingLists[rankNameHash].creationDate == 0);
+
+        // reject if sending adddress already created a user
+        //require(owners[msg.sender] == 0);
+
+        // add a Ranking to the Rankings mapping and populate details
+        // (creationDate, owner, username, rankName)
+        rankingLists[rankNameHash].creationDate = now;
+        rankingLists[rankNameHash].owner = msg.sender;
+        rankingLists[rankNameHash].username = username;
+        rankingLists[rankNameHash].rankName = rankName;
+        rankingLists[rankNameHash].rankId = rankId;
+
+        // add entry to our owners mapping so we can retrieve
+        // user by their address
+        //NB: currently assume below is already done
+        //owners[msg.sender] = usernameHash;
+    }
+
+
+    /**
      * editAccount
      *
      * Edits the deteails of a user's profile.
@@ -110,6 +174,25 @@ contract DSportRank{
     }
 
     /**
+     * editRanking
+     *
+     * Edits the picture of a Ranking
+     * {bytes32} usernameHash - the keccak256-hashed rankName of the rank to edit
+     * {string} pictureHash (optional) - the IFPS hash of the user's updated profile picture
+     */
+    function editRanking(bytes32 rankNameHash, string pictureHash) public {
+        // ensure the user exists and that the creator of the rank is the
+        // sender of the transaction
+        require(rankingLists[rankNameHash].owner == msg.sender);
+
+        // only update the user's picture if the hash passed in is
+        // not empty or null (essentially disallows deletions)
+        if (bytes(pictureHash).length > 0) {
+          rankingLists[rankNameHash].picture = pictureHash;
+        }
+    }
+
+    /**
      * userExists
      *
      * Validates whether or not a user has an account in the user mapping
@@ -119,6 +202,18 @@ contract DSportRank{
     function userExists(bytes32 usernameHash) public view returns (bool) {
         // must check a property... bc solidity!
             return users[usernameHash].creationDate != 0;
+    }
+
+    /**
+     * rankingExists
+     *
+     * Validates whether or not a Ranking has an account in the user mapping
+     * {bytes32} rankNameHash - the keccak256-hashed rankName of the Ranking to validate
+     * {bool} - returns true if the hashed rankName exists in the rankingLists mapping, false otherwise
+     */
+    function rankingExists(bytes32 rankNameHash) public view returns (bool) {
+        // must check a property... bc solidity!
+            return rankingLists[rankNameHash].creationDate != 0;
     }
 
     /**
