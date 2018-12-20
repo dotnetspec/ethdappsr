@@ -352,8 +352,6 @@ class Header extends Component {
             <CurrentETHBal updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}
             />
           }
-          Ranking Lists:
-          {this.props.usersRankingLists[0]}
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
