@@ -243,7 +243,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     const { rankingJSONdata } = this.props;
     if(!JSONops.isPlayerAvailableToEnterResultAgainst(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user))
   {
-    console.log(1)
+    //console.log(1)
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
         this.setState({ WarningModalIsOpen: true });
     }else{
@@ -273,8 +273,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
     };
 
 const { rankingJSONdata, contactNoCB, emailCB } = this.props;
-console.log('contactNoCB in Home')
-console.log(contactNoCB)
     return (
       <div>
 

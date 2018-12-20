@@ -204,10 +204,7 @@ class Header extends Component {
   //#region React lifecycle events
 
   render() {
-    console.log('this.props.usersRankingLists')
-    console.log(this.props.usersRankingLists)
-    console.log('this.props.usersRankingLists[0]')
-    console.log(this.props.usersRankingLists[0])
+    
     const { picture, username, description } = this.props.user;
     const isEditable = Boolean(username);
     const isError = this.props.error && this.props.error.message;

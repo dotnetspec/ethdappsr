@@ -44,8 +44,7 @@ class Main extends Component {
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
-    // console.log('this.props.contactNoCB')
-    // console.log(this.props.contactNoCB)
+  
     return (
       <main>
         <Switch>

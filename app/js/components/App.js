@@ -48,8 +48,6 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
     //these cb functions update the relevant components
     //DoChallenge.js
     export function contactNoCB(contactNoCB) {
-      console.log('contactNoCB')
-      console.log(contactNoCB)
         this.setState({contactNoCB})
     }
 
@@ -103,10 +101,8 @@ _loadsetJSONData = async () => {
     await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
      .then((response) => response.json())
      .then((responseJson) => {
-       console.log('responseJson.length')
-       console.log(responseJson.length)
        if(responseJson.length != 0){
-         console.log(responseJson.length)
+         console.log('json returns with length ' + responseJson.length)
              this.setState({
                data: responseJson
              }
