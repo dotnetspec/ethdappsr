@@ -49,6 +49,8 @@ class Userchallenges extends Component {
       // format the user.creationDate for display
       user.creationDate = this._formatDate(user.creationDate);
 
+      console.log(user);
+
       this.setState({user: user});
   }
 
@@ -80,9 +82,8 @@ class Userchallenges extends Component {
        .on('data', (event) => {
          let challenges = this.state.challenges;
          //this.challenges = this.challenges.bind(this);
-         console.log(event.returnValues.challenges);
          challenges.push({
-           content: event.returnValues.challenges,
+           content: event.returnValues.challenge,
            time: this._formatDate(event.returnValues.time)
          });
 

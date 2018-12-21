@@ -128,12 +128,6 @@ displayContactDetails(){
 
     const { username, account, onAfterChallenge } = this.props;
     //this.challengeInput = "at last!";
-
-
-
-
-
-
     //const sendETHDev = DSportRank.methods.sendETHDev();
 
     // using the callback
@@ -141,8 +135,10 @@ displayContactDetails(){
     //but updating the json and callback of the contactNoCB
     try{
 
+      //https://stackoverflow.com/questions/27176838/reactjs-setstate-is-slow
+      //await keyword necessary
       await this.setState(state => {
-      state.challenge= "at last";
+      state.challenge= this.props.user + " vs " + this.props.selectedOpponentName;
        }, ()=>{
          //after callback
          console.log('this.state.challenge')
