@@ -9,6 +9,7 @@ import Error from './Error';
 import React, { Component } from 'react';
 import JSONops from './JSONops'
 import CreateNewRanking from './CreateNewRanking';
+import MyRankingList from './MyRankingList'
 
 /**
  * Class representing the area below the header.
@@ -44,7 +45,7 @@ class Main extends Component {
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
   render () {
-  
+
     return (
       <main>
         <Switch>
@@ -59,6 +60,7 @@ class Main extends Component {
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/newranking/@:username' component={CreateNewRanking} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
+          <PropsRoute path='/myrankinglist/@:username' component={MyRankingList} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/delete/@:username' component={DeactivatePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>

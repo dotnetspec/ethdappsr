@@ -183,12 +183,25 @@ class Header extends Component {
   _handleCreateNewRanking(user) {
     try {
     //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
-      this.props.history.push('/newranking/@:' + user);
+      this.props.history.push('/newranking/@' + user);
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
     };
   }
+
+  _handleRankingList(user) {
+    try {
+    //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+      this.props.history.push('/myrankinglist/@' + user);
+      //this.props.history.push('/@' + this.state.username);
+    } catch (err) {
+    // stop loading state and show the error
+    console.log(err.message);
+    };
+  }
+
+
 
   navHomeOrToUserUpdate(){
     //TODO: display SportRank Home in white without small tag
@@ -204,7 +217,7 @@ class Header extends Component {
   //#region React lifecycle events
 
   render() {
-    
+
     const { picture, username, description } = this.props.user;
     const isEditable = Boolean(username);
     const isError = this.props.error && this.props.error.message;
@@ -320,6 +333,10 @@ class Header extends Component {
       <Button bsStyle="primary" onClick={(e) => this._handleCreateNewRanking(this.props.user[1])}>
         Create New Ranking
       </Button>
+      <Button bsStyle="primary" onClick={(e) => this._handleRankingList(this.props.user[1])}>
+        List My Rankings
+      </Button>
+
 
       {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
         <Modal.Header closeButton>
