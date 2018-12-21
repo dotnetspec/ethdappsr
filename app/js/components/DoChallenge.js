@@ -108,6 +108,8 @@ displayContactDetails(){
    */
   _handleClick = async (e) => {
       console.log('in _handleClick');
+
+
       //NB: there is now no form to send
     // do not post challenge if there is a form error or user has not typed anything
     // if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
@@ -125,21 +127,46 @@ displayContactDetails(){
     this.setState({ isLoading: true });
 
     const { username, account, onAfterChallenge } = this.props;
+    //this.challengeInput = "at last!";
 
-    const challenge = DSportRank.methods.challenge(this.state.challenge);
+
+
+
+
+
     //const sendETHDev = DSportRank.methods.sendETHDev();
 
     // using the callback
     //NB: we are not currently sending challenges to the blockchain
     //but updating the json and callback of the contactNoCB
     try{
-      // estimate gas before sending challenge transaction
-      const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
 
-      //REVIEW; Sending ETH code. Account currently hard coded
-      const result = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
+      await this.setState(state => {
+      state.challenge= "at last";
+       }, ()=>{
+         //after callback
+         console.log('this.state.challenge')
+         console.log(this.state.challenge)
+
+       });
+
+       const challenge = DSportRank.methods.challenge(this.state.challenge);
+
+       // estimate gas before sending challenge transaction
+       const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
+
+       //REVIEW; Sending ETH code. Account currently hard coded
+       const resultSentExtBal = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
+
+       const result = await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+
+       // check result status. if status is false or '0x0', show user the tx details to debug error
+      if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+        return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+      }
 
       //REVIEW: Update must come after sendTransaction() in case e.g. there's not enough gas
+      //otherwise, if this goes through there could be ranking errors etc.
       JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // remove loading state

@@ -43,8 +43,7 @@ import {updatedExtAcctBalCB} from './App'
           <>
 
           <small>SportRank has contributed:<br></br>
-                {this.combineETHVals() } ETH<br></br>
-                to your favourite sport</small>
+                {this.combineETHVals() } ETH to your favourite sport</small>
           </>
         );
       }
@@ -373,7 +372,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <div className='navbar-right'>
             <Navbar.Form>
-
+             <Search />
             </Navbar.Form>
 
             {isLoading ?

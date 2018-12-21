@@ -31,6 +31,7 @@ class Userchallenges extends Component {
 
     // subscribe to challenge events
     //this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent().bind(this);
+
     this._subscribeToNewchallengeEvent(username);
   }
 
@@ -63,23 +64,23 @@ class Userchallenges extends Component {
    _subscribeToNewchallengeEvent(username){
      console.log('_subscribeToNewchallengeEvent');
      const usernameHash = web3.utils.keccak256(username);
-     console.log(this.state.challenges);
+     console.log(usernameHash);
      //console.log(username);
      this.event = DSportRank.events.Newchallenge({
         filter: {_from: usernameHash},
         fromBlock: 1
       }, (err, event) => {
         if (err){
-          console.log('first err');
-          // console.log(this.event);
+          console.log('first err user challenges');
+          //console.log(event.returnValues.challenges);
           //   console.log(this.props);
-          this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
+          //this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
         }
      })
        .on('data', (event) => {
          let challenges = this.state.challenges;
          //this.challenges = this.challenges.bind(this);
-         console.log(challenges);
+         console.log(event.returnValues.challenges);
          challenges.push({
            content: event.returnValues.challenges,
            time: this._formatDate(event.returnValues.time)
@@ -89,6 +90,9 @@ class Userchallenges extends Component {
        })
        .on('error', function(error){
          console.log('second err');
+         console.log('this.props')
+         console.log(this.props)
+         console.log(error)
          this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
        });
  }
@@ -124,6 +128,7 @@ class Userchallenges extends Component {
     EmbarkJS.onReady((err) => {
       this._init();
     });
+
   }
 
   /**

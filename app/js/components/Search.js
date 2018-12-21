@@ -83,7 +83,7 @@ class Search extends Component {
       <FormGroup validationState={validationState}>
         <InputGroup>
           <FormControl
-            style={{width: "310px"}}
+            style={{width: "140px"}}
             type="text"
             value={this.state.username}
             placeholder="Enter opponent name to list your challenges"
