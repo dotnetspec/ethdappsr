@@ -17,7 +17,7 @@ module.exports = {
     account: {
       password: "config/development/password",
       numAccounts: 6,
-      balance: "10 ether"
+      balance: "100 ether"
     },
     targetGasLimit: 10000000000,
     wsOrigins: "auto",

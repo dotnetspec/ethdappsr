@@ -4,6 +4,7 @@ import imgAvatar from '../../img/avatar-default.png';
 import { formatDistance } from 'date-fns/esm'
 import { EventEmitter } from 'events';
 import { withRouter } from 'react-router-dom'
+import EmbarkJS from 'Embark/EmbarkJS';
 
 // Original: The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given

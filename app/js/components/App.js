@@ -39,23 +39,20 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
 //    }
 // }
 
-//Callback function, called in DoChallenge.js and used by Header.js to update the external account
+//Callback functions:
+//called in DoChallenge.js and used by Header.js to update the external account
 //balance state
     export function updatedExtAcctBalCB(updatedExtAcctBalCB) {
         this.setState({updatedExtAcctBalCB})
     }
-
     //these cb functions update the relevant components
     //DoChallenge.js
     export function contactNoCB(contactNoCB) {
         this.setState({contactNoCB})
     }
-
     export function emailCB(emailCB) {
         this.setState({emailCB})
     }
-
-
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -85,14 +82,12 @@ class App extends Component {
       emailCB:'',
       usersRankingLists: []
     }
-    //bind the callback function
+    //bind the callback functions
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
   }
   //#endregion
-
-
 
   //#region Helper methods
 _loadsetJSONData = async () => {
@@ -118,11 +113,8 @@ _loadsetJSONData = async () => {
      return console.error(err);
   }
 }
-
 //REVIEW: Possible to getUserRank in App.js (and set state) rather than Home.js?
 //currently no - problem is waiting for username to check against rank
-
-
 /**
  * Loads user details from the contract for all accounts on the node.
  *
@@ -177,14 +169,14 @@ _loadsetJSONData = async () => {
         const defaultUserAccount = userAccounts.find((userAccount) => {
           return userAccount.address === web3.eth.defaultAccount;
         });
-
         //const userrank = await this._getUserRank();
-
         this.setState({
           userAccounts: userAccounts,
           user: defaultUserAccount.user,
           account: web3.eth.defaultAccount,
-          balance: defaultUserAccount.balance
+          balance: defaultUserAccount.balance,
+          contactNoCB: '',
+          emailCB: ''
           //,
           //updatedExtAcctBalCB: devAccountBalResult
           //,

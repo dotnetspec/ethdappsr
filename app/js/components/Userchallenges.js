@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import imgAvatar from '../../img/avatar-default.png';
 import { formatDistance } from 'date-fns/esm'
 import { EventEmitter } from 'events';
+import EmbarkJS from 'Embark/EmbarkJS';
 
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
@@ -17,7 +18,6 @@ class Userchallenges extends Component {
       challenges: []
     };
     this.event = null;
-    this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent.bind(this);
   }
   //#endregion
 
@@ -28,10 +28,9 @@ class Userchallenges extends Component {
   _init(){
     const { username } = this.props.match.params;
     this._getUserDetails(username);
-
     // subscribe to challenge events
-    //this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent().bind(this);
-
+    //this.getPastEvents();
+    //this.getEvents1();
     this._subscribeToNewchallengeEvent(username);
   }
 
@@ -49,7 +48,7 @@ class Userchallenges extends Component {
       // format the user.creationDate for display
       user.creationDate = this._formatDate(user.creationDate);
 
-      console.log(user);
+      //console.log(user);
 
       this.setState({user: user});
   }
@@ -86,7 +85,8 @@ class Userchallenges extends Component {
            content: event.returnValues.challenge,
            time: this._formatDate(event.returnValues.time)
          });
-
+         console.log('challenges')
+         console.log(challenges)
          this.setState({challenges: challenges});
        })
        .on('error', function(error){
@@ -97,6 +97,76 @@ class Userchallenges extends Component {
          this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
        });
  }
+
+
+  //getPastEvents = async() => {
+  getPastEvents() {
+ // const pastEvent = DSportRank.events.getPastEvents({},{ fromBlock: 0, toBlock: 'latest' }, function(error, event){ console.log(event); })
+ //                        .on('data', function(event){
+ //                              console.log(event);
+ //                        })
+
+ //const eventsWatch = DSportRank.events.allEvents({fromBlock: 0, toBlock: 'latest'});
+ console.log('in getPastEvents')
+
+  let res1 = '';
+  let res2 = '';
+
+  //const DSportRank = require('Embark/contracts/DSportRank');
+  //const DSportRank = require('Embark/contracts/DSportRank');
+
+  const usernameHash = web3.utils.keccak256(this.props.match.params.username);
+console.log('usernameHash')
+console.log(usernameHash)
+const challengeContent = 'txt tot test'
+
+          DSportRank.events.Newchallenge({
+            filter: { _from: usernameHash },
+            fromBlock: 1 // must be > 0!
+          })
+          .on('data', (event) => {
+            console.log(event)
+            res1 = event.returnValues.challenge;
+            res2 = challengeContent;
+          })
+          .on('error', function(error){
+            console.log('second err');
+            console.log('this.props')
+            console.log(this.props)
+            console.log(error)
+            this.props.onError(err, 'UserChallenges.getPastEvents');
+          });
+
+console.log(res1)
+console.log(res2)
+
+      //  const pastEvents = DSportRank.events.Newchallenge({}, { fromBlock: 0, toBlock: 'latest' }).on((error, eventResult) => {
+      //    console.log(pastEvents)
+      //   if (error)
+      //     console.log('Error in myEvent event handler: ' + error);
+      //   else
+      //     console.log('myEvent: ' + JSON.stringify(eventResult.args));
+      // });
+}
+
+getEvents1(){
+
+      var filter = web3.eth.filter({ address: ["0xa864Ea9d142C0997572aD7a2077A67a30a853cc0"], fromBlock: 1, toBlock: "latest" });
+      var i = 0;
+      filter.watch(function (error, result) {
+        console.log("RESULT: Filter " + i++ + ": " + JSON.stringify(result));
+      });
+      filter.stopWatching();
+}
+
+//NB: not implemented yet - might be useful
+// watchEvents(){
+// const eventsWatch = myContract.allEvents();
+//     eventsWatch.watch((err, res) => {
+//       if (err) return;
+//       console.log("Event:", res.event, res.args);
+//     });
+//   }
 
   /**
    * Formats an int date into a displayable date
@@ -151,7 +221,8 @@ class Userchallenges extends Component {
     if(!this.event) return;
     // TODO: check if this is the 'right' way to remove / stop the event listener
     //this.event.removeListener(this.event);
-    this.event.unsubscribe();
+    //REVIEW: if don't comment here get warning in console advising against this code:
+    //this.event.unsubscribe();
   }
 
   render(){

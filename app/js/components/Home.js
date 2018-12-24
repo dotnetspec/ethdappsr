@@ -52,6 +52,14 @@ class UserPlayerJsonData extends Component {
         let textToDisplayChallenger = '';
         let textToDisplayContinue = '';
 
+        //console.log(details);
+
+        //if the json is empty do nothing
+        if (details === null){
+          console.log('json is empty');
+          return null;
+        }
+
         const currentUserRank = details.RANK;
         const currentChallengerName = details.CURRENTCHALLENGERNAME;
 
@@ -98,6 +106,9 @@ class UserPlayerJsonData extends Component {
                  ;}
            }
 }
+
+
+
 
 //NB: this function gets called from sibling Header.js
 //to clear the warning text when user changes account
@@ -158,16 +169,16 @@ class Home extends Component{
    */
   _handleShowChallengeModal() {
     const { rankingJSONdata } = this.props;
-    if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user){
+    if(selectRowPropAfterClickRow.selectedOpponentName === this.props.user.username){
       this.setState({ warningText: ' You cannot challenge yourself!' });
       this.setState({ WarningModalIsOpen: true });
-    }else if(!JSONops.isPlayerLowerRankThanChallengeOpponent(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(!JSONops.isPlayerLowerRankThanChallengeOpponent(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user.username)){
         this.setState({ warningText: ' This opponent is lower than you in the rankings - aim high!' });
         this.setState({ WarningModalIsOpen: true });
-    }else if(JSONops.isPlayerAlreadyChallengingThisOpp(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(JSONops.isPlayerAlreadyChallengingThisOpp(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user.username)){
         this.setState({ warningText: ' You are already challenging this player!' });
         this.setState({ WarningModalIsOpen: true });
-    }else if(!JSONops.isPlayerAvailableToChallenge(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user)){
+    }else if(!JSONops.isPlayerAvailableToChallenge(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user.username)){
         this.setState({ warningText: ' Please allow ongoing challenge(s) to complete ...' });
         this.setState({ WarningModalIsOpen: true });
     }
@@ -190,7 +201,9 @@ onClickChallengeSelected(cell, row, rowIndex){
   //console.log('Product #', rowIndex);
   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-    if(this.props.user != ''){
+  console.log('this.props.user.rankings')
+  console.log(this.props.user.chanllenges)
+    if(this.props.user.username != ''){
       this._handleShowChallengeModal();
     }else{
         this.setState({ warningText: 'Error: Sorry your account is not recognized' });
@@ -241,7 +254,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
   openResultModal = () => {
     //NB: this is a NOT operation!
     const { rankingJSONdata } = this.props;
-    if(!JSONops.isPlayerAvailableToEnterResultAgainst(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user))
+    if(!JSONops.isPlayerAvailableToEnterResultAgainst(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user.username))
   {
     //console.log(1)
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
@@ -260,87 +273,20 @@ challengeButton(cell, row, enumObject, rowIndex) {
     this.setState({ WarningModalIsOpen: false });
   };
 
-  componentDidMount(){
-  }
-
-  render() {
-    const selectRowProp = {
-      mode: 'radio',
-      clickToSelect: true,
-      unselectable: [0],
-      selected: [],
-      bgColor: 'gold'
-    };
-
-const { rankingJSONdata, contactNoCB, emailCB } = this.props;
-    return (
-      <div>
-
-      <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Instructions</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        Would you like to challenge {selectRowPropAfterClickRow.selectedOpponentName} who is ranked {selectRowPropAfterClickRow.selectedOpponentRank}?<p></p>
-         <DoChallenge onAfterChallenge={(e) => this._handleClose()}
-          data={rankingJSONdata}
-          selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
-          user={this.props.user}
-          updateTextCB={this.updateText}
-          updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}>
-          </DoChallenge>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={(e) => this._handleClose(e)}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
-          show={this.state.ResultModalIsOpen}
-        >
-        <Modal.Header closeButton>
-          <Modal.Title>Please enter your result vs {selectRowPropAfterClickRow.selectedOpponentName}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <EnterResult
-        data={rankingJSONdata}
-        selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
-        user={this.props.user}
-        selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
-        onAfterChallenge={this.closeResultModal}>
-        </EnterResult>
-        </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.closeResultModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal
-            show={this.state.WarningModalIsOpen}
-          >
-          <Modal.Header closeButton>
-            <Modal.Title>Please Note!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <font color="red">{this.state.warningText}</font>
-          </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.closeWarningModal}>Close</Button>
-            </Modal.Footer>
-          </Modal>
-
-        <Grid>
-          <Row>
-          <h3>{Object.keys(rankingJSONdata).map(key => (
-         <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user}/>
-      ))}
-      <font color="red">{this.state.warningText}</font><p></p></h3>
-      <div>
-     {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-      <h3>{contactNoCB}</h3>
-      <h3>{emailCB}</h3>
-
-        <BootstrapTable options={ this.tablesortoptions } data={rankingJSONdata}
+  bootstrapTableDisplay(){
+      //if the json is empty and no account re-direct to create user
+      console.log('this.props.rankingJSONdata')
+      console.log(this.props.rankingJSONdata[0])
+      //REVIEW: this should only occur after an Embark re-set and there's no
+      //inital account or data - there may be a better way to test for this
+      if (this.props.rankingJSONdata[0] === null && this.props.user.username === null){
+        console.log('json is empty');
+        this.props.history.push('/create');
+        return null;
+        //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
+      } else {
+      return (
+        <BootstrapTable options={ this.tablesortoptions } data={this.props.rankingJSONdata}
         >
               <TableHeaderColumn  isKey dataField='id'
               hidden>
@@ -387,6 +333,91 @@ const { rankingJSONdata, contactNoCB, emailCB } = this.props;
               </TableHeaderColumn>
 
             </BootstrapTable>
+          )
+        }
+  }
+
+  componentDidMount(){
+  }
+
+  render() {
+    const selectRowProp = {
+      mode: 'radio',
+      clickToSelect: true,
+      unselectable: [0],
+      selected: [],
+      bgColor: 'gold'
+    };
+
+const { rankingJSONdata, contactNoCB, emailCB } = this.props;
+    return (
+      <div>
+
+      <Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Instructions</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        Would you like to challenge {selectRowPropAfterClickRow.selectedOpponentName} who is ranked {selectRowPropAfterClickRow.selectedOpponentRank}?<p></p>
+         <DoChallenge onAfterChallenge={(e) => this._handleClose()}
+          data={rankingJSONdata}
+          selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
+          user={this.props.user.username}
+          updateTextCB={this.updateText}
+          updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}
+          >
+          </DoChallenge>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={(e) => this._handleClose(e)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+          show={this.state.ResultModalIsOpen}
+        >
+        <Modal.Header closeButton>
+          <Modal.Title>Please enter your result vs {selectRowPropAfterClickRow.selectedOpponentName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <EnterResult
+        data={rankingJSONdata}
+        selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
+        user={this.props.user.username}
+        selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
+        onAfterChallenge={this.closeResultModal}>
+        </EnterResult>
+        </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeResultModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+            show={this.state.WarningModalIsOpen}
+          >
+          <Modal.Header closeButton>
+            <Modal.Title>Please Note!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <font color="red">{this.state.warningText}</font>
+          </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeWarningModal}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+
+        <Grid>
+          <Row>
+          <h3>{Object.keys(rankingJSONdata).map(key => (
+         <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user.username}/>
+      ))}
+      <font color="red">{this.state.warningText}</font><p></p></h3>
+      <div>
+     {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
+      <h3>{this.props.contactNoCB}</h3>
+      <h3>{this.props.emailCB}</h3>
+      {this.bootstrapTableDisplay()}
           </div>
 
             <Col xs={12}>

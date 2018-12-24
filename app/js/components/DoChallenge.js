@@ -125,8 +125,8 @@ displayContactDetails(){
 
     // show loading state
     this.setState({ isLoading: true });
-
-    const { username, account, onAfterChallenge } = this.props;
+    //REVIEW: I don't see how these props from orig are used
+    //const { username, account, onAfterChallenge } = this.props;
     //this.challengeInput = "at last!";
     //const sendETHDev = DSportRank.methods.sendETHDev();
 
@@ -151,13 +151,27 @@ displayContactDetails(){
        // estimate gas before sending challenge transaction
        const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
 
-       //REVIEW; Sending ETH code. Account currently hard coded
-       const resultSentExtBal = await web3.eth.sendTransaction({ from: account, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
 
-       const result = await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 1000 });
+       //REVIEW; Sending ETH code. Account currently hard coded
+       const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
+
+       // console.log('account')
+       // console.log(account)
+       console.log('web3.eth.defaultAccount')
+       console.log(web3.eth.defaultAccount)
+
+       if (resultSentExtBal.status && !Boolean(resultSentExtBal.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+         return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(resultSentExtBal) });
+       }
+       console.log('gasEstimate')
+       console.log(gasEstimate)
+       //REVIEW: not currently sure why gasEstimate not working the same as for sendTransaction above
+       //currently set with addon 10X higher
+       const result = await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 100000 });
 
        // check result status. if status is false or '0x0', show user the tx details to debug error
       if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+        //console.log(result)
         return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
       }
 
@@ -169,12 +183,14 @@ displayContactDetails(){
       this.setState({ isLoading: false });
 
       // tell parent we've updated a user and to re-fetch user details from the contract
-      onAfterChallenge();
+      this.props.onAfterChallenge();
 
       //QUESTION: is this the right place for this function?
       this.displayContactDetails();
     }
     catch(err){
+      //console.log(result)
+      console.log(err)
       // remove loading state and show error message
       this.setState({ isLoading: false, error: err.message });
     }

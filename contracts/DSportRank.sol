@@ -15,7 +15,6 @@ contract DSportRank{
         string[] challenges;    // array that holds the user's challenges
         string[] rankings;      //array that holds the user's rankings ids(possibly names as well tbc)
     }
-
     /**
      * users
      *
@@ -25,7 +24,6 @@ contract DSportRank{
      * {User} the User struct containing the deatils of the user
      */
     mapping (bytes32 => User) public users;
-
     /**
      * owners
      *
@@ -37,7 +35,6 @@ contract DSportRank{
      * {bytes32} the keccak256 hash of the username
      */
     mapping (address => bytes32) public owners;
-
     /**
      * Newchallenge
      *
@@ -51,7 +48,6 @@ contract DSportRank{
         string challenge,
         uint time
     );
-
     /**
      * createAccount
      *
@@ -64,23 +60,18 @@ contract DSportRank{
     function createAccount(string username, string description) public {
         // ensure a null or empty string wasn't passed in
         require(bytes(username).length > 0);
-
         // generate the username hash using keccak
         bytes32 usernameHash = keccak256(abi.encodePacked(username));
-
         // reject if username already registered
         require(users[usernameHash].creationDate == 0);
-
         // reject if sending adddress already created a user
         require(owners[msg.sender] == 0);
-
         // add a user to the users mapping and populate details
         // (creationDate, owner, username, description)
         users[usernameHash].creationDate = now;
         users[usernameHash].owner = msg.sender;
         users[usernameHash].username = username;
         users[usernameHash].description = description;
-
         // add entry to our owners mapping so we can retrieve
         // user by their address
         owners[msg.sender] = usernameHash;
@@ -98,18 +89,14 @@ contract DSportRank{
         // ensure the user exists and that the creator of the user is the
         // sender of the transaction
         require(users[usernameHash].owner == msg.sender);
-
         // update the description (could be empty)
         users[usernameHash].description = description;
-
         // only update the user's picture if the hash passed in is
         // not empty or null (essentially disallows deletions)
         if (bytes(pictureHash).length > 0) {
           users[usernameHash].picture = pictureHash;
         }
     }
-
-
     /**
      * userExists
      *
@@ -121,9 +108,6 @@ contract DSportRank{
         // must check a property... bc solidity!
             return users[usernameHash].creationDate != 0;
     }
-
-
-
     /**
      * challenge
      *
@@ -150,7 +134,6 @@ contract DSportRank{
         // emit the challenge event and notify the listeners
         emit Newchallenge(usernameHash, content, now);
     }
-
     /**
      * Ranking list
      *
@@ -176,5 +159,4 @@ contract DSportRank{
         // emit the challenge event and notify the listeners
         //emit Newchallenge(usernameHash, content, now);
     }
-
 }
