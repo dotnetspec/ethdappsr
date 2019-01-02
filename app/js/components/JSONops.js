@@ -119,6 +119,17 @@ const JSONops = {
        }
     },
 
+    isJSONEmpty: function(originalData){
+      let createNewJSONuserObj = {
+        jsonRS: originalData
+        };
+      if(createNewJSONuserObj.jsonRS.length < 2){
+        return true;
+      }else{
+        return false;
+      }
+},
+
     createNewUserInJSON: function(originalData, username, contactno, email, accountno, description){
 
         let createNewJSONuserObj = {
@@ -133,7 +144,21 @@ const JSONops = {
         //TODO: this is 'currentuser' elasewhere
         nextIDandInitialRankObj.lookupKey = username;
 
-        const nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
+        //let nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
+        //we are adding 1 to the length by default now due to the addition of
+        //the ranking object. So we can just set it to the json length.
+        let nextIDandInitialRank = createNewJSONuserObj.jsonRS.length;
+
+        console.log('createNewJSONuserObj.jsonRS.length')
+        console.log(createNewJSONuserObj.jsonRS.length)
+        console.log(2)
+
+        //if it's a completely new json length will be 1
+        if(createNewJSONuserObj.jsonRS.length < 2){
+          console.log('json was new and had no existing data')
+          //ensure nextIDandInitialRank is correctly initialized to 1
+          nextIDandInitialRank = 1;
+        }
 
         //QUESTION: it appears the data needs to be sent in reverse order - why?
         const newData = {
@@ -345,13 +370,44 @@ const JSONops = {
     },
 
       //add 1 to existing length of json obj array to obtain a new id number
-      getNextID: function(data){
-        const add1toLengthtogetID = data.length + 1;
-        return add1toLengthtogetID;
-      },
+      // getNextID: function(data){
+      //   const add1toLengthtogetID = data.length + 1;
+      //   return add1toLengthtogetID;
+      // },
+
+      // doesJSONContainRankingID: function(data){
+      //   console.log('data')
+      //   console.log(data)
+      //   let doesJSONContainRankingIDObj = {
+      //     jsonRS: data
+      //     };
+      //     //used for return value below
+      //     let doesJSONContainRankingID = false;
+      //     doesJSONContainRankingIDObj.lookupField = "RANKINGID";
+      //     doesJSONContainRankingIDObj.lookupKey = currentUser;
+      //       for (var i = 0; i < doesJSONContainRankingIDObj.jsonRS.length; i++) {
+      //         //REVIEW: line below should only occur in dev with no RankingId assigned
+      //         if(doesJSONContainRankingIDObj.jsonRS[i] === null){
+      //           return false;
+      //         }
+      //           if (doesJSONContainRankingIDObj.jsonRS[i][doesJSONContainRankingIDObj.lookupField] === doesJSONContainRankingIDObj.lookupKey || doesJSONContainRankingIDObj.lookupKey === '*') {
+      //             doesJSONContainRankingID = true;
+      //           }
+      //       }
+      //       if (doesJSONContainRankingID === true){
+      //         return true;
+      //       }
+      //       else {
+      //         return false;
+      //       }
+      // },
 
       //apart from IN/ACTIVE is player listed at all?
       isPlayerListedInJSON: function(data, currentUser){
+        console.log('data')
+        console.log(data)
+        console.log('currentUser')
+        console.log(currentUser)
         let isPlayerListedInJSONObj = {
           jsonRS: data
           };
@@ -360,6 +416,10 @@ const JSONops = {
           isPlayerListedInJSONObj.lookupField = "NAME";
           isPlayerListedInJSONObj.lookupKey = currentUser;
             for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
+              //REVIEW: line below should only occur in dev with no RankingId assigned
+              if(isPlayerListedInJSONObj.jsonRS[i] === null){
+                return false;
+              }
                 if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
                   isPlayerListed = true;
                 }
@@ -468,6 +528,18 @@ const JSONops = {
             }
       },
 
+        isRankingIDInvalid: function(data){
+          console.log('data in isRankingIDInvalid')
+          //var temp = JSON.parse(data);
+          console.log(data)
+          console.log(data.RANKINGID)
+          if(data[0] === null || data.RANKINGID === ''){
+            return true;
+          }else{
+            return false;
+          }
+        },
+
       isPlayerAlreadyChallengingThisOpp: function(data, opponentName, user){
         let isPlayerAlreadyChallengingThisOppObj = {
           jsonRS: data
@@ -507,6 +579,18 @@ const JSONops = {
             }
       },
 
+      getIdNoFromJsonbinResponse: function(data){
+        let dataObj = {
+          jsonRS: data
+          };
+          let jsonresult = JSON.parse(dataObj.jsonRS);
+          console.log('jsonresult')
+          // console.log(jsonresult)
+          // console.log('jsonresult.RANKINGID')
+          console.log(jsonresult.id)
+          return jsonresult.id;
+      },
+
     _sendJSONData: function(data){
       let req = new XMLHttpRequest();
 
@@ -528,19 +612,85 @@ const JSONops = {
           req.send(myJsonString);
   },
 
-  _sendCreateNewRankingJSONData: function(data){
+//TODO: all functions using _sendJSONData will need to be updated to use this
+//one that includes the rankingID
+  _sendJSONDataWithRankingID: function(data, rankingID){
+    let httpString = "https://api.jsonbin.io/b/";
+    //httpString += rankingID + '"';
+    httpString += rankingID;
+    let req = new XMLHttpRequest();
+
+        req.onreadystatechange = () => {
+          if (req.readyState == XMLHttpRequest.DONE) {
+            console.log('req.responseText in _sendJSONDataWithRankingID');
+            console.log(req.responseText);
+          }
+        };
+        //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+        //JSON data can and should be in ANY order
+        //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+        //use above to edit manually.
+        //to view latest https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest
+
+        req.open("PUT", httpString, true);
+        req.setRequestHeader("Content-type", "application/json");
+        var myJsonString = JSON.stringify(data);
+        console.log('httpString');
+        console.log(httpString);
+        console.log('data');
+        console.log(data);
+        console.log('myJsonString');
+        console.log(myJsonString);
+        req.send(myJsonString);
+        //return null;
+},
+
+  _sendCreateNewRankingJSONData:  function(rankStr){
+      let response = '';
+      let httpString = "https://api.jsonbin.io/b/";
+      let rankingID = '';
+      let jsonToSend = '{"RANKINGID":"';
       let req = new XMLHttpRequest();
 
-          req.onreadystatechange = () => {
+           req.onreadystatechange = () => {
             if (req.readyState == XMLHttpRequest.DONE) {
               console.log(req.responseText);
+              response = req.responseText;
+              console.log('response')
+              console.log(response)
+              rankingID = this.getIdNoFromJsonbinResponse(response);
+              console.log('rankingID')
+               console.log(rankingID)
+               //httpString += rankingID;
+               //jsonToSend += rankingID + '"}';
+               jsonToSend += rankingID + rankStr;
+               console.log('jsonToSend')
+               console.log(jsonToSend)
+               jsonToSend = JSON.parse(jsonToSend);
+              this._sendJSONDataWithRankingID(jsonToSend, rankingID);
+              //re-send the response with the new id inserted
+
             }
           };
 
-          req.open("POST", "https://api.jsonbin.io/b", true);
-          req.setRequestHeader("Content-type", "application/json");
-          let response = req.send('{"Sample": "Hello World"}');
-          console.log(response);
+          console.log('rankingID b4')
+           console.log(rankingID)
+
+
+           httpString += rankingID;
+           console.log('httpString')
+         console.log(httpString)
+
+           req.open("POST", httpString, true);
+           req.setRequestHeader("Content-type", "application/json");
+          response = req.send('{"RANKINGID": "' + rankingID + '"}');
+         //  req.open("POST", httpString, true);
+         //  req.setRequestHeader("Content-type", "application/json");
+         // response = req.send('{"RANKINGID": "' + rankingID + '"}');
+          //response = req.send();
+
+           return null;
+           //return response;
       }
 }
 

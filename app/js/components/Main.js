@@ -9,7 +9,7 @@ import Error from './Error';
 import React, { Component } from 'react';
 import JSONops from './JSONops'
 import CreateNewRanking from './CreateNewRanking';
-import MyRankingList from './MyRankingList'
+import UserRankings from './UserRankings'
 
 /**
  * Class representing the area below the header.
@@ -34,12 +34,14 @@ class Main extends Component {
 
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
-  // async componentDidMount() {
-  //   // console.log(this.props.rankingJSONdata);
-  //   let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
-  //    console.log(currentUserRank);
-  //   this.setState({ rank: currentUserRank });
-  // }
+  componentDidMount() {
+    // console.log(this.props.rankingJSONdata);
+    //let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
+    // let currentUserRank =  JSONops._getUserValue(this.props.rankingJSONdata, this.props.user[1], "RANK");
+    // //JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
+    //  console.log(currentUserRank);
+    // this.setState({ rank: currentUserRank });
+  }
 
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   //but need to pass the username and display it as a greeting and to link account with json data
@@ -54,13 +56,18 @@ class Main extends Component {
           <Route exact path='/' component={Home}  {...this.props} rank={this.props.rank} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}
           updatedExtAcctBalCB={this.props.updatedExtAcctBalCB} />
           It doesn't work. Don't know why
+          //NB: below changed to PropsRoute
+          <Route exact path='/' component={Home}  {...this.props} />
+
           */}
-          <Route exact path='/' render={(props) => <Home  rank={this.props.rank} user={this.props.user} rankingJSONdata={this.props.rankingJSONdata} updatedExtAcctBalCB={this.props.updatedExtAcctBalCB} contactNoCB={this.props.contactNoCB} emailCB={this.props.emailCB}/>}/>
+
+
+          <PropsRoute exact path='/' component={Home}  {...this.props} />
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/newranking/@:username' component={CreateNewRanking} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
-          <PropsRoute path='/myrankinglist/@:username' component={MyRankingList} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
+          <PropsRoute path='/userrankings/@:username' component={UserRankings} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/delete/@:username' component={DeactivatePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>
         </Switch>

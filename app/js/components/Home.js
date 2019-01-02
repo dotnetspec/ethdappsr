@@ -56,7 +56,7 @@ class UserPlayerJsonData extends Component {
 
         //if the json is empty do nothing
         if (details === null){
-          console.log('json is empty');
+          console.log('json is empty 2');
           return null;
         }
 
@@ -146,10 +146,13 @@ class Home extends Component{
       contactNoCB:'',
       emailCB:''
     }
+
     this.tablesortoptions = {
      defaultSortName: 'RANK',  // default sort column name
      defaultSortOrder: 'asc'  // default sort order
    };
+
+
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
     updateWarningText = updateWarningText.bind(this);
@@ -187,6 +190,8 @@ class Home extends Component{
       this.setState({ warningText: '' });
       }
 }
+
+
 
 //TODO: use https://reactjs.org/docs/faq-state.html
 //and code below for better setting of rank in state (perhaps?)
@@ -273,14 +278,121 @@ challengeButton(cell, row, enumObject, rowIndex) {
     this.setState({ WarningModalIsOpen: false });
   };
 
+//REVIEW: Managing display here might be handled differently:
+  userPlayerJsonDataDisplay(){
+    // console.log('this.props.rankingJSONdata')
+    // console.log(this.props.rankingJSONdata)
+    // return(
+    //   <h3>{Object.keys(this.props.rankingJSONdata).map(key => (
+    //   <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user.username}/>
+    //   ))}
+    //   <font color="red">{this.state.warningText}</font><p></p></h3>
+    // )
+
+    // const currentUserRank = '4';
+    // const textToDisplayRank = 'Your current rank is: ' + currentUserRank;
+    // console.log('1');
+    // return (<h3>{ textToDisplayRank  }</h3>);
+
+    //const { details} = this.props;
+    let textToDisplayRank = '';
+    let textToDisplayChallenger = '';
+    let textToDisplayContinue = '';
+
+    //console.log(1);
+
+    //if the json is empty do nothing
+    if (this.props.rankingJSONdata[0] === null){
+      console.log('json is empty inside userPlayerJsonDataDisplay');
+      //const newjsonRankingId = JSONops._sendCreateNewRankingJSONData();
+      //this.sendCreateNewRankingJSONData();
+      //console.log(newjsonRankingId);
+      return null;
+    }
+
+    //const currentUserRank = details.RANK;
+    const currentUserRank = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "RANK");
+    const currentChallengerName = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "CURRENTCHALLENGERNAME");
+    //const currentChallengerName = details.CURRENTCHALLENGERNAME;
+
+    textToDisplayRank = 'Your current rank is: ' + currentUserRank;
+    //console.log(details.RANK);
+      //if (details.NAME === this.props.username && details.ACTIVE === true)
+      //REVIEW: possible this extra check on user name not necessary
+      const currentUserName = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "NAME");
+      const activeBool = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "ACTIVE");
+      if (currentUserName === this.props.user.username && activeBool)
+        {
+            //console.log(details.RANK);
+            if(currentChallengerName != 'AVAILABLE'){
+              textToDisplayChallenger = 'Your current challenge is VS ' + currentChallengerName;
+              textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
+
+            }else{
+                textToDisplayChallenger += 'You do NOT currently have a challenge'
+                textToDisplayContinue += 'Please select an AVAILABLE opponent (below) to challenge: '
+            }
+
+          return (
+            <div>
+                {this.props.user.username}
+              <p></p>
+                { textToDisplayRank }
+              <p></p>
+                { textToDisplayChallenger }
+              <p></p>
+                { textToDisplayContinue }
+            </div>)
+          }else
+            if (currentUserName === this.props.user.username && !activeBool){
+            //if (details.NAME === this.props.username && details.ACTIVE === false){
+                //this.setState({ activateText: 'Your account currently has no player associated with it' });
+               //this.props.history.push('/update/@' + this.props.username);
+              return (
+                <div>
+                  Your player is currently deactivated!<p></p>
+                  Click Reactivate (top  menu) to re-enter the rankings (at the bottom)
+               </div>)
+              ;}
+              else {
+                  //this.setState({ activateText: 'Your account currently has no player associated with it' });
+                 //this.props.history.push('/update/@' + this.props.username);
+                return (
+                 null)
+                ;}
+  }
+
+  preprocessDataBeforeRender(){
+    console.log('preprocessDataBeforeRender')
+    console.log('this.props.isRankingIDInvalid')
+    console.log(this.props.isRankingIDInvalid)
+    if(this.props.isRankingIDInvalid){
+      this.props.history.push('/create');
+    }
+
+    if (JSONops.isJSONEmpty(this.props.rankingJSONdata) && this.props.user.username === null){
+
+      console.log('json is empty and there is no username');
+      this.props.history.push('/create');
+      return null;
+      //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
+    }
+
+  }
+
   bootstrapTableDisplay(){
       //if the json is empty and no account re-direct to create user
-      console.log('this.props.rankingJSONdata')
-      console.log(this.props.rankingJSONdata[0])
+      // console.log('this.props.rankingJSONdata')
+      // console.log(this.props.rankingJSONdata[0])
+      // console.log('this.props.user.username')
+      // console.log(this.props.user.username)
       //REVIEW: this should only occur after an Embark re-set and there's no
       //inital account or data - there may be a better way to test for this
-      if (this.props.rankingJSONdata[0] === null && this.props.user.username === null){
-        console.log('json is empty');
+
+      //if (this.props.rankingJSONdata[0] === null && this.props.user.username === null){
+      if (JSONops.isJSONEmpty(this.props.rankingJSONdata) && this.props.user.username === null){
+
+        console.log('json is empty and there is no username');
         this.props.history.push('/create');
         return null;
         //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
@@ -337,7 +449,69 @@ challengeButton(cell, row, enumObject, rowIndex) {
         }
   }
 
+  sendCreateNewRankingJSONData(){
+      let response = '';
+      let httpString = "https://api.jsonbin.io/b/";
+      let rankingID = '';
+      let jsonToSend = '{"RANKINGID":"';
+      let req = new XMLHttpRequest();
+
+          req.onreadystatechange = () => {
+            if (req.readyState == XMLHttpRequest.DONE) {
+              console.log(req.responseText);
+              response = req.responseText;
+              console.log('response')
+              console.log(response)
+              rankingID = JSONops.getIdNoFromJsonbinResponse(response);
+              console.log('rankingID')
+               console.log(rankingID)
+               //httpString += rankingID;
+               jsonToSend += rankingID + '"}';
+               console.log(jsonToSend)
+               jsonToSend = JSON.parse(jsonToSend);
+              //this._sendJSONDataWithRankingID(jsonToSend, rankingID);
+              //re-send the response with the new id inserted
+
+            }
+          };
+
+           rankingID = JSONops.getIdNoFromJsonbinResponse(response);
+           console.log('rankingID b4')
+            console.log(rankingID)
+           httpString += rankingID;
+           jsonToSend += rankingID + '"}';
+           console.log(jsonToSend)
+           jsonToSend = JSON.parse(jsonToSend);
+           console.log('httpString')
+         console.log(httpString)
+
+          //  req.open("POST", httpString, true);
+          //  req.setRequestHeader("Content-type", "application/json");
+          // response = req.send('{"RANKINGID": "' + rankingID + '"}');
+          req.open("POST", httpString, true);
+          req.setRequestHeader("Content-type", "application/json");
+         //response = req.send('{"RANKINGID": "' + rankingID + '"}');
+         response = req.send(jsonToSend);
+          //response = req.send();
+
+           return null;
+           //return response;
+
+}
+
   componentDidMount(){
+
+    //this.props.history.push('/create');
+// console.log('this.props.rankingJSONdata[0] in componentDidMount')
+// console.log(this.props.rankingJSONdata[0])
+    // if (typeof this.props.rankingJSONdata[0] === 'undefined'){
+    //   //console.log('json is empty 5');
+    //   //const newjsonRankingId = JSONops._sendCreateNewRankingJSONData();
+    //   //this.sendCreateNewRankingJSONData();
+    //   //console.log(newjsonRankingId);
+    //   return null;
+    // }
+
   }
 
   render() {
@@ -348,6 +522,31 @@ challengeButton(cell, row, enumObject, rowIndex) {
       selected: [],
       bgColor: 'gold'
     };
+
+      this.preprocessDataBeforeRender();
+
+    const { username } = this.props.user;
+
+    let isError = this.props.error && this.props.error.message;
+    //XXX: temp to run
+    isError = false;
+    const isLoading = !Boolean(this.props.account) && !isError;
+
+    // console.log('isLoading in home')
+    // console.log(isLoading)
+    // console.log('this.props.account')
+    // console.log(this.props.account)
+    // console.log('isError')
+    // console.log(isError)
+
+    let states = {};
+
+    // state when we are waiting for the App component to finish loading
+    // the current account (address) from web3.eth.getAccounts()
+    states.isLoading = <Spinner name="pacman" color="white" fadeIn='none' />;
+
+    states.isError = <span className='error'>ERROR!</span>;
+
 
 const { rankingJSONdata, contactNoCB, emailCB } = this.props;
     return (
@@ -409,15 +608,19 @@ const { rankingJSONdata, contactNoCB, emailCB } = this.props;
 
         <Grid>
           <Row>
-          <h3>{Object.keys(rankingJSONdata).map(key => (
-         <UserPlayerJsonData key={key} details={rankingJSONdata[key]} username={this.props.user.username}/>
-      ))}
-      <font color="red">{this.state.warningText}</font><p></p></h3>
+          {isLoading ?
+            states.isLoading
+            :
+            isError ?
+              states.isError
+              :
+              this.userPlayerJsonDataDisplay()
+            }
       <div>
      {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
       <h3>{this.props.contactNoCB}</h3>
       <h3>{this.props.emailCB}</h3>
-      {this.bootstrapTableDisplay()}
+ {this.bootstrapTableDisplay()}
           </div>
 
             <Col xs={12}>

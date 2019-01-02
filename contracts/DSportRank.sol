@@ -48,6 +48,21 @@ contract DSportRank{
         string challenge,
         uint time
     );
+
+    /**
+     * Newranking
+     *
+     * Event to be emitted once a new ranking list is stored in the contract
+     * {bytes32} _from - keccak256-hashed username of user who posted the ranking.
+     *                          This field is indexed so it can be filtered.
+     * {string} ranking - the ranking contents
+     */
+    event Newranking(
+        bytes32 indexed _from,
+        string ranking,
+        uint time
+    );
+
     /**
      * createAccount
      *
@@ -157,6 +172,6 @@ contract DSportRank{
         user.rankings[rankingIndex] = content;
 
         // emit the challenge event and notify the listeners
-        //emit Newchallenge(usernameHash, content, now);
+        emit Newranking(usernameHash, content, now);
     }
 }

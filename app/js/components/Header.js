@@ -27,6 +27,7 @@ import {updatedExtAcctBalCB} from './App'
       // no need to set state here because the balance is passed down
       //from the parent component through props (and re-set in DoChanllenge using callback)
       //updatedExtAcctBalCB(this.props.updatedExtAcctBalCB + 10 ** 18);
+
       updatedExtAcctBalCB(this.props.updatedExtAcctBalCB);
     }
     combineETHVals(){
@@ -69,9 +70,9 @@ class Header extends Component {
       showTooltip: false
       //updatedExtAcctBalCB: 0
     };
-    //bind the callback function
-    //updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
+
   //#endregion
+
 }
 
   //#region Component events
@@ -192,7 +193,7 @@ class Header extends Component {
   _handleRankingList(user) {
     try {
     //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
-      this.props.history.push('/myrankinglist/@' + user);
+      this.props.history.push('/userrankings/@' + user);
       //this.props.history.push('/@' + this.state.username);
     } catch (err) {
     // stop loading state and show the error
@@ -211,13 +212,31 @@ class Header extends Component {
     }
   }
 
+  ifUserIsntInJsonGoToCreateUser(){
+    //REVIEW: Had difficulty placing this code elsewhere without props.history undefined errors etc.
+    //If the account user doesn't match any record in json go straight to create,
+    //this is mainly useful for dev following Embark reset and json reset
+    if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user)){
+      console.log('isPlayerListedInJSON 1')
+      //this.props.history.push('/create');
+      //return <NavLink exact to="/create"><small>This account is not currently listed in this ranking. Click to join it?</small></NavLink>
+    }
+  }
+
+componentDidMount(){
+
+}
+
+
   //#endregion
 
   //#region React lifecycle events
 
   render() {
 
-    const { picture, username, description } = this.props.user;
+    const { picture, username, description, usersRankingLists } = this.props.user;
+    console.log('usersRankingLists')
+    console.log(usersRankingLists)
     const isEditable = Boolean(username);
     const isError = this.props.error && this.props.error.message;
     const isLoading = !Boolean(this.props.account) && !isError;
@@ -351,17 +370,21 @@ class Header extends Component {
     </React.Fragment>;
 
     return (
+
       <Navbar collapseOnSelect className={navClasses.join(' ')}>
         <Navbar.Header>
           <Navbar.Brand>
 
             {this.navHomeOrToUserUpdate()}
+
+
             {isLoading ?
               states.isLoading
               :
               isError ?
                 states.isError
                 :
+
             <CurrentETHBal updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}
             />
           }

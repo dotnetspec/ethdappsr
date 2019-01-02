@@ -18,17 +18,16 @@ class Userrankings extends Component {
     super(props, context);
     this.state = {
       user: {},
-      challenges: [],
       rankings: []
     };
     this.event = null;
-    this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent.bind(this);
+    this._subscribeToNewRankingEvent = this._subscribeToNewRankingEvent.bind(this);
   }
   //#endregion
 
   //#region Helper methods
   /**
-   * Get the user details and subscribe to their challenge event
+   * Get the user details and subscribe to their ranking event
    */
   _init(){
     console.log(0)
@@ -37,10 +36,11 @@ class Userrankings extends Component {
     console.log(this.props.match.params)
     this._getUserDetails(username);
 
-    // subscribe to challenge events
-    //this._subscribeToNewchallengeEvent = this._subscribeToNewchallengeEvent().bind(this);
-    //this._subscribeToNewchallengeEvent(username);
-    this.getMyRankingList();
+    // subscribe to ranking events
+    //this._subscribeToNewRankingEvent = this._subscribeToNewRankingEvent().bind(this);
+    this._subscribeToNewRankingEvent(username);
+    console.log(this.state.rankings);
+    //this.getUserRankings(username);
   }
 
   /**
@@ -61,20 +61,20 @@ class Userrankings extends Component {
   }
 
   /**
-   * Subscribes to a challenge event from the contract.
-   * When a challenge is received, it is appended to the list of
-   * challenges.
+   * Subscribes to a ranking event from the contract.
+   * When a ranking is received, it is appended to the list of
+   * rankings.
    *
    * @param {String} username
    * @returns {null}
    */
 
-   _subscribeToNewchallengeEvent(username){
-     console.log('_subscribeToNewchallengeEvent');
+   _subscribeToNewRankingEvent(username){
+     console.log('_subscribeToNewRankingEvent');
      const usernameHash = web3.utils.keccak256(username);
-     console.log(this.state.challenges);
+     console.log(this.state.rankings);
      //console.log(username);
-     this.event = DSportRank.events.Newchallenge({
+     this.event = DSportRank.events.Newranking({
         filter: {_from: usernameHash},
         fromBlock: 1
       }, (err, event) => {
@@ -82,28 +82,28 @@ class Userrankings extends Component {
           console.log('first err');
           // console.log(this.event);
           //   console.log(this.props);
-          this.props.onError(err, 'Userrankings._subscribeToNewChallengeEvent');
+          this.props.onError(err, 'Userrankings._subscribeToNewRankingEvent');
         }
      })
        .on('data', (event) => {
-         let challenges = this.state.challenges;
-         //this.challenges = this.challenges.bind(this);
-         console.log(challenges);
-         challenges.push({
-           content: event.returnValues.challenges,
+         let rankings = this.state.rankings;
+         //this.rankings = this.rankings.bind(this);
+         console.log(rankings);
+         rankings.push({
+           content: event.returnValues.rankings,
            time: this._formatDate(event.returnValues.time)
          });
 
-         this.setState({challenges: challenges});
+         this.setState({rankings: rankings});
        })
        .on('error', function(error){
          console.log('second err');
-         this.props.onError(err, 'UserChallenges._subscribeToNewChallengeEvent');
+         this.props.onError(err, 'UserRankings._subscribeToNewRankingEvent');
        });
  }
 
 //get the ranking list from the ranking [] in the contract
- getMyRankingList(){
+ getUserRankings(){
    console.log(1)
    const rankingList = ['MyClub', '1312234'];
    this.setState({rankings: rankingList});
@@ -135,7 +135,7 @@ class Userrankings extends Component {
 
   //#region React lifecycle events
   /**
-   * Get the user details and subscribe to their challenge event
+   * Get the user details and subscribe to their ranking event
    */
   componentDidMount(){
     EmbarkJS.onReady((err) => {
@@ -146,7 +146,7 @@ class Userrankings extends Component {
 
   /**
    * If the username was changed (ie redirected from a new route),
-   * we need to get the new user's details and subscribe to their challenge
+   * we need to get the new user's details and subscribe to their ranking
    * event.
    */
   componentDidUpdate(prevProps){
@@ -156,8 +156,8 @@ class Userrankings extends Component {
   }
 
   /**
-   * Unsubscribe from our challenge event so we stop
-   * receiving challenges.
+   * Unsubscribe from our ranking event so we stop
+   * receiving rankings.
    */
   componentWillUnmount(){
     if(!this.event) return;
@@ -185,8 +185,8 @@ class Userrankings extends Component {
       // Render real UI ...
       const {username, description, picture, creationDate} = user;
       //REVIEW: class name left as 'tweet' assuming compatibility required?
-      const challengeList = this.state.challenges.map(function(challenge, index){
-                          return <ListGroupItem className='tweet' key={ index } header={ challenge.time }>{ challenge.content }</ListGroupItem>
+      const rankingList = this.state.rankings.map(function(ranking, index){
+                          return <ListGroupItem className='tweet' key={ index } header={ ranking.RANKINGNAME }>{ ranking.RANKINGDESC }</ListGroupItem>
                         });
       return (
         <Grid>

@@ -53,6 +53,16 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
     export function emailCB(emailCB) {
         this.setState({emailCB})
     }
+    //cb functions based on the data in the json
+    export function jsonHasRankingID(jsonHasRankingID) {
+        this.setState({jsonHasRankingID})
+    }
+    export function jsonHasData(jsonHasData) {
+        this.setState({jsonHasData})
+    }
+    export function currentUserRank(currentUserRank) {
+        this.setState({currentUserRank})
+    }
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -74,14 +84,24 @@ class App extends Component {
       userAccounts: [],
       balance: 0,
       data: [],
-      //data: JSONops._loadsetJSONData(),
-      //rank: 0,
+      currentUserRank: 0,
       updatedExtAcctBalCB: 0,
       isLoading: true,
       contactNoCB:'',
       emailCB:'',
-      usersRankingLists: []
+      usersRankingLists: [],
+      isUserInJson: false,
+      jsonHasRankingID: false,
+      jsonHasData: false,
+      test: [],
+      loadingAccounts: true,
+      loadingJSON: true,
+      loadingExtBal: true,
+      isCurrentUserActive: false,
+      isRankingIDInvalid: false,
+      challenges: []
     }
+
     //bind the callback functions
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
     contactNoCB = contactNoCB.bind(this);
@@ -94,12 +114,23 @@ _loadsetJSONData = async () => {
   try {
     //this.setState({ isLoading: true });
     await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
+    //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
      .then((response) => response.json())
      .then((responseJson) => {
        if(responseJson.length != 0){
          console.log('json returns with length ' + responseJson.length)
+         console.log('responseJson data')
+         console.log(responseJson[0])
              this.setState({
-               data: responseJson
+               data: responseJson,
+               loadingJSON: false
+               ,
+               //NB: data in state is slow to keep up, use responseJson!
+               isUserInJson: JSONops.isPlayerListedInJSON(responseJson, this.state.user.username),
+               rank: JSONops._getUserValue(responseJson, this.state.user.username, "RANK"),
+               updatedExtAcctBalCB: this._loadExternalBalance(),
+               isCurrentUserActive: JSONops._getUserValue(responseJson, this.state.user.username, "ACTIVE"),
+               isRankingIDInvalid: JSONops.isRankingIDInvalid(responseJson[0])
              }
          , function(){
              });
@@ -130,18 +161,26 @@ _loadsetJSONData = async () => {
 
   _loadCurrentUserAccounts = async () => {
 
+    //console.log('_loadCurrentUserAccounts')
+
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
+
+        //console.log('_loadCurrentUserAccounts 1')
 
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown
       await map(accounts, async function (address, next) {
         try {
+          //console.log('_loadCurrentUserAccounts 2')
           // get the owner details for this address from the contract
           const usernameHash = await DSportRank.methods.owners(address).call();
-
+          // console.log('_loadCurrentUserAccounts 2')
+          // console.log(usernameHash)
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
+          // console.log('_loadCurrentUserAccounts 3')
+          // console.log(user.username)
 
           // gets the balance of the address
           let balance = await web3.eth.getBalance(address);
@@ -149,6 +188,12 @@ _loadsetJSONData = async () => {
 
           // update user picture with ipfs url
           user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
+
+          // console.log('this.state.isLoading 1')
+          // console.log('this.state.loadingAccounts')
+          //console.log(this.state.loadingAccounts)
+          //console.log(this.state.isLoading)
+          //console.log('this.state.isLoading 2')
 
           // add the following mapping to our result
           next(null, {
@@ -169,19 +214,38 @@ _loadsetJSONData = async () => {
         const defaultUserAccount = userAccounts.find((userAccount) => {
           return userAccount.address === web3.eth.defaultAccount;
         });
-        //const userrank = await this._getUserRank();
+        //check that there is an existing default account user
+        //before setting state
+        if(defaultUserAccount.user.username === ''){
+          //this.setState({ error: err });
+          this.props.history.push('/create');
+        }
+        //console.log('ready to set state which will prompt re-render')
         this.setState({
           userAccounts: userAccounts,
           user: defaultUserAccount.user,
           account: web3.eth.defaultAccount,
           balance: defaultUserAccount.balance,
+          //rank: JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
           contactNoCB: '',
           emailCB: ''
+          ,
+          loadingAccounts: false,
+          challenges: defaultUserAccount.user.challenges,
+          usersRankingLists: defaultUserAccount.user.rankings
+          // ,
+          // data:
           //,
           //updatedExtAcctBalCB: devAccountBalResult
           //,
         });
+        console.log('ready to _loadsetJSONData after a render')
+
+        this._loadsetJSONData();
       });
+      console.log('end of loadingAccounts')
+      console.log('this.state.loadingAccounts')
+      console.log(this.state.loadingAccounts)
   }
 
   /**
@@ -199,67 +263,66 @@ _loadsetJSONData = async () => {
    * @returns {null}
    */
 
-    _loadRankingLists = async () => {
-
-        // get all the accounts the node controls
-        const accounts = await web3.eth.getAccounts();
-
-        // Generates a mapping of users and accounts to be used
-        // for populating the accounts dropdown
-        await map(accounts, async function (address, next) {
-          try {
-            // get the owner details for this address from the contract
-            const usernameHash = await DSportRank.methods.owners(address).call();
-
-            // get user details from contract
-            const user = await DSportRank.methods.users(usernameHash).call();
-
-            //get the user's RankingLists array
-            //TODO: change to contract code:
-            //const usersRankingLists = await DSportRank.methods.rankingLists(usernameHash).call();
-            // const usersRankingLists = ["5bd82af2baccb064c0bdc92a"];
-            // console.log(usersRankingLists)
-
-            // gets the balance of the address
-            // let balance = await web3.eth.getBalance(address);
-            // balance = web3.utils.fromWei(balance, 'ether');
-
-            // update user picture with ipfs url
-            user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
-
-            // add the following mapping to our result
-            next(null, {
-              address: address,
-              user: user
-              // ,
-              // usersRankingLists: usersRankingLists
-            });
-          }
-          catch (err) {
-            next(err);
-          }
-        }, (err, userAccounts) => {
-          if (err) return this._onError(err, 'App._loadRankingLists');
-
-          const defaultUserAccount = userAccounts.find((userAccount) => {
-            return userAccount.address === web3.eth.defaultAccount;
-          });
-
-          //const userrank = await this._getUserRank();
-
-          // this.setState({
-          //   usersRankingLists: usersRankingLists
-          // });
-        });
-    }
+    // _loadRankingLists = async () => {
+    //
+    //     // get all the accounts the node controls
+    //     const accounts = await web3.eth.getAccounts();
+    //
+    //     // Generates a mapping of users and accounts to be used
+    //     // for populating the accounts dropdown
+    //     await map(accounts, async function (address, next) {
+    //       try {
+    //         // get the owner details for this address from the contract
+    //         const usernameHash = await DSportRank.methods.owners(address).call();
+    //
+    //         // get user details from contract
+    //         const user = await DSportRank.methods.users(usernameHash).call();
+    //
+    //         //get the user's RankingLists array
+    //         //TODO: change to contract code:
+    //         const usersRankingLists = await DSportRank.methods.rankingLists(usernameHash).call();
+    //         //const usersRankingLists = ["5bd82af2baccb064c0bdc92a"];
+    //         console.log(usersRankingLists)
+    //
+    //         // gets the balance of the address
+    //         // let balance = await web3.eth.getBalance(address);
+    //         // balance = web3.utils.fromWei(balance, 'ether');
+    //
+    //         // update user picture with ipfs url
+    //         //user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
+    //
+    //         // add the following mapping to our result
+    //         next(null, {
+    //           address: address,
+    //           user: user,
+    //           rankingList: usersRankingLists
+    //           // ,
+    //           // usersRankingLists: usersRankingLists
+    //         });
+    //       }
+    //       catch (err) {
+    //         next(err);
+    //       }
+    //     }, (err, userAccounts) => {
+    //       if (err) return this._onError(err, 'App._loadRankingLists');
+    //
+    //       const defaultUserAccount = userAccounts.find((userAccount) => {
+    //         //return userAccount.address === web3.eth.defaultAccount;
+    //         return usersRankingLists.rankingList;
+    //       });
+    //
+    //       //const userrank = await this._getUserRank();
+    //
+    //       // this.setState({
+    //       //   usersRankingLists: usersRankingLists
+    //       // });
+    //     });
+    // }
 
 //REVIEW: below based on
 //https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
 //to a (small) degree - anyway it's a useful reference
   _loadExternalBalance = async () => {
-
-    this.setState({ isLoading: true });
-
     try {
     let devAccountBalResult = await web3.eth.getBalance("0xd496e890fcaa0b8453abb17c061003acb3bcc28e");
     devAccountBalResult = web3.utils.fromWei(devAccountBalResult, 'ether');
@@ -267,7 +330,9 @@ _loadsetJSONData = async () => {
     this.setState({
       updatedExtAcctBalCB: devAccountBalResult
     });
+    this.setState({ loadingExtBal: false });
     this.setState({ isLoading: false });
+
     //the 'return' is not important, the setState is
     return devAccountBalResult;
     //REVIEW: don't know what this kind of return statement is currently
@@ -292,19 +357,28 @@ _loadsetJSONData = async () => {
 
   //#region React lifecycle events
   //loading the network functions from here
-  componentDidMount() {
-    //this.setState({ isLoading: true });
+  async componentDidMount() {
     EmbarkJS.onReady(() => {
-      setTimeout(() => { this._loadsetJSONData(); }, 0);
-      setTimeout(() => { this._loadRankingLists(); }, 0);
-      setTimeout(() => { this._loadCurrentUserAccounts(); }, 0);
-      setTimeout(() => { this._loadExternalBalance(); }, 0);
+      this._loadCurrentUserAccounts();
     });
-    //this.setState({ isLoading: false });
   }
 
   render() {
-if(!this.state.isLoading){
+
+  console.log('rendering now')
+  if(!this.state.isLoading){
+    console.log('this.state.loadingAccounts')
+  console.log(this.state.loadingAccounts)
+  console.log('rank')
+  console.log(this.state.rank)
+  console.log('this.state.updatedExtAcctBalCB')
+  console.log(this.state.updatedExtAcctBalCB)
+  console.log('this.state.isUserInJson')
+  console.log(this.state.isUserInJson)
+  console.log('this.state.isCurrentUserActive')
+  console.log(this.state.isCurrentUserActive)
+
+}
     return (
       <div>
         <Header
@@ -318,6 +392,7 @@ if(!this.state.isLoading){
           rankingJSONdata={this.state.data}
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           usersRankingLists={this.state.usersRankingLists}
+          isUserInJson={this.state.isUserInJson}
           />
         <Main
           user={this.state.user}
@@ -330,15 +405,17 @@ if(!this.state.isLoading){
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           contactNoCB={this.state.contactNoCB}
           emailCB={this.state.emailCB}
-          //rank={this.getUserRank()}
+          rank={this.state.rank}
+          isCurrentUserActive={this.state.isCurrentUserActive}
+          isRankingIDInvalid={this.state.isRankingIDInvalid}
           />
       </div>
     );
-  }else{
-    return (
-    <div>...loading</div>
-  );
-  }
+  // }else{
+  //   return (
+  //   <div>...loading</div>
+  // );
+  // }
 
   }
   //#endregion
