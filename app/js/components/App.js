@@ -179,8 +179,14 @@ _loadsetJSONData = async () => {
           // console.log(usernameHash)
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
-          // console.log('_loadCurrentUserAccounts 3')
-          // console.log(user.username)
+          console.log('_loadCurrentUserAccounts 3')
+          if (user.username != ''){
+          console.log('user.username')
+          console.log(user.username)
+          console.log('user.rankings')
+          console.log(user.rankings)
+
+        }
 
           // gets the balance of the address
           let balance = await web3.eth.getBalance(address);

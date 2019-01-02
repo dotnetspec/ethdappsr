@@ -90,7 +90,7 @@ class Userrankings extends Component {
          //this.rankings = this.rankings.bind(this);
          console.log(rankings);
          rankings.push({
-           content: event.returnValues.rankings,
+           content: event.returnValues.ranking,
            time: this._formatDate(event.returnValues.time)
          });
 
@@ -185,8 +185,11 @@ class Userrankings extends Component {
       // Render real UI ...
       const {username, description, picture, creationDate} = user;
       //REVIEW: class name left as 'tweet' assuming compatibility required?
+
       const rankingList = this.state.rankings.map(function(ranking, index){
-                          return <ListGroupItem className='tweet' key={ index } header={ ranking.RANKINGNAME }>{ ranking.RANKINGDESC }</ListGroupItem>
+        // console.log('ranking')
+        // console.log(ranking)
+                          return <ListGroupItem className='tweet' key={ index } header={ ranking.time }>{ ranking.content }</ListGroupItem>
                         });
       return (
         <Grid>
@@ -218,7 +221,7 @@ class Userrankings extends Component {
             </Col>
             <Col xs={8}>
               <ListGroup className='tweets'>
-                { this.state.rankings }
+                { rankingList }
               </ListGroup>
             </Col>
           </Row>

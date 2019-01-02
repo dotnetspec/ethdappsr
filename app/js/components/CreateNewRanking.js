@@ -185,30 +185,43 @@ _continueClick = () => {
               //
               //  });
 
-               // set up our contract method with the input values from the form
-               //code can be implement within here once new contract has been deployed
-               if(this.state.ranknameHasChanged) {
-                 console.log(this.state.rankId)
-               }
+
 
                let rankStr = '","RANKINGNAME":"' + this.state.rankName + '"';
               rankStr += ',"RANKINGDESC":"' + this.state.rankDescription + '"}';
-               console.log('rankStr');
-                console.log(rankStr);
-               const newRankingId = JSONops._sendCreateNewRankingJSONData(rankStr);
-               console.log(newRankingId);
 
+               //const newRankingId = JSONops._sendCreateNewRankingJSONData(rankStr);
+               const newRankingId = this.getNewRankId();
 
-               const createRanking = DSportRank.methods.ranking(rankStr);
-               //get a gas estimate before sending the transaction
-               const gasEstimate = await createRanking.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
-               //send the transaction to create an account with our gas estimate
-               //(plus a little bit more in case the contract state has changed).
-               const result = await createRanking.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
-               // check result status. if status is false or '0x0', show user the tx details to debug error
-               if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
-                 return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
-               }
+               //this.setState({ rankId: newRankingId });
+               //_sendCreateNewRankingJSONData will complete the incomplete rankStr
+               //to send the data. We now need to complete the string correctly here
+               //before adding to the user's ranking arr
+
+                // set up our contract method with the input values from the form
+                //code can be implement within here once new contract has been deployed
+                if(this.state.ranknameHasChanged) {
+                  console.log('this.state.rankId after state change')
+                  console.log('this.state.rankId')
+                  console.log(this.state.rankId);
+                  rankStr = '{"RANKINGID":"' + this.state.rankId + rankStr;
+                  console.log('rankStr');
+                   console.log(rankStr);
+
+                       //const createRanking = DSportRank.methods.ranking(rankStr);
+                       const createRanking = DSportRank.methods.ranking(this.state.rankId);
+                      console.log('createRanking');
+                      console.log(createRanking);
+                       //get a gas estimate before sending the transaction
+                       const gasEstimate = await createRanking.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
+                       //send the transaction to create an account with our gas estimate
+                       //(plus a little bit more in case the contract state has changed).
+                       const result = await createRanking.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
+                       // check result status. if status is false or '0x0', show user the tx details to debug error
+                       if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
+                         return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
+                       }
+                 }
 
                //REVIEW: New ranking must come after sendTransaction() in case e.g. there's not enough gas
                //otherwise, if this goes through there could be ranking errors etc.

@@ -133,6 +133,7 @@ displayContactDetails(){
     // using the callback
     //NB: we are not currently sending challenges to the blockchain
     //but updating the json and callback of the contactNoCB
+    //REVIEW: think above comment out of date
     try{
 
       //https://stackoverflow.com/questions/27176838/reactjs-setstate-is-slow
