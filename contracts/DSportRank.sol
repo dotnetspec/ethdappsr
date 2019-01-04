@@ -124,14 +124,19 @@ contract DSportRank{
      * Edits the deteails of a user's profile.
      * {bytes32} usernameHash - the keccak256-hashed username of the user to edit
      * {string} description (optional) - the updated user profile description
+     * {string} rankingDefault (optional) - a new default ranking jsonbin.io id
      * {string} pictureHash (optional) - the IFPS hash of the user's updated profile picture
      */
-    function editAccount(bytes32 usernameHash, string description, string pictureHash) public {
+    function editAccount(bytes32 usernameHash, string description, string rankingDefault, string pictureHash) public {
         // ensure the user exists and that the creator of the user is the
         // sender of the transaction
         require(users[usernameHash].owner == msg.sender);
         // update the description (could be empty)
         users[usernameHash].description = description;
+        // only update the user's rankingDefault if a value is passed in
+        if (bytes(rankingDefault).length > 0) {
+        users[usernameHash].rankingDefault = rankingDefault;
+        }
         // only update the user's picture if the hash passed in is
         // not empty or null (essentially disallows deletions)
         if (bytes(pictureHash).length > 0) {

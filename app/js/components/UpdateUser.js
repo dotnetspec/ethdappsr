@@ -94,9 +94,11 @@ else{
       const updatedDescription = this.state.description;
       //TODO: dummy value - This needs to be fully implemented with IPFS
       const updatedImageHash = 'Qmcs96FrhP5N9kJnhNsU87tUsuHpVbaSnGm7nxh13jMLLL';
+      //ensure defaultRankid isn't altered by updating the user
+      const placeHolderForRankId = '';
 
       // set up our contract method with the input values from the form
-          const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, updatedImageHash);
+          const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, placeHolderForRankId, updatedImageHash);
 
           // get a gas estimate before sending the transaction
           const gasEstimate = await editAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });

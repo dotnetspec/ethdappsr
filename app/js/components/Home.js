@@ -144,7 +144,8 @@ class Home extends Component{
       warningText: '',
       rank: 0,
       contactNoCB:'',
-      emailCB:''
+      emailCB:'',
+      data:''
     }
 
     this.tablesortoptions = {
@@ -500,21 +501,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
 //
 // }
 
-  componentDidMount(){
-
-
-    //this.props.history.push('/create');
-// console.log('this.props.rankingJSONdata[0] in componentDidMount')
-// console.log(this.props.rankingJSONdata[0])
-    // if (typeof this.props.rankingJSONdata[0] === 'undefined'){
-    //   //console.log('json is empty 5');
-    //   //const newjsonRankingId = JSONops._sendCreateNewRankingJSONData();
-    //   //this.sendCreateNewRankingJSONData();
-    //   //console.log(newjsonRankingId);
-    //   return null;
-    // }
-
-  }
+  // componentDidMount(){
+  // }
+  //
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({data: this.props.rankingJSONdata})
+  // }
 
   render() {
     const selectRowProp = {

@@ -57,6 +57,26 @@ const JSONops = {
       return newUserValue;
   },
 
+//for creating new users and corresponind new ranking need to use the acct number
+//which is know before user created to set the user name in the json to match
+//the account name
+//TODO:lookupField could be made another param for simple _setUserValue
+  _setUserNameValue: function(jsonObj, userAccountNo, valueToSet, newValue, rankingID){
+console.log('inside _setUserNameValue')
+    let setNewUserValue = {
+      jsonRS: jsonObj,
+      lookupField: 'ACCOUNT',
+      lookupKey: userAccountNo,
+      targetField: valueToSet,
+      targetData: newValue,
+      checkAllRows: false
+      };
+      const newUserValue = this._setVal(setNewUserValue);
+      this._sendJSONDataWithRankingID(newUserValue, rankingID);
+
+      return newUserValue;
+  },
+
     //re-set user and opponent fields now that a result needs to be processed
     //NB:playerNameOnRowClicked is for when opponent row clicked
     _updateEnterResultJSON: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
@@ -617,6 +637,7 @@ const JSONops = {
 //TODO: all functions using _sendJSONData will need to be updated to use this
 //one that includes the rankingID
   _sendJSONDataWithRankingID: function(data, rankingID){
+    console.log('inside _sendJSONDataWithRankingID')
     let httpString = "https://api.jsonbin.io/b/";
     //httpString += rankingID + '"';
     httpString += rankingID;

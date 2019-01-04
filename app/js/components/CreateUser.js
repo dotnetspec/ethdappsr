@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import JSONops from './JSONops'
+import {userNameCB} from './App'
 
 
 //helper class
@@ -89,12 +90,19 @@ _continueClick = () => {
       this.setState({ WarningModalIsOpen: true });
     }
 
+    //NB: userNameCB callback function (to App.js)
+    //so that the componentDidUpdate in app.js can do 
+    //getNewRankId() and set the player name in json
+    console.log('this.state.username in _handleClick', this.state.username)
+    userNameCB(this.state.username);
+    //this.props.getNewRankingID();
+
     const { newrankId } = this.props;
     console.log('newrankId in create user', newrankId)
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
     if(this.state.userConfirm){
-              JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
+              //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
@@ -108,6 +116,10 @@ _continueClick = () => {
                 if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
                   return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
                 }
+                console.log('b4 _setUserNameValue')
+                //update the json with the username (which wasn't available before the form submit)
+                //JSONops._setUserNameValue(this.props.rankingJSONdata, userAccountNo, 'NAME', username, newrankId);
+
                 // Completed of async action, set loading state back
                 this.setState({ isLoading: false });
                 // tell our parent (app.js) that we've created a user so it
@@ -115,6 +127,7 @@ _continueClick = () => {
                 this.props.onAfterUserUpdate();
                 // redirect user to the  update user page
                 //this.props.history.push('/update/@' + username);
+
                 this.props.history.push('/');
               } catch (err) {
                 // stop loading state and show the error

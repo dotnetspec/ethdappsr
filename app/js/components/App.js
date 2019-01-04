@@ -63,6 +63,13 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
     export function currentUserRank(currentUserRank) {
         this.setState({currentUserRank})
     }
+    //cb from createuser.js to set the username
+    //in time for getNewRankingID() to put it in the json
+    export function userNameCB(userNameCB) {
+      console.log('in userNameCB', userNameCB)
+        this.setState({userNameCB})
+    }
+
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -101,13 +108,15 @@ class App extends Component {
       isRankingIDInvalid: false,
       challenges: [],
       newrankId: '',
-      rankingDefault: ''
+      rankingDefault: '',
+      userNameCB: ''
     }
 
     //bind the callback functions
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
+    userNameCB = userNameCB.bind(this);
   }
   //#endregion
 
@@ -132,8 +141,8 @@ _loadsetJSONData = async () => {
      .then((responseJson) => {
        if(responseJson.length != 0){
          console.log('json returns with length ' + responseJson.length)
-         console.log('responseJson data')
-         console.log(responseJson[0])
+         console.log('responseJson data', responseJson)
+         //console.log(responseJson[0])
          // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
          // console.log('temprankid',temprankid)
              this.setState({
@@ -145,7 +154,7 @@ _loadsetJSONData = async () => {
                rank: JSONops._getUserValue(responseJson, this.state.user.username, "RANK"),
                updatedExtAcctBalCB: this._loadExternalBalance(),
                isCurrentUserActive: JSONops._getUserValue(responseJson, this.state.user.username, "ACTIVE"),
-               isRankingIDInvalid: JSONops.isRankingIDInvalid(responseJson[0])
+               //isRankingIDInvalid: JSONops.isRankingIDInvalid(responseJson[0])
              }
          , function(){
              });
@@ -282,7 +291,7 @@ _loadsetJSONData = async () => {
         this._loadsetJSONData();
         //get a new rankid ready in case user wants/needs to create a new ranking
         //do this after _loadsetJSONData so that we will already have the correct username
-        this.getNewRankId();
+        //this.getNewRankId();
         }
       //}
 
@@ -296,6 +305,7 @@ _loadsetJSONData = async () => {
   //TODO:add code to get from jsonbin.io
   //we are using this and not JSONops because we need to set state here
   getNewRankId = async () => {
+    console.log('userNameCB in getNewRankId', this.state.userNameCB)
       try{
       this.setState({ isLoading: true});
       let req = new XMLHttpRequest();
@@ -319,6 +329,8 @@ _loadsetJSONData = async () => {
         //(above) before any further processing can be
         //don
 
+        console.log('this.state.user.username in getNewRankId', this.state.userNameCB)
+
         var obj = {
         DATESTAMP: Date.now(),
         ACTIVE: true,
@@ -329,7 +341,7 @@ _loadsetJSONData = async () => {
         EMAIL: "",
         CONTACTNO: "",
         RANK: 1,
-        NAME: this.state.user.username,
+        NAME: this.state.userNameCB,
         id: 1 };
 
         let myJSON = JSON.stringify(obj);
@@ -463,6 +475,18 @@ _loadsetJSONData = async () => {
     });
   }
 
+//necessary to compare the states userNameCB so that the
+//player name is only added to the json once we know what it is from
+//the user create form
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate')
+  // only do something if the data has changed
+  if (prevState.userNameCB !== this.state.userNameCB) {
+    console.log('ready to do soemthing')
+    this.getNewRankId();
+  }
+}
+
   render() {
 
   console.log('rendering now')
@@ -511,6 +535,7 @@ _loadsetJSONData = async () => {
           isRankingIDInvalid={this.state.isRankingIDInvalid}
           newrankId={this.state.newrankId}
           rankingDefault={this.state.rankingDefault}
+          getNewRankingID={(e) => this.getNewRankId()}
           />
       </div>
     );
