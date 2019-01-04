@@ -317,7 +317,7 @@ _loadsetJSONData = async () => {
         //don
 
         var obj = {
-        DATESTAMP: 1545123836224,
+        DATESTAMP: Date.now(),
         ACTIVE: true,
         DESCRIPTION: "FFFFFF", CURRENTCHALLENGERNAME: "AVAILABLE",
         CURRENTCHALLENGERID: 0,
