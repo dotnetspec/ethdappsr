@@ -272,14 +272,17 @@ _loadsetJSONData = async () => {
         }) //end of the setState
 
         console.log('ready to _loadsetJSONData after a render')
-        //get a new rankid ready in case user wants/needs to create a new ranking
-        this.getNewRankId();
+
         console.log('this.state.rankingDefault', this.state.rankingDefault)
         //json won't be loaded until there is at least a default ranking initially
+        //otherwise we'll be going to createuser
         if(this.state.rankingDefault != ''){
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
         this._loadsetJSONData();
+        //get a new rankid ready in case user wants/needs to create a new ranking
+        //do this after _loadsetJSONData so that we will already have the correct username
+        this.getNewRankId();
         }
       //}
 
@@ -319,13 +322,14 @@ _loadsetJSONData = async () => {
         var obj = {
         DATESTAMP: Date.now(),
         ACTIVE: true,
-        DESCRIPTION: "FFFFFF", CURRENTCHALLENGERNAME: "AVAILABLE",
+        DESCRIPTION: "Rank Creator",
+        CURRENTCHALLENGERNAME: "AVAILABLE",
         CURRENTCHALLENGERID: 0,
-        ACCOUNT: "0xa864Ea9d142C0997572aD7a2077A67a30a853cc0",
-        EMAIL: "johndoe@java.com",
-        CONTACTNO: "55555555",
+        ACCOUNT: this.state.account,
+        EMAIL: "",
+        CONTACTNO: "",
         RANK: 1,
-        NAME: "player1",
+        NAME: this.state.user.username,
         id: 1 };
 
         let myJSON = JSON.stringify(obj);
