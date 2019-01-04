@@ -55,6 +55,10 @@ class CreateNewRanking extends Component {
       rankName: '',
       rankId: ''
     };
+
+    const newRankingId = this.getNewRankId();
+
+    this.setState({ rankId: newRankingId });
   }
 
 _continueClick = () => {
@@ -66,7 +70,7 @@ _continueClick = () => {
       //console.log('userConfirm in _continueClick2')
     //  console.log(this.state.userConfirm)
       //get a new rank Id ready
-      this.getNewRankId();
+      //this.getNewRankId();
       this._handleCreateNewRankingClick();
       //console.log('_continueClick');
   }
@@ -163,7 +167,7 @@ _continueClick = () => {
     //this.challengeInput = "at last!";
     //const sendETHDev = DSportRank.methods.sendETHDev();
 
-    this.setState({ isLoading: true });
+    //this.setState({ isLoading: true });
 
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
@@ -191,20 +195,19 @@ _continueClick = () => {
               rankStr += ',"RANKINGDESC":"' + this.state.rankDescription + '"}';
 
                //const newRankingId = JSONops._sendCreateNewRankingJSONData(rankStr);
-               const newRankingId = this.getNewRankId();
 
-               //this.setState({ rankId: newRankingId });
                //_sendCreateNewRankingJSONData will complete the incomplete rankStr
                //to send the data. We now need to complete the string correctly here
                //before adding to the user's ranking arr
 
                 // set up our contract method with the input values from the form
                 //code can be implement within here once new contract has been deployed
-                if(this.state.ranknameHasChanged) {
+                //if(this.state.ranknameHasChanged) {
                   console.log('this.state.rankId after state change')
                   console.log('this.state.rankId')
                   console.log(this.state.rankId);
                   rankStr = '{"RANKINGID":"' + this.state.rankId + rankStr;
+                  //rankStr = JSON.parse(rankStr);
                   console.log('rankStr');
                    console.log(rankStr);
 
@@ -221,7 +224,7 @@ _continueClick = () => {
                        if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
                          return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
                        }
-                 }
+                // }
 
                //REVIEW: New ranking must come after sendTransaction() in case e.g. there's not enough gas
                //otherwise, if this goes through there could be ranking errors etc.
@@ -423,9 +426,18 @@ getNewRankId = async () => {
   //#region React lifecycle events
   render() {
     const { isLoading } = this.state;
+    //const { newrankId } = this.props;
+    console.log('newrankId in create new ranking')
+    console.log(this.state.rankId)
+
     let validationState = this._getValidationState();
     let isValid = validationState === 'success' && !isLoading && !this.state.error;
     let feedback = isValid ? 'Rank name is available' : this.state.error || 'Rank names must be 6 or more characters and cannot include @ or spaces.';
+
+    // if(!isLoading){
+    //   //get a new rank Id ready
+    //   //this.getNewRankId();
+    // }
 
     if (!this.state.rankingnameHasChanged) feedback = '';
 

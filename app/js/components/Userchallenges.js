@@ -80,6 +80,8 @@ class Userchallenges extends Component {
      })
        .on('data', (event) => {
          let challenges = this.state.challenges;
+         console.log('challenges')
+         console.log(challenges)
          //this.challenges = this.challenges.bind(this);
          challenges.push({
            content: event.returnValues.challenge,

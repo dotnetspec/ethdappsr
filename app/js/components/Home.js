@@ -152,7 +152,8 @@ class Home extends Component{
      defaultSortOrder: 'asc'  // default sort order
    };
 
-
+   const { rankingDefault } = this.props;
+   console.log('rankingDefault',rankingDefault)
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
     updateWarningText = updateWarningText.bind(this);
@@ -449,57 +450,58 @@ challengeButton(cell, row, enumObject, rowIndex) {
         }
   }
 
-  sendCreateNewRankingJSONData(){
-      let response = '';
-      let httpString = "https://api.jsonbin.io/b/";
-      let rankingID = '';
-      let jsonToSend = '{"RANKINGID":"';
-      let req = new XMLHttpRequest();
-
-          req.onreadystatechange = () => {
-            if (req.readyState == XMLHttpRequest.DONE) {
-              console.log(req.responseText);
-              response = req.responseText;
-              console.log('response')
-              console.log(response)
-              rankingID = JSONops.getIdNoFromJsonbinResponse(response);
-              console.log('rankingID')
-               console.log(rankingID)
-               //httpString += rankingID;
-               jsonToSend += rankingID + '"}';
-               console.log(jsonToSend)
-               jsonToSend = JSON.parse(jsonToSend);
-              //this._sendJSONDataWithRankingID(jsonToSend, rankingID);
-              //re-send the response with the new id inserted
-
-            }
-          };
-
-           rankingID = JSONops.getIdNoFromJsonbinResponse(response);
-           console.log('rankingID b4')
-            console.log(rankingID)
-           httpString += rankingID;
-           jsonToSend += rankingID + '"}';
-           console.log(jsonToSend)
-           jsonToSend = JSON.parse(jsonToSend);
-           console.log('httpString')
-         console.log(httpString)
-
-          //  req.open("POST", httpString, true);
-          //  req.setRequestHeader("Content-type", "application/json");
-          // response = req.send('{"RANKINGID": "' + rankingID + '"}');
-          req.open("POST", httpString, true);
-          req.setRequestHeader("Content-type", "application/json");
-         //response = req.send('{"RANKINGID": "' + rankingID + '"}');
-         response = req.send(jsonToSend);
-          //response = req.send();
-
-           return null;
-           //return response;
-
-}
+//   sendCreateNewRankingJSONData(){
+//       let response = '';
+//       let httpString = "https://api.jsonbin.io/b/";
+//       let rankingID = '';
+//       let jsonToSend = '{"RANKINGID":"';
+//       let req = new XMLHttpRequest();
+//
+//           req.onreadystatechange = () => {
+//             if (req.readyState == XMLHttpRequest.DONE) {
+//               console.log(req.responseText);
+//               response = req.responseText;
+//               console.log('response')
+//               console.log(response)
+//               rankingID = JSONops.getIdNoFromJsonbinResponse(response);
+//               console.log('rankingID')
+//                console.log(rankingID)
+//                //httpString += rankingID;
+//                jsonToSend += rankingID + '"}';
+//                console.log(jsonToSend)
+//                jsonToSend = JSON.parse(jsonToSend);
+//               //this._sendJSONDataWithRankingID(jsonToSend, rankingID);
+//               //re-send the response with the new id inserted
+//
+//             }
+//           };
+//
+//            rankingID = JSONops.getIdNoFromJsonbinResponse(response);
+//            console.log('rankingID b4')
+//             console.log(rankingID)
+//            httpString += rankingID;
+//            jsonToSend += rankingID + '"}';
+//            console.log(jsonToSend)
+//            jsonToSend = JSON.parse(jsonToSend);
+//            console.log('httpString')
+//          console.log(httpString)
+//
+//           //  req.open("POST", httpString, true);
+//           //  req.setRequestHeader("Content-type", "application/json");
+//           // response = req.send('{"RANKINGID": "' + rankingID + '"}');
+//           req.open("POST", httpString, true);
+//           req.setRequestHeader("Content-type", "application/json");
+//          //response = req.send('{"RANKINGID": "' + rankingID + '"}');
+//          response = req.send(jsonToSend);
+//           //response = req.send();
+//
+//            return null;
+//            //return response;
+//
+// }
 
   componentDidMount(){
+
 
     //this.props.history.push('/create');
 // console.log('this.props.rankingJSONdata[0] in componentDidMount')
@@ -524,6 +526,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     };
 
       this.preprocessDataBeforeRender();
+
 
     const { username } = this.props.user;
 

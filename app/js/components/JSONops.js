@@ -1,30 +1,30 @@
 //TODO: refactor
 const JSONops = {
 
-  _loadsetJSONData: function(){
-    //NOTE: it is the api.jsonbin NOT the jsonbin.io!
-    //JSON data can and should be in ANY order
-    //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
-    fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
-    //TODO: get it working with ipfs/swarm
-    //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      // this.setState({
-      //   //isLoading: false,
-      //   data: responseJson,
-      //
-      // }
-      //, function(){
-  //console.log(responseJson);
-      //});
-      //console.log(responseJson);
-  return responseJson
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  },
+  // _loadsetJSONData: function(){
+  //   //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+  //   //JSON data can and should be in ANY order
+  //   //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+  //   fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
+  //   //TODO: get it working with ipfs/swarm
+  //   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
+  //   .then((response) => response.json())
+  //   .then((responseJson) => {
+  //     // this.setState({
+  //     //   //isLoading: false,
+  //     //   data: responseJson,
+  //     //
+  //     // }
+  //     //, function(){
+  // //console.log(responseJson);
+  //     //});
+  //     //console.log(responseJson);
+  // return responseJson
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+  // },
 
   _getUserValue: function(jsonObj, currentUser, valueToLookup){
 
@@ -580,11 +580,13 @@ const JSONops = {
       },
 
       getIdNoFromJsonbinResponse: function(data){
+        console.log('data', data)
         let dataObj = {
           jsonRS: data
           };
+            console.log('dataObj.jsonRS', dataObj.jsonRS)
           let jsonresult = JSON.parse(dataObj.jsonRS);
-          console.log('jsonresult')
+          console.log('jsonresult', jsonresult)
           // console.log(jsonresult)
           // console.log('jsonresult.RANKINGID')
           console.log(jsonresult.id)

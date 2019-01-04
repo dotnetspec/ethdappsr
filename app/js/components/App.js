@@ -99,7 +99,9 @@ class App extends Component {
       loadingExtBal: true,
       isCurrentUserActive: false,
       isRankingIDInvalid: false,
-      challenges: []
+      challenges: [],
+      newrankId: '',
+      rankingDefault: ''
     }
 
     //bind the callback functions
@@ -113,7 +115,17 @@ class App extends Component {
 _loadsetJSONData = async () => {
   try {
     //this.setState({ isLoading: true });
-    await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
+    // console.log('this.state.usersRankingLists')
+    // console.log(this.state.usersRankingLists)
+    //let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
+  //   if(this.state.rankingDefault === ''){
+  //   httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
+  // }else{
+    let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
+  //}
+  console.log('httpStr', httpStr)
+  await fetch(httpStr)
+  //await fetch('https://api.jsonbin.io/b/' + httpStr + '/latest')
     //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
      .then((response) => response.json())
      .then((responseJson) => {
@@ -121,6 +133,8 @@ _loadsetJSONData = async () => {
          console.log('json returns with length ' + responseJson.length)
          console.log('responseJson data')
          console.log(responseJson[0])
+         // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
+         // console.log('temprankid',temprankid)
              this.setState({
                data: responseJson,
                loadingJSON: false
@@ -179,13 +193,20 @@ _loadsetJSONData = async () => {
           // console.log(usernameHash)
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
+          // console.log('getting rankingList ')
+          // const rankingList =  (DSportRank.methods.getRankingAt(0).call()
+          // .then(
+          // console.log(rankingList))
+          // ).toString();
           console.log('_loadCurrentUserAccounts 3')
           if (user.username != ''){
-          console.log('user.username')
-          console.log(user.username)
-          console.log('user.rankings')
-          console.log(user.rankings)
+          console.log('user.username', user.username)
 
+          //console.log('rankingList', rankingList)
+          console.log('user.creationDate', user.creationDate)
+          console.log('user.description', user.description)
+          console.log('user.rankingDefault', user.rankingDefault)
+          console.log('user.challenges', user.challenges)
         }
 
           // gets the balance of the address
@@ -213,8 +234,9 @@ _loadsetJSONData = async () => {
         }
         catch (err) {
           next(err);
-        }
-      }, (err, userAccounts) => {
+        }//end of try/catch within async function definition within await/map
+      }//end of async function definition within await map
+      , (err, userAccounts) => {
         if (err) return this._onError(err, 'App._loadCurrentUserAccounts');
 
         const defaultUserAccount = userAccounts.find((userAccount) => {
@@ -237,22 +259,66 @@ _loadsetJSONData = async () => {
           emailCB: ''
           ,
           loadingAccounts: false,
-          challenges: defaultUserAccount.user.challenges,
-          usersRankingLists: defaultUserAccount.user.rankings
+          rankingDefault: defaultUserAccount.user.rankingDefault
+          // ,
+          // challenges: defaultUserAccount.user.challenges,
+          // usersRankingLists: defaultUserAccount.user.rankings
           // ,
           // data:
           //,
           //updatedExtAcctBalCB: devAccountBalResult
           //,
-        });
-        console.log('ready to _loadsetJSONData after a render')
+        }) //end of the setState
 
+        console.log('ready to _loadsetJSONData after a render')
+        //get a new rankid ready in case user wants/needs to create a new ranking
+        this.getNewRankId();
+        console.log('this.state.rankingDefault', this.state.rankingDefault)
+        if(this.state.rankingDefault != ''){
         this._loadsetJSONData();
-      });
+        }
+      //}
+
+        //this.getNewRankId();
+      });////end of error check and account assignment within whole of await map
       console.log('end of loadingAccounts')
       console.log('this.state.loadingAccounts')
       console.log(this.state.loadingAccounts)
-  }
+  }// end of _loadCurrentUserAccounts
+
+  //TODO:add code to get from jsonbin.io
+  getNewRankId = async () => {
+      try{
+      this.setState({ isLoading: true});
+      let req = new XMLHttpRequest();
+        req.onreadystatechange = () => {
+          //this async section tests whether the result
+          //from the code lower down has been returned
+          //(without using await)
+          if (req.readyState == XMLHttpRequest.DONE) {
+            const resulttxt = JSON.parse(req.responseText);
+            //only here can set state (once result is back)
+            this.setState({ newrankId: resulttxt.id});
+            //this.setState({ ranknameHasChanged: true});
+            this.setState({ isLoading: false});
+            // console.log('this.state.rankId')
+            // console.log(this.state.rankId)
+          }
+        };
+        //NB: following will send the request but
+        //need to wait for the results to come back
+        //(above) before any further processing can be
+        //don
+        req.open("POST", "https://api.jsonbin.io/b", true);
+        req.setRequestHeader("Content-type", "application/json");
+        req.send('{"Player": "Johan Straus"}') || {}
+        }catch (err) {
+        // stop loading state and show the error
+        console.log(err)
+        this.setState({ isLoading: false, error: err.message });
+      };
+        return null;
+    }
 
   /**
    * Originally based on _loadCurrentUserAccounts() (above)
@@ -399,6 +465,7 @@ _loadsetJSONData = async () => {
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           usersRankingLists={this.state.usersRankingLists}
           isUserInJson={this.state.isUserInJson}
+          newrankId={this.state.newrankId}
           />
         <Main
           user={this.state.user}
@@ -414,6 +481,8 @@ _loadsetJSONData = async () => {
           rank={this.state.rank}
           isCurrentUserActive={this.state.isCurrentUserActive}
           isRankingIDInvalid={this.state.isRankingIDInvalid}
+          newrankId={this.state.newrankId}
+          rankingDefault={this.state.rankingDefault}
           />
       </div>
     );

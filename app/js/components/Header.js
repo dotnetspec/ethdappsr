@@ -71,6 +71,8 @@ class Header extends Component {
       //updatedExtAcctBalCB: 0
     };
 
+
+
   //#endregion
 
 }
@@ -192,6 +194,7 @@ class Header extends Component {
 
   _handleRankingList(user) {
     try {
+
     //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
       this.props.history.push('/userrankings/@' + user);
       //this.props.history.push('/@' + this.state.username);
@@ -235,6 +238,9 @@ componentDidMount(){
   render() {
 
     const { picture, username, description, usersRankingLists } = this.props.user;
+    const {newrankId} = this.props;
+    console.log('newrankId in header')
+    console.log(newrankId)
     console.log('usersRankingLists')
     console.log(usersRankingLists)
     const isEditable = Boolean(username);

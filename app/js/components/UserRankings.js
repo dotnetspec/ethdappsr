@@ -21,7 +21,10 @@ class Userrankings extends Component {
       rankings: []
     };
     this.event = null;
-    this._subscribeToNewRankingEvent = this._subscribeToNewRankingEvent.bind(this);
+    //this._subscribeToNewRankingEvent = this._subscribeToNewRankingEvent.bind(this);
+    //XXX: I have no idea why rankings is already populated in the constructor
+    console.log('this.state.rankings in constructor');
+    console.log(this.state.rankings);
   }
   //#endregion
 
@@ -30,16 +33,20 @@ class Userrankings extends Component {
    * Get the user details and subscribe to their ranking event
    */
   _init(){
+    console.log('this.state.rankings in init');
+    console.log(this.state.rankings);
     console.log(0)
     const { username } = this.props.match.params;
     console.log('username')
     console.log(this.props.match.params)
     this._getUserDetails(username);
 
+
+
     // subscribe to ranking events
     //this._subscribeToNewRankingEvent = this._subscribeToNewRankingEvent().bind(this);
     this._subscribeToNewRankingEvent(username);
-    console.log(this.state.rankings);
+
     //this.getUserRankings(username);
   }
 
@@ -71,8 +78,9 @@ class Userrankings extends Component {
 
    _subscribeToNewRankingEvent(username){
      console.log('_subscribeToNewRankingEvent');
+     console.log('username', username);
      const usernameHash = web3.utils.keccak256(username);
-     console.log(this.state.rankings);
+     //console.log(this.state.rankings);
      //console.log(username);
      this.event = DSportRank.events.Newranking({
         filter: {_from: usernameHash},
@@ -80,15 +88,15 @@ class Userrankings extends Component {
       }, (err, event) => {
         if (err){
           console.log('first err');
-          // console.log(this.event);
-          //   console.log(this.props);
-          this.props.onError(err, 'Userrankings._subscribeToNewRankingEvent');
+          console.log('event', event);
+          console.log('this.err', err);
+          //this.props.onError(err, 'Userrankings._subscribeToNewRankingEvent');
         }
      })
        .on('data', (event) => {
          let rankings = this.state.rankings;
          //this.rankings = this.rankings.bind(this);
-         console.log(rankings);
+         console.log('rankings', rankings);
          rankings.push({
            content: event.returnValues.ranking,
            time: this._formatDate(event.returnValues.time)
@@ -103,12 +111,12 @@ class Userrankings extends Component {
  }
 
 //get the ranking list from the ranking [] in the contract
- getUserRankings(){
-   console.log(1)
-   const rankingList = ['MyClub', '1312234'];
-   this.setState({rankings: rankingList});
-   return null;
- }
+ // getUserRankings(){
+ //   console.log(1)
+ //   const rankingList = ['MyClub', '1312234'];
+ //   this.setState({rankings: rankingList});
+ //   return null;
+ // }
 
   /**
    * Formats an int date into a displayable date
@@ -140,6 +148,8 @@ class Userrankings extends Component {
   componentDidMount(){
     EmbarkJS.onReady((err) => {
       console.log(3)
+      console.log('this.state.rankings in componentDidMount');
+      console.log(this.state.rankings);
       this._init();
     });
   }
@@ -187,9 +197,19 @@ class Userrankings extends Component {
       //REVIEW: class name left as 'tweet' assuming compatibility required?
 
       const rankingList = this.state.rankings.map(function(ranking, index){
-        // console.log('ranking')
-        // console.log(ranking)
-                          return <ListGroupItem className='tweet' key={ index } header={ ranking.time }>{ ranking.content }</ListGroupItem>
+        console.log('ranking.content')
+        console.log(ranking.content)
+        let contentToDisplay = '';
+        let rankingContentObj = {};
+        if(ranking.content.length > 40){
+        rankingContentObj = JSON.parse(ranking.content);
+        contentToDisplay = 'Ranking Id: ' + rankingContentObj.RANKINGID + ' Name: ' + rankingContentObj.RANKINGNAME + ' Description: ' + rankingContentObj.RANKINGDESC;
+      }else{
+        contentToDisplay = ranking.content;
+      }
+        console.log('rankingContentObj')
+        console.log(rankingContentObj)
+                          return <ListGroupItem className='tweet' key={ index } header={ ranking.time }>{ contentToDisplay }</ListGroupItem>
                         });
       return (
         <Grid>

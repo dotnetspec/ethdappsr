@@ -12,6 +12,7 @@ contract DSportRank{
         string description;     // user profile description
         address owner;          // address of the account who created the user
         string picture;         // IFPS hash of the user's profile picture
+        string rankingDefault;
         string[] challenges;    // array that holds the user's challenges
         string[] rankings;      //array that holds the user's rankings ids(possibly names as well tbc)
     }
@@ -64,6 +65,30 @@ contract DSportRank{
     );
 
     /**
+     * getRankingAt
+     *
+     * Gets the user's rankig at the specified index
+     *
+     * (msg.sender) and the keccak256-hash of the username
+     * {string} username - the username of the user
+     * {string} description - the user profile description
+     */
+
+    function getRankingAt(uint index) public view returns (string)  {
+      // ensure the sender has an account
+      require(owners[msg.sender].length > 0);
+
+      // get the username hash of the sender's account
+      bytes32 usernameHash = owners[msg.sender];
+
+      // get our user
+      User storage user = users[usernameHash];
+
+      // return the ranking at the ranking index
+      return user.rankings[index];
+ }
+
+    /**
      * createAccount
      *
      * Creates a user account, storing the user (and user details) in the contract.
@@ -72,7 +97,7 @@ contract DSportRank{
      * {string} username - the username of the user
      * {string} description - the user profile description
      */
-    function createAccount(string username, string description) public {
+    function createAccount(string username, string description, string rankingDefault) public {
         // ensure a null or empty string wasn't passed in
         require(bytes(username).length > 0);
         // generate the username hash using keccak
@@ -87,6 +112,7 @@ contract DSportRank{
         users[usernameHash].owner = msg.sender;
         users[usernameHash].username = username;
         users[usernameHash].description = description;
+        users[usernameHash].rankingDefault = rankingDefault;
         // add entry to our owners mapping so we can retrieve
         // user by their address
         owners[msg.sender] = usernameHash;

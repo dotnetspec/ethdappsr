@@ -52,6 +52,7 @@ class CreateUser extends Component {
       warningText: '',
       userConfirm: false
     };
+
   }
 
 _continueClick = () => {
@@ -87,6 +88,9 @@ _continueClick = () => {
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
     }
+
+    const { newrankId } = this.props;
+    console.log('newrankId in create user', newrankId)
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
     if(this.state.userConfirm){
@@ -94,7 +98,7 @@ _continueClick = () => {
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
-                const createAccount = DSportRank.methods.createAccount(username, description);
+                const createAccount = DSportRank.methods.createAccount(username, description, newrankId);
                 // get a gas estimate before sending the transaction
                 const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
                 // send the transaction to create an account with our gas estimate
