@@ -112,6 +112,7 @@ class App extends Component {
   //#endregion
 
   //#region Helper methods
+  //_loadsetJSONData being used here and not in JSONops because of need to setState
 _loadsetJSONData = async () => {
   try {
     //this.setState({ isLoading: true });
@@ -274,7 +275,10 @@ _loadsetJSONData = async () => {
         //get a new rankid ready in case user wants/needs to create a new ranking
         this.getNewRankId();
         console.log('this.state.rankingDefault', this.state.rankingDefault)
+        //json won't be loaded until there is at least a default ranking initially
         if(this.state.rankingDefault != ''){
+          //REVIEW: possibly use JSONops._loadsetJSONData here if
+          //will allow setState here
         this._loadsetJSONData();
         }
       //}
@@ -287,6 +291,7 @@ _loadsetJSONData = async () => {
   }// end of _loadCurrentUserAccounts
 
   //TODO:add code to get from jsonbin.io
+  //we are using this and not JSONops because we need to set state here
   getNewRankId = async () => {
       try{
       this.setState({ isLoading: true});
@@ -299,6 +304,7 @@ _loadsetJSONData = async () => {
             const resulttxt = JSON.parse(req.responseText);
             //only here can set state (once result is back)
             this.setState({ newrankId: resulttxt.id});
+            console.log("this.state.newrankId", this.state.newrankId)
             //this.setState({ ranknameHasChanged: true});
             this.setState({ isLoading: false});
             // console.log('this.state.rankId')
@@ -309,9 +315,27 @@ _loadsetJSONData = async () => {
         //need to wait for the results to come back
         //(above) before any further processing can be
         //don
+
+        var obj = {
+        DATESTAMP: 1545123836224,
+        ACTIVE: true,
+        DESCRIPTION: "FFFFFF", CURRENTCHALLENGERNAME: "AVAILABLE",
+        CURRENTCHALLENGERID: 0,
+        ACCOUNT: "0xa864Ea9d142C0997572aD7a2077A67a30a853cc0",
+        EMAIL: "johndoe@java.com",
+        CONTACTNO: "55555555",
+        RANK: 1,
+        NAME: "player1",
+        id: 1 };
+
+        let myJSON = JSON.stringify(obj);
+        console.log('myJSON', myJSON)
+
         req.open("POST", "https://api.jsonbin.io/b", true);
+        //req.open("PUT", "https://api.jsonbin.io/b", true);
         req.setRequestHeader("Content-type", "application/json");
-        req.send('{"Player": "Johan Straus"}') || {}
+        //req.send('{"Player": "Johan Straus"}') || {}
+        req.send(myJSON) || {}
         }catch (err) {
         // stop loading state and show the error
         console.log(err)
