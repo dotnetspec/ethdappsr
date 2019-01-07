@@ -148,14 +148,16 @@ _loadsetJSONData = async () => {
          console.log('json returns with length ' + responseJson.length)
          console.log('responseJson data', responseJson)
          //HACK: it appears this code is not being used but commit
-         // made as new rankings are being created for new users without error 
+         // made as new rankings are being created for new users without error
          //on creation of a new user the [] isn't recognized
          //although the new json object comes back BootstrapTable
          //cannot handle it.
          //So convert here:
          if(responseJson.length === undefined){
            //turn the object into an array for use by BSTable
-           responseJson = responseJson.toArray();
+           //responseJson = "[" + responseJson + "]";
+           responseDataAsArray[0] = responseJson;
+           responseJson = responseDataAsArray;
            console.log('responseJson converted to array', responseJson)
          }
          //responseDataAsArray[0] = responseJson;

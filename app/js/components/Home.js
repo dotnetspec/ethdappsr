@@ -364,6 +364,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
                 ;}
   }
 
+//NB: none of this code is currently running on a re-set (get rid?)
   preprocessDataBeforeRender(){
     console.log('preprocessDataBeforeRender')
     console.log('this.props.isRankingIDInvalid')
