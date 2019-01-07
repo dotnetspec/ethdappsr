@@ -224,7 +224,7 @@ console.log('inside _setUserNameValue')
         //createNewJSONuserObj.jsonRS.push(newData);
         //this._sendJSONData(createNewJSONuserObj.jsonRS);
         //this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
-        this._sendJSONDataWithRankingID(newData, rankingID);
+        return this._sendJSONDataWithRankingID(newData, rankingID);
     },
 
     updateDateStampsInJSON: function(data, username, opponent){
@@ -663,7 +663,8 @@ console.log('inside _setUserNameValue')
 //TODO: all functions using _sendJSONData will need to be updated to use this
 //one that includes the rankingID
   _sendJSONDataWithRankingID: function(data, rankingID){
-    console.log('inside _sendJSONDataWithRankingID')
+    console.log('rankingID inside _sendJSONDataWithRankingID',rankingID)
+    //console.log('inside _sendJSONDataWithRankingID')
     let httpString = "https://api.jsonbin.io/b/";
     //httpString += rankingID + '"';
     httpString += rankingID;
@@ -671,8 +672,10 @@ console.log('inside _setUserNameValue')
 
         req.onreadystatechange = () => {
           if (req.readyState == XMLHttpRequest.DONE) {
-            console.log('req.responseText in _sendJSONDataWithRankingID');
+            console.log('httpString in req.onreadystatechange', httpString);
+            console.log('req.responseText in _sendJSONDataWithRankingID', req.responseText);
             console.log(req.responseText);
+            return req.responseText;
           }
         };
         //NOTE: it is the api.jsonbin NOT the jsonbin.io!
@@ -702,6 +705,7 @@ console.log('inside _setUserNameValue')
         //return null;
 },
 
+//REVIEW: _sendCreateNewRankingJSONData is not currently being used anywhere, delete?
   _sendCreateNewRankingJSONData:  function(rankStr){
       let response = '';
       let httpString = "https://api.jsonbin.io/b/";

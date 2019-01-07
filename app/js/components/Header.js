@@ -241,8 +241,8 @@ componentDidMount(){
     const {newrankId} = this.props;
     console.log('newrankId in header')
     console.log(newrankId)
-    console.log('usersRankingLists')
-    console.log(usersRankingLists)
+    // console.log('usersRankingLists')
+    // console.log(usersRankingLists)
     const isEditable = Boolean(username);
     const isError = this.props.error && this.props.error.message;
     const isLoading = !Boolean(this.props.account) && !isError;
