@@ -150,7 +150,8 @@ console.log('inside _setUserNameValue')
       }
 },
 
-    createNewUserInJSON: function(originalData, username, contactno, email, accountno, description){
+//TODO: this is going to become createNewUserInExistingRankingJson
+    createNewUserInJSON: function(originalData, username, contactno, email, accountno, description, rankingID){
 
         let createNewJSONuserObj = {
           jsonRS: originalData
@@ -197,8 +198,33 @@ console.log('inside _setUserNameValue')
 
         createNewJSONuserObj.jsonRS.push(newData);
 
-        this._sendJSONData(createNewJSONuserObj.jsonRS);
+        //this._sendJSONData(createNewJSONuserObj.jsonRS);
+        this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
 
+    },
+
+    createNewUserInNewJSON: function(username, contactno, email, accountno, description, rankingID){
+      console.log('inside createNewUserInNewJSON')
+        // let createNewJSONuserObj = {
+        //   jsonRS: {}
+        //   };
+        const newData = {
+                          "DATESTAMP": Date.now(),
+                          "ACTIVE": true,
+                          "DESCRIPTION": description,
+                          "CURRENTCHALLENGERNAME": "AVAILABLE",
+                          "CURRENTCHALLENGERID": 0,
+                          "ACCOUNT": accountno,
+                          "RANK": 1,
+                          "EMAIL": email,
+                          "CONTACTNO": contactno,
+                          "NAME": username,
+                          "id":1
+                        }
+        //createNewJSONuserObj.jsonRS.push(newData);
+        //this._sendJSONData(createNewJSONuserObj.jsonRS);
+        //this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
+        this._sendJSONDataWithRankingID(newData, rankingID);
     },
 
     updateDateStampsInJSON: function(data, username, opponent){
@@ -657,14 +683,22 @@ console.log('inside _setUserNameValue')
 
         req.open("PUT", httpString, true);
         req.setRequestHeader("Content-type", "application/json");
-        var myJsonString = JSON.stringify(data);
-        console.log('httpString');
-        console.log(httpString);
-        console.log('data');
-        console.log(data);
-        console.log('myJsonString');
-        console.log(myJsonString);
-        req.send(myJsonString);
+        let myJsonString = JSON.stringify(data);
+        console.log('httpString', httpString);
+        console.log('data', data);
+        console.log('data id', data.id);
+
+        //if this is a new ranking send an array, not just an object
+        //if this is a new ranking id will be 1
+        //HACK: there may be a better way to test that this is a new ranking and user
+        //the first entry to jsonbin must have array brackets so that responseJson can be
+        //correctly displayed in BootstrapTable
+        if(data.id === 1){
+        const myJsonStringAsArray = "[" + myJsonString + "]";
+          req.send(myJsonStringAsArray);
+        }else{
+          req.send(myJsonString);
+        }
         //return null;
 },
 

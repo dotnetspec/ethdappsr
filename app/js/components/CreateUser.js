@@ -91,7 +91,7 @@ _continueClick = () => {
     }
 
     //NB: userNameCB callback function (to App.js)
-    //so that the componentDidUpdate in app.js can do 
+    //so that the componentDidUpdate in app.js can do
     //getNewRankId() and set the player name in json
     console.log('this.state.username in _handleClick', this.state.username)
     userNameCB(this.state.username);
@@ -102,7 +102,9 @@ _continueClick = () => {
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
     if(this.state.userConfirm){
-              //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description);
+              //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
+              console.log('ready to go to createNewUserInNewJSON')
+              JSONops.createNewUserInNewJSON(this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form

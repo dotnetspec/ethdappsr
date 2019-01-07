@@ -133,20 +133,39 @@ _loadsetJSONData = async () => {
   // }else{
     let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
   //}
+  let responseDataAsArray = [];
   console.log('httpStr', httpStr)
   await fetch(httpStr)
   //await fetch('https://api.jsonbin.io/b/' + httpStr + '/latest')
     //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
      .then((response) => response.json())
      .then((responseJson) => {
+       //responseJson = JSON.parse(responseJson);
+       //responseJson = '[' + responseJson +']';
+       //console.log('responseJson', responseJson)
+       //responseJson = JSON.parse(responseJson);
        if(responseJson.length != 0){
          console.log('json returns with length ' + responseJson.length)
          console.log('responseJson data', responseJson)
+         //HACK: it appears this code is not being used but commit
+         // made as new rankings are being created for new users without error 
+         //on creation of a new user the [] isn't recognized
+         //although the new json object comes back BootstrapTable
+         //cannot handle it.
+         //So convert here:
+         if(responseJson.length === undefined){
+           //turn the object into an array for use by BSTable
+           responseJson = responseJson.toArray();
+           console.log('responseJson converted to array', responseJson)
+         }
+         //responseDataAsArray[0] = responseJson;
+         //console.log('responseJson data as array', responseDataAsArray)
          //console.log(responseJson[0])
          // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
          // console.log('temprankid',temprankid)
              this.setState({
                data: responseJson,
+               //data: responseDataAsArray,
                loadingJSON: false
                ,
                //NB: data in state is slow to keep up, use responseJson!
@@ -474,6 +493,10 @@ _loadsetJSONData = async () => {
       this._loadCurrentUserAccounts();
     });
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({data: nextProps.data})
+  // }
 
 //necessary to compare the states userNameCB so that the
 //player name is only added to the json once we know what it is from
