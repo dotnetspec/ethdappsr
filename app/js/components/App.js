@@ -494,6 +494,7 @@ _loadsetJSONData = async () => {
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
     });
+    this.getNewRankId();
   }
 
   // componentWillReceiveProps(nextProps){
@@ -505,11 +506,12 @@ _loadsetJSONData = async () => {
 //the user create form
   componentDidUpdate(prevProps, prevState) {
     console.log('componentDidUpdate')
+    //this.getNewRankId();
   // only do something if the data has changed
-  if (prevState.userNameCB !== this.state.userNameCB) {
-    console.log('ready to do soemthing')
-    this.getNewRankId();
-  }
+  // if (prevState.userNameCB !== this.state.userNameCB) {
+  //   console.log('ready to do soemthing')
+  //   this.getNewRankId();
+  // }
 }
 
   render() {

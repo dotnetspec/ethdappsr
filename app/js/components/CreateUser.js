@@ -101,7 +101,8 @@ _continueClick = () => {
     console.log('newrankId in create user', newrankId)
     //only do this once the user has confirmed the user name because it cannot be
     //changed in future
-    if(this.state.userConfirm){
+    //if(this.state.userConfirm && newrankId != ''){
+      if(this.state.userConfirm){
               //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
               console.log('ready to go to createNewUserInNewJSON')
               JSONops.createNewUserInNewJSON(this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
@@ -137,7 +138,12 @@ _continueClick = () => {
               };
             //user didn't confirm
           }else{
-              console.log('user has not confirmed')
+              console.log('user has not confirmed or no rankid obtained')
+              // if(newrankId === ''){
+              //   this.setState({ WarningModalIsOpen: false });
+              //   this.setState({ isLoading: false });
+              //
+              // }
             // const wtext = 'Please ensure your username is as you want it'
             // wtext = ' since it CANNOT be changed, even if you de-activate your account!'
             //   this.setState({ warningText: wtext });
@@ -246,6 +252,9 @@ _continueClick = () => {
 
     // don't allow '@' or spaces
     if(new RegExp(/[@\s]/gi).test(this.state.username)) return 'error';
+
+    //check we have a new ranking id
+    if(this.props.newrankId === '') return 'error';
 
     // if we have an error, returning 'error' shows the user
     // the form is in error (red). Conversely, returning 'success'
