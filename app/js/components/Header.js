@@ -239,8 +239,9 @@ componentDidMount(){
 
     const { picture, username, description, usersRankingLists } = this.props.user;
     const {newrankId} = this.props;
-    console.log('newrankId in header')
-    console.log(newrankId)
+    if(newrankId != ''){
+    console.log('newrankId in header', newrankId)
+    }
     // console.log('usersRankingLists')
     // console.log(usersRankingLists)
     const isEditable = Boolean(username);

@@ -237,7 +237,7 @@ _loadsetJSONData = async () => {
           console.log('user.creationDate', user.creationDate)
           console.log('user.description', user.description)
           console.log('user.rankingDefault', user.rankingDefault)
-          console.log('user.challenges', user.challenges)
+          //console.log('user.challenges', user.challenges)
         }
 
           // gets the balance of the address
@@ -366,7 +366,7 @@ _loadsetJSONData = async () => {
         id: 1 };
 
         let myJSON = JSON.stringify(obj);
-        console.log('myJSON', myJSON)
+        console.log('getNewRankId using myJSON', myJSON)
 
         req.open("POST", "https://api.jsonbin.io/b", true);
         //req.open("PUT", "https://api.jsonbin.io/b", true);
