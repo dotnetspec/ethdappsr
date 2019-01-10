@@ -64,7 +64,15 @@ _continueClick = () => {
       this.setState({ WarningModalIsOpen: false });
       //console.log('userConfirm in _continueClick2')
     //  console.log(this.state.userConfirm)
+      if(this.props.newrankId === ''){
+        console.log('_continueClick this.props.newrankId', this.props.newrankId)
+        console.log('this.props.newrankId in createuser handleclick1', this.props.newrankId)
+        this.props.getNewRankingID();
+        console.log('this.props.newrankId in createuser handleclick2', this.props.newrankId)
+        this._handleClick();
+    } else {
       this._handleClick();
+    }
       //console.log('_continueClick');
   }
   //#endregion
@@ -82,6 +90,12 @@ _continueClick = () => {
     //TODO: all the json data for create new user is here ready to be appended to
     //console.log(this.props.rankingJSONdata);
     this.setState({ isLoading: true });
+
+    if(this.props.newrankId === ''){
+      console.log('this.props.newrankId in createuser handleclick1', this.props.newrankId)
+      this.props.getNewRankingID();
+      console.log('this.props.newrankId in createuser handleclick2', this.props.newrankId)
+    }
 
       console.log('this.state.userConfirm')
       console.log(this.state.userConfirm)
@@ -109,7 +123,9 @@ _continueClick = () => {
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
+                console.log('newrankId ready to send to createAccount', newrankId)
                 const createAccount = DSportRank.methods.createAccount(username, description, newrankId);
+                console.log('createAccount created', createAccount)
                 // get a gas estimate before sending the transaction
                 const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
                 // send the transaction to create an account with our gas estimate
@@ -203,6 +219,7 @@ _continueClick = () => {
       if (value.length >= 5) {
         // ensure we're not already loading the last lookup
         if (!this.state.isLoading) {
+          //console.log('inside handle change')
           // call the userExists method in our contract asynchronously
           DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
           .then((exists) => {
@@ -238,7 +255,7 @@ _continueClick = () => {
    * if valid, and error' if invalid
    */
   _getValidationState() {
-
+    //console.log('this.props.newrankId in _getValidationState in createuser', this.props.newrankId)
     // considered valid while loading as we don't know yet
     if (this.state.isLoading) return null;
 
@@ -254,7 +271,7 @@ _continueClick = () => {
     if(new RegExp(/[@\s]/gi).test(this.state.username)) return 'error';
 
     //check we have a new ranking id
-    if(this.props.newrankId === '') return 'error';
+    //if(this.props.newrankId === '') return 'error';
 
     // if we have an error, returning 'error' shows the user
     // the form is in error (red). Conversely, returning 'success'

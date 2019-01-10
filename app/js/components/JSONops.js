@@ -450,10 +450,9 @@ console.log('inside _setUserNameValue')
 
       //apart from IN/ACTIVE is player listed at all?
       isPlayerListedInJSON: function(data, currentUser){
-        console.log('data')
-        console.log(data)
-        console.log('currentUser')
-        console.log(currentUser)
+        console.log('data',data)
+        console.log('currentUser', currentUser)
+
         let isPlayerListedInJSONObj = {
           jsonRS: data
           };
@@ -476,6 +475,7 @@ console.log('inside _setUserNameValue')
             else {
               return false;
             }
+            console.log('end of isPlayerListedInJSON', isPlayerListedInJSON)
       },
 
       //TODO: will have to separate isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user

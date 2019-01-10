@@ -154,7 +154,7 @@ class Home extends Component{
    };
 
    const { rankingDefault } = this.props;
-   console.log('rankingDefault',rankingDefault)
+   console.log('rankingDefault in home',rankingDefault)
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
     updateWarningText = updateWarningText.bind(this);
@@ -366,9 +366,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
 //NB: none of this code is currently running on a re-set (get rid?)
   preprocessDataBeforeRender(){
-    console.log('preprocessDataBeforeRender')
-    console.log('this.props.isRankingIDInvalid')
-    console.log(this.props.isRankingIDInvalid)
+    console.log('this.props.isRankingIDInvalid in preprocessDataBeforeRender in home', this.props.isRankingIDInvalid)
     if(this.props.isRankingIDInvalid){
       this.props.history.push('/create');
     }

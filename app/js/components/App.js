@@ -200,13 +200,17 @@ _loadsetJSONData = async () => {
  * get the details of the user. Once the user details are returned, the state
  * is updated with the details, which triggers a render in this component and
  * all child components.
+ * _loadCurrentUserAccounts is triggered by onAfterUserUpdate in e.g. createuser.js
+ * because it is sent as a property to these components
  *
  * @returns {null}
  */
 
   _loadCurrentUserAccounts = async () => {
 
-    //console.log('_loadCurrentUserAccounts')
+    console.log('_loadCurrentUserAccounts')
+
+
 
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
@@ -274,36 +278,39 @@ _loadsetJSONData = async () => {
           return userAccount.address === web3.eth.defaultAccount;
         });
         //check that there is an existing default account user
-        //before setting state
+        //before setting state, and if there isn't go to create
         if(defaultUserAccount.user.username === ''){
-          //this.setState({ error: err });
+          this.setState({
+          rankingDefault: '',
+          isUserInJson: false,
+          isCurrentUserActive:false });
           this.props.history.push('/create');
-        }
+        }else{
         //console.log('ready to set state which will prompt re-render')
         this.setState({
-          userAccounts: userAccounts,
-          user: defaultUserAccount.user,
-          account: web3.eth.defaultAccount,
-          balance: defaultUserAccount.balance,
           //rank: JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
-          contactNoCB: '',
-          emailCB: ''
-          ,
-          loadingAccounts: false,
-          rankingDefault: defaultUserAccount.user.rankingDefault
-          // ,
-          // challenges: defaultUserAccount.user.challenges,
-          // usersRankingLists: defaultUserAccount.user.rankings
-          // ,
-          // data:
-          //,
-          //updatedExtAcctBalCB: devAccountBalResult
-          //,
+          rankingDefault: defaultUserAccount.user.rankingDefault,
+          isUserInJson: JSONops.isPlayerListedInJSON(this.state.data, this.state.user.username),
+          isCurrentUserActive: JSONops._getUserValue(this.state.data, this.state.user.username, "ACTIVE")
         }) //end of the setState
+      }//end of the if
+//common setState
+      this.setState({ userAccounts: userAccounts,
+        user: defaultUserAccount.user,
+        account: web3.eth.defaultAccount,
+        balance: defaultUserAccount.balance,
+        //rank: JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
+        contactNoCB: '',
+        emailCB: '',
+        loadingAccounts: false,
+        //newrankId must be cleared so a new one has to be regenerated for each account
+        newrankId: ''
+      }) //end of the setState
 
         console.log('ready to _loadsetJSONData after a render')
+        console.log('isUserInJson', this.state.isUserInJson)
 
-        console.log('this.state.rankingDefault', this.state.rankingDefault)
+        console.log('isCurrentUserActive', this.state.isCurrentUserActive)
         //json won't be loaded until there is at least a default ranking initially
         //otherwise we'll be going to createuser
         if(this.state.rankingDefault != ''){
@@ -319,14 +326,13 @@ _loadsetJSONData = async () => {
         //this.getNewRankId();
       });////end of error check and account assignment within whole of await map
       console.log('end of loadingAccounts')
-      console.log('this.state.loadingAccounts')
-      console.log(this.state.loadingAccounts)
+      console.log('this.state.loadingAccounts',this.state.loadingAccounts)
   }// end of _loadCurrentUserAccounts
 
   //TODO:add code to get from jsonbin.io
   //we are using this and not JSONops because we need to set state here
   getNewRankId = async () => {
-    console.log('userNameCB in getNewRankId', this.state.userNameCB)
+    console.log('userNameCB in getNewRankId in app', this.state.userNameCB)
       try{
       this.setState({ isLoading: true});
       let req = new XMLHttpRequest();
@@ -349,8 +355,6 @@ _loadsetJSONData = async () => {
         //need to wait for the results to come back
         //(above) before any further processing can be
         //don
-
-        console.log('this.state.user.username in getNewRankId', this.state.userNameCB)
 
         var obj = {
         DATESTAMP: Date.now(),
@@ -494,7 +498,10 @@ _loadsetJSONData = async () => {
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
     });
+    console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
+    if(this.state.user.username != undefined){
     this.getNewRankId();
+    }
   }
 
   // componentWillReceiveProps(nextProps){
@@ -505,7 +512,7 @@ _loadsetJSONData = async () => {
 //player name is only added to the json once we know what it is from
 //the user create form
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate')
+    console.log('componentDidUpdate in app')
     //this.getNewRankId();
   // only do something if the data has changed
   // if (prevState.userNameCB !== this.state.userNameCB) {
@@ -516,18 +523,18 @@ _loadsetJSONData = async () => {
 
   render() {
 
-  console.log('rendering now')
+  console.log('rendering now in app render()')
   if(!this.state.isLoading){
-    console.log('this.state.loadingAccounts')
-  console.log(this.state.loadingAccounts)
-  console.log('rank')
-  console.log(this.state.rank)
-  console.log('this.state.updatedExtAcctBalCB')
-  console.log(this.state.updatedExtAcctBalCB)
-  console.log('this.state.isUserInJson')
-  console.log(this.state.isUserInJson)
-  console.log('this.state.isCurrentUserActive')
-  console.log(this.state.isCurrentUserActive)
+    console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)
+
+  console.log('rank in app render()', this.state.rank)
+
+  console.log('this.state.updatedExtAcctBalCB in app render()', this.state.updatedExtAcctBalCB)
+
+  console.log('this.state.isUserInJson in app render()', this.state.isUserInJson)
+
+  console.log('this.state.isCurrentUserActive in app render()',this.state.isCurrentUserActive)
+
 
 }
     return (
@@ -544,6 +551,7 @@ _loadsetJSONData = async () => {
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           usersRankingLists={this.state.usersRankingLists}
           isUserInJson={this.state.isUserInJson}
+          rankingDefault={this.state.rankingDefault}
           newrankId={this.state.newrankId}
           />
         <Main
