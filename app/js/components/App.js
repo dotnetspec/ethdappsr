@@ -70,6 +70,12 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
         this.setState({userNameCB})
     }
 
+    //cb from GlobalRankings.js to set the rank id  selected by the user
+    export function newrankIdCB(newrankIdCB) {
+      console.log('in newrankIdCB', newrankIdCB)
+        this.setState({newrankIdCB})
+    }
+
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -108,8 +114,11 @@ class App extends Component {
       isRankingIDInvalid: false,
       challenges: [],
       newrankId: '',
-      rankingDefault: '',
-      userNameCB: ''
+      //rankingDefault is the global ranking list json
+      rankingDefault: '5c36f5422c87fa27306acb52',
+      userNameCB: '',
+      loadingRankingListJSON: true,
+      rankingListData: []
     }
 
     //bind the callback functions
@@ -117,12 +126,85 @@ class App extends Component {
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
     userNameCB = userNameCB.bind(this);
+    newrankIdCB = newrankIdCB.bind(this);
   }
   //#endregion
 
   //#region Helper methods
   //_loadsetJSONData being used here and not in JSONops because of need to setState
 _loadsetJSONData = async () => {
+  try {
+    //this.setState({ isLoading: true });
+    // console.log('this.state.usersRankingLists')
+    // console.log(this.state.usersRankingLists)
+    //let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
+  //   if(this.state.rankingDefault === ''){
+  //   httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
+  // }else{
+  //NB: below used to be rankingDefault - logic may still exist that uses it ...
+  let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankId + '/latest';
+    //let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
+  //}
+  let responseDataAsArray = [];
+  console.log('httpStr', httpStr)
+  await fetch(httpStr)
+  //await fetch('https://api.jsonbin.io/b/' + httpStr + '/latest')
+    //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
+     .then((response) => response.json())
+     .then((responseJson) => {
+       //responseJson = JSON.parse(responseJson);
+       //responseJson = '[' + responseJson +']';
+       //console.log('responseJson', responseJson)
+       //responseJson = JSON.parse(responseJson);
+       if(responseJson.length != 0){
+         console.log('json returns with length ' + responseJson.length)
+         console.log('responseJson data', responseJson)
+         //HACK: it appears this code is not being used but commit
+         // made as new rankings are being created for new users without error
+         //on creation of a new user the [] isn't recognized
+         //although the new json object comes back BootstrapTable
+         //cannot handle it.
+         //So convert here:
+         if(responseJson.length === undefined){
+           //turn the object into an array for use by BSTable
+           //responseJson = "[" + responseJson + "]";
+           responseDataAsArray[0] = responseJson;
+           responseJson = responseDataAsArray;
+           console.log('responseJson converted to array', responseJson)
+         }
+         //responseDataAsArray[0] = responseJson;
+         //console.log('responseJson data as array', responseDataAsArray)
+         //console.log(responseJson[0])
+         // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
+         // console.log('temprankid',temprankid)
+             this.setState({
+               data: responseJson,
+               //data: responseDataAsArray,
+               //REVIEW: loadingJSON not currently being used
+               loadingJSON: false
+               ,
+               //NB: data in state is slow to keep up, use responseJson!
+               isUserInJson: JSONops.isPlayerListedInJSON(responseJson, this.state.user.username),
+               rank: JSONops._getUserValue(responseJson, this.state.user.username, "RANK"),
+               updatedExtAcctBalCB: this._loadExternalBalance(),
+               isCurrentUserActive: JSONops._getUserValue(responseJson, this.state.user.username, "ACTIVE"),
+               //isRankingIDInvalid: JSONops.isRankingIDInvalid(responseJson[0])
+             }
+         , function(){
+             });
+           }
+     })
+  //REVIEW:
+  //this.setState({ isLoading: false });
+  //the 'return' is not important, the setState is
+  return null;
+}catch (err) {
+     return console.error(err);
+  }
+}
+
+//TODO: together with _loadsetJSONData need to refactor into single source for fetch code
+_loadsetRankingListJSONData = async () => {
   try {
     //this.setState({ isLoading: true });
     // console.log('this.state.usersRankingLists')
@@ -166,16 +248,14 @@ _loadsetJSONData = async () => {
          // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
          // console.log('temprankid',temprankid)
              this.setState({
-               data: responseJson,
+               rankingListData: responseJson
                //data: responseDataAsArray,
-               loadingJSON: false
-               ,
-               //NB: data in state is slow to keep up, use responseJson!
-               isUserInJson: JSONops.isPlayerListedInJSON(responseJson, this.state.user.username),
-               rank: JSONops._getUserValue(responseJson, this.state.user.username, "RANK"),
-               updatedExtAcctBalCB: this._loadExternalBalance(),
-               isCurrentUserActive: JSONops._getUserValue(responseJson, this.state.user.username, "ACTIVE"),
-               //isRankingIDInvalid: JSONops.isRankingIDInvalid(responseJson[0])
+               //loadingRankingListJSON: false
+               //,
+               //NB: data in state is slow to keep up, use responseJson for future query ops ...
+               //REVIEW: may need functionality similar to following in future:
+               //updatedExtAcctBalCB: this._loadExternalBalance(),
+               //isCurrentUserActive: JSONops._getUserValue(responseJson, this.state.user.username, "ACTIVE")
              }
          , function(){
              });
@@ -289,7 +369,11 @@ _loadsetJSONData = async () => {
         //console.log('ready to set state which will prompt re-render')
         this.setState({
           //rank: JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
-          rankingDefault: defaultUserAccount.user.rankingDefault,
+          //rankingDefault: defaultUserAccount.user.rankingDefault,
+          //REVEIW: perhaps change the naming of rankingDefault as it may be confusing
+          //now that it is set by the user selection in GlobalRankings not the default value
+          // in the contract
+          newrankId: defaultUserAccount.user.rankingDefault,
           isUserInJson: JSONops.isPlayerListedInJSON(this.state.data, this.state.user.username),
           isCurrentUserActive: JSONops._getUserValue(this.state.data, this.state.user.username, "ACTIVE")
         }) //end of the setState
@@ -307,20 +391,22 @@ _loadsetJSONData = async () => {
         newrankId: ''
       }) //end of the setState
 
-        console.log('ready to _loadsetJSONData after a render')
+        console.log('ready to _loadsetRankingListJSONData after a render')
         console.log('isUserInJson', this.state.isUserInJson)
 
         console.log('isCurrentUserActive', this.state.isCurrentUserActive)
         //json won't be loaded until there is at least a default ranking initially
         //otherwise we'll be going to createuser
-        if(this.state.rankingDefault != ''){
+        //if(this.state.rankingDefault != ''){
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
-        this._loadsetJSONData();
+        //this._loadsetJSONData();
+        console.log('about to run _loadsetRankingListJSONData')
+        this._loadsetRankingListJSONData();
         //get a new rankid ready in case user wants/needs to create a new ranking
         //do this after _loadsetJSONData so that we will already have the correct username
         //this.getNewRankId();
-        }
+      //  }
       //}
 
         //this.getNewRankId();
@@ -562,6 +648,7 @@ _loadsetJSONData = async () => {
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
+          rankingListJSONdata={this.state.rankingListData}
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           contactNoCB={this.state.contactNoCB}
           emailCB={this.state.emailCB}

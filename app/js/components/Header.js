@@ -356,7 +356,7 @@ componentDidMount(){
         Create New Ranking
       </Button>
       <Button bsStyle="primary" onClick={(e) => this._handleRankingList(this.props.user[1])}>
-        List My Rankings
+        List All Rankings
       </Button>
 
 

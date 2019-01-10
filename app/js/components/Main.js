@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import JSONops from './JSONops'
 import CreateNewRanking from './CreateNewRanking';
 import UserRankings from './UserRankings'
+import GlobalRankings from './GlobalRankings'
 
 /**
  * Class representing the area below the header.
@@ -62,7 +63,8 @@ class Main extends Component {
           */}
 
 
-          <PropsRoute exact path='/' component={Home}  {...this.props} />
+          <PropsRoute exact path='/' component={GlobalRankings}  {...this.props} />
+          <PropsRoute path='/home/@:username' component={Home}  {...this.props} />
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>

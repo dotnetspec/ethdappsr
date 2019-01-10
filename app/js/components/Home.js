@@ -366,6 +366,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
 //NB: none of this code is currently running on a re-set (get rid?)
   preprocessDataBeforeRender(){
+    const { rankingDefault } = this.props;
+    console.log('rankingDefault in home/preprocessDataBeforeRender',rankingDefault)
+    if(rankingDefault === '5c36f5422c87fa27306acb52'){
+        console.log('returning null in home/preprocessDataBeforeRender')
+      return null;
+    }
     console.log('this.props.isRankingIDInvalid in preprocessDataBeforeRender in home', this.props.isRankingIDInvalid)
     if(this.props.isRankingIDInvalid){
       this.props.history.push('/create');
