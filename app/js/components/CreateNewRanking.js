@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import JSONops from './JSONops'
+import {newrankIdCB} from './App'
 
 
 //helper class
@@ -46,7 +47,7 @@ class CreateNewRanking extends Component {
       username: '',
       //contactno: '',
       //email: '',
-      description: '',
+      rankDescription: '',
       ranknameHasChanged: false,
       error: '',
       WarningModalIsOpen: false,
@@ -55,11 +56,13 @@ class CreateNewRanking extends Component {
       rankName: '',
       rankId: ''
     };
+    console.log('this.props.rankingListJSONdata', this.props.rankingListJSONdata)
+  }
 
-    // const newRankingId = this.getNewRankId();
+  componentDidMount(){
+    const newRankingId = this.getNewRankId();
     //
-    // this.setState({ rankId: newRankingId });
-
+    this.setState({ rankId: newRankingId });
   }
 
 _continueClick = () => {
@@ -71,7 +74,7 @@ _continueClick = () => {
       //console.log('userConfirm in _continueClick2')
     //  console.log(this.state.userConfirm)
       //get a new rank Id ready
-      //this.getNewRankId();
+      //this.setState({ newRankId: this.props.getNewRankingID() });
       this._handleCreateNewRankingClick();
       //console.log('_continueClick');
   }
@@ -146,7 +149,7 @@ _continueClick = () => {
    */
   _handleCreateNewRankingClick = async (e) => {
       console.log('in _handleCreateNewRankingClick');
-
+      console.log('user', this.props.user.username)
 
       //NB: there is now no form to send
     // do not post challenge if there is a form error or user has not typed anything
@@ -222,16 +225,18 @@ _continueClick = () => {
               //          //(plus a little bit more in case the contract state has changed).
               //          const result = await createRanking.send({ from: web3.eth.defaultAccount,  gas: gasEstimate + 1000 });
 
-              const usernameHash = web3.utils.keccak256(user.username);
-              const updatedDescription = this.state.description;
+              //const usernameHash = web3.utils.keccak256(user.username);
+              const usernameHash = web3.utils.keccak256(this.props.user.username);
+              const updatedDescription = this.state.rankDescription;
               //TODO: dummy value - This needs to be fully implemented with IPFS
               const updatedImageHash = 'Qmcs96FrhP5N9kJnhNsU87tUsuHpVbaSnGm7nxh13jMLLL';
 
-              const { newrankId } = this.props;
-              console.log('newRankingId in CreateNewRanking', newrankId)
+              //const  newrankId  = this.props.getNewRankId();
+
+              console.log('newRankingId in CreateNewRanking', this.props.newrankIdCB)
 
               // set up our contract method with the input values from the form
-                  const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, newrankId, updatedImageHash);
+                  const editAccount = DSportRank.methods.editAccount(usernameHash, updatedDescription, this.props.newrankIdCB, updatedImageHash);
 
                   // get a gas estimate before sending the transaction
                   const gasEstimate = await editAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
@@ -246,11 +251,19 @@ _continueClick = () => {
                        }
                 // }
 
-               //REVIEW: New ranking must come after sendTransaction() in case e.g. there's not enough gas
+               //REVIEW: New ranking must come after editAccount.send() in case e.g. there's not enough gas
                //otherwise, if this goes through there could be ranking errors etc.
                //becomes  updateRankingsJSON (or similar)
                //JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
 
+               //    "RANKINGDESC": "The first ranking list",
+               // "RANKINGNAME": "My_Club_Default",
+               // "RANKINGID": "123456789012345"
+
+
+               console.log('before _sendCreateNewRankingJSONData this.props.newrankIdCB', this.props.newrankIdCB)
+              const resultOfSendJsonToGlobalList = JSONops._sendCreateNewRankingJSONData(this.props.rankingListJSONdata, this.props.newrankIdCB,this.state.rankName,this.state.rankDescription )
+              console.log('resultOfSendJsonToGlobalList', resultOfSendJsonToGlobalList)
                // Completed of async action, set loading state back
                //this.setState({ isLoading: false });
                // tell our parent (app.js) that we've created a user so it
@@ -268,7 +281,8 @@ _continueClick = () => {
               //this.displayContactDetails();
 
               // redirect user to the  home page
-               this.props.history.push('/');
+               //this.props.history.push('/');
+               this.props.history.push('/home/@' + this.props.user.username);
             }
             catch(err){
               //console.log(result)
@@ -297,6 +311,7 @@ getNewRankId = async () => {
         if (req.readyState == XMLHttpRequest.DONE) {
           const resulttxt = JSON.parse(req.responseText);
           //only here can set state (once result is back)
+          newrankIdCB(resulttxt.id)
           this.setState({ rankId: resulttxt.id});
           this.setState({ ranknameHasChanged: true});
           this.setState({ isLoading: false});
@@ -447,8 +462,8 @@ getNewRankId = async () => {
   render() {
     const { isLoading } = this.state;
     //const { newrankId } = this.props;
-    console.log('newrankId in create new ranking')
-    console.log(this.state.rankId)
+    //console.log('newrankId in create new ranking')
+    //console.log(this.state.rankId)
 
     let validationState = this._getValidationState();
     let isValid = validationState === 'success' && !isLoading && !this.state.error;

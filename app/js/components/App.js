@@ -118,7 +118,8 @@ class App extends Component {
       rankingDefault: '5c36f5422c87fa27306acb52',
       userNameCB: '',
       loadingRankingListJSON: true,
-      rankingListData: []
+      rankingListData: [],
+      newrankIdCB:''
     }
 
     //bind the callback functions
@@ -126,6 +127,7 @@ class App extends Component {
     contactNoCB = contactNoCB.bind(this);
     emailCB = emailCB.bind(this);
     userNameCB = userNameCB.bind(this);
+    //click List All Rankings and Enter to reset the default ranking to display
     newrankIdCB = newrankIdCB.bind(this);
   }
   //#endregion
@@ -378,6 +380,7 @@ _loadsetRankingListJSONData = async () => {
           isCurrentUserActive: JSONops._getUserValue(this.state.data, this.state.user.username, "ACTIVE")
         }) //end of the setState
       }//end of the if
+
 //common setState
       this.setState({ userAccounts: userAccounts,
         user: defaultUserAccount.user,
@@ -658,6 +661,7 @@ _loadsetRankingListJSONData = async () => {
           newrankId={this.state.newrankId}
           rankingDefault={this.state.rankingDefault}
           getNewRankingID={(e) => this.getNewRankId()}
+          newrankIdCB={this.state.newrankIdCB}
           />
       </div>
     );

@@ -9,7 +9,7 @@ import FieldGroup from './FieldGroup';
 import imgAvatar from '../../img/avatar-default.png';
 import JSONops from './JSONops'
 import {updateWarningText} from './Home'
-import {updatedExtAcctBalCB} from './App'
+import {updatedExtAcctBalCB, newrankIdCB} from './App'
 
 
 /**
@@ -196,7 +196,8 @@ class Header extends Component {
     try {
 
     //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
-      this.props.history.push('/userrankings/@' + user);
+      //this.props.history.push('/userrankings/@' + user);
+      this.props.history.push('/');
       //this.props.history.push('/@' + this.state.username);
     } catch (err) {
     // stop loading state and show the error
