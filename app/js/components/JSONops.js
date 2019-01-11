@@ -713,81 +713,16 @@ console.log('inside _setUserNameValue')
     let createNewJSONrankingObj = {
       jsonRS: origGlobalRankingData
       };
-      //let response = '';
-      //let httpString = "https://api.jsonbin.io/b/5c36f5422c87fa27306acb52/latest";
       const globalRankingsDefaultId = '5c36f5422c87fa27306acb52';
-      //let rankingID = '';
-      // let jsonToSend = '';
-      // const jsonStart = '{';
-      // const jsonEnd = '}';
-      // const rankingIDJson =  '"RANKINGID": "' +  rankingID +'",';
-      // const rankingNameJson =  '"RANKINGNAME": "' +  rankName +'",';
-      // const rankingDescJson = '"RANKINGDESC": "' +  rankDescription +'"';
-      //jsonToSend += jsonStart + rankingIDJson + rankingNameJson + rankingDescJson + jsonEnd;
-      //console.log('jsonToSend', jsonToSend)
-
       const newData = {
                         "RANKINGID": rankingID,
                         "ACTIVE": true,
                         "RANKINGDESC": rankDescription,
                         "RANKINGNAME": rankName
                       }
-
       createNewJSONrankingObj.jsonRS.push(newData);
-
-      //this._sendJSONData(createNewJSONrankingObj.jsonRS);
-      this._sendJSONDataWithRankingID(createNewJSONrankingObj.jsonRS, globalRankingsDefaultId);
+      return this._sendJSONDataWithRankingID(createNewJSONrankingObj.jsonRS, globalRankingsDefaultId);
     }
 }
-   //    let req = new XMLHttpRequest();
-   //
-   // //    "RANKINGDESC": "The first ranking list",
-   // // "RANKINGNAME": "My_Club_Default",
-   // // "RANKINGID": "123456789012345"
-   //
-   //         req.onreadystatechange = () => {
-   //          if (req.readyState == XMLHttpRequest.DONE) {
-   //            console.log(req.responseText);
-   //            response = req.responseText;
-   //            console.log('response')
-   //            console.log(response)
-   //            //rankingID = this.getIdNoFromJsonbinResponse(response);
-   //            // console.log('rankingID')
-   //            //  //console.log(rankingID)
-   //            //  //httpString += rankingID;
-   //            //  //jsonToSend += rankingID + '"}';
-   //            //  jsonToSend += rankingID + rankStr;
-   //            //  jsonToSend +=
-   //            //  console.log('jsonToSend')
-   //            //  console.log(jsonToSend)
-   //            //  jsonToSend = JSON.parse(jsonToSend);
-   //            //this._sendJSONDataWithRankingID(jsonToSend, rankingID);
-   //            //re-send the response with the new id inserted
-   //            return response;
-   //          }
-   //        };
-   //
-   //       //  console.log('rankingID b4')
-   //       //   console.log(rankingID)
-   //       //
-   //       //
-   //       //   httpString += rankingID;
-   //       //   console.log('httpString')
-   //       // console.log(httpString)
-   //
-   //         req.open("POST", httpString, true);
-   //         req.setRequestHeader("Content-type", "application/json");
-   //        response = req.send(jsonToSend);
-         //  req.open("POST", httpString, true);
-         //  req.setRequestHeader("Content-type", "application/json");
-         // response = req.send('{"RANKINGID": "' + rankingID + '"}');
-          //response = req.send();
-
-           //return response;
-           //return response;
-
-
-
-
 
 export default JSONops;

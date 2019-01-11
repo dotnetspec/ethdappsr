@@ -264,6 +264,10 @@ _continueClick = () => {
                console.log('before _sendCreateNewRankingJSONData this.props.newrankIdCB', this.props.newrankIdCB)
               const resultOfSendJsonToGlobalList = JSONops._sendCreateNewRankingJSONData(this.props.rankingListJSONdata, this.props.newrankIdCB,this.state.rankName,this.state.rankDescription )
               console.log('resultOfSendJsonToGlobalList', resultOfSendJsonToGlobalList)
+              //add current user to the new ranking list as the first player
+              JSONops.createNewUserInNewJSON(this.props.user.username, this.props.contactNoCB, this.props.emailCB, this.props.account, 'squash player', this.props.newrankIdCB)
+
+              //JSONops.createNewUserInJSON(originalData, this.props.user.username, this.props.contactNoCB, this.props.emailCB, this.props.account, 'squash player', this.props.newrankIdCB)
                // Completed of async action, set loading state back
                //this.setState({ isLoading: false });
                // tell our parent (app.js) that we've created a user so it
@@ -276,6 +280,8 @@ _continueClick = () => {
               // tell parent we've updated a user and to re-fetch user details from the contract
               //TODO: change to onAfterNewRanking();
               //this.props.onAfterChallenge();
+              console.log('about to go to onAfterUserUpdate')
+              this.props.onAfterUserUpdate();
 
               //QUESTION: is this the right place for this function?
               //this.displayContactDetails();
