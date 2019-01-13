@@ -389,7 +389,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
   bootstrapTableDisplay(){
       //if the json is empty and no account re-direct to create user
-      // console.log('this.props.rankingJSONdata')
+      console.log('this.props.rankingJSONdata', this.props.rankingJSONdata)
       // console.log(this.props.rankingJSONdata[0])
       // console.log('this.props.user.username')
       // console.log(this.props.user.username)

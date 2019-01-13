@@ -48,6 +48,7 @@ class GlobalRankings extends Component {
     selectRowPropAfterClickRow.selectedRankingId = `${row['RANKINGID']}`;
     console.log('selectRowPropAfterClickRow.selectedRankingId', selectRowPropAfterClickRow.selectedRankingId)
     newrankIdCB(selectRowPropAfterClickRow.selectedRankingId);
+    this.props.onAfterUserUpdate();
     this.props.history.push('/home/@' + this.props.user.username);
     //this.openResultModal();
    }

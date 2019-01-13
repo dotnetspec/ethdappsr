@@ -144,7 +144,8 @@ _loadsetJSONData = async () => {
   //   httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
   // }else{
   //NB: below used to be rankingDefault - logic may still exist that uses it ...
-  let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankId + '/latest';
+  //let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankId + '/latest';
+  let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankIdCB + '/latest';
     //let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
   //}
   let responseDataAsArray = [];
@@ -404,8 +405,13 @@ _loadsetRankingListJSONData = async () => {
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
         //this._loadsetJSONData();
+        if(this.state.newrankIdCB === ''){
         console.log('about to run _loadsetRankingListJSONData')
         this._loadsetRankingListJSONData();
+      }else{
+        console.log('about to run _loadsetJSONData')
+        this._loadsetJSONData();
+      }
         //get a new rankid ready in case user wants/needs to create a new ranking
         //do this after _loadsetJSONData so that we will already have the correct username
         //this.getNewRankId();
