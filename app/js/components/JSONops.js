@@ -161,21 +161,21 @@ console.log('inside _setUserNameValue')
           jsonRS: originalData
           };
 
+          console.log('originalData',originalData)
+
         nextIDandInitialRankObj.lookupField = "NAME";
         //TODO: this is 'currentuser' elasewhere
         nextIDandInitialRankObj.lookupKey = username;
 
-        //let nextIDandInitialRank = this.getNextID(nextIDandInitialRankObj.jsonRS);
-        //we are adding 1 to the length by default now due to the addition of
-        //the ranking object. So we can just set it to the json length.
-        let nextIDandInitialRank = createNewJSONuserObj.jsonRS.length;
+        console.log('createNewJSONuserObj.jsonRS.length in createNewUserInJSON', createNewJSONuserObj.jsonRS.length)
 
-        console.log('createNewJSONuserObj.jsonRS.length')
-        console.log(createNewJSONuserObj.jsonRS.length)
-        console.log(2)
+        //REVIEW: Does this line correctly handle a reset?
+        let nextIDandInitialRank = createNewJSONuserObj.jsonRS.length + 1;
 
-        //if it's a completely new json length will be 1
-        if(createNewJSONuserObj.jsonRS.length < 2){
+        console.log('createNewJSONuserObj.jsonRS.length', createNewJSONuserObj.jsonRS.length)
+
+        //if it's a completely new json length will be 0
+        if(createNewJSONuserObj.jsonRS.length < 1){
           console.log('json was new and had no existing data')
           //ensure nextIDandInitialRank is correctly initialized to 1
           nextIDandInitialRank = 1;
@@ -197,7 +197,7 @@ console.log('inside _setUserNameValue')
                         }
 
         createNewJSONuserObj.jsonRS.push(newData);
-
+        console.log('rankingID', rankingID)
         //this._sendJSONData(createNewJSONuserObj.jsonRS);
         this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
 
@@ -450,32 +450,42 @@ console.log('inside _setUserNameValue')
 
       //apart from IN/ACTIVE is player listed at all?
       isPlayerListedInJSON: function(data, currentUser){
-        console.log('data',data)
-        console.log('currentUser', currentUser)
+        console.log('data in isPlayerListedInJSON',data)
+        console.log('currentUser in isPlayerListedInJSON', currentUser)
 
-        let isPlayerListedInJSONObj = {
-          jsonRS: data
-          };
-          //used for return value below
-          let isPlayerListed = false;
-          isPlayerListedInJSONObj.lookupField = "NAME";
-          isPlayerListedInJSONObj.lookupKey = currentUser;
-            for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
-              //REVIEW: line below should only occur in dev with no RankingId assigned
-              if(isPlayerListedInJSONObj.jsonRS[i] === null){
-                return false;
-              }
-                if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
-                  isPlayerListed = true;
-                }
-            }
-            if (isPlayerListed === true){
-              return true;
-            }
-            else {
-              return false;
-            }
-            console.log('end of isPlayerListedInJSON', isPlayerListedInJSON)
+        //using ACCOUNT not NAME to test if user is listed in the json
+        const result = this._getUserValue(data, currentUser, "ACCOUNT")
+
+        console.log('result', result)
+
+        if(result === undefined){return false}
+        else
+        //5 is arbitrary. if < 5 no account number was returned
+        if(result.length < 5){return false}else{return true};
+
+        // let isPlayerListedInJSONObj = {
+        //   jsonRS: data
+        //   };
+        //   //used for return value below
+        //   let isPlayerListed = false;
+        //   isPlayerListedInJSONObj.lookupField = "NAME";
+        //   isPlayerListedInJSONObj.lookupKey = currentUser;
+        //     for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
+        //       //REVIEW: line below should only occur in dev with no RankingId assigned
+        //       if(isPlayerListedInJSONObj.jsonRS[i] === null){
+        //         return false;
+        //       }
+        //         if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
+        //           isPlayerListed = true;
+        //         }
+        //     }
+        //     if (isPlayerListed === true){
+        //       return true;
+        //     }
+        //     else {
+        //       return false;
+        //     }
+        //     console.log('end of isPlayerListedInJSON', isPlayerListedInJSON)
       },
 
       //TODO: will have to separate isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user

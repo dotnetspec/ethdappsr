@@ -366,6 +366,18 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
 //NB: none of this code is currently running on a re-set (get rid?)
   preprocessDataBeforeRender(){
+    //if there is a username but it's not listed in the json, add this user to the current list
+    // console.log('!JSONops.isPlayerListedInJSON should be false', !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username))
+    // console.log('this.props.user.username != should be true', this.props.user.username != '')
+    // console.log('isUserInJson should be true', this.props.isUserInJson)
+
+    //REVIEW: This test may be more consistently handled
+    if(this.props.user.username != '' && !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+      console.log('createNewUserInJSON in preprocessDataBeforeRender in home.js')
+      console.log('this.props.rankingID in preprocessDataBeforeRender in home.js', this.props.newrankIdCB)
+        JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "", "",this.props.account, "new player", this.props.newrankIdCB);
+        console.log('player created')
+    }
     const { rankingDefault } = this.props;
     console.log('rankingDefault in home/preprocessDataBeforeRender',rankingDefault)
     if(rankingDefault === '5c36f5422c87fa27306acb52'){
@@ -383,6 +395,11 @@ challengeButton(cell, row, enumObject, rowIndex) {
       this.props.history.push('/create');
       return null;
       //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
+    }
+    //if the player isn't listed in the json then add them
+    if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+      //originalData, username, contactno, email, accountno, description, rankingID)
+      JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "not updated", "not updated", this.props.account, 'not updated', this.props.newrankIdCB)
     }
 
   }
@@ -530,6 +547,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     let isError = this.props.error && this.props.error.message;
     //XXX: temp to run
     isError = false;
+    //NB: Boolean forces this.props.account to be a Boolean
     const isLoading = !Boolean(this.props.account) && !isError;
 
     // console.log('isLoading in home')
@@ -616,12 +634,12 @@ const { rankingJSONdata, contactNoCB, emailCB } = this.props;
               :
               this.userPlayerJsonDataDisplay()
             }
-      <div>
-     {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
-      <h3>{this.props.contactNoCB}</h3>
-      <h3>{this.props.emailCB}</h3>
- {this.bootstrapTableDisplay()}
-          </div>
+              <div>
+             {/* http://allenfang.github.io/react-bootstrap-table/example.html#sort */}
+              <h3>{this.props.contactNoCB}</h3>
+              <h3>{this.props.emailCB}</h3>
+              {this.bootstrapTableDisplay()}
+                  </div>
 
             <Col xs={12}>
               <PageHeader>

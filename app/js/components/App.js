@@ -160,7 +160,7 @@ _loadsetJSONData = async () => {
        //console.log('responseJson', responseJson)
        //responseJson = JSON.parse(responseJson);
        if(responseJson.length != 0){
-         console.log('json returns with length ' + responseJson.length)
+         console.log('json returns with length ' + responseJson.length + 'in _loadsetJSONData in app.js')
          console.log('responseJson data', responseJson)
          //HACK: it appears this code is not being used but commit
          // made as new rankings are being created for new users without error
@@ -405,6 +405,7 @@ _loadsetRankingListJSONData = async () => {
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
         //this._loadsetJSONData();
+        console.log('this.state.newrankIdCB', this.state.newrankIdCB)
         if(this.state.newrankIdCB === ''){
         console.log('about to run _loadsetRankingListJSONData')
         this._loadsetRankingListJSONData();
@@ -668,6 +669,7 @@ _loadsetRankingListJSONData = async () => {
           rankingDefault={this.state.rankingDefault}
           getNewRankingID={(e) => this.getNewRankId()}
           newrankIdCB={this.state.newrankIdCB}
+          isUserInJson={this.state.isUserInJson}
           />
       </div>
     );

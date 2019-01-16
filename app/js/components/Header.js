@@ -147,7 +147,7 @@ class Header extends Component {
     else if (e.target.attributes.username.value){
       //update the text in the Home.js sibling warkingText
       updateWarningText('');
-      this.props.history.push('/update/@' + e.target.attributes.username.value);
+      //this.props.history.push('/update/@' + e.target.attributes.username.value);
     }
     else{
       //update the text in the Home.js sibling warkingText
