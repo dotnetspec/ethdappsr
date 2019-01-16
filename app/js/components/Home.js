@@ -372,7 +372,11 @@ challengeButton(cell, row, enumObject, rowIndex) {
     // console.log('isUserInJson should be true', this.props.isUserInJson)
 
     //REVIEW: This test may be more consistently handled
-    if(this.props.user.username != '' && !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+    console.log('this.props.loadingJSON', this.props.loadingJSON)
+    if(this.props.user.username != ''
+    && !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
+    && this.props.loadingJSON === false
+    ){
       console.log('createNewUserInJSON in preprocessDataBeforeRender in home.js')
       console.log('this.props.rankingID in preprocessDataBeforeRender in home.js', this.props.newrankIdCB)
         JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "", "",this.props.account, "new player", this.props.newrankIdCB);

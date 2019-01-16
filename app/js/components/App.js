@@ -670,6 +670,7 @@ _loadsetRankingListJSONData = async () => {
           getNewRankingID={(e) => this.getNewRankId()}
           newrankIdCB={this.state.newrankIdCB}
           isUserInJson={this.state.isUserInJson}
+          loadingJSON={this.state.loadingJSON}
           />
       </div>
     );
