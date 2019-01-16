@@ -586,6 +586,7 @@ const { rankingJSONdata, contactNoCB, emailCB } = this.props;
           user={this.props.user.username}
           updateTextCB={this.updateText}
           updatedExtAcctBalCB={this.props.updatedExtAcctBalCB}
+          newrankIdCB={this.props.newrankIdCB}
           >
           </DoChallenge>
         </Modal.Body>

@@ -400,7 +400,7 @@ componentDidMount(){
         <Navbar.Collapse>
           <div className='navbar-right'>
             <Navbar.Form>
-             <Search />
+             {/* <Search />*/}
             </Navbar.Form>
 
             {isLoading ?

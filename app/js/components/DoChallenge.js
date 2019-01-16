@@ -178,7 +178,7 @@ displayContactDetails(){
 
       //REVIEW: Update must come after sendTransaction() in case e.g. there's not enough gas
       //otherwise, if this goes through there could be ranking errors etc.
-      JSONops._updateDoChallengeJSON(this.props.user, this.props.selectedOpponentName, this.props.data);
+      JSONops._updateDoChallengeJSON(this.props.newrankIdCB, this.props.user, this.props.selectedOpponentName, this.props.data);
 
       // remove loading state
       this.setState({ isLoading: false });

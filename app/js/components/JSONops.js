@@ -115,7 +115,7 @@ console.log('inside _setUserNameValue')
         this._sendJSONData(updatedUserJSON);
     },
 
-    _updateDoChallengeJSON: function(currentUser, selectedOpponent, data){
+    _updateDoChallengeJSON: function(rankingID, currentUser, selectedOpponent, data){
       //get the user's id number
       const userIDNumber = this._getUserValue(data, currentUser, "id");
       //NB: selectedOpponentIDNumber not currently used but possible it may be needed
@@ -128,7 +128,8 @@ console.log('inside _setUserNameValue')
 
       updatedUserJSON = this._setUserValue(data, currentUser, "CURRENTCHALLENGERNAME", selectedOpponent);
 
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+      this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
       _getVal: function(jsonObj){
