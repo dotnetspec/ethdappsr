@@ -342,6 +342,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     if(this.props.user.username != ''
     && !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
     && this.props.loadingJSON === false
+    && this.props.viewingOnlyCB === false
     ){
       console.log('createNewUserInJSON in preprocessDataBeforeRender in home.js')
       console.log('this.props.rankingID in preprocessDataBeforeRender in home.js', this.props.newrankIdCB)
@@ -366,8 +367,9 @@ challengeButton(cell, row, enumObject, rowIndex) {
       return null;
       //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
     }
-    //if the player isn't listed in the json then add them
-    if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+    //if the player isn't listed in the json then add them (only if user clicked 'join')
+    if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
+  && this.props.viewingOnlyCB === false ){
       //originalData, username, contactno, email, accountno, description, rankingID)
       JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "not updated", "not updated", this.props.account, 'not updated', this.props.newrankIdCB)
     }

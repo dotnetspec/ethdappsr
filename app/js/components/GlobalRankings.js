@@ -11,7 +11,7 @@ import React, { Component } from 'react';
 import JSONops from './JSONops'
 import CreateNewRanking from './CreateNewRanking';
 import UserRankings from './UserRankings'
-import {newrankIdCB} from './App'
+import {newrankIdCB, viewingOnlyCB} from './App'
 
 const selectRowPropAfterClickRow = {
   selectedRankingId: ''
@@ -41,17 +41,28 @@ class GlobalRankings extends Component {
   }
   //#endregion
 
-  //#region React lifecycle events
 
+  //REVIEW: change name to onClickRankingJoinSelected?
   onClickRankingSelected(cell, row, rowIndex){
-    //console.log('Product #', rowIndex);
     selectRowPropAfterClickRow.selectedRankingId = `${row['RANKINGID']}`;
     console.log('selectRowPropAfterClickRow.selectedRankingId', selectRowPropAfterClickRow.selectedRankingId)
     newrankIdCB(selectRowPropAfterClickRow.selectedRankingId);
+    viewingOnlyCB(false);
     this.props.onAfterUserUpdate();
     this.props.history.push('/home/@' + this.props.user.username);
     //this.openResultModal();
    }
+
+   onClickRankingViewSelected(cell, row, rowIndex){
+     //console.log('Product #', rowIndex);
+     selectRowPropAfterClickRow.selectedRankingId = `${row['RANKINGID']}`;
+     console.log('selectRowPropAfterClickRow.selectedRankingId', selectRowPropAfterClickRow.selectedRankingId)
+     newrankIdCB(selectRowPropAfterClickRow.selectedRankingId);
+     viewingOnlyCB(true);
+     this.props.onAfterUserUpdate();
+     this.props.history.push('/home/@' + this.props.user.username);
+     //this.openResultModal();
+    }
 
   rankingButton(cell, row, enumObject, rowIndex) {
       return (
@@ -61,11 +72,25 @@ class GlobalRankings extends Component {
             onClick={() =>
             this.onClickRankingSelected(cell, row, rowIndex)}
          >
-         Enter
+         Join
          </button>
       )
    }
 
+   rankingViewButton(cell, row, enumObject, rowIndex) {
+       return (
+          <button
+             bsstyle="primary"
+             //type="button"
+             onClick={() =>
+             this.onClickRankingViewSelected(cell, row, rowIndex)}
+          >
+          View
+          </button>
+       )
+    }
+
+//#region React lifecycle events
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
   componentDidMount() {
@@ -108,9 +133,16 @@ class GlobalRankings extends Component {
 
               <TableHeaderColumn
               dataField='button'
+              dataFormat={this.rankingViewButton.bind(this)}
+            >
+              View
+              </TableHeaderColumn>
+
+              <TableHeaderColumn
+              dataField='button'
               dataFormat={this.rankingButton.bind(this)}
             >
-              Enter
+              Join
               </TableHeaderColumn>
 
               <TableHeaderColumn dataField='ACTIVE'

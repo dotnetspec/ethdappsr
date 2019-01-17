@@ -76,6 +76,12 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
         this.setState({newrankIdCB})
     }
 
+    //cb from GlobalRankings.js to set the rank state as view only
+    export function viewingOnlyCB(viewingOnlyCB) {
+      console.log('in viewingOnlyCB', viewingOnlyCB)
+        this.setState({viewingOnlyCB})
+    }
+
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -119,7 +125,8 @@ class App extends Component {
       userNameCB: '',
       loadingRankingListJSON: true,
       rankingListData: [],
-      newrankIdCB:''
+      newrankIdCB:'',
+      viewingOnlyCB: true
     }
 
     //bind the callback functions
@@ -129,6 +136,7 @@ class App extends Component {
     userNameCB = userNameCB.bind(this);
     //click List All Rankings and Enter to reset the default ranking to display
     newrankIdCB = newrankIdCB.bind(this);
+    viewingOnlyCB = viewingOnlyCB.bind(this);
   }
   //#endregion
 
@@ -392,7 +400,8 @@ _loadsetRankingListJSONData = async () => {
         emailCB: '',
         loadingAccounts: false,
         //newrankId must be cleared so a new one has to be regenerated for each account
-        newrankId: ''
+        newrankId: '',
+        viewingOnlyCB: true 
       }) //end of the setState
 
         console.log('ready to _loadsetRankingListJSONData after a render')
@@ -669,6 +678,7 @@ _loadsetRankingListJSONData = async () => {
           rankingDefault={this.state.rankingDefault}
           getNewRankingID={(e) => this.getNewRankId()}
           newrankIdCB={this.state.newrankIdCB}
+          viewingOnlyCB={this.state.viewingOnlyCB}
           isUserInJson={this.state.isUserInJson}
           loadingJSON={this.state.loadingJSON}
           />

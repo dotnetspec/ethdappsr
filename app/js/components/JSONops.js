@@ -57,6 +57,27 @@ const JSONops = {
         return this._getVal(lookupGlobalRankingValue);
   },
 
+//REVIEW: Not currently used, unsure if neceesary 
+  isNewRanking: function(jsonObj){
+
+    let lookupRankStatus = {
+      jsonRS: jsonObj,
+      lookupField: 'STATUS',
+      lookupKey: "NEW",
+      targetField: "RANKING",
+      //targetData: "",
+      checkAllRows: false
+      };
+      //console.log(lookupCurrentUserRank)
+      const currentUserValue = this._getVal(lookupCurrentUserValue);
+      if(currentUserValue === "NEWRANKING"){
+        return true;
+      }else{
+        return false;
+      }
+        //return currentUserValue;
+  },
+
 //for creating new users and corresponind new ranking need to use the acct number
 //which is know before user created to set the user name in the json to match
 //the account name
@@ -164,8 +185,6 @@ console.log('inside _setUserNameValue')
         let nextIDandInitialRankObj = {
           jsonRS: originalData
           };
-
-          console.log('originalData',originalData)
 
         nextIDandInitialRankObj.lookupField = "NAME";
         //TODO: this is 'currentuser' elasewhere

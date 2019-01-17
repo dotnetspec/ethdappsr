@@ -331,7 +331,9 @@ getNewRankId = async () => {
       //don
       req.open("POST", "https://api.jsonbin.io/b", true);
       req.setRequestHeader("Content-type", "application/json");
-      req.send('{"Player": "Johan Straus"}') || {}
+      //req.send('{"Ranking": "NewRanking"}') || {}
+      //below done so that jsonobj can be tested for new:
+      req.send('{"RANKING": "NEWRANKING", "STATUS":"NEW"}') || {}
       }catch (err) {
       // stop loading state and show the error
       console.log(err)
