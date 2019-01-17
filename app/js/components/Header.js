@@ -31,26 +31,34 @@ import {updatedExtAcctBalCB, newrankIdCB} from './App'
       updatedExtAcctBalCB(this.props.updatedExtAcctBalCB);
     }
     combineETHVals(){
-
       const origETHInt = parseInt(this.props.updatedExtAcctBalCB);
       //updatedExtAcctBalCB is updated by callback in Home
       //const newETHInt = parseInt(this.props.ExtAcctBalCB);
         //const combinedCurrentETHVal = origETHInt + newETHInt;
-        return origETHInt;
+      return origETHInt;
     }
     render() {
-        //extAcctBal
-        return (
-          <>
-
-          <small>SportRank has contributed:<br></br>
-                {this.combineETHVals() } ETH to your favourite sport</small>
-          </>
-        );
+      let htmlTxtToReturn = ''
+      let htmlTxtToReturn2 = ''
+      if(this.props.updatedExtAcctBalCB != 0){
+       htmlTxtToReturn = 'SportRank has contributed: '
+       htmlTxtToReturn2 = this.combineETHVals() + " ETH to your favourite sport"
       }
+      // else{
+      //    htmlTxtToReturn = ''
+      //    htmlTxtToReturn2 = ''
+      // }
+      return(
+        <div>
+          <small>
+            { htmlTxtToReturn }
+            <br></br>
+            { htmlTxtToReturn2 }
+          </small>
+        </div>
+      );
     }
-
-
+  }
 
 /**
  * Class representing the header of the page that handles
@@ -343,7 +351,9 @@ componentDidMount(){
     //TODO: change to states.challenge
 
     states.challenge = <React.Fragment>
-
+    <Button bsStyle="primary" onClick={(e) => this._handleRankingList(this.props.user[1])}>
+      List All Rankings
+    </Button>
       <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
       </Button>
@@ -356,9 +366,7 @@ componentDidMount(){
       <Button bsStyle="primary" onClick={(e) => this._handleCreateNewRanking(this.props.user[1])}>
         Create New Ranking
       </Button>
-      <Button bsStyle="primary" onClick={(e) => this._handleRankingList(this.props.user[1])}>
-        List All Rankings
-      </Button>
+
 
 
       {/*<Modal show={this.state.showModal} onHide={(e) => this._handleClose(e)}>
