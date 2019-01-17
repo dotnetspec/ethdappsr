@@ -79,7 +79,7 @@ console.log('inside _setUserNameValue')
 
     //re-set user and opponent fields now that a result needs to be processed
     //NB:playerNameOnRowClicked is for when opponent row clicked
-    _updateEnterResultJSON: function(currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
+    _updateEnterResultJSON: function(rankingID, currentUser, currentUserRank, playerNameOnRowClicked, selectedOpponentRank, data){
 
       const opponentCurrentlyChallengingUser = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
       let newUserRank, newOpponentRank = 0;
@@ -98,10 +98,11 @@ console.log('inside _setUserNameValue')
 
       //send after all the updates have been made
       //to the updatedUserJSON object
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+      this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
-    _updateEnterResultUnchangedJSON: function(currentUser, selectedOpponent, data){
+    _updateEnterResultUnchangedJSON: function(rankingID, currentUser, selectedOpponent, data){
         //set both player to AVAILABLE
         const opponentCurrentlyChallengingUser = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
         console.log(opponentCurrentlyChallengingUser)
@@ -112,7 +113,8 @@ console.log('inside _setUserNameValue')
             updatedUserJSON = this._setUserValue(data, opponentCurrentlyChallengingUser, "CURRENTCHALLENGERNAME", "AVAILABLE");
 
 
-        this._sendJSONData(updatedUserJSON);
+        //this._sendJSONData(updatedUserJSON);
+        this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
     _updateDoChallengeJSON: function(rankingID, currentUser, selectedOpponent, data){
@@ -152,6 +154,7 @@ console.log('inside _setUserNameValue')
 },
 
 //TODO: this is going to become createNewUserInExistingRankingJson
+//NB: rankingID is at the end of the param list
     createNewUserInJSON: function(originalData, username, contactno, email, accountno, description, rankingID){
 
         let createNewJSONuserObj = {
@@ -198,7 +201,7 @@ console.log('inside _setUserNameValue')
                         }
 
         createNewJSONuserObj.jsonRS.push(newData);
-        console.log('rankingID', rankingID)
+        console.log('rankingID in createNewUserInJSON', rankingID)
         //this._sendJSONData(createNewJSONuserObj.jsonRS);
         this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
 
@@ -228,15 +231,16 @@ console.log('inside _setUserNameValue')
         return this._sendJSONDataWithRankingID(newData, rankingID);
     },
 
-    updateDateStampsInJSON: function(data, username, opponent){
+    updateDateStampsInJSON: function(rankingID, data, username, opponent){
       let updatedUserJSON = this._setUserValue(data, username, "DATESTAMP", Date.now());
       console.log(updatedUserJSON)
       updatedUserJSON = this._setUserValue(data, opponent, "DATESTAMP", Date.now());
       console.log(updatedUserJSON)
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+      this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
-    updateUserInJSON: function(data, username, contactno, email, description){
+    updateUserInJSON: function(rankingID, data, username, contactno, email, description){
 
       //REVIEW: get the user's id number or should stick to username?
       //const userIDNumber = this._getUserValue(data, currentUser, "id");
@@ -250,7 +254,8 @@ console.log('inside _setUserNameValue')
 
       updatedUserJSON = this._setUserValue(data, username, "DESCRIPTION", description);
 
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+        this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
 
     },
 

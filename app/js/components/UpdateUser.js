@@ -47,7 +47,7 @@ class UpdateUser extends Component {
 //if the ployer account name isn't yet listed as a 'NAME' in the json (should be just a dev issue)
 //caused by deleting accounts for dev purposes
 if (!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, user.username)){
-    JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description);
+    JSONops.createNewUserInJSON(this.props.rankingJSONdata, user.username, this.props.account, this.state.description, this.props.newrankIdCB);
     this.props.history.push('/');
 }
 // OPTIMIZE:
@@ -59,7 +59,7 @@ else{
   console.log('this.state.email')
   console.log(this.state.email)
 
-  JSONops.updateUserInJSON(this.props.rankingJSONdata, user.username, this.state.contactno, this.state.email, this.state.description);
+  JSONops.updateUserInJSON(this.props.newrankIdCB, this.props.rankingJSONdata, user.username, this.state.contactno, this.state.email, this.state.description);
 }
 
     // if the user has updated their photo, try to upload it to ipfs

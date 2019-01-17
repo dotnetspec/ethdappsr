@@ -108,19 +108,11 @@ displayContactDetails(){
    */
   _handleClick = async (e) => {
       console.log('in _handleClick');
-
-
       //NB: there is now no form to send
     // do not post challenge if there is a form error or user has not typed anything
     // if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
     //   console.log('here preventDefault');
     //   return e.preventDefault();
-    // }
-
-    // do not post challenge if the opponent already has a challenger
-    //DELETE: this logic is already applied in Home.js - delete
-    // if(!JSONops.isPlayerAvailableToChallenge()){
-    //     return e.preventDefault();
     // }
 
     // show loading state
@@ -135,57 +127,41 @@ displayContactDetails(){
     //but updating the json and callback of the contactNoCB
     //REVIEW: think above comment out of date
     try{
-
       //https://stackoverflow.com/questions/27176838/reactjs-setstate-is-slow
       //await keyword necessary
       await this.setState(state => {
       state.challenge= this.props.user + " vs " + this.props.selectedOpponentName;
        }, ()=>{
          //after callback
-         console.log('this.state.challenge')
-         console.log(this.state.challenge)
-
+         console.log('this.state.challenge', this.state.challenge)
        });
-
        const challenge = DSportRank.methods.challenge(this.state.challenge);
-
        // estimate gas before sending challenge transaction
        const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
-
-
        //REVIEW; Sending ETH code. Account currently hard coded
        const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
 
-       // console.log('account')
-       // console.log(account)
-       console.log('web3.eth.defaultAccount')
-       console.log(web3.eth.defaultAccount)
+       console.log('web3.eth.defaultAccount', web3.eth.defaultAccount)
 
        if (resultSentExtBal.status && !Boolean(resultSentExtBal.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
          return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(resultSentExtBal) });
        }
-       console.log('gasEstimate')
-       console.log(gasEstimate)
+       console.log('gasEstimate', gasEstimate)
        //REVIEW: not currently sure why gasEstimate not working the same as for sendTransaction above
        //currently set with addon 10X higher
        const result = await challenge.send({ from: web3.eth.defaultAccount, gas: gasEstimate + 100000 });
-
        // check result status. if status is false or '0x0', show user the tx details to debug error
       if (result.status && !Boolean(result.status.toString().replace('0x', ''))) { // possible result values: '0x0', '0x1', or false, true
         //console.log(result)
         return this.setState({ isLoading: false, error: 'Error executing transaction, transaction details: ' + JSON.stringify(result) });
       }
-
       //REVIEW: Update must come after sendTransaction() in case e.g. there's not enough gas
       //otherwise, if this goes through there could be ranking errors etc.
       JSONops._updateDoChallengeJSON(this.props.newrankIdCB, this.props.user, this.props.selectedOpponentName, this.props.data);
-
       // remove loading state
       this.setState({ isLoading: false });
-
       // tell parent we've updated a user and to re-fetch user details from the contract
       this.props.onAfterChallenge();
-
       //QUESTION: is this the right place for this function?
       this.displayContactDetails();
     }
@@ -196,7 +172,6 @@ displayContactDetails(){
       this.setState({ isLoading: false, error: err.message });
     }
   }
-
    /**
    * When user changes an input value, record that in the state.
    *
@@ -210,12 +185,10 @@ displayContactDetails(){
     //let state = {challengeHasChanged: true};
     //state[e.target.name] = e.target.value;
     //this.setState(state);
-
     this.setState({ challenge: e.target.value });
     this.setState({ challengeHasChanged: true });
   }
   //#endregion
-
   //#region Helper methods
   /**
    * Validates the form. Return null for no state change,
@@ -236,18 +209,14 @@ displayContactDetails(){
   }
 
   render(){
-
     //const userAccountNo = web3.eth.defaultAccount;
-
     let states = {};
     // state when we are waiting for the App component to finish loading
     // the current account (address) from web3.eth.getAccounts()
     states.isLoading = <Spinner name="pacman" color="white" fadeIn='none' />;
-
     states.isError = <span className='error'>ERROR!</span>;
     //determine userName from account no. stored in JSON
     //with this.getUserNameFromAccount(userName)
-
     const validationState = this._getValidationState();
     const isValid = validationState !== 'error';
     const { isLoading, error, challenge, challengeHasChanged } = this.state;
@@ -260,7 +229,6 @@ displayContactDetails(){
 
     return (
       <>
-
       <form>
         {/* REVIEW: Re-enable this challenge functionality? */}
       {/*

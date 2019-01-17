@@ -607,7 +607,9 @@ const { rankingJSONdata, contactNoCB, emailCB } = this.props;
         selectedOpponentRank={selectRowPropAfterClickRow.selectedOpponentRank}
         user={this.props.user.username}
         selectedOpponentName={selectRowPropAfterClickRow.selectedOpponentName}
-        onAfterChallenge={this.closeResultModal}>
+        onAfterChallenge={this.closeResultModal}
+        newrankIdCB={this.props.newrankIdCB}
+        >
         </EnterResult>
         </Modal.Body>
           <Modal.Footer>
