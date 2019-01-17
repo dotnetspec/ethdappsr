@@ -43,69 +43,75 @@ const selectRowPropAfterClickRow = {
   //#endregion
 
 //REVIEW: Possibly re-factor to clarify code in the Home component
-class UserPlayerJsonData extends Component {
-   render() {
-      // details is all the object -> array data coming from the data prop sent from Home
-      //using the object.keys code
-        const { details} = this.props;
-        let textToDisplayRank = '';
-        let textToDisplayChallenger = '';
-        let textToDisplayContinue = '';
-
-        //console.log(details);
-
-        //if the json is empty do nothing
-        if (details === null){
-          console.log('json is empty 2');
-          return null;
-        }
-
-        const currentUserRank = details.RANK;
-        const currentChallengerName = details.CURRENTCHALLENGERNAME;
-
-      textToDisplayRank = 'Your current rank is: ' + currentUserRank;
-        //console.log(details.RANK);
-          if (details.NAME === this.props.username && details.ACTIVE === true)
-            {
-                //console.log(details.RANK);
-                if(currentChallengerName != 'AVAILABLE'){
-                  textToDisplayChallenger = 'Your current challenge is VS ' + currentChallengerName;
-                  textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
-
-                }else{
-                    textToDisplayChallenger += 'You do NOT currently have a challenge'
-                    textToDisplayContinue += 'Please select an AVAILABLE opponent (below) to challenge: '
-                }
-
-              return (
-                <div>
-                    {this.props.username}
-                  <p></p>
-                    { textToDisplayRank }
-                  <p></p>
-                    { textToDisplayChallenger }
-                  <p></p>
-                    { textToDisplayContinue }
-                </div>)
-             }else
-
-             if (details.NAME === this.props.username && details.ACTIVE === false){
-                 //this.setState({ activateText: 'Your account currently has no player associated with it' });
-                //this.props.history.push('/update/@' + this.props.username);
-               return (
-                 <div>
-                   Your player is currently deactivated!<p></p>
-                   Click Reactivate (top  menu) to re-enter the rankings (at the bottom)
-                </div>)
-               ;}
-               else {
-                   //this.setState({ activateText: 'Your account currently has no player associated with it' });
-                  //this.props.history.push('/update/@' + this.props.username);
-                 return (
-                  null)
-                 ;}
-           }
-}
+// class UserPlayerJsonData extends Component {
+//    render() {
+//       // details is all the object -> array data coming from the data prop sent from Home
+//       //using the object.keys code
+//         const { details} = this.props;
+//         const textToDisplayRankName = JSONops._getGlobalRankingVal(this.props.rankingListJSONdata, this.props.newrankIdCB, 'RANKINGNAME')
+//         const textToDisplayRankDesc = JSONops._getGlobalRankingVal(this.props.rankingListJSONdata, this.props.newrankIdCB, 'RANKINGDESC')
+//         let textToDisplayRank = '';
+//         let textToDisplayChallenger = '';
+//         let textToDisplayContinue = '';
+//
+//         //console.log(details);
+//
+//         //if the json is empty do nothing
+//         if (details === null){
+//           console.log('json is empty 2');
+//           return null;
+//         }
+//
+//         const currentUserRank = details.RANK;
+//         const currentChallengerName = details.CURRENTCHALLENGERNAME;
+//
+//       textToDisplayRank = 'Your current rank is: ' + currentUserRank;
+//         //console.log(details.RANK);
+//           if (details.NAME === this.props.username && details.ACTIVE === true)
+//             {
+//                 //console.log(details.RANK);
+//                 if(currentChallengerName != 'AVAILABLE'){
+//                   textToDisplayChallenger = 'Your current challenge is VS ' + currentChallengerName;
+//                   textToDisplayContinue =   'Enter a result against ' + currentChallengerName + ' to continue'
+//
+//                 }else{
+//                     textToDisplayChallenger += 'You do NOT currently have a challenge'
+//                     textToDisplayContinue += 'Please select an AVAILABLE opponent (below) to challenge: '
+//                 }
+//
+//               return (
+//                 <div>
+//                     {this.props.username}
+//                   <p></p>
+//                     { textToDisplayRankName }
+//                   <p></p>
+//                     { textToDisplayRankDesc }
+//                   <p></p>
+//                     { textToDisplayRank }
+//                   <p></p>
+//                     { textToDisplayChallenger }
+//                   <p></p>
+//                     { textToDisplayContinue }
+//                 </div>)
+//              }else
+//
+//              if (details.NAME === this.props.username && details.ACTIVE === false){
+//                  //this.setState({ activateText: 'Your account currently has no player associated with it' });
+//                 //this.props.history.push('/update/@' + this.props.username);
+//                return (
+//                  <div>
+//                    Your player is currently deactivated!<p></p>
+//                    Click Reactivate (top  menu) to re-enter the rankings (at the bottom)
+//                 </div>)
+//                ;}
+//                else {
+//                    //this.setState({ activateText: 'Your account currently has no player associated with it' });
+//                   //this.props.history.push('/update/@' + this.props.username);
+//                  return (
+//                   null)
+//                  ;}
+//            }
+// }
 
 
 
@@ -118,15 +124,6 @@ export function updateWarningText(warningText) {
     this.setState({warningText})
 }
 
-// //these cb functions update the relevant components
-// //DoChallenge.js
-// export function contactNoCB(contactNoCB) {
-//     this.setState({contactNoCB})
-// }
-//
-// export function emailCB(emailCB) {
-//     this.setState({emailCB})
-// }
 /**
  * Class representing the home page rendering
  *
@@ -158,8 +155,6 @@ class Home extends Component{
    //bind the callbacks (defined above) to this parent component Home
    //so that DoChallenge changes are updated in UI:
     updateWarningText = updateWarningText.bind(this);
-    // contactNoCB = contactNoCB.bind(this);
-    // emailCB = emailCB.bind(this);
   }
   //#endregion
 
@@ -205,7 +200,6 @@ class Home extends Component{
 // }
 
 onClickChallengeSelected(cell, row, rowIndex){
-  //console.log('Product #', rowIndex);
   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
   console.log('this.props.user.rankings')
@@ -219,11 +213,9 @@ onClickChallengeSelected(cell, row, rowIndex){
  }
 
  onClickResultSelected(cell, row, rowIndex){
-   //console.log('Product #', rowIndex);
    selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
    selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
    this.openResultModal();
-   //this._handleShowChallengeModal();
   }
 
 // TODO: Challenge/Enter button should be part of onrowselect, not a separate button
@@ -262,8 +254,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     //NB: this is a NOT operation!
     const { rankingJSONdata } = this.props;
     if(!JSONops.isPlayerAvailableToEnterResultAgainst(rankingJSONdata, selectRowPropAfterClickRow.selectedOpponentName, this.props.user.username))
-  {
-    //console.log(1)
+    {
         this.setState({ warningText: 'You must challenge an opponent before attempting to enter a result!' });
         this.setState({ WarningModalIsOpen: true });
     }else{
@@ -281,46 +272,24 @@ challengeButton(cell, row, enumObject, rowIndex) {
   };
 
 //REVIEW: Managing display here might be handled differently:
+//this was originally a component - perhaps it still should be [?]
   userPlayerJsonDataDisplay(){
-    // console.log('this.props.rankingJSONdata')
-    // console.log(this.props.rankingJSONdata)
-    // return(
-    //   <h3>{Object.keys(this.props.rankingJSONdata).map(key => (
-    //   <UserPlayerJsonData key={key} details={this.props.rankingJSONdata[key]} username={this.props.user.username}/>
-    //   ))}
-    //   <font color="red">{this.state.warningText}</font><p></p></h3>
-    // )
-
-    // const currentUserRank = '4';
-    // const textToDisplayRank = 'Your current rank is: ' + currentUserRank;
-    // console.log('1');
-    // return (<h3>{ textToDisplayRank  }</h3>);
-
-    //const { details} = this.props;
+    const textToDisplayRankName = JSONops._getGlobalRankingVal(this.props.rankingListJSONdata, this.props.newrankIdCB, 'RANKINGNAME')
+    const textToDisplayRankDesc = JSONops._getGlobalRankingVal(this.props.rankingListJSONdata, this.props.newrankIdCB, 'RANKINGDESC')
     let textToDisplayRank = '';
     let textToDisplayChallenger = '';
     let textToDisplayContinue = '';
-
-    //console.log(1);
-
     //if the json is empty do nothing
     if (this.props.rankingJSONdata[0] === null){
       console.log('json is empty inside userPlayerJsonDataDisplay');
-      //const newjsonRankingId = JSONops._sendCreateNewRankingJSONData();
-      //this.sendCreateNewRankingJSONData();
-      //console.log(newjsonRankingId);
       return null;
     }
 
-    //const currentUserRank = details.RANK;
     const currentUserRank = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "RANK");
     const currentChallengerName = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "CURRENTCHALLENGERNAME");
-    //const currentChallengerName = details.CURRENTCHALLENGERNAME;
 
     textToDisplayRank = 'Your current rank is: ' + currentUserRank;
-    //console.log(details.RANK);
-      //if (details.NAME === this.props.username && details.ACTIVE === true)
-      //REVIEW: possible this extra check on user name not necessary
+
       const currentUserName = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "NAME");
       const activeBool = JSONops._getUserValue(this.props.rankingJSONdata, this.props.user.username, "ACTIVE");
       if (currentUserName === this.props.user.username && activeBool)
@@ -337,6 +306,12 @@ challengeButton(cell, row, enumObject, rowIndex) {
 
           return (
             <div>
+              <h2>
+                { textToDisplayRankName }
+              </h2>
+              <h4>
+                { textToDisplayRankDesc }
+              </h4>
                 {this.props.user.username}
               <p></p>
                 { textToDisplayRank }
@@ -347,9 +322,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
             </div>)
           }else
             if (currentUserName === this.props.user.username && !activeBool){
-            //if (details.NAME === this.props.username && details.ACTIVE === false){
-                //this.setState({ activateText: 'Your account currently has no player associated with it' });
-               //this.props.history.push('/update/@' + this.props.username);
               return (
                 <div>
                   Your player is currently deactivated!<p></p>
@@ -357,8 +329,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
                </div>)
               ;}
               else {
-                  //this.setState({ activateText: 'Your account currently has no player associated with it' });
-                 //this.props.history.push('/update/@' + this.props.username);
                 return (
                  null)
                 ;}
@@ -367,10 +337,6 @@ challengeButton(cell, row, enumObject, rowIndex) {
 //NB: none of this code is currently running on a re-set (get rid?)
   preprocessDataBeforeRender(){
     //if there is a username but it's not listed in the json, add this user to the current list
-    // console.log('!JSONops.isPlayerListedInJSON should be false', !JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username))
-    // console.log('this.props.user.username != should be true', this.props.user.username != '')
-    // console.log('isUserInJson should be true', this.props.isUserInJson)
-
     //REVIEW: This test may be more consistently handled
     console.log('this.props.loadingJSON', this.props.loadingJSON)
     if(this.props.user.username != ''

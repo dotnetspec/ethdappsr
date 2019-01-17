@@ -44,10 +44,6 @@ import {updatedExtAcctBalCB, newrankIdCB} from './App'
        htmlTxtToReturn = 'SportRank has contributed: '
        htmlTxtToReturn2 = this.combineETHVals() + " ETH to your favourite sport"
       }
-      // else{
-      //    htmlTxtToReturn = ''
-      //    htmlTxtToReturn2 = ''
-      // }
       return(
         <div>
           <small>

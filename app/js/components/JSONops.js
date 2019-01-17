@@ -1,31 +1,15 @@
 //TODO: refactor
 const JSONops = {
 
-  // _loadsetJSONData: function(){
-  //   //NOTE: it is the api.jsonbin NOT the jsonbin.io!
-  //   //JSON data can and should be in ANY order
-  //   //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
-  //   fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest')
-  //   //TODO: get it working with ipfs/swarm
-  //   //fetch('http://localhost:8080/ipfs/QmXthCeahQiqDecUWPYB8VJEXCn6YNpLv9xcAgt8hhUdE2/Rankings.json')
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     // this.setState({
-  //     //   //isLoading: false,
-  //     //   data: responseJson,
-  //     //
-  //     // }
-  //     //, function(){
-  // //console.log(responseJson);
-  //     //});
-  //     //console.log(responseJson);
-  // return responseJson
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // },
+  //Usage:
+  //_getGlobalRankingVal
+  //for getting vals from the Global Ranking json
+  //_getUserValue
+  // get details from a specific user's json in a given ranking list
+  //_setUserValue
+  //set a particular value for a given user in the json
 
+//TODO: should be renamed to getJSONValWithUserName
   _getUserValue: function(jsonObj, currentUser, valueToLookup){
 
     let lookupCurrentUserValue = {
@@ -55,6 +39,22 @@ const JSONops = {
       const newUserValue = this._setVal(setNewUserValue);
 
       return newUserValue;
+  },
+
+  _getGlobalRankingVal: function(jsonObj, rankingID, valueToLookup){
+    console.log('inside lookupGlobalRankingValue', jsonObj)
+    let lookupGlobalRankingValue = {
+      jsonRS: jsonObj,
+      lookupField: 'RANKINGID',
+      lookupKey: rankingID,
+      targetField: valueToLookup,
+      //targetData: "",
+      checkAllRows: false
+      };
+      console.log('lookupGlobalRankingValue', lookupGlobalRankingValue)
+      //const currentGlobalRankingVal = this._getVal(lookupGlobalRankingValue);
+
+        return this._getVal(lookupGlobalRankingValue);
   },
 
 //for creating new users and corresponind new ranking need to use the acct number
