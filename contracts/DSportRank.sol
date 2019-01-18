@@ -9,6 +9,8 @@ contract DSportRank{
     struct User {
         uint creationDate;      // date user was created
         string username;        // username of the user
+        string contactno;       //user's contact number
+        string email;           //user's email
         string description;     // user profile description
         address owner;          // address of the account who created the user
         string picture;         // IFPS hash of the user's profile picture
@@ -97,7 +99,7 @@ contract DSportRank{
      * {string} username - the username of the user
      * {string} description - the user profile description
      */
-    function createAccount(string username, string description, string rankingDefault) public {
+    function createAccount(string username, string contactno, string email, string description, string rankingDefault) public {
         // ensure a null or empty string wasn't passed in
         require(bytes(username).length > 0);
         // generate the username hash using keccak
@@ -111,6 +113,8 @@ contract DSportRank{
         users[usernameHash].creationDate = now;
         users[usernameHash].owner = msg.sender;
         users[usernameHash].username = username;
+        users[usernameHash].contactno = contactno;
+        users[usernameHash].email = email;
         users[usernameHash].description = description;
         users[usernameHash].rankingDefault = rankingDefault;
         // add entry to our owners mapping so we can retrieve

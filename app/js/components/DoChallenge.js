@@ -78,20 +78,16 @@ class DoChallenge extends Component{
 // }
 
 displayContactDetails(){
-
-  const oppoContactNumber = JSONops._getUserValue(this.props.data, this.props.user, 'CONTACTNO')
-  const oppoEmail = JSONops._getUserValue(this.props.data, this.props.user, 'EMAIL')
+  const oppoContactNumber = JSONops._getUserValue(this.props.data, this.props.selectedOpponentName, 'CONTACTNO')
+  const oppoEmail = JSONops._getUserValue(this.props.data, this.props.selectedOpponentName, 'EMAIL')
   const oppoContactNumberTxt = this.props.selectedOpponentName + "'s contact number is : " + oppoContactNumber;
   const oppoEmailTxt = this.props.selectedOpponentName + "'s email address is : " + oppoEmail;
-  //const updatedExtAcctBal =
 
   //contactNoCB callback function (App.js)
   contactNoCB(oppoContactNumberTxt);
   emailCB(oppoEmailTxt);
   //contactNoCB callback function (Header.js)
   //let tempbalTodisplay = parseInt(this.props.updatedExtAcctBalCB) + (10 ** 18);
-  console.log('oppoContactNumberTxt')
-  console.log(oppoContactNumberTxt)
   let tempXternAccountno = parseInt(this.props.updatedExtAcctBalCB)
   //tempXternAccountno += 10 ** 18;
   tempXternAccountno += 1;

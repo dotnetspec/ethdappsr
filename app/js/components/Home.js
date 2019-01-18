@@ -346,7 +346,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     ){
       console.log('createNewUserInJSON in preprocessDataBeforeRender in home.js')
       console.log('this.props.rankingID in preprocessDataBeforeRender in home.js', this.props.newrankIdCB)
-        JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "", "",this.props.account, "new player", this.props.newrankIdCB);
+        JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, this.props.contactno, this.props.email,this.props.account, this.props.description, this.props.newrankIdCB);
         console.log('player created')
     }
     const { rankingDefault } = this.props;
@@ -371,7 +371,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
     if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
   && this.props.viewingOnlyCB === false ){
       //originalData, username, contactno, email, accountno, description, rankingID)
-      JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, "not updated", "not updated", this.props.account, 'not updated', this.props.newrankIdCB)
+      JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.props.user.username, this.props.contactno, this.props.email, this.props.account, this.props.description, this.props.newrankIdCB)
     }
 
   }

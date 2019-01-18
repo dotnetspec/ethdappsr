@@ -126,7 +126,10 @@ class App extends Component {
       loadingRankingListJSON: true,
       rankingListData: [],
       newrankIdCB:'',
-      viewingOnlyCB: true
+      viewingOnlyCB: true,
+      contactno: '',
+      email: '',
+      description:''
     }
 
     //bind the callback functions
@@ -298,11 +301,7 @@ _loadsetRankingListJSONData = async () => {
  */
 
   _loadCurrentUserAccounts = async () => {
-
     console.log('_loadCurrentUserAccounts')
-
-
-
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
 
@@ -327,7 +326,8 @@ _loadsetRankingListJSONData = async () => {
           console.log('_loadCurrentUserAccounts 3')
           if (user.username != ''){
           console.log('user.username', user.username)
-
+          console.log('user.contactno', user.contactno)
+          console.log('user.email', user.email)
           //console.log('rankingList', rankingList)
           console.log('user.creationDate', user.creationDate)
           console.log('user.description', user.description)
@@ -393,6 +393,9 @@ _loadsetRankingListJSONData = async () => {
 //common setState
       this.setState({ userAccounts: userAccounts,
         user: defaultUserAccount.user,
+        contactno: defaultUserAccount.user.contactno,
+        email: defaultUserAccount.user.email,
+        description: defaultUserAccount.user.description,
         account: web3.eth.defaultAccount,
         balance: defaultUserAccount.balance,
         //rank: JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
@@ -401,7 +404,7 @@ _loadsetRankingListJSONData = async () => {
         loadingAccounts: false,
         //newrankId must be cleared so a new one has to be regenerated for each account
         newrankId: '',
-        viewingOnlyCB: true 
+        viewingOnlyCB: true
       }) //end of the setState
 
         console.log('ready to _loadsetRankingListJSONData after a render')
@@ -464,14 +467,14 @@ _loadsetRankingListJSONData = async () => {
         var obj = {
         DATESTAMP: Date.now(),
         ACTIVE: true,
-        DESCRIPTION: "Rank Creator",
+        DESCRIPTION: this.state.description,
         CURRENTCHALLENGERNAME: "AVAILABLE",
         CURRENTCHALLENGERID: 0,
         ACCOUNT: this.state.account,
-        EMAIL: "",
-        CONTACTNO: "",
+        EMAIL: this.state.emai,
+        CONTACTNO: this.state.contactno,
         RANK: 1,
-        NAME: this.state.userNameCB,
+        NAME: this.state.user,
         id: 1 };
 
         let myJSON = JSON.stringify(obj);
@@ -661,6 +664,9 @@ _loadsetRankingListJSONData = async () => {
           />
         <Main
           user={this.state.user}
+          contactno={this.state.contactno}
+          email={this.state.email}
+          description={this.state.description}
           account={this.state.account}
           userAccounts={this.state.userAccounts}
           error={this.state.error}

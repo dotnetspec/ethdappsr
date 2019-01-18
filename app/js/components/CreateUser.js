@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 import FieldGroup from './FieldGroup'
 import JSONops from './JSONops'
-import {userNameCB} from './App'
+import {userNameCB, contactNoCB, emailCB} from './App'
 
 
 //helper class
@@ -91,14 +91,12 @@ _continueClick = () => {
     //console.log(this.props.rankingJSONdata);
     this.setState({ isLoading: true });
 
+    //Player has to belong to a ranking
     if(this.props.newrankId === ''){
       console.log('this.props.newrankId in createuser handleclick1', this.props.newrankId)
       this.props.getNewRankingID();
       console.log('this.props.newrankId in createuser handleclick2', this.props.newrankId)
     }
-
-      console.log('this.state.userConfirm')
-      console.log(this.state.userConfirm)
 
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
@@ -109,7 +107,8 @@ _continueClick = () => {
     //getNewRankId() and set the player name in json
     console.log('this.state.username in _handleClick', this.state.username)
     userNameCB(this.state.username);
-    //this.props.getNewRankingID();
+    contactNoCB(this.state.contactno);
+    emailCB(this.state.email);
 
     const { newrankId } = this.props;
     console.log('newrankId in create user', newrankId)
@@ -117,14 +116,13 @@ _continueClick = () => {
     //changed in future
     //if(this.state.userConfirm && newrankId != ''){
       if(this.state.userConfirm){
-              //JSONops.createNewUserInJSON(this.props.rankingJSONdata, this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
               console.log('ready to go to createNewUserInNewJSON')
               JSONops.createNewUserInNewJSON(this.state.username, this.state.contactno, this.state.email, this.props.account, this.state.description, newrankId);
               const { username, description } = this.state;
               try {
                 // set up our contract method with the input values from the form
                 console.log('newrankId ready to send to createAccount', newrankId)
-                const createAccount = DSportRank.methods.createAccount(username, description, newrankId);
+                const createAccount = DSportRank.methods.createAccount(username, this.state.contactno, this.state.email, description, newrankId);
                 console.log('createAccount created', createAccount)
                 // get a gas estimate before sending the transaction
                 const gasEstimate = await createAccount.estimateGas({ from: web3.eth.defaultAccount, gas: 10000000000 });
@@ -214,6 +212,8 @@ _continueClick = () => {
     const value = e.target.value;
 
     state[input] = value;
+    console.log('state[input]', state[input])
+    console.log('state', state)
     if (input === 'username') {
       state.usernameHasChanged = true;
       if (value.length >= 5) {
