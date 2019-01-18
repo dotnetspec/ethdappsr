@@ -237,9 +237,12 @@ componentDidMount(){
 }
 
 displayActivationBtns(){
-  console.log('displayActivationBtns', this.props.rankingJSONdata, this.props.user.username)
-      if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
-          ){
+  //console.log('displayActivationBtns', this.props.rankingJSONdata, this.props.user.username)
+  const {pathname} = this.props.location;
+  console.log('pathname', pathname)
+      // if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
+      //     ){
+      if(pathname.includes("home/@")){
         return(
           <>
           <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
@@ -250,7 +253,7 @@ displayActivationBtns(){
           </Button>
           </>
       )
-    }
+    }else{ return null }
 }
 
 
