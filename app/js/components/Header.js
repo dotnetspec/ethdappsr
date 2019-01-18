@@ -180,7 +180,7 @@ class Header extends Component {
     try {
       console.log('in _handleReactivatePlayer', this.props.newrankIdCB, this.props.rankingJSONdata, user, this.props.account)
       JSONops.reactivatePlayer(this.props.newrankIdCB, this.props.rankingJSONdata, user, this.props.account);
-      this.props.history.push('/');
+      this.props.history.push('/home/@' + user);
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
@@ -238,7 +238,8 @@ componentDidMount(){
 
 displayActivationBtns(){
   console.log('displayActivationBtns', this.props.rankingJSONdata, this.props.user.username)
-      if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+      if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
+          ){
         return(
           <>
           <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>

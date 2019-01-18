@@ -41,7 +41,7 @@ class DeactivatePlayer extends Component {
     try {
       console.log('this.props.newrankIdCB',this.props.newrankIdCB)
     JSONops.deactivatePlayer(this.props.newrankIdCB, this.props.rankingJSONdata, this.props.user, this.props.account);
-    this.props.history.push('/');
+    this.props.history.push('/home/@' + this.props.user);
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
