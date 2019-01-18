@@ -38,12 +38,10 @@ class DeactivatePlayer extends Component {
    //QUESTION: why does below not work with this.props.history.push('/');?
   //_handleClick = async () => {
   _handleClick(e) {
-
     try {
-
-    JSONops.deactivatePlayer(this.props.rankingJSONdata, this.props.user, this.props.account);
+      console.log('this.props.newrankIdCB',this.props.newrankIdCB)
+    JSONops.deactivatePlayer(this.props.newrankIdCB, this.props.rankingJSONdata, this.props.user, this.props.account);
     this.props.history.push('/');
-
     } catch (err) {
     // stop loading state and show the error
     console.log(err.message);
@@ -51,7 +49,6 @@ class DeactivatePlayer extends Component {
   }
 
   _cancelClick(e) {
-
     try {
     this.props.history.push('/');
     } catch (err) {
@@ -70,7 +67,6 @@ class DeactivatePlayer extends Component {
     // let feedback = isValid ? 'Username is available' : this.state.error || 'Usernames must be 6 or more characters and cannot include @ or spaces.';
     //
     // if (!this.state.usernameHasChanged) feedback = '';
-
     return (
       <>
         <Grid>

@@ -661,6 +661,7 @@ _loadsetRankingListJSONData = async () => {
           isUserInJson={this.state.isUserInJson}
           rankingDefault={this.state.rankingDefault}
           newrankId={this.state.newrankId}
+          newrankIdCB={this.state.newrankIdCB}
           />
         <Main
           user={this.state.user}

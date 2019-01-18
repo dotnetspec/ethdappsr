@@ -178,7 +178,8 @@ class Header extends Component {
 
   _handleReactivatePlayer(user) {
     try {
-    JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+      console.log('in _handleReactivatePlayer', this.props.newrankIdCB, this.props.rankingJSONdata, user, this.props.account)
+      JSONops.reactivatePlayer(this.props.newrankIdCB, this.props.rankingJSONdata, user, this.props.account);
       this.props.history.push('/');
     } catch (err) {
     // stop loading state and show the error
@@ -220,19 +221,35 @@ class Header extends Component {
     }
   }
 
-  ifUserIsntInJsonGoToCreateUser(){
-    //REVIEW: Had difficulty placing this code elsewhere without props.history undefined errors etc.
-    //If the account user doesn't match any record in json go straight to create,
-    //this is mainly useful for dev following Embark reset and json reset
-    if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user)){
-      console.log('isPlayerListedInJSON 1')
-      //this.props.history.push('/create');
-      //return <NavLink exact to="/create"><small>This account is not currently listed in this ranking. Click to join it?</small></NavLink>
-    }
-  }
+  // ifUserIsntInJsonGoToCreateUser(){
+  //   //REVIEW: Had difficulty placing this code elsewhere without props.history undefined errors etc.
+  //   //If the account user doesn't match any record in json go straight to create,
+  //   //this is mainly useful for dev following Embark reset and json reset
+  //   if(!JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user)){
+  //     console.log('isPlayerListedInJSON 1')
+  //     //this.props.history.push('/create');
+  //     //return <NavLink exact to="/create"><small>This account is not currently listed in this ranking. Click to join it?</small></NavLink>
+  //   }
+  // }
 
 componentDidMount(){
 
+}
+
+displayActivationBtns(){
+  console.log('displayActivationBtns', this.props.rankingJSONdata, this.props.user.username)
+      if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)){
+        return(
+          <>
+          <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
+            Deactivate Player
+          </Button>
+          <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
+            Reactivate Player
+          </Button>
+          </>
+      )
+    }
 }
 
 
@@ -353,12 +370,7 @@ componentDidMount(){
       <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
       </Button>
-      <Button bsStyle="primary" onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
-        Deactivate Player
-      </Button>
-      <Button bsStyle="primary" onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
-        Reactivate Player
-      </Button>
+      {this.displayActivationBtns()}
       <Button bsStyle="primary" onClick={(e) => this._handleCreateNewRanking(this.props.user[1])}>
         Create New Ranking
       </Button>

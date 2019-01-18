@@ -57,7 +57,7 @@ const JSONops = {
         return this._getVal(lookupGlobalRankingValue);
   },
 
-//REVIEW: Not currently used, unsure if neceesary 
+//REVIEW: Not currently used, unsure if neceesary
   isNewRanking: function(jsonObj){
 
     let lookupRankStatus = {
@@ -279,8 +279,8 @@ console.log('inside _setUserNameValue')
     },
 
 
-    reactivatePlayer: function(data, currentUser, accountno){
-
+    reactivatePlayer: function(rankingID, data, currentUser, accountno){
+      console.log('in reactivatePlayer', rankingID, data, currentUser, accountno)
       let updateUserRankToEndObj = {
         jsonRS: data
         };
@@ -291,7 +291,8 @@ console.log('inside _setUserNameValue')
       //Set rank to last of the ACTIVE players
       updatedUserJSON = this._setUserValue(updateUserRankToEndObj.jsonRS, currentUser, "RANK", currentNumberOfActivePlayers);
 
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+      this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
     _setVal: function(update){
@@ -306,8 +307,8 @@ console.log('inside _setUserNameValue')
           }
     },
 
-    deactivatePlayer: function(data, currentUser, accountno){
-
+    deactivatePlayer: function(rankingID, data, currentUser, accountno){
+console.log('rankingID, data, currentUser, accountno in deactivatePlayer', rankingID, data, currentUser, accountno)
         let shiftUpRankingUpdateObj = {
           jsonRS: data,
           lookupField: "",
@@ -327,7 +328,6 @@ console.log('inside _setUserNameValue')
             checkAllRows: false
             };
             //console.log(lookupCurrentUserRank)
-            const currentUsersOppenentPlayerValue = this._getVal(lookupCurrentUsersOppenentPlayerValue);
 
       let updatedUserJSON = this._setUserValue(data, currentUser, "ACTIVE", false);
 
@@ -355,17 +355,23 @@ console.log('inside _setUserNameValue')
       //get current opponent (who player is challenging) name
       //where current user is the challenger then we get the player name
       //const opponentsName = this._getUserValue(data, currentUser, "CURRENTCHALLENGERNAME");
-      console.log('currentUsersOppenentPlayerValue')
-      console.log(currentUsersOppenentPlayerValue)
+      console.log('currentUsersOppenentPlayerValue', currentUsersOppenentPlayerValue)
       //re-set my opponents 'current opponent' to AVAILABLE if not already AVAILABLE
       // if(opponentsName != "AVAILABLE"){
       //   updatedUserJSON = this._setUserValue(data, opponentsName, "CURRENTCHALLENGERNAME", "AVAILABLE");
       // }
+      //handle the opponent's display (if there is an opponenet)
+      let currentUsersOppenentPlayerValue = this._getVal(lookupCurrentUsersOppenentPlayerValue);
+      if(currentUsersOppenentPlayerValue != undefined){
+        //re-set my opponents 'current opponent' to AVAILABLE
+        updatedUserJSON = this._setUserValue(data, currentUsersOppenentPlayerValue, "CURRENTCHALLENGERNAME", "AVAILABLE");
+      }
       //re-set my opponents 'current opponent' to AVAILABLE
-      updatedUserJSON = this._setUserValue(data, currentUsersOppenentPlayerValue, "CURRENTCHALLENGERNAME", "AVAILABLE");
+      //updatedUserJSON = this._setUserValue(data, currentUsersOppenentPlayerValue, "CURRENTCHALLENGERNAME", "AVAILABLE");
 
       //console.log(updatedUserJSON)
-      this._sendJSONData(updatedUserJSON);
+      //this._sendJSONData(updatedUserJSON);
+      this._sendJSONDataWithRankingID(updatedUserJSON, rankingID);
     },
 
     // getCurrentUsersOppenentPlayerValue: function((data, currentUser){
@@ -674,26 +680,27 @@ console.log('inside _setUserNameValue')
           return jsonresult.id;
       },
 
-    _sendJSONData: function(data){
-      let req = new XMLHttpRequest();
-
-          req.onreadystatechange = () => {
-            if (req.readyState == XMLHttpRequest.DONE) {
-              //console.log(req.responseText);
-            }
-          };
-          //NOTE: it is the api.jsonbin NOT the jsonbin.io!
-          //JSON data can and should be in ANY order
-          //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
-          //use above to edit manually.
-          //to view latest https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest
-
-          req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
-          req.setRequestHeader("Content-type", "application/json");
-          var myJsonString = JSON.stringify(data);
-          //console.log(myJsonString);
-          req.send(myJsonString);
-  },
+//REVIEW: will be deprecated in favour of _sendJSONDataWithRankingID
+  //   _sendJSONData: function(data){
+  //     let req = new XMLHttpRequest();
+  //
+  //         req.onreadystatechange = () => {
+  //           if (req.readyState == XMLHttpRequest.DONE) {
+  //             //console.log(req.responseText);
+  //           }
+  //         };
+  //         //NOTE: it is the api.jsonbin NOT the jsonbin.io!
+  //         //JSON data can and should be in ANY order
+  //         //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
+  //         //use above to edit manually.
+  //         //to view latest https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest
+  //
+  //         req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
+  //         req.setRequestHeader("Content-type", "application/json");
+  //         var myJsonString = JSON.stringify(data);
+  //         //console.log(myJsonString);
+  //         req.send(myJsonString);
+  // },
 
 //TODO: all functions using _sendJSONData will need to be updated to use this
 //one that includes the rankingID
@@ -724,9 +731,7 @@ console.log('inside _setUserNameValue')
         req.open("PUT", httpString, true);
         req.setRequestHeader("Content-type", "application/json");
         let myJsonString = JSON.stringify(data);
-        console.log('httpString', httpString);
-        console.log('data', data);
-        console.log('data id', data.id);
+        console.log('httpString, data, data.id in _sendJSONDataWithRankingID', httpString, data, data.id);
 
         //if this is a new ranking send an array, not just an object
         //if this is a new ranking id will be 1
