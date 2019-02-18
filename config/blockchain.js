@@ -39,6 +39,18 @@ module.exports = {
       password: "config/testnet/password"
     }
   },
+  infura: {
+    enabled: true,
+    networkType: "testnet",
+    networkId: "4",
+    light: true,
+    rpcHost: "localhost",
+    rpcPort: 8545,
+    rpcCorsDomain: "http://localhost:8000",
+    account: {
+      password: "config/testnet/rinkeby_password"
+    }
+  },
   livenet: {
     enabled: false,
     networkType: "livenet",

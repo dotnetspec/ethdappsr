@@ -4,22 +4,20 @@ module.exports = {
     // rpc to deploy the contracts
     deployment: {
       host: "localhost",
-      port: 8545,
-      type: "rpc"
+      port: 8546,
+      type: "ws"
     },
     // order of connections the dapp should connect to
     dappConnection: [
       "ws://localhost:8546",
       "http://localhost:8545"
-
       //"$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
     contracts: {
-
-      // DSportRank: {
-      //   address: "0x3Ff27C3Da0978Ae39D6f5354B762186f27f78900",
-      //   args: [ ]
-      // }
+      DSportRank: {
+        address: "0x99E7178ffE7Cb311719E6CF7201c10FA03dFB9ca",
+        args: [ ]
+      }
     },
     gas: "auto",
     gasLimit: 9000000,
@@ -31,22 +29,57 @@ module.exports = {
     // development: {
     //   dappConnection: [
     //     "ws://localhost:8546",
-    //     "http://localhost:8545",
-    //     "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
-    //   ]
-    // }
-
-  development: {
+    //     "http://localhost:8545",      password: "config/testnet/password"
+  //   }
+  // },
+  infura: {
+    enabled: true,
+    networkType: "testnet",
+    networkId: "4",
+    light: true,
+    rpcHost: "localhost",
+    rpcPort: 8545,
+    rpcCorsDomain: "http://localhost:8000",
+    account: {
+      password: "config/testnet/rinkeby_password"
+    },
     dappConnection: [
-      "ws://localhost:8546",
-      "http://localhost:8545",
       "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
     ],
     contracts: {
-     // DSportRank: {
-       //   address: "0x90305Ee2083d9B0013524dF287639e9Fd1E8Bc17"
-       //           }
-               },
+      DSportRank: {
+        address: "0x0b7a9bf185d2266f81f64e8e0848ab66a1dd3cc5",
+        args: [ ]
+      }
+    },
+    deployment:{
+      accounts: [
+        {
+          mnemonic: "blind vendor near grace hover video merit hint brave ticket man awkward"
+        }
+      ],
+      host: "rinkeby.infura.io/964a8fdda64246719dc7ba8cbf301cc7",
+      port: false,
+      protocol: 'https',
+      type: "rpc"
+    }
+  },
+
+  livenet: {
+    enabled: false,
+    networkType: "livenet",
+    //     "$WEB3"  // uses pre existing web3 object if available (e.g in Mist)
+    //   ]
+    // }
+},
+
+  development: {
+    contracts: {
+      DSportRank: {
+        address: "0x99E7178ffE7Cb311719E6CF7201c10FA03dFB9ca",
+        args: [ ]
+        }
+      },
     gas: "auto",
     gasLimit: 9000000,
     gasPrice: 100
