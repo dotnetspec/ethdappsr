@@ -16,7 +16,7 @@ module.exports = {
     ]
   },
   development: {
-    enabled: false,
+    enabled: true,
     provider: "ipfs",
     upload: {
       host: "localhost",
