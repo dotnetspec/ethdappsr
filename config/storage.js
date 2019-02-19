@@ -30,6 +30,6 @@ module.exports = {
    host: "ipfs.infura.io",
    port: 80,
    protocol: "https",
-   getUrl: "https://ipfs.infura.io/ipfs/"
+   getUrl: "https://ipfs.infura.io/ipns/"
  }
 }

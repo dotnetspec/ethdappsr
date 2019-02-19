@@ -63,7 +63,7 @@ class Main extends Component {
           */}
 
 
-          <PropsRoute exact path='/' component={GlobalRankings}  {...this.props} />
+          <PropsRoute exact path='/ipns/Qme2qFgitekEX6GZMvhqKifkmn9ZTfnAxHSn5j9ByrhCGV/' component={GlobalRankings}  {...this.props} />
           <PropsRoute path='/home/@:username' component={Home}  {...this.props} />
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
