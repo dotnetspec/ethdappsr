@@ -202,7 +202,7 @@ class Header extends Component {
 
     //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
       //this.props.history.push('/userrankings/@' + user);
-      this.props.history.push('/');
+      this.props.history.push('/srhost/');
       //this.props.history.push('/@' + this.state.username);
     } catch (err) {
     // stop loading state and show the error
