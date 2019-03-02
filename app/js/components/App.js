@@ -156,7 +156,9 @@ _loadsetJSONData = async () => {
   // }else{
   //NB: below used to be rankingDefault - logic may still exist that uses it ...
   //let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankId + '/latest';
+  //let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankIdCB + '/latest';
   let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankIdCB + '/latest';
+  //http://cors.io/?
     //let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
   //}
   let responseDataAsArray = [];
