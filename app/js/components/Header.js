@@ -199,10 +199,17 @@ class Header extends Component {
 
   _handleRankingList(user) {
     try {
-
-    //JSONops.reactivatePlayer(this.props.rankingJSONdata, user, this.props.account);
+      //TODO: refactor?
+      const {pathname} = this.props.location;
+      console.log('pathname in _handleRankingList', pathname)
+          // if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
+          //     ){
+          if(pathname.includes("srhost")){
       //this.props.history.push('/userrankings/@' + user);
-      this.props.history.push('/srhost/');
+            this.props.history.push('/srhost/');
+          }else{
+            this.props.history.push('/');
+          }
       //this.props.history.push('/@' + this.state.username);
     } catch (err) {
     // stop loading state and show the error
