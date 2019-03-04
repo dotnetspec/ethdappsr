@@ -26,10 +26,22 @@ class Main extends Component {
   constructor(props){
     super(props);
     this.state = {
-
+      pathnameStr: '/'
     }
+    //this.configPathname();
   }
+
+configPathname(){
+  //const {pathname} = this.props.location;
+  console.log('pathname prop in main.js', this.props.location.pathname)
+  if(pathname.includes("srhost")){
+    this.setState({ pathnameStr: '/srhost/' });
+  }
+
+}
+
   //#endregion
+
 
   //#region React lifecycle events
 
@@ -60,10 +72,11 @@ class Main extends Component {
           //NB: below changed to PropsRoute
           <Route exact path='/' component={Home}  {...this.props} />
           dev ipns: /ipns/Qme2qFgitekEX6GZMvhqKifkmn9ZTfnAxHSn5j9ByrhCGV/
+          srhost/
           */}
 
-
-          <PropsRoute exact path='/srhost/' component={GlobalRankings}  {...this.props} />
+          <PropsRoute exact path='/srhost' component={GlobalRankings}  {...this.props} />
+          <PropsRoute exact path='/'  component={GlobalRankings}  {...this.props} />
           <PropsRoute path='/home/@:username' component={Home}  {...this.props} />
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
