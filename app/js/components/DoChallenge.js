@@ -135,7 +135,7 @@ displayContactDetails(){
        // estimate gas before sending challenge transaction
        const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
        //REVIEW; Sending ETH code. Account currently hard coded
-       const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 10**18, gas: gasEstimate + 1000 });
+       const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 1**17, gas: gasEstimate + 1000 });
 
        console.log('web3.eth.defaultAccount', web3.eth.defaultAccount)
 
