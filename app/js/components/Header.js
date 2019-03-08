@@ -204,12 +204,12 @@ class Header extends Component {
       console.log('pathname in _handleRankingList', pathname)
           // if(JSONops.isPlayerListedInJSON(this.props.rankingJSONdata, this.props.user.username)
           //     ){
-          if(pathname.includes("srhost")){
-      //this.props.history.push('/userrankings/@' + user);
-            this.props.history.push('/srhost/');
-          }else{
+      //     if(pathname.includes("/sportrank/")){
+      // //this.props.history.push('/userrankings/@' + user);
+      //       this.props.history.push('/sportrank/');
+      //     }else{
             this.props.history.push('/');
-          }
+          //}
       //this.props.history.push('/@' + this.state.username);
     } catch (err) {
     // stop loading state and show the error

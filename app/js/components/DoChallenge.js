@@ -7,6 +7,8 @@ import Spinner from 'react-spinkit'
 import JSONops from './JSONops'
 import {contactNoCB, emailCB, updatedExtAcctBalCB} from './App'
 //import sendmail from 'sendmail'
+import Fortmatic from 'fortmatic';
+import Web3 from 'web3';
 
 /**
  * Class that renders a form to allow the user to create
@@ -118,6 +120,19 @@ displayContactDetails(){
     //this.challengeInput = "at last!";
     //const sendETHDev = DSportRank.methods.sendETHDev();
 
+    //#region the Fortmatic code
+    // const fm = new Fortmatic('pk_test_4C66C56C65859E66');
+    // window.web3 = new Web3(fm.getProvider());
+
+    // Async functions that triggers login modal, if user not already logged in
+    // web3.eth.getAccounts().then((accounts) => {
+    //   console.log(accounts); // ['0x...']
+    // });
+    // web3.eth.getCoinbase().then((coinbase) => {
+    //   console.log(coinbase) // '0x...'
+    // });
+    //#endregion
+
     // using the callback
     //NB: we are not currently sending challenges to the blockchain
     //but updating the json and callback of the contactNoCB
@@ -135,7 +150,10 @@ displayContactDetails(){
        // estimate gas before sending challenge transaction
        const gasEstimate = await web3.eth.estimateGas({ from: web3.eth.defaultAccount });
        //REVIEW; Sending ETH code. Account currently hard coded
-       const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 1**17, gas: gasEstimate + 1000 });
+       //const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xd496e890fcaa0b8453abb17c061003acb3bcc28e', value: 1**17, gas: gasEstimate + 1000 });
+       //0xAC5491BB066c98fec13046928a78761c0B1E5603
+       const resultSentExtBal = await web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: '0xAC5491BB066c98fec13046928a78761c0B1E5603', value: 1**17, gas: gasEstimate + 1000 });
+
 
        console.log('web3.eth.defaultAccount', web3.eth.defaultAccount)
 

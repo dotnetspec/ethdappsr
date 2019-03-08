@@ -72,10 +72,11 @@ configPathname(){
           //NB: below changed to PropsRoute
           <Route exact path='/' component={Home}  {...this.props} />
           dev ipns: /ipns/Qme2qFgitekEX6GZMvhqKifkmn9ZTfnAxHSn5j9ByrhCGV/
-          srhost/
+          srhost/ - no longer used
+          /sportrank/ for staging server - PropsRoute will auto select correct path
           */}
 
-          <PropsRoute exact path='/srhost' component={GlobalRankings}  {...this.props} />
+          <PropsRoute exact path='/sportrank/' component={GlobalRankings}  {...this.props} />
           <PropsRoute exact path='/'  component={GlobalRankings}  {...this.props} />
           <PropsRoute path='/home/@:username' component={Home}  {...this.props} />
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
