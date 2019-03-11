@@ -658,6 +658,7 @@ _loadsetRankingListJSONData = async () => {
           onAfterUserUpdate={(e) => this._loadCurrentUserAccounts()}
           onError={(err, source) => this._onError(err, source)}
           rankingJSONdata={this.state.data}
+          rankingListJSONdata={this.state.rankingListData}
           updatedExtAcctBalCB={this.state.updatedExtAcctBalCB}
           usersRankingLists={this.state.usersRankingLists}
           isUserInJson={this.state.isUserInJson}

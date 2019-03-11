@@ -82,8 +82,8 @@ _continueClick = () => {
 
   //#region Component events
   /**
-   * Handles the 'Create Account' button click event which
-   * sends a transaction to the contract to create a user.
+   * Handles the 'Create New Ranking' button click event which
+   * sends a transaction to the contract to create a ranking.
    *
    * @returns {null}
    */
@@ -151,27 +151,12 @@ _continueClick = () => {
       console.log('in _handleCreateNewRankingClick');
       console.log('user', this.props.user.username)
 
-      //NB: there is now no form to send
-    // do not post challenge if there is a form error or user has not typed anything
-    // if(this._getValidationState() === 'error' || !this.state.challengeHasChanged){
-    //   console.log('here preventDefault');
-    //   return e.preventDefault();
-    // }
-
-    // do not post challenge if the opponent already has a challenger
-    //DELETE: this logic is already applied in Home.js - delete
-    // if(!JSONops.isPlayerAvailableToChallenge()){
-    //     return e.preventDefault();
-    // }
-
     // show loading state
     this.setState({ isLoading: true });
     //REVIEW: I don't see how these props from orig are used
     //const { username, account, onAfterChallenge } = this.props;
     //this.challengeInput = "at last!";
     //const sendETHDev = DSportRank.methods.sendETHDev();
-
-    //this.setState({ isLoading: true });
 
     if (this.state.userConfirm === false){
       this.setState({ WarningModalIsOpen: true });
@@ -180,19 +165,6 @@ _continueClick = () => {
     //only do this once the user has confirmed the rank name
     if(this.state.userConfirm){
             try{
-
-              //https://stackoverflow.com/questions/27176838/reactjs-setstate-is-slow
-              //await keyword necessary
-              //NB: not sure if below will be used
-              // await this.setState(state => {
-              // state.challenge= this.props.user + " vs " + this.props.selectedOpponentName;
-              //  }, ()=>{
-              //    //after callback
-              //    console.log('this.state.challenge')
-              //    console.log(this.state.challenge)
-              //
-              //  });
-
 
 
               //  let rankStr = '","RANKINGNAME":"' + this.state.rankName + '"';
@@ -384,34 +356,84 @@ getNewRankId = async () => {
    *
    * @return {null}
    */
+   //delete old _handleChange if new one successfully implemented below
+  // _handleChange = async(e) => {
+  //   let state = {};
+  //   const input = e.target.name;
+  //   const value = e.target.value;
+  //
+  //   state[input] = value;
+  //   if (input === 'rankName') {
+  //     state.rankingnameHasChanged = true;
+  //     if (value.length >= 5) {
+  //       // ensure we're not already loading the last lookup
+  //       if (!this.state.isLoading) {
+  //         //console.log('!this.state.isLoading', !this.state.isLoading)
+  //         //DSportRank.methods.rankingExists(value).call()
+  //         //get the current json ranking list (not from contract)
+  //         //console.log('this.props.rankingListJSONdata',this.props.rankingListData)
+  //         JSONops.isExistingRankingName(this.props.rankingListJSONdata, value)
+  //         .then((exists) => {
+  //           // stop loading state
+  //           state.isLoading = false;
+  //           // show error to user if user doesn't exist
+  //           state.error = exists ? 'Rank name not available' : '';
+  //           this.setState(state);
+  //         }).catch((err) => {
+  //           // stop loading state
+  //           state.isLoading = false;
+  //           // show error message to user
+  //           state.error = err.message;
+  //           this.setState(state);
+  //         });
+  //         // set loading state while checking the contract
+  //         state.isLoading = true;
+  //       }
+  //       // we are loading already, do nothing while we wait
+  //       return true;
+  //     }
+  //   }
+  //   this.setState(state);
+  // }
+
   _handleChange = async(e) => {
     let state = {};
     const input = e.target.name;
     const value = e.target.value;
 
     state[input] = value;
-    if (input === 'ranking') {
+    if (input === 'rankName') {
       state.rankingnameHasChanged = true;
       if (value.length >= 5) {
         // ensure we're not already loading the last lookup
         if (!this.state.isLoading) {
-          // call the rankExists method in our contract asynchronously
-          DSportRank.methods.userExists(web3.utils.keccak256(value)).call()
-          .then((exists) => {
+          //console.log('!this.state.isLoading', !this.state.isLoading)
+          //DSportRank.methods.rankingExists(value).call()
+          //get the current json ranking list (not from contract)
+          //console.log('this.props.rankingListJSONdata',this.props.rankingListData)
+          //if(JSONops.isExistingRankingName(this.props.rankingListJSONdata, value)){
             // stop loading state
             state.isLoading = false;
-            // show error to user if user doesn't exist
-            state.error = exists ? 'Rank name not available' : '';
+            // show error to user if ranking name already exists
+            //state.error = exists ? 'Rank name not available' : '';
+            console.log('existing ranking?', JSONops.isExistingRankingName(this.props.rankingListJSONdata, value))
+            state.error = JSONops.isExistingRankingName(this.props.rankingListJSONdata, value) ? 'Rank name not available' : '';
             this.setState(state);
-          }).catch((err) => {
+          //} else {
             // stop loading state
-            state.isLoading = false;
-            // show error message to user
-            state.error = err.message;
-            this.setState(state);
-          });
+          //   state.isLoading = false;
+          //   // show error message to user
+          //   //state.error = err.message;
+          //   state.error = "There is a problem with your chosen name";
+          //   this.setState(state);
+          // }
+          // .then((exists) => {
+          //
+          // }).catch((err) => {
+          //
+          // });
           // set loading state while checking the contract
-          state.isLoading = true;
+          //state.isLoading = true;
         }
         // we are loading already, do nothing while we wait
         return true;

@@ -48,7 +48,7 @@ configPathname(){
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
   componentDidMount() {
-    // console.log(this.props.rankingJSONdata);
+    //console.log(this.props.rankingJSONdata);
     //let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
     // let currentUserRank =  JSONops._getUserValue(this.props.rankingJSONdata, this.props.user[1], "RANK");
     // //JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
@@ -82,7 +82,7 @@ configPathname(){
           <PropsRoute path='/@:username' component={Userchallenges} {...this.props}/>
           <PropsRoute path='/create' component={CreateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/update/@:username' component={UpdateUser} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
-          <PropsRoute path='/newranking/@:username' component={CreateNewRanking} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
+          <PropsRoute path='/newranking/@:username' component={CreateNewRanking} {...this.props} rankingJSONdata={this.props.rankingJSONdata} rankingListJSONdata={this.props.rankingListJSONdata}/>
           <PropsRoute path='/userrankings/@:username' component={UserRankings} {...this.props} rankingJSONdata={this.props.rankingJSONdata}/>
           <PropsRoute path='/delete/@:username' component={DeactivatePlayer} {...this.props} user={this.props.user[1]} rankingJSONdata={this.props.rankingJSONdata}/>}/>
           <PropsRoute path='/whoopsie' component={Error} {...this.props}/>

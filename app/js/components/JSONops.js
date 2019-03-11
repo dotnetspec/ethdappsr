@@ -57,23 +57,28 @@ const JSONops = {
         return this._getVal(lookupGlobalRankingValue);
   },
 
-//REVIEW: Not currently used, unsure if neceesary
-  isNewRanking: function(jsonObj){
-
-    let lookupRankStatus = {
+  //Used to check if the ranking name already exists to prevent duplicates
+  //might be queried many times as the user types a new ranking name
+  isExistingRankingName: function(jsonObj, userTypedRankingNameStr){
+    //REVIEW: for an 'exists' function need to have a targeField entry
+    // as something to compare against
+    //perhaps change for a bool version of _getVal? 
+console.log('userTypedRankingNameStr', userTypedRankingNameStr)
+    let lookupRankName = {
       jsonRS: jsonObj,
-      lookupField: 'STATUS',
-      lookupKey: "NEW",
-      targetField: "RANKING",
+      lookupField: 'RANKINGNAME',
+      lookupKey: userTypedRankingNameStr,
+      targetField: "RANKINGNAME",
       //targetData: "",
       checkAllRows: false
       };
-      //console.log(lookupCurrentUserRank)
-      const currentUserValue = this._getVal(lookupCurrentUserValue);
-      if(currentUserValue === "NEWRANKING"){
-        return true;
-      }else{
+      console.log('lookupRankName', lookupRankName)
+      const currentUserValue = this._getVal(lookupRankName);
+      console.log('currentUserValue', currentUserValue)
+      if(currentUserValue === "" || currentUserValue === undefined){
         return false;
+      }else{
+        return true;
       }
         //return currentUserValue;
   },
@@ -157,6 +162,7 @@ console.log('inside _setUserNameValue')
 
       _getVal: function(jsonObj){
       for (var i = 0; i < jsonObj.jsonRS.length; i++) {
+        //console.log('jsonObj.jsonRS[i][jsonObj.lookupField', jsonObj.jsonRS[i][jsonObj.lookupField)
           if (jsonObj.jsonRS[i][jsonObj.lookupField] === jsonObj.lookupKey || jsonObj.lookupKey === '*') {
               return jsonObj.jsonRS[i][jsonObj.targetField];
           }
