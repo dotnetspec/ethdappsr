@@ -466,6 +466,7 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
 
 //NB:admin function - not used directly by app
 //TODO: create a separate admin screen
+//NB: accountno does not appear to be used ...
     deletePlayer: function(originalData, currentUser, accountno){
       let deletePlayerJSONuserObj = {
         jsonRS: originalData,
@@ -481,6 +482,25 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
           }
           deletePlayerJSONuserObj.jsonRS = deletePlayerJSONuserObj.jsonRS.filter(function(x) { return x !== null });
       return deletePlayerJSONuserObj.jsonRS;
+    },
+
+//Route not found is extraneous info that generates warning in table display
+    deleteRouteNotFoundInGlobalJson: function(originalData){
+      let deleteRouteNotFoundInGlobalJsonObj = {
+        jsonRS: originalData,
+        };
+        deleteRouteNotFoundInGlobalJsonObj.lookupField = "message";
+        deleteRouteNotFoundInGlobalJsonObj.lookupKey = "Route not found!";
+
+          for (var i = 0; i < deleteRouteNotFoundInGlobalJsonObj.jsonRS.length; i++) {
+              if (deleteRouteNotFoundInGlobalJsonObj.jsonRS[i][deleteRouteNotFoundInGlobalJsonObj.lookupField] === deleteRouteNotFoundInGlobalJsonObj.lookupKey || deleteRouteNotFoundInGlobalJsonObj.lookupKey === '*') {
+              //  console.log(deleteRouteNotFoundInGlobalJsonObj.jsonRS[i]);
+                  delete deleteRouteNotFoundInGlobalJsonObj.jsonRS[i];
+              }
+          }
+          //REVIEW: what does this filter do?
+          deleteRouteNotFoundInGlobalJsonObj.jsonRS = deleteRouteNotFoundInGlobalJsonObj.jsonRS.filter(function(x) { return x !== null });
+      return deleteRouteNotFoundInGlobalJsonObj.jsonRS;
     },
 
 

@@ -9,6 +9,7 @@ import PropsRoute from './PropsRoute';
 //import axios from 'axios'
 import JSONops from './JSONops'
 import { formatEth, limitLength, limitAddressLength } from '../utils';
+//REVIEW: is the solution to this to write your own api?
 //import jsonData from '../../json/Rankings.json'
 
 //REVIEW: Global variable
@@ -16,28 +17,6 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
  //let currentUserRank = 0;
  //devAccountTemp used to avoid 'callback' errors
  //let globalVardevAccountBalResult = 0;
-
- //REVIEW: Possibly unnecessary re-rendering
- //only used to get the player rank
-// class UserPlayerJsonData extends Component {
-//    render() {
-//       // details is all the object -> array data coming from the data prop sent from Home
-//       //using the object.keys code
-//         const { details } = this.props;
-//         //console.log(details.RANK);
-//           if (details.NAME === this.props.username)
-//     {
-//       console.log(details.RANK);
-//       currentUserRank = details.RANK;
-//
-//       return (
-//         <div>
-//           {details.RANK}
-//        </div>);
-//      }else{return (null)
-//        ;}
-//    }
-// }
 
 //Callback functions:
 //called in DoChallenge.js and used by Header.js to update the external account
@@ -69,19 +48,16 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
       console.log('in userNameCB', userNameCB)
         this.setState({userNameCB})
     }
-
     //cb from GlobalRankings.js to set the rank id  selected by the user
     export function newrankIdCB(newrankIdCB) {
       console.log('in newrankIdCB', newrankIdCB)
         this.setState({newrankIdCB})
     }
-
     //cb from GlobalRankings.js to set the rank state as view only
     export function viewingOnlyCB(viewingOnlyCB) {
       console.log('in viewingOnlyCB', viewingOnlyCB)
         this.setState({viewingOnlyCB})
     }
-
 /**
  * Class representing the highest order component. Any user
  * updates in child components should trigger an event in this
@@ -91,11 +67,9 @@ import { formatEth, limitLength, limitAddressLength } from '../utils';
  * @extends React.Component
  */
 class App extends Component {
-
   //#region Constructor
   constructor(props) {
     super(props);
-
     this.state = {
       user: {},
       account: '',
@@ -131,7 +105,6 @@ class App extends Component {
       email: '',
       description:''
     }
-
     //bind the callback functions
     updatedExtAcctBalCB = updatedExtAcctBalCB.bind(this);
     contactNoCB = contactNoCB.bind(this);
@@ -147,20 +120,8 @@ class App extends Component {
   //_loadsetJSONData being used here and not in JSONops because of need to setState
 _loadsetJSONData = async () => {
   try {
-    //this.setState({ isLoading: true });
-    // console.log('this.state.usersRankingLists')
-    // console.log(this.state.usersRankingLists)
-    //let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
-  //   if(this.state.rankingDefault === ''){
-  //   httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
-  // }else{
-  //NB: below used to be rankingDefault - logic may still exist that uses it ...
-  //let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankId + '/latest';
-  //let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankIdCB + '/latest';
+    //e.g. let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
   let httpStr = 'https://api.jsonbin.io/b/' + this.state.newrankIdCB + '/latest';
-  //http://cors.io/?
-    //let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
-  //}
   let responseDataAsArray = [];
   console.log('httpStr', httpStr)
   await fetch(httpStr)
@@ -168,19 +129,13 @@ _loadsetJSONData = async () => {
     //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
      .then((response) => response.json())
      .then((responseJson) => {
-       //responseJson = JSON.parse(responseJson);
-       //responseJson = '[' + responseJson +']';
-       //console.log('responseJson', responseJson)
-       //responseJson = JSON.parse(responseJson);
        if(responseJson.length != 0){
          console.log('json returns with length ' + responseJson.length + 'in _loadsetJSONData in app.js')
          console.log('responseJson data', responseJson)
          //HACK: it appears this code is not being used but commit
          // made as new rankings are being created for new users without error
          //on creation of a new user the [] isn't recognized
-         //although the new json object comes back BootstrapTable
-         //cannot handle it.
-         //So convert here:
+         //although the new json object comes back BootstrapTable cannot handle it.So convert here:
          if(responseJson.length === undefined){
            //turn the object into an array for use by BSTable
            //responseJson = "[" + responseJson + "]";
@@ -188,17 +143,11 @@ _loadsetJSONData = async () => {
            responseJson = responseDataAsArray;
            console.log('responseJson converted to array', responseJson)
          }
-         //responseDataAsArray[0] = responseJson;
-         //console.log('responseJson data as array', responseDataAsArray)
-         //console.log(responseJson[0])
-         // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
-         // console.log('temprankid',temprankid)
              this.setState({
                data: responseJson,
                //data: responseDataAsArray,
                //REVIEW: loadingJSON not currently being used
-               loadingJSON: false
-               ,
+               loadingJSON: false,
                //NB: data in state is slow to keep up, use responseJson!
                isUserInJson: JSONops.isPlayerListedInJSON(responseJson, this.state.user.username),
                rank: JSONops._getUserValue(responseJson, this.state.user.username, "RANK"),
@@ -210,38 +159,22 @@ _loadsetJSONData = async () => {
              });
            }
      })
-  //REVIEW:
-  //this.setState({ isLoading: false });
-  //the 'return' is not important, the setState is
+  //REVIEW:this.setState({ isLoading: false });the 'return' is not important, the setState is
   return null;
 }catch (err) {
      return console.error(err);
   }
 }
-
 //TODO: together with _loadsetJSONData need to refactor into single source for fetch code
 _loadsetRankingListJSONData = async () => {
   try {
-    //this.setState({ isLoading: true });
-    // console.log('this.state.usersRankingLists')
-    // console.log(this.state.usersRankingLists)
-    //let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
-  //   if(this.state.rankingDefault === ''){
-  //   httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
-  // }else{
+    //e.g. let httpStr = 'https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest';
     let httpStr = 'https://api.jsonbin.io/b/' + this.state.rankingDefault + '/latest';
-  //}
   let responseDataAsArray = [];
   console.log('httpStr', httpStr)
   await fetch(httpStr)
-  //await fetch('https://api.jsonbin.io/b/' + httpStr + '/latest')
-    //await fetch('https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/1000')
      .then((response) => response.json())
      .then((responseJson) => {
-       //responseJson = JSON.parse(responseJson);
-       //responseJson = '[' + responseJson +']';
-       //console.log('responseJson', responseJson)
-       //responseJson = JSON.parse(responseJson);
        if(responseJson.length != 0){
          console.log('json returns with length ' + responseJson.length)
          console.log('responseJson data', responseJson)
@@ -249,8 +182,7 @@ _loadsetRankingListJSONData = async () => {
          // made as new rankings are being created for new users without error
          //on creation of a new user the [] isn't recognized
          //although the new json object comes back BootstrapTable
-         //cannot handle it.
-         //So convert here:
+         //cannot handle it.So convert here:
          if(responseJson.length === undefined){
            //turn the object into an array for use by BSTable
            //responseJson = "[" + responseJson + "]";
@@ -258,14 +190,10 @@ _loadsetRankingListJSONData = async () => {
            responseJson = responseDataAsArray;
            console.log('responseJson converted to array', responseJson)
          }
-         //responseDataAsArray[0] = responseJson;
-         //console.log('responseJson data as array', responseDataAsArray)
-         //console.log(responseJson[0])
-         // const temprankid = JSONops.getIdNoFromJsonbinResponse(responseJson)
-         // console.log('temprankid',temprankid)
+         //if the response comes back with 'Route not found!' error msg will trigger a warning on table display
+         responseJson = JSONops.deleteRouteNotFoundInGlobalJson(responseJson);
              this.setState({
                rankingListData: responseJson
-               //data: responseDataAsArray,
                //loadingRankingListJSON: false
                //,
                //NB: data in state is slow to keep up, use responseJson for future query ops ...
@@ -301,14 +229,11 @@ _loadsetRankingListJSONData = async () => {
  *
  * @returns {null}
  */
-
   _loadCurrentUserAccounts = async () => {
     console.log('_loadCurrentUserAccounts')
       // get all the accounts the node controls
       const accounts = await web3.eth.getAccounts();
-
         //console.log('_loadCurrentUserAccounts 1')
-
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown
       await map(accounts, async function (address, next) {
@@ -316,40 +241,24 @@ _loadsetRankingListJSONData = async () => {
           //console.log('_loadCurrentUserAccounts 2')
           // get the owner details for this address from the contract
           const usernameHash = await DSportRank.methods.owners(address).call();
-          // console.log('_loadCurrentUserAccounts 2')
-          // console.log(usernameHash)
           // get user details from contract
           const user = await DSportRank.methods.users(usernameHash).call();
-          // console.log('getting rankingList ')
-          // const rankingList =  (DSportRank.methods.getRankingAt(0).call()
-          // .then(
-          // console.log(rankingList))
-          // ).toString();
+
           console.log('_loadCurrentUserAccounts 3')
           if (user.username != ''){
           console.log('user.username', user.username)
           console.log('user.contactno', user.contactno)
-          console.log('user.email', user.email)
           //console.log('rankingList', rankingList)
           console.log('user.creationDate', user.creationDate)
           console.log('user.description', user.description)
           console.log('user.rankingDefault', user.rankingDefault)
           //console.log('user.challenges', user.challenges)
         }
-
           // gets the balance of the address
           let balance = await web3.eth.getBalance(address);
           balance = web3.utils.fromWei(balance, 'ether');
-
           // update user picture with ipfs url
           user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
-
-          // console.log('this.state.isLoading 1')
-          // console.log('this.state.loadingAccounts')
-          //console.log(this.state.loadingAccounts)
-          //console.log(this.state.isLoading)
-          //console.log('this.state.isLoading 2')
-
           // add the following mapping to our result
           next(null, {
             address: address,
@@ -408,7 +317,6 @@ _loadsetRankingListJSONData = async () => {
         newrankId: '',
         viewingOnlyCB: true
       }) //end of the setState
-
         console.log('ready to _loadsetRankingListJSONData after a render')
         console.log('isUserInJson', this.state.isUserInJson)
 
@@ -426,14 +334,7 @@ _loadsetRankingListJSONData = async () => {
       }else{
         console.log('about to run _loadsetJSONData')
         this._loadsetJSONData();
-      }
-        //get a new rankid ready in case user wants/needs to create a new ranking
-        //do this after _loadsetJSONData so that we will already have the correct username
-        //this.getNewRankId();
-      //  }
-      //}
-
-        //this.getNewRankId();
+        }
       });////end of error check and account assignment within whole of await map
       console.log('end of loadingAccounts')
       console.log('this.state.loadingAccounts',this.state.loadingAccounts)
@@ -441,6 +342,8 @@ _loadsetRankingListJSONData = async () => {
 
   //TODO:add code to get from jsonbin.io
   //we are using this and not JSONops because we need to set state here
+  //get a new rankid ready in case user wants/needs to create a new ranking
+  //do this after _loadsetJSONData so that we will already have the correct username
   getNewRankId = async () => {
     console.log('userNameCB in getNewRankId in app', this.state.userNameCB)
       try{
@@ -465,7 +368,6 @@ _loadsetRankingListJSONData = async () => {
         //need to wait for the results to come back
         //(above) before any further processing can be
         //don
-
         var obj = {
         DATESTAMP: Date.now(),
         ACTIVE: true,
@@ -494,78 +396,6 @@ _loadsetRankingListJSONData = async () => {
       };
         return null;
     }
-
-  /**
-   * Originally based on _loadCurrentUserAccounts() (above)
-   * Loads user's rankingLists from the contract.
-   *
-   * This only needs to be done for the currently active account,
-   * first, the owners mapping is queried using the
-   * owner address key. It returns the hash of the username it maps to. This
-   * username hash is then used to query the users mapping in the contract to
-   * get the rankingList of the user. Once the rankingList is returned, the state
-   * is updated with the details, which triggers a render in this component and
-   * all child components.
-   *
-   * @returns {null}
-   */
-
-    // _loadRankingLists = async () => {
-    //
-    //     // get all the accounts the node controls
-    //     const accounts = await web3.eth.getAccounts();
-    //
-    //     // Generates a mapping of users and accounts to be used
-    //     // for populating the accounts dropdown
-    //     await map(accounts, async function (address, next) {
-    //       try {
-    //         // get the owner details for this address from the contract
-    //         const usernameHash = await DSportRank.methods.owners(address).call();
-    //
-    //         // get user details from contract
-    //         const user = await DSportRank.methods.users(usernameHash).call();
-    //
-    //         //get the user's RankingLists array
-    //         //TODO: change to contract code:
-    //         const usersRankingLists = await DSportRank.methods.rankingLists(usernameHash).call();
-    //         //const usersRankingLists = ["5bd82af2baccb064c0bdc92a"];
-    //         console.log(usersRankingLists)
-    //
-    //         // gets the balance of the address
-    //         // let balance = await web3.eth.getBalance(address);
-    //         // balance = web3.utils.fromWei(balance, 'ether');
-    //
-    //         // update user picture with ipfs url
-    //         //user.picture = user.picture.length > 0 ? EmbarkJS.Storage.getUrl(user.picture) : imgAvatar;
-    //
-    //         // add the following mapping to our result
-    //         next(null, {
-    //           address: address,
-    //           user: user,
-    //           rankingList: usersRankingLists
-    //           // ,
-    //           // usersRankingLists: usersRankingLists
-    //         });
-    //       }
-    //       catch (err) {
-    //         next(err);
-    //       }
-    //     }, (err, userAccounts) => {
-    //       if (err) return this._onError(err, 'App._loadRankingLists');
-    //
-    //       const defaultUserAccount = userAccounts.find((userAccount) => {
-    //         //return userAccount.address === web3.eth.defaultAccount;
-    //         return usersRankingLists.rankingList;
-    //       });
-    //
-    //       //const userrank = await this._getUserRank();
-    //
-    //       // this.setState({
-    //       //   usersRankingLists: usersRankingLists
-    //       // });
-    //     });
-    // }
-
 //REVIEW: below based on
 //https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
 //to a (small) degree - anyway it's a useful reference
@@ -589,7 +419,6 @@ _loadsetRankingListJSONData = async () => {
         };
     }
   }
-
   /**
    * Sets the App state error and redirects the user to the error page
    *
@@ -614,38 +443,15 @@ _loadsetRankingListJSONData = async () => {
     }
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   this.setState({data: nextProps.data})
-  // }
-
-//necessary to compare the states userNameCB so that the
-//player name is only added to the json once we know what it is from
-//the user create form
-  componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate in app')
-    //this.getNewRankId();
-  // only do something if the data has changed
-  // if (prevState.userNameCB !== this.state.userNameCB) {
-  //   console.log('ready to do soemthing')
-  //   this.getNewRankId();
-  // }
-}
-
   render() {
 
   console.log('rendering now in app render()')
   if(!this.state.isLoading){
-    console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)
-
+  console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)
   console.log('rank in app render()', this.state.rank)
-
   console.log('this.state.updatedExtAcctBalCB in app render()', this.state.updatedExtAcctBalCB)
-
   console.log('this.state.isUserInJson in app render()', this.state.isUserInJson)
-
   console.log('this.state.isCurrentUserActive in app render()',this.state.isCurrentUserActive)
-
-
 }
     return (
       <div>
