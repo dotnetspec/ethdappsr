@@ -218,30 +218,26 @@ console.log('inside _setUserNameValue')
         let createNewJSONuserObj = {
           jsonRS: originalData
           };
-
-        let nextIDandInitialRankObj = {
-          jsonRS: originalData
-          };
-
-        nextIDandInitialRankObj.lookupField = "NAME";
-        //TODO: this is 'currentuser' elasewhere
-        nextIDandInitialRankObj.lookupKey = username;
-
+        // let nextIDObj = {
+        //   jsonRS: originalData
+        //   };
+        //
+        // nextIDObj.lookupField = "NAME";
+        // //TODO: this is 'currentuser' elasewhere
+        // nextIDObj.lookupKey = username;
         console.log('createNewJSONuserObj.jsonRS.length in createNewUserInJSON', createNewJSONuserObj.jsonRS.length)
-
-        //REVIEW: Does this line correctly handle a reset?
-        let nextIDandInitialRank = createNewJSONuserObj.jsonRS.length + 1;
-
+        //REVIEW: Does this line correctly handle a blockchain reset in dev?
+        let nextID = createNewJSONuserObj.jsonRS.length + 1;
         console.log('createNewJSONuserObj.jsonRS.length', createNewJSONuserObj.jsonRS.length)
-
         //if it's a completely new json length will be 0
         if(createNewJSONuserObj.jsonRS.length < 1){
           console.log('json was new and had no existing data')
-          //ensure nextIDandInitialRank is correctly initialized to 1
-          nextIDandInitialRank = 1;
+          //ensure nextID is correctly initialized to 1
+          nextID = 1;
         }
-
-        //QUESTION: it appears the data needs to be sent in reverse order - why?
+        //use getCurrentNoOfActivePlayers to determine last rank pos
+        let rankLastPosition = this.getCurrentNoOfActivePlayers(originalData);
+        rankLastPosition += 1;
         const newData = {
                           "DATESTAMP": Date.now(),
                           "ACTIVE": true,
@@ -249,18 +245,15 @@ console.log('inside _setUserNameValue')
                           "CURRENTCHALLENGERNAME": "AVAILABLE",
                           "CURRENTCHALLENGERID": 0,
                           "ACCOUNT": accountno,
-                          "RANK": nextIDandInitialRank,
+                          "RANK": rankLastPosition,
                           "EMAIL": email,
                           "CONTACTNO": contactno,
                           "NAME": username,
-                          "id":nextIDandInitialRank
+                          "id":nextID
                         }
-
         createNewJSONuserObj.jsonRS.push(newData);
         console.log('rankingID in createNewUserInJSON', rankingID)
-        //this._sendJSONData(createNewJSONuserObj.jsonRS);
         this._sendJSONDataWithRankingID(createNewJSONuserObj.jsonRS, rankingID);
-
     },
 
     createNewUserInNewJSON: function(username, contactno, email, accountno, description, rankingID){

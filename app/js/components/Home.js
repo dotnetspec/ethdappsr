@@ -53,6 +53,8 @@ export function updateWarningText(warningText) {
 
 /**
  * Class representing the home page rendering
+ * Important functions:
+ * preprocessDataBeforeRender() e.g. handles if user doesn't exist yet etc.
  *
  * @extends React.Component
  */
@@ -259,7 +261,7 @@ challengeButton(cell, row, enumObject, rowIndex) {
                 ;}
   }
 
-//NB: none of this code is currently running on a re-set (get rid?)
+//NB: none of this code is currently running on a re-set
   preprocessDataBeforeRender(){
     //if there is a username but it's not listed in the json, add this user to the current list
     //REVIEW: This test may be more consistently handled

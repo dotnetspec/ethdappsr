@@ -49,6 +49,8 @@ class GlobalRankings extends Component {
     newrankIdCB(selectRowPropAfterClickRow.selectedRankingId);
     viewingOnlyCB(false);
     this.props.onAfterUserUpdate();
+    //if joining and not yet a member of the ranking home will add the new player to the bottom
+    //of the rankings in the selected ladder 
     this.props.history.push('/home/@' + this.props.user.username);
     //this.openResultModal();
    }
