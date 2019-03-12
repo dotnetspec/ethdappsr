@@ -1,13 +1,44 @@
 //TODO: refactor
 const JSONops = {
 
-  //Usage:
-  //_getGlobalRankingVal
-  //for getting vals from the Global Ranking json
-  //_getUserValue
-  // get details from a specific user's json in a given ranking list
-  //_setUserValue
-  //set a particular value for a given user in the json
+  /**
+    Usage:
+    Getting values:
+    Obtaining one value by reference to another in the JSON:
+    in Global Ranking json
+    _getGlobalRankingVal
+
+    in a given ranking list
+    _getUserValue
+
+    Setting Values:
+    set a particular value for a given user in the json
+    _setUserValue
+    _setUserNameValue
+
+    Updating Values:
+    _updateEnterResultJSON
+    reactivatePlayer
+
+    Checking values:
+    check for existing data (bool):
+    isExistingRankingName
+    isJSONEmpty
+
+    Insertinig Values:
+    createNewUserInNewJSON
+
+    Sorting values:
+    shiftAllOtherPlayersRankingUpByOne
+
+    Deleting values:
+    deletePlayer
+
+    Sending JSON:
+    _sendJSONDataWithRankingID
+    _sendCreateNewRankingJSONData
+  */
+
 
 //TODO: should be renamed to getJSONValWithUserName
   _getUserValue: function(jsonObj, currentUser, valueToLookup){
@@ -62,7 +93,7 @@ const JSONops = {
   isExistingRankingName: function(jsonObj, userTypedRankingNameStr){
     //REVIEW: for an 'exists' function need to have a targeField entry
     // as something to compare against
-    //perhaps change for a bool version of _getVal? 
+    //perhaps change for a bool version of _getVal?
 console.log('userTypedRankingNameStr', userTypedRankingNameStr)
     let lookupRankName = {
       jsonRS: jsonObj,
@@ -452,38 +483,6 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
       return deletePlayerJSONuserObj.jsonRS;
     },
 
-      //add 1 to existing length of json obj array to obtain a new id number
-      // getNextID: function(data){
-      //   const add1toLengthtogetID = data.length + 1;
-      //   return add1toLengthtogetID;
-      // },
-
-      // doesJSONContainRankingID: function(data){
-      //   console.log('data')
-      //   console.log(data)
-      //   let doesJSONContainRankingIDObj = {
-      //     jsonRS: data
-      //     };
-      //     //used for return value below
-      //     let doesJSONContainRankingID = false;
-      //     doesJSONContainRankingIDObj.lookupField = "RANKINGID";
-      //     doesJSONContainRankingIDObj.lookupKey = currentUser;
-      //       for (var i = 0; i < doesJSONContainRankingIDObj.jsonRS.length; i++) {
-      //         //REVIEW: line below should only occur in dev with no RankingId assigned
-      //         if(doesJSONContainRankingIDObj.jsonRS[i] === null){
-      //           return false;
-      //         }
-      //           if (doesJSONContainRankingIDObj.jsonRS[i][doesJSONContainRankingIDObj.lookupField] === doesJSONContainRankingIDObj.lookupKey || doesJSONContainRankingIDObj.lookupKey === '*') {
-      //             doesJSONContainRankingID = true;
-      //           }
-      //       }
-      //       if (doesJSONContainRankingID === true){
-      //         return true;
-      //       }
-      //       else {
-      //         return false;
-      //       }
-      // },
 
       //apart from IN/ACTIVE is player listed at all?
       isPlayerListedInJSON: function(data, currentUser){
@@ -499,30 +498,6 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
         else
         //5 is arbitrary. if < 5 no account number was returned
         if(result.length < 5){return false}else{return true};
-
-        // let isPlayerListedInJSONObj = {
-        //   jsonRS: data
-        //   };
-        //   //used for return value below
-        //   let isPlayerListed = false;
-        //   isPlayerListedInJSONObj.lookupField = "NAME";
-        //   isPlayerListedInJSONObj.lookupKey = currentUser;
-        //     for (var i = 0; i < isPlayerListedInJSONObj.jsonRS.length; i++) {
-        //       //REVIEW: line below should only occur in dev with no RankingId assigned
-        //       if(isPlayerListedInJSONObj.jsonRS[i] === null){
-        //         return false;
-        //       }
-        //         if (isPlayerListedInJSONObj.jsonRS[i][isPlayerListedInJSONObj.lookupField] === isPlayerListedInJSONObj.lookupKey || isPlayerListedInJSONObj.lookupKey === '*') {
-        //           isPlayerListed = true;
-        //         }
-        //     }
-        //     if (isPlayerListed === true){
-        //       return true;
-        //     }
-        //     else {
-        //       return false;
-        //     }
-        //     console.log('end of isPlayerListedInJSON', isPlayerListedInJSON)
       },
 
       //TODO: will have to separate isPlayerAvailableToChallengeObj.jsonRS[i].CURRENTCHALLENGERNAME === user
@@ -686,28 +661,6 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
           return jsonresult.id;
       },
 
-//REVIEW: will be deprecated in favour of _sendJSONDataWithRankingID
-  //   _sendJSONData: function(data){
-  //     let req = new XMLHttpRequest();
-  //
-  //         req.onreadystatechange = () => {
-  //           if (req.readyState == XMLHttpRequest.DONE) {
-  //             //console.log(req.responseText);
-  //           }
-  //         };
-  //         //NOTE: it is the api.jsonbin NOT the jsonbin.io!
-  //         //JSON data can and should be in ANY order
-  //         //bin id is: https://jsonbin.io/5bd82af2baccb064c0bdc92a/
-  //         //use above to edit manually.
-  //         //to view latest https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a/latest
-  //
-  //         req.open("PUT", "https://api.jsonbin.io/b/5bd82af2baccb064c0bdc92a", true);
-  //         req.setRequestHeader("Content-type", "application/json");
-  //         var myJsonString = JSON.stringify(data);
-  //         //console.log(myJsonString);
-  //         req.send(myJsonString);
-  // },
-
 //TODO: all functions using _sendJSONData will need to be updated to use this
 //one that includes the rankingID
   _sendJSONDataWithRankingID: function(data, rankingID){
@@ -759,6 +712,7 @@ console.log('rankingID, data, currentUser, accountno in deactivatePlayer', ranki
     let createNewJSONrankingObj = {
       jsonRS: origGlobalRankingData
       };
+      //REVIEW: this will need to be handled differently eventually
       const globalRankingsDefaultId = '5c36f5422c87fa27306acb52';
       const newData = {
                         "RANKINGID": rankingID,
