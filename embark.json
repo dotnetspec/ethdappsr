@@ -7,7 +7,8 @@
     "index.html": "app/index.html",
     "manifest.json": "app/manifest.json",
     "favicon.ico": "app/favicon.ico",
-    "js/app.js": ["app/js/dapp.js"]
+    "js/app.js": ["app/js/dapp.js"],
+    "json/": ["app/json/**"]
   },
   "buildDir": "dist/",
   "config": "config/",
