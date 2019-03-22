@@ -9,6 +9,7 @@ import PropsRoute from './PropsRoute';
 //import axios from 'axios'
 import JSONops from './JSONops'
 import { formatEth, limitLength, limitAddressLength } from '../utils';
+import {saveJson, loadJson} from '../lib/service'
 //REVIEW: is the solution to this to write your own api?
 //import jsonData from '../../json/Rankings.json'
 
@@ -330,6 +331,7 @@ _loadsetRankingListJSONData = async () => {
         console.log('this.state.newrankIdCB', this.state.newrankIdCB)
         if(this.state.newrankIdCB === ''){
         console.log('about to run _loadsetRankingListJSONData')
+
         this._loadsetRankingListJSONData();
       }else{
         console.log('about to run _loadsetJSONData')
@@ -434,8 +436,13 @@ _loadsetRankingListJSONData = async () => {
   //#region React lifecycle events
   //loading the network functions from here
   async componentDidMount() {
+
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
+      //NB: testing code:
+      loadJson()
+      .then (({data}) => this.setState({rankingListData:data}))
+      .catch(() => this.setState({error:true}));
     });
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
     if(this.state.user.username != undefined){

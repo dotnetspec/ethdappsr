@@ -32,7 +32,8 @@ class GlobalRankings extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data:''
+      data:'',
+      error: false
     }
     this.tablesortoptions = {
      defaultSortName: 'RANKINGNAME',  // default sort column name
@@ -98,15 +99,10 @@ class GlobalRankings extends Component {
 //when it clearly gets passed to Home.js?
   componentDidMount() {
     //NB: loadJson is currently a testing function
-    loadJson()
-    .then (({data}) => this.setState({data:data}))
-
-    //console.log('this.state.data', this.state.data);
-    //let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
-    // let currentUserRank =  JSONops._getUserValue(this.props.rankingJSONdata, this.props.user[1], "RANK");
-    // //JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
-    //  console.log(currentUserRank);
-    // this.setState({ rank: currentUserRank });
+    //and the 'data' comes from the test stub
+    // loadJson()
+    // .then (({data}) => this.setState({data:data}))
+    // .catch(() => this.setState({error:true}));
   }
 
   globalBSTableDisplay(){
@@ -119,12 +115,13 @@ class GlobalRankings extends Component {
       //   //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
       // } else {
 
-      
+
       //NB: to enable non-test jsonbin.io data use the following as a property of
       //BootstrapTable:
       //data={this.props.rankingListJSONdata}
+      //original test: data={this.state.data}
       return (
-        <BootstrapTable  options={ this.tablesortoptions } data={this.state.data}
+        <BootstrapTable  options={ this.tablesortoptions } data={this.props.rankingListJSONdata}
         className='bstable'
         >
               <TableHeaderColumn isKey dataField='RANKINGID'
@@ -176,6 +173,7 @@ class GlobalRankings extends Component {
       console.log('b4 render globalBSTableDisplay with rankingListJSONdata', this.props.rankingListJSONdata)
     return (
       <div>
+      {this.state.error ? <span className='error'>Oh no!</span> : null}
       <Grid>
         <Row>
           {this.globalBSTableDisplay()}

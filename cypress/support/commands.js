@@ -1,3 +1,11 @@
+Cypress.Commands.add('SeedandVisit', () => {
+  cy.server()
+  cy.route('GET', '/', 'fixture:globalRankings')
+  cy.visit('/')
+})
+
+
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite

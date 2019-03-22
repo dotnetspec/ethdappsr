@@ -5,7 +5,7 @@ describe("User Profile Test", function(){
   cy.contains('Update Profile').click()
   })
 
-  it('Makes an assertion ', function(){
+  it.only('Makes an assertion ', function(){
     //NB: comment/uncomment below and beforeEach according to single or multi tests
     // cy.visit('/')
     // cy.contains('Update Profile').click()
