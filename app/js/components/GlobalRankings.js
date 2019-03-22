@@ -12,6 +12,7 @@ import JSONops from './JSONops'
 import CreateNewRanking from './CreateNewRanking';
 import UserRankings from './UserRankings'
 import {newrankIdCB, viewingOnlyCB} from './App'
+import {saveJson, loadJson} from '../lib/service'
 
 const selectRowPropAfterClickRow = {
   selectedRankingId: ''
@@ -50,7 +51,7 @@ class GlobalRankings extends Component {
     viewingOnlyCB(false);
     this.props.onAfterUserUpdate();
     //if joining and not yet a member of the ranking home will add the new player to the bottom
-    //of the rankings in the selected ladder 
+    //of the rankings in the selected ladder
     this.props.history.push('/home/@' + this.props.user.username);
     //this.openResultModal();
    }
@@ -96,7 +97,11 @@ class GlobalRankings extends Component {
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
   componentDidMount() {
-    // console.log(this.props.rankingJSONdata);
+    //NB: loadJson is currently a testing function
+    loadJson()
+    .then (({data}) => this.setState({data:data}))
+
+    //console.log('this.state.data', this.state.data);
     //let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
     // let currentUserRank =  JSONops._getUserValue(this.props.rankingJSONdata, this.props.user[1], "RANK");
     // //JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),
@@ -113,8 +118,14 @@ class GlobalRankings extends Component {
       //   return null;
       //   //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
       // } else {
+
+      
+      //NB: to enable non-test jsonbin.io data use the following as a property of
+      //BootstrapTable:
+      //data={this.props.rankingListJSONdata}
       return (
-        <BootstrapTable  options={ this.tablesortoptions } data={this.props.rankingListJSONdata}
+        <BootstrapTable  options={ this.tablesortoptions } data={this.state.data}
+        className='bstable'
         >
               <TableHeaderColumn isKey dataField='RANKINGID'
               hidden >
