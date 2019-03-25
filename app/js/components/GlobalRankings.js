@@ -32,8 +32,9 @@ class GlobalRankings extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data:'',
-      error: false
+      data:''
+      // ,
+      // error: false
     }
     this.tablesortoptions = {
      defaultSortName: 'RANKINGNAME',  // default sort column name
@@ -98,6 +99,7 @@ class GlobalRankings extends Component {
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
   componentDidMount() {
+    //this.setState({error:false});
     //NB: loadJson is currently a testing function
     //and the 'data' comes from the test stub
     // loadJson()
@@ -110,6 +112,8 @@ class GlobalRankings extends Component {
       // if (JSONops.isJSONEmpty(this.props.rankingJSONdata) && this.props.user.username === null){
       //
       console.log('inside globalBSTableDisplay');
+
+
       //   this.props.history.push('/create');
       //   return null;
       //   //(<div>No Data To Display - Please select an account (top right) to create a player</div>);
@@ -173,7 +177,7 @@ class GlobalRankings extends Component {
       console.log('b4 render globalBSTableDisplay with rankingListJSONdata', this.props.rankingListJSONdata)
     return (
       <div>
-      {this.state.error ? <span className='error'>Oh no!</span> : null}
+      {this.props.error ? <span className='error'>Oh no!</span> : null}
       <Grid>
         <Row>
           {this.globalBSTableDisplay()}

@@ -440,14 +440,23 @@ _loadsetRankingListJSONData = async () => {
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
       //NB: testing code:
-      loadJson()
-      .then (({data}) => this.setState({rankingListData:data}))
-      .catch(() => this.setState({error:true}));
+      //requires that _loadsetRankingListJSONData is commented out in _loadCurrentUserAccounts
+      //because that is asynchronous and might run after this below:
+      // loadJson()
+      // .then (({data}) => this.setState({rankingListData:data}),
+      // this.setState({error:false}))
+      // .catch( () =>  this.setState({error:true})
+      // //,
+      // //console.log('error caugth')
+      // );
+      //console.log('rankingListData:data', this.state.rankingListData)
     });
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
     if(this.state.user.username != undefined){
     this.getNewRankId();
     }
+
+
   }
 
   render() {
