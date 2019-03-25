@@ -331,8 +331,8 @@ _loadsetRankingListJSONData = async () => {
         console.log('this.state.newrankIdCB', this.state.newrankIdCB)
         if(this.state.newrankIdCB === ''){
         console.log('about to run _loadsetRankingListJSONData')
-
-        this._loadsetRankingListJSONData();
+        //testing
+        //this._loadsetRankingListJSONData();
       }else{
         console.log('about to run _loadsetJSONData')
         this._loadsetJSONData();
@@ -442,13 +442,13 @@ _loadsetRankingListJSONData = async () => {
       //NB: testing code:
       //requires that _loadsetRankingListJSONData is commented out in _loadCurrentUserAccounts
       //because that is asynchronous and might run after this below:
-      // loadJson()
-      // .then (({data}) => this.setState({rankingListData:data}),
-      // this.setState({error:false}))
-      // .catch( () =>  this.setState({error:true})
+      loadJson()
+      .then(({data}) => this.setState({rankingListData:data}),
+      this.setState({error:false}))
+      .catch( () =>  this.setState({error:true})
       // //,
       // //console.log('error caugth')
-      // );
+       );
       //console.log('rankingListData:data', this.state.rankingListData)
     });
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
