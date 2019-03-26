@@ -1,6 +1,12 @@
-Cypress.Commands.add('SeedandVisit', () => {
+Cypress.Commands.add('SeedandVisitGlobal', () => {
   cy.server()
   cy.route('GET', '/', 'fixture:globalRankings')
+  cy.visit('/')
+})
+
+Cypress.Commands.add('SeedandVisitRanking', () => {
+  cy.server()
+  cy.route('GET', '/', 'fixture:ranking1')
   cy.visit('/')
 })
 

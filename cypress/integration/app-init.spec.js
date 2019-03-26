@@ -1,7 +1,7 @@
 describe('App Initialization', () => {
-  it('Loads ranking json on page load', () => {
+  it.only('Loads ranking json on page load', () => {
     //use the Cyrpess commands.js file to handle json loading
-      cy.SeedandVisit()
+      cy.SeedandVisitGlobal()
       cy.get('.bstable').find('tr').should('have.length', 6)
 
       cy.get('.error')
