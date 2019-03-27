@@ -6,8 +6,10 @@ Cypress.Commands.add('SeedandVisitGlobal', () => {
 
 Cypress.Commands.add('SeedandVisitRanking', () => {
   cy.server()
+  //NB: don't use /home/@player1 in the route here
+  //it will interfere with the data loading 
   cy.route('GET', '/', 'fixture:ranking1')
-  cy.visit('/')
+  //cy.visit('/home/@player1')
 })
 
 

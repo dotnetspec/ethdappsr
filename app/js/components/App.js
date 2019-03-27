@@ -327,11 +327,17 @@ _loadsetRankingListJSONData = async () => {
         //if(this.state.rankingDefault != ''){
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
+          //OR use componentDidMount
         //this._loadsetJSONData();
 
         //moved json load code was here
-
-
+        //test
+        loadJson()
+        .then(({data}) => this.setState({data:data}),
+        this.setState({error:false}))
+        .catch( () =>  this.setState({error:true}) );
+        //end test
+        console.log('this.state.data', this.state.data)
 
       });////end of error check and account assignment within whole of await map
       console.log('end of loadingAccounts')
@@ -441,7 +447,7 @@ _loadsetRankingListJSONData = async () => {
 
     //if newRankId is blank a user either has just loaded the app or has clicked the
     //ListAllRankingss btn
-    //console.log('this.state.newrankIdCB', this.state.newrankIdCB)
+    console.log('this.state.newrankIdCB', this.state.newrankIdCB)
     if(this.state.newrankIdCB === ''){
     //original code:
     //this._loadsetRankingListJSONData();
@@ -453,14 +459,18 @@ _loadsetRankingListJSONData = async () => {
     loadJson()
     .then(({data}) => this.setState({rankingListData:data}),
     this.setState({error:false}))
-    .catch( () =>  this.setState({error:true})
+    .catch( () =>  this.setState({error:true}) );
     //end test stub
-    // //,
-    // //console.log('error caugth')
-     );
+
     }else{
       console.log('about to run _loadsetJSONData')
-      this._loadsetJSONData();
+      //this._loadsetJSONData();
+      //test
+      loadJson()
+      .then(({data}) => this.setState({data:data}),
+      this.setState({error:false}))
+      .catch( () =>  this.setState({error:true}) );
+      //end test
     }
 
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
