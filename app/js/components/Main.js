@@ -48,7 +48,7 @@ configPathname(){
 //QUESTION: why does componentDidMount not have the data from this.props.rankingJSONdata
 //when it clearly gets passed to Home.js?
   componentDidMount() {
-    //console.log(this.props.rankingJSONdata);
+    console.log('this.props.user', this.props.user);
     //let currentUserRank = await JSONops._getUserRank(this.props.rankingJSONdata, this.props.user[1]);
     // let currentUserRank =  JSONops._getUserValue(this.props.rankingJSONdata, this.props.user[1], "RANK");
     // //JSONops._getUserValue(this.state.data, this.state.user.username, "RANK"),

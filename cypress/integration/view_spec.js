@@ -2,6 +2,7 @@ describe('Click View Btn', () => {
   it.only('Initial value on ranking json load', () => {
     //use the Cyrpess commands.js file to handle json loading
       cy.SeedandVisitGlobal()
+
       cy.get('.bstable').find('tr').should('have.length', 6)
 
       cy.get('[data-cy=deactive]')
@@ -9,8 +10,15 @@ describe('Click View Btn', () => {
 
       cy.get('.error')
       .should('not.be.visible')
+
+      //give page 1 sec to load the user name
+      cy.wait(1000)
+
+      cy.get('tbody>tr>td').contains("View").should('be.visible')
+
+
       cy.get('tbody>tr>td').contains("View").click()
-  
+      //
       cy.url()
       .should('include', '/home/@player1')
     })
