@@ -173,8 +173,10 @@ class GlobalRankings extends Component {
   //REVIEW: Home page may be unnecessarily re-rendering with this approach to passing props
   //but need to pass the username and display it as a greeting and to link account with json data
   //this.props.user[1] is a quick way (not object.keys) to access the array
+  //if need it get   {React.version} by adding to return() below: (currently 16.6.3)
   render () {
       console.log('b4 render globalBSTableDisplay with rankingListJSONdata', this.props.rankingListJSONdata)
+
     return (
       <div>
       {this.props.error ? <span className='error'>Oh no!</span> : null}

@@ -252,7 +252,7 @@ displayActivationBtns(){
       if(pathname.includes("home/@")){
         return(
           <>
-          <Button bsStyle="primary" data-cy='deactiv' onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
+          <Button bsStyle="primary" data-cy='deactivate' onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
             Deactivate Player
           </Button>
           <Button bsStyle="primary" data-cy='reactivate' onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>

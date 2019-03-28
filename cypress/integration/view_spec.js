@@ -1,51 +1,21 @@
-describe('Click View Btn', () => {
-  it.only('Initial value on global ranking json load', () => {
+describe('Click View Btn on GlobalRankings list ', () => {
+  it('Initial value on global ranking json load', () => {
     //use the Cyrpess commands.js file to handle json loading
-      cy.SeedandVisitGlobal()
+      cy.GlobalSeed()
 
       cy.get('.bstable').find('tr').should('have.length', 6)
 
-      cy.get('[data-cy=deactive]')
-      .should('not.be.visible')
-
       cy.get('.error')
       .should('not.be.visible')
-      //give page 1 sec to load the user name
-      cy.wait(1000)
-
-      cy.get('tbody>tr>td').contains("View").should('be.visible')
-
-
-      cy.SeedandVisitRanking()
-
-      //give page 1 sec to load the ranking json from jsonbin
-      cy.wait(1000)
-
-      cy.get('tbody>tr>td').contains("View").click()
-
-      cy.url()
-      .should('include', '/home/@player1')
-
-
     })
 
-    it('Initial value on clicked ranking json load', () => {
-      //use the Cyrpess commands.js file to handle json loading
-        cy.SeedandVisitRanking()
+    it('View btn click Home route', () => {
+        //use the Cyrpess commands.js file to handle json loading
+        cy.RankingSeedViaGlobal()
 
-        cy.get('.bstable').find('tr').should('have.length', 6)
+        cy.wait(1000)
 
-        cy.get('[data-cy=deactive]')
-        .should('not.be.visible')
-
-        cy.get('.error')
-        .should('not.be.visible')
-        //give page 1 sec to load the user name
-        // cy.wait(1000)
-        //
-        // cy.get('tbody>tr>td').contains("View").should('be.visible')
-        //
-        // cy.get('tbody>tr>td').contains("View").click()
+        cy.get('tbody>tr>td').contains("View").click()
 
         cy.url()
         .should('include', '/home/@player1')

@@ -1,5 +1,46 @@
-describe('Header', function() {
-  it('successfully loads', function() {
-    cy.visit('/') // change URL to match your dev URL
+describe('Header Tests', function() {
+  it('Successfully loads initial header', function() {
+    cy.GlobalSeed()
+
+    cy.get('[data-cy=deactive]')
+    .should('not.be.visible')
+
+    cy.get('[data-cy=reactive]')
+    .should('not.be.visible')
+
+    cy.get('[data-cy=ListAllRankings]')
+    .should('be.visible')
+
+    cy.get('[data-cy=UpdateProfile]')
+    .should('be.visible')
+
+    cy.get('[data-cy=CreateNewRanking]')
+    .should('be.visible')
   })
+
+  it('On view click', function() {
+    cy.RankingSeedViaGlobal()
+    //give page 1 sec to load the ranking json from jsonbin
+    //so can render the 'view' btn
+    cy.wait(1000)
+    //click to get to a particular ranking
+    cy.get('tbody>tr>td').contains("View").click()
+
+    //now test the header display
+    cy.get('[data-cy=deactivate]')
+    .should('be.visible')
+
+    cy.get('[data-cy=reactivate]')
+    .should('be.visible')
+
+    cy.get('[data-cy=ListAllRankings]')
+    .should('be.visible')
+
+    cy.get('[data-cy=UpdateProfile]')
+    .should('be.visible')
+
+    cy.get('[data-cy=CreateNewRanking]')
+    .should('be.visible')
+  })
+
 })

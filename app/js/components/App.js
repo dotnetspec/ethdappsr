@@ -437,7 +437,12 @@ _loadsetRankingListJSONData = async () => {
 
   //#region React lifecycle events
   //loading the network functions from here
-  async componentDidMount() {
+  //render() has already rendered at least once before
+  // componentDidMount runs
+  //any change with setState here will re-render app.js
+  //async componentDidMount() {
+
+  componentDidMount() {
 
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
@@ -477,20 +482,23 @@ _loadsetRankingListJSONData = async () => {
     if(this.state.user.username != undefined){
     this.getNewRankId();
     }
-
-
   }
 
   render() {
 
-  console.log('rendering now in app render()')
-  if(!this.state.isLoading){
-  console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)
-  console.log('rank in app render()', this.state.rank)
-  console.log('this.state.updatedExtAcctBalCB in app render()', this.state.updatedExtAcctBalCB)
-  console.log('this.state.isUserInJson in app render()', this.state.isUserInJson)
-  console.log('this.state.isCurrentUserActive in app render()',this.state.isCurrentUserActive)
-}
+    //from https://medium.com/maxime-heckel/asynchronous-rendering-with-react-c323cda68f41
+    if(this.state.data === null){
+      return <imgAvatar />;
+    }
+
+//   console.log('rendering now in app render()')
+//   if(!this.state.isLoading){
+//   console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)
+//   console.log('rank in app render()', this.state.rank)
+//   console.log('this.state.updatedExtAcctBalCB in app render()', this.state.updatedExtAcctBalCB)
+//   console.log('this.state.isUserInJson in app render()', this.state.isUserInJson)
+//   console.log('this.state.isCurrentUserActive in app render()',this.state.isCurrentUserActive)
+// }
     return (
       <div>
         <Header

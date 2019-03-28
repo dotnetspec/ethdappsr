@@ -1,15 +1,25 @@
-Cypress.Commands.add('SeedandVisitGlobal', () => {
+Cypress.Commands.add('GlobalSeed', () => {
   cy.server()
   cy.route('GET', '/', 'fixture:globalRankings')
   cy.visit('/')
 })
 
-Cypress.Commands.add('SeedandVisitRanking', () => {
+Cypress.Commands.add('SeedRanking', () => {
   cy.server()
   //NB: don't use /home/@player1 in the route here
-  //it will interfere with the data loading 
+  //it will interfere with the data loading
   cy.route('GET', '/', 'fixture:ranking1')
+  //currently 'visiting' has to be done via the
+  //gloabranking page for usernames and routes to work
   //cy.visit('/home/@player1')
+})
+
+//get ready to visit a ranking via a page click (in the test spec)
+Cypress.Commands.add('RankingSeedViaGlobal', () => {
+  cy.server()
+  cy.route('GET', '/', 'fixture:globalRankings')
+  cy.visit('/')
+  cy.route('GET', '/', 'fixture:ranking1')
 })
 
 
