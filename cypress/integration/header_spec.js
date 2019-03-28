@@ -20,8 +20,6 @@ describe('Header Tests', function() {
 
   it('On view click', function() {
     cy.RankingSeedViaGlobalViewBtn()
-
-
     //now test the header display
     cy.get('[data-cy=deactivate]')
     .should('be.visible')
