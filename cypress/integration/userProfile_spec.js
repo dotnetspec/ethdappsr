@@ -1,11 +1,12 @@
 describe("User Profile Test", function(){
 
   beforeEach(() => {
-  cy.visit('/')
+  //cy.visit('/')
+  cy.GlobalSeed()
   cy.contains('Update Profile').click()
   })
 
-  it.only('Makes an assertion ', function(){
+  it('Nav to Update Profile page', function(){
     //NB: comment/uncomment below and beforeEach according to single or multi tests
     // cy.visit('/')
     // cy.contains('Update Profile').click()
