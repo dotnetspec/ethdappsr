@@ -11,11 +11,11 @@ describe('Click View Btn on GlobalRankings list ', () => {
 
     it('View btn click Home route', () => {
         //use the Cyrpess commands.js file to handle json loading
-        cy.RankingSeedViaGlobal()
-
-        cy.wait(1000)
-
-        cy.get('tbody>tr>td').contains("View").click()
+        cy.RankingSeedViaGlobalViewBtn()
+        //
+        // cy.wait(1000)
+        //
+        // cy.get('tbody>tr>td').contains("View").click()
 
         cy.url()
         .should('include', '/home/@player1')

@@ -19,12 +19,8 @@ describe('Header Tests', function() {
   })
 
   it('On view click', function() {
-    cy.RankingSeedViaGlobal()
-    //give page 1 sec to load the ranking json from jsonbin
-    //so can render the 'view' btn
-    cy.wait(1000)
-    //click to get to a particular ranking
-    cy.get('tbody>tr>td').contains("View").click()
+    cy.RankingSeedViaGlobalViewBtn()
+
 
     //now test the header display
     cy.get('[data-cy=deactivate]')

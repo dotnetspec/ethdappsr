@@ -15,11 +15,16 @@ Cypress.Commands.add('SeedRanking', () => {
 })
 
 //get ready to visit a ranking via a page click (in the test spec)
-Cypress.Commands.add('RankingSeedViaGlobal', () => {
+Cypress.Commands.add('RankingSeedViaGlobalViewBtn', () => {
   cy.server()
   cy.route('GET', '/', 'fixture:globalRankings')
   cy.visit('/')
   cy.route('GET', '/', 'fixture:ranking1')
+  //give page 1 sec to load the ranking json from jsonbin
+  //so can render the 'view' btn
+  cy.wait(1000)
+  //click to get to a particular ranking
+  cy.get('tbody>tr>td').contains("View").click()
 })
 
 
