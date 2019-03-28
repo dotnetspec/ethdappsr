@@ -252,7 +252,7 @@ displayActivationBtns(){
       if(pathname.includes("home/@")){
         return(
           <>
-          <Button bsStyle="primary" data-cy='deactive' onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
+          <Button bsStyle="primary" data-cy='deactiv' onClick={(e) => this._handleDeactivatePlayer(this.props.user[1])}>
             Deactivate Player
           </Button>
           <Button bsStyle="primary" data-cy='reactivate' onClick={(e) => this._handleReactivatePlayer(this.props.user[1])}>
@@ -375,14 +375,14 @@ displayActivationBtns(){
     //TODO: change to states.challenge
 
     states.challenge = <React.Fragment>
-    <Button bsStyle="primary" onClick={(e) => this._handleRankingList(this.props.user[1])}>
+    <Button bsStyle="primary" data-cy='ListAllRankings' onClick={(e) => this._handleRankingList(this.props.user[1])}>
       List All Rankings
     </Button>
-      <Button bsStyle="primary" onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
+      <Button bsStyle="primary" data-cy='UpdateProfile' onClick={(e) => this._handleUpdateProfile(this.props.user[1])}>
         Update Profile
       </Button>
       {this.displayActivationBtns()}
-      <Button bsStyle="primary" onClick={(e) => this._handleCreateNewRanking(this.props.user[1])}>
+      <Button bsStyle="primary" data-cy='CreateNewRanking' onClick={(e) => this._handleCreateNewRanking(this.props.user[1])}>
         Create New Ranking
       </Button>
 
