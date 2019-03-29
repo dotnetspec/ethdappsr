@@ -2,29 +2,32 @@
 
 context('Navigation', () => {
   beforeEach(() => {
-    cy.visit('https://example.cypress.io')
-    cy.get('.navbar-nav').contains('Commands').click()
-    cy.get('.dropdown-menu').contains('Navigation').click()
+    //cy.visit('https://example.cypress.io')
+    // cy.get('.navbar-nav').contains('Commands').click()
+    // cy.get('.dropdown-menu').contains('Navigation').click()
+    //cy.RankingSeedViaGlobalViewBtn()
   })
 
-  it('cy.go() - go back or forward in the browser\'s history', () => {
+  it.only('cy.go() - go back or forward in the browser\'s history', () => {
     // https://on.cypress.io/go
 
-    cy.location('pathname').should('include', 'navigation')
+    cy.RankingSeedViaGlobalViewBtn()
+
+    cy.location('pathname').should('include', 'player1')
 
     cy.go('back')
-    cy.location('pathname').should('not.include', 'navigation')
+    cy.location('pathname').should('not.include', 'player1')
 
     cy.go('forward')
-    cy.location('pathname').should('include', 'navigation')
+    cy.location('pathname').should('include', 'player1')
 
     // clicking back
     cy.go(-1)
-    cy.location('pathname').should('not.include', 'navigation')
+    cy.location('pathname').should('not.include', 'player1')
 
     // clicking forward
     cy.go(1)
-    cy.location('pathname').should('include', 'navigation')
+    cy.location('pathname').should('include', 'player1')
   })
 
   it('cy.reload() - reload the page', () => {

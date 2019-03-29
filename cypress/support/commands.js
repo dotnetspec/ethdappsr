@@ -20,12 +20,11 @@ Cypress.Commands.add('RankingSeedViaGlobalViewBtn', () => {
   cy.route('GET', '/', 'fixture:globalRankings').as('globalRankingList')
   cy.visit('/')
   cy.wait('@globalRankingList')
-  //unless wait doesn't pick up player1 (why ?)
+  //unless wait doesn't pick up player
   cy.wait(1000)
+  cy.get('tbody>tr>td').contains("View").as('firstViewBtn')
+    cy.get('@firstViewBtn').click()
   //click to get to a particular ranking
-  cy.get('tbody>tr>td').contains("View").click()
-  //use the alias not wait(1000)
-
   cy.route('GET', '/', 'fixture:ranking1')
 })
 

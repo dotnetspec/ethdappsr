@@ -3,6 +3,8 @@ describe("User Profile Test", function(){
   beforeEach(() => {
   //cy.visit('/')
   cy.GlobalSeed()
+  //just to illustrate end() function
+  //cy.contains('List All Rankings').click().end()
   cy.contains('Update Profile').click()
   })
 
