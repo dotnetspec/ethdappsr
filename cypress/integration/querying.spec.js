@@ -58,7 +58,7 @@ context('Querying', () => {
     })
   })
 
-  it.only('cy.root() - query the root DOM element', () => {
+  it('cy.root() - query the root DOM element', () => {
     // https://on.cypress.io/root
 //cy.get('#root > :nth-child(1)')
     // By default, root is the document
