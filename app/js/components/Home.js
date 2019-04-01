@@ -129,8 +129,8 @@ class Home extends Component{
 onClickChallengeSelected(cell, row, rowIndex){
   selectRowPropAfterClickRow.selectedOpponentName = `${row['NAME']}`;
   selectRowPropAfterClickRow.selectedOpponentRank = `${row['RANK']}`;
-  console.log('this.props.user.rankings')
-  console.log(this.props.user.chanllenges)
+  // console.log('this.props.user.rankings')
+  // console.log(this.props.user.chanllenges)
     if(this.props.user.username != ''){
       this._handleShowChallengeModal();
     }else{
