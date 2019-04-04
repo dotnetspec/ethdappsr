@@ -1,6 +1,18 @@
 describe('Home Component', () => {
-    it('View btn click Home route', () => {
-        cy.RankingSeedViaGlobalViewBtn()
+    it.only('View btn click Home route', () => {
+        //cy.RankingSeedViaGlobalViewBtn()
+        //cy.GlobalRankingWitCyStub()
+        cy.server()
+        //cy.route('GET', '/', 'fixture:globalRankings.json').as('globalRankings')
+        cy.route('GET', 'https://api.jsonbin.io/b/5c36f5422c87fa27306acb52/latest', 'fixture:globalRankings.json').as('globalRankings')
+        cy.route('POST', 'http://localhost:5001/api/v0/id?stream-channels=true', 'fixture:ipfs.json')
+        //cy.route('GET', '/', 'fixture:manifest')
+        cy.route('GET', '/', 'fixture:globalRankings')
+        cy.route('GET', '/home/@:username', 'fixture:ranking1')
+        cy.visit('/')
+        //cy.visit('/home/@player1')
         cy.get('tbody').find('tr').should('have.length', 6)
+        cy.get('tbody>tr>td').contains("View").as('firstViewBtn')
+          cy.get('@firstViewBtn').click()
       })
   })

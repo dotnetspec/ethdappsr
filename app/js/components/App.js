@@ -328,14 +328,14 @@ _loadsetRankingListJSONData = async () => {
           //REVIEW: possibly use JSONops._loadsetJSONData here if
           //will allow setState here
           //OR use componentDidMount
-        //this._loadsetJSONData();
+        this._loadsetJSONData();
 
         //moved json load code was here
         //test
-        loadJson()
-        .then(({data}) => this.setState({data:data}),
-        this.setState({error:false}))
-        .catch( () =>  this.setState({error:true}) );
+        // loadJson()
+        // .then(({data}) => this.setState({data:data}),
+        // this.setState({error:false}))
+        // .catch( () =>  this.setState({error:true}) );
         //end test
         console.log('this.state.data', this.state.data)
 
@@ -455,27 +455,27 @@ _loadsetRankingListJSONData = async () => {
     console.log('this.state.newrankIdCB', this.state.newrankIdCB)
     if(this.state.newrankIdCB === ''){
     //original code:
-    //this._loadsetRankingListJSONData();
+    this._loadsetRankingListJSONData();
     //end orig code
     //NB: testing code:
     //requires that _loadsetRankingListJSONData is commented out in _loadCurrentUserAccounts
     //because that is asynchronous and might run after this below:
     //test stub:
-    loadJson()
-    .then(({data}) => this.setState({rankingListData:data}),
-    this.setState({error:false}))
-    .catch( () =>  this.setState({error:true}) );
-    //end test stub
-
+    // loadJson()
+    // .then(({data}) => this.setState({rankingListData:data}),
+    // this.setState({error:false}))
+    // .catch( () =>  this.setState({error:true}) );
+    // //end test stub
+    //
     }else{
-      console.log('about to run _loadsetJSONData')
-      //this._loadsetJSONData();
-      //test
-      loadJson()
-      .then(({data}) => this.setState({data:data}),
-      this.setState({error:false}))
-      .catch( () =>  this.setState({error:true}) );
-      //end test
+    //   console.log('about to run _loadsetJSONData')
+    this._loadsetJSONData();
+    //   //test
+    //   loadJson()
+    //   .then(({data}) => this.setState({data:data}),
+    //   this.setState({error:false}))
+    //   .catch( () =>  this.setState({error:true}) );
+    //   //end test
     }
 
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
