@@ -18,5 +18,7 @@
     "ipfs-api": "17.2.4"
   },
   "plugins": {
-  }
+     "embarkjs-connector-web3": {}
+  },
+  "generationDir": "../app/src/embarkArtifacts"
 }

@@ -8,7 +8,6 @@ import JSONops from './JSONops'
 import {contactNoCB, emailCB, updatedExtAcctBalCB} from './App'
 //import sendmail from 'sendmail'
 import Fortmatic from 'fortmatic';
-import Web3 from 'web3';
 
 /**
  * Class that renders a form to allow the user to create

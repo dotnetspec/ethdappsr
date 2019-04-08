@@ -4,6 +4,18 @@ Cypress.Commands.add('GlobalSeed', () => {
   cy.visit('/')
 })
 
+Cypress.Commands.add('InitializeServerAndRoutes', () => {
+  cy.server()
+  //cy.route('GET', 'https://unpkg.com/unfetch/dist/unfetch.umd.js', 'fixture:polyfill')
+  cy.route('GET', 'https://api.jsonbin.io/b/5c36f5422c87fa27306acb52/latest', 'fixture:globalRankings').as('globalRankings')
+  cy.route('GET', 'https://api.jsonbin.io/b/5c875c79adeb832d3ec6732d/latest', 'fixture:ranking1')
+  //.as('globalRankings')
+  cy.route('POST', 'http://localhost:5001/api/v0/id?stream-channels=true', 'fixture:ipfs')
+  cy.route('GET', '/manifest.json', 'fixture:manifest')
+  cy.route('GET', '/', 'fixture:globalRankings')
+  cy.route('GET', 'http://localhost:8000/home/@player1', 'fixture:ranking1')
+})
+
 Cypress.Commands.add('SeedRanking', () => {
   cy.server()
   //NB: don't use /home/@player1 in the route here

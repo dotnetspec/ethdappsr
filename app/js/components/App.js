@@ -330,13 +330,6 @@ _loadsetRankingListJSONData = async () => {
           //OR use componentDidMount
         this._loadsetJSONData();
 
-        //moved json load code was here
-        //test
-        // loadJson()
-        // .then(({data}) => this.setState({data:data}),
-        // this.setState({error:false}))
-        // .catch( () =>  this.setState({error:true}) );
-        //end test
         console.log('this.state.data', this.state.data)
 
       });////end of error check and account assignment within whole of await map
@@ -441,43 +434,20 @@ _loadsetRankingListJSONData = async () => {
   // componentDidMount runs
   //any change with setState here will re-render app.js
   //async componentDidMount() {
-
   componentDidMount() {
-
     EmbarkJS.onReady(() => {
       this._loadCurrentUserAccounts();
-
       //console.log('rankingListData:data', this.state.rankingListData)
     });
-
     //if newRankId is blank a user either has just loaded the app or has clicked the
     //ListAllRankingss btn
     console.log('this.state.newrankIdCB', this.state.newrankIdCB)
     if(this.state.newrankIdCB === ''){
-    //original code:
     this._loadsetRankingListJSONData();
-    //end orig code
-    //NB: testing code:
-    //requires that _loadsetRankingListJSONData is commented out in _loadCurrentUserAccounts
-    //because that is asynchronous and might run after this below:
-    //test stub:
-    // loadJson()
-    // .then(({data}) => this.setState({rankingListData:data}),
-    // this.setState({error:false}))
-    // .catch( () =>  this.setState({error:true}) );
-    // //end test stub
-    //
     }else{
     //   console.log('about to run _loadsetJSONData')
     this._loadsetJSONData();
-    //   //test
-    //   loadJson()
-    //   .then(({data}) => this.setState({data:data}),
-    //   this.setState({error:false}))
-    //   .catch( () =>  this.setState({error:true}) );
-    //   //end test
     }
-
     console.log('this.state.user.username in componentDidMount in app', this.state.user.username)
     if(this.state.user.username != undefined){
     this.getNewRankId();
@@ -485,12 +455,10 @@ _loadsetRankingListJSONData = async () => {
   }
 
   render() {
-
     //from https://medium.com/maxime-heckel/asynchronous-rendering-with-react-c323cda68f41
     if(this.state.data === null){
       return <imgAvatar />;
     }
-
 //   console.log('rendering now in app render()')
 //   if(!this.state.isLoading){
 //   console.log('this.state.loadingAccounts in app render()', this.state.loadingAccounts)

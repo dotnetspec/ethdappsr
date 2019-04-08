@@ -1,4 +1,5 @@
 .embark/
+chains.json
 node_modules/
 dist/
 config/production/password
@@ -6,3 +7,5 @@ config/livenet/password
 chains.json
 SportRankAWSInstanceKeyPair.pem
 docs/
+coverage
+embarkArtifacts

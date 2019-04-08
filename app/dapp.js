@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Tabs, Tab} from 'react-bootstrap';
 
-import EmbarkJS from 'Embark/EmbarkJS';
+import EmbarkJS from '../app/src/embarkArtifacts/embarkjs';
 import Blockchain from './components/blockchain';
 import Whisper from './components/whisper';
 import Storage from './components/storage';

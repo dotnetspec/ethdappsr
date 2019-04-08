@@ -12,6 +12,8 @@ describe('polyfill window.fetch from tests', function () {
 
   // grab fetch polyfill from remote URL, could be also from a local package
   before(() => {
+    cy.server()
+    cy.route('GET', 'https://unpkg.com/unfetch/dist/unfetch.umd.js', 'fixture:polyfill')
     const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js'
     cy.request(polyfillUrl)
     .then((response) => {
@@ -25,13 +27,14 @@ describe('polyfill window.fetch from tests', function () {
     cy.server()
     //cy.route('GET', '/', 'fixture:globalRankings.json').as('globalRankings')
     cy.route('GET', 'https://api.jsonbin.io/b/5c36f5422c87fa27306acb52/latest', 'fixture:globalRankings').as('globalRankings')
-    cy.route('GET', 'https://api.jsonbin.io/b/5c875c79adeb832d3ec6732d/latest', 'fixture:ranking').as('globalRankings')
+    cy.route('GET', 'https://api.jsonbin.io/b/5c875c79adeb832d3ec6732d/latest', 'fixture:ranking1').as('globalRankings')
     cy.route('POST', 'http://localhost:5001/api/v0/id?stream-channels=true', 'fixture:ipfs')
     cy.route('GET', '/manifest.json', 'fixture:manifest')
     cy.route('GET', '/', 'fixture:globalRankings')
-    cy.route('GET', 'http://localhost:8000/home/@player1', 'fixture:ranking')
+    cy.route('GET', 'http://localhost:8000/home/@player1', 'fixture:ranking1')
+})
 
-
+ it('requests GlobalRankings', function () {
     // We use cy.visit({onBeforeLoad: ...}) to delete native fetch and load polyfill code instead
     cy.visit('/', {
       onBeforeLoad (win) {
