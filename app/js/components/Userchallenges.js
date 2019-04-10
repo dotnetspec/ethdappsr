@@ -4,6 +4,7 @@ import imgAvatar from '../../img/avatar-default.png';
 import { formatDistance } from 'date-fns/esm'
 import { EventEmitter } from 'events';
 import EmbarkJS from '../../../src/embarkArtifacts/embarkjs';
+import DSportRank from '../../../src/embarkArtifacts/contracts/DSportRank';
 
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
@@ -115,7 +116,7 @@ class Userchallenges extends Component {
   let res2 = '';
 
   //const DSportRank = require('Embark/contracts/DSportRank');
-  //const DSportRank = require('Embark/contracts/DSportRank');
+  const DSportRank = require('Embark/contracts/DSportRank');
 
   const usernameHash = web3.utils.keccak256(this.props.match.params.username);
 console.log('usernameHash')

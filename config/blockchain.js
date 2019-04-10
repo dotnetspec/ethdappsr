@@ -141,10 +141,20 @@ module.exports = {
         password: "config/livenet/password"
       }
     ]
-  }
+  },
 
   // you can name an environment with specific settings and then specify with
   // "embark run custom_name" or "embark blockchain custom_name"
-  //custom_name: {
-  //}
+  infura: {
+    enabled: true,
+    networkType: "testnet",
+    networkId: "4",
+    light: true,
+    rpcHost: "localhost",
+    rpcPort: 8545,
+    rpcCorsDomain: "http://localhost:8000",
+    accounts: {
+      password: "config/testnet/rinkeby_password"
+    }
+  }
 };

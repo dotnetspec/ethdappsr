@@ -5,10 +5,11 @@
   "scripts": {
     "test": "embark test"
   },
-  "author": "",
-  "license": "UNLICENSED",
-  "homepage": "",
+  "author": "Philip Mockridge",
+  "license": "MIT",
+  "homepage": "https://github.com/dotnetspec/sportrank#readme",
   "dependencies": {
+    "ajv": "^6.10.0",
     "async": "^2.6.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
@@ -27,7 +28,10 @@
     "react-router-dom": "^4.3.1",
     "react-spinkit": "^3.0.0",
     "react-table": "^6.8.6",
-    "sendmail": "^1.4.1"
+    "sendmail": "^1.4.1",
+    "ts-pnp": "^1.0.1",
+    "typescript": "^3.4.3",
+    "web3": "^1.0.0-beta.52"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
@@ -37,6 +41,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dotnetspec/sportrank"
+    "url": "git+https://github.com/dotnetspec/sportrank.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dotnetspec/sportrank/issues"
+  },
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   }
 }

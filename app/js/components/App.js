@@ -10,6 +10,8 @@ import PropsRoute from './PropsRoute';
 import JSONops from './JSONops'
 import { formatEth, limitLength, limitAddressLength } from '../utils';
 import {saveJson, loadJson} from '../lib/service'
+import config from '../../../src/embarkArtifacts/config/blockchain';
+//import web3 from '../../../src/embarkArtifacts/config/modules/web3/index';
 //REVIEW: is the solution to this to write your own api?
 //import jsonData from '../../json/Rankings.json'
 
@@ -233,11 +235,13 @@ _loadsetRankingListJSONData = async () => {
   _loadCurrentUserAccounts = async () => {
     console.log('_loadCurrentUserAccounts')
       // get all the accounts the node controls
+      await EmbarkJS.Blockchain.connect(config);
       const accounts = await web3.eth.getAccounts();
         //console.log('_loadCurrentUserAccounts 1')
       // Generates a mapping of users and accounts to be used
       // for populating the accounts dropdown
       await map(accounts, async function (address, next) {
+
         try {
           //console.log('_loadCurrentUserAccounts 2')
           // get the owner details for this address from the contract
@@ -436,7 +440,11 @@ _loadsetRankingListJSONData = async () => {
   //async componentDidMount() {
   componentDidMount() {
     EmbarkJS.onReady(() => {
+      try{
       this._loadCurrentUserAccounts();
+      }catch(e){
+        console.log(e)
+      }
       //console.log('rankingListData:data', this.state.rankingListData)
     });
     //if newRankId is blank a user either has just loaded the app or has clicked the
